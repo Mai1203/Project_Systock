@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 import sqlite3 as sql
 
 # Función para crear la base de datos
@@ -231,3 +233,4 @@ if __name__ == "__main__":
     createDB()
     createTables()
     
+>>>>>>> upstream/main

@@ -6,15 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1639</width>
-    <height>1073</height>
+    <width>1643</width>
+    <height>1082</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -766,7 +760,7 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
         </layout>
        </widget>
       </item>
-      <item>
+      <item alignment="Qt::AlignVCenter">
        <widget class="QWidget" name="Contenido" native="true">
         <property name="styleSheet">
          <string notr="true">margin-left:10px;
@@ -783,176 +777,6 @@ background-color: #f2f2f2;
            <layout class="QGridLayout" name="gridLayout">
             <item row="0" column="0">
              <layout class="QGridLayout" name="gridLayout_2">
-              <item row="5" column="1">
-               <widget class="QLineEdit" name="InputCantidadMax">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="2">
-               <widget class="QLineEdit" name="InputPrecioCompra">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="3">
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string>Precio Unitario</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="3">
-               <widget class="QLineEdit" name="InputPrecioUnitario">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="5">
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Cantidad</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="5">
-               <widget class="QLineEdit" name="InputCantidad">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>250</width>
-                  <height>50</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>50</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Cantidad Max.</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>Categoria</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Marca</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Nombre</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="LabelVentasA">
-                <property name="styleSheet">
-                 <string notr="true">#LabelVentasA {
-    font-weight: bold; /* Negrita */
-    font-size: 34px; /* Tamaño de fuente */
-}
-</string>
-                </property>
-                <property name="text">
-                 <string>Productos</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3">
-               <widget class="QLineEdit" name="InputCategoria">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>250</width>
-                  <height>50</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>50</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QLineEdit" name="InputMarca">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>250</width>
-                  <height>50</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>50</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
               <item row="3" column="1">
                <widget class="QLineEdit" name="InputNombre">
                 <property name="sizePolicy">
@@ -1010,15 +834,22 @@ background-color: #f2f2f2;
                 </property>
                </widget>
               </item>
-              <item row="4" column="5">
-               <widget class="QLabel" name="label_10">
+              <item row="2" column="2">
+               <widget class="QLabel" name="label_6">
                 <property name="text">
-                 <string>Precio al por Mayor</string>
+                 <string>Marca</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QLineEdit" name="InputCantidadMin">
+              <item row="2" column="5">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Precio Unitario</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLineEdit" name="InputMarca">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -1042,8 +873,125 @@ background-color: #f2f2f2;
                 </property>
                </widget>
               </item>
-              <item row="8" column="3">
-               <widget class="QPushButton" name="BtnIngresarProducto">
+              <item row="5" column="0">
+               <widget class="QLineEdit" name="InputDomicilio">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Nombre</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QLineEdit" name="InputCantidad">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Cantidad</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_30">
+                <property name="text">
+                 <string>Productos</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Valor Domicilio</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="LabelVentasA">
+                <property name="styleSheet">
+                 <string notr="true">#LabelVentasA {
+    font-weight: bold; /* Negrita */
+    font-size: 34px; /* Tamaño de fuente */
+}
+</string>
+                </property>
+                <property name="text">
+                 <string>Ventas</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="5">
+               <widget class="QLineEdit" name="InputPrecioUnitario">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="3">
+               <widget class="QPushButton" name="BtnAgregarProducto">
                 <property name="styleSheet">
                  <string notr="true">
 QPushButton {
@@ -1064,39 +1012,12 @@ QPushButton:hover {
 }</string>
                 </property>
                 <property name="text">
-                 <string>Ingresar Producto</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string>Cantidad Min.</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="2">
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>Precio Compra</string>
+                 <string>Agregar Producto</string>
                 </property>
                </widget>
               </item>
               <item row="5" column="5">
-               <widget class="QLineEdit" name="InputPrecioMayor">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
-              <item row="8" column="5">
-               <widget class="QPushButton" name="pushButton_4">
+               <widget class="QPushButton" name="BtnEliminar">
                 <property name="styleSheet">
                  <string notr="true">
 QPushButton {
@@ -1132,6 +1053,58 @@ QPushButton:hover {
                 </property>
                </widget>
               </item>
+              <item row="0" column="3" alignment="Qt::AlignRight|Qt::AlignVCenter">
+               <widget class="QPushButton" name="BtnFacturaA">
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+	margin-top:20px;
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Factura A</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+               <widget class="QPushButton" name="BtnFacturaB">
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+	margin-top:20px;
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Factura B</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
            </layout>
@@ -1143,80 +1116,18 @@ QPushButton:hover {
             <string notr="true"/>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item alignment="Qt::AlignHCenter">
-             <widget class="QFrame" name="frame_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>1200</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(217, 217, 217);</string>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QLineEdit" name="InputBuscador">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>1100</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
-                 </property>
-                 <property name="text">
-                  <string>hhhh</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_11">
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap>../../assets/iconos/buscar.png</pixmap>
-                 </property>
-                 <property name="scaledContents">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
              <widget class="QTableWidget" name="tableWidget">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>1300</width>
-                <height>600</height>
+                <width>845</width>
+                <height>300</height>
                </size>
               </property>
               <property name="font">
@@ -1398,57 +1309,7 @@ QScrollBar::handle:horizontal:hover {
               </row>
               <row>
                <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
+                <string>Nueva fila</string>
                </property>
               </row>
               <row>
@@ -1476,7 +1337,7 @@ QScrollBar::handle:horizontal:hover {
               </column>
               <column>
                <property name="text">
-                <string>Nombre</string>
+                <string>Producto</string>
                </property>
                <property name="textAlignment">
                 <set>AlignCenter</set>
@@ -1508,7 +1369,7 @@ QScrollBar::handle:horizontal:hover {
               </column>
               <column>
                <property name="text">
-                <string>CMin</string>
+                <string>Precio</string>
                </property>
                <property name="textAlignment">
                 <set>AlignCenter</set>
@@ -1516,53 +1377,339 @@ QScrollBar::handle:horizontal:hover {
               </column>
               <column>
                <property name="text">
-                <string>CMax</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>CP</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>PU</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>PAM</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>GU</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>GAM</string>
+                <string>Total</string>
                </property>
                <property name="textAlignment">
                 <set>AlignCenter</set>
                </property>
               </column>
              </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+          <widget class="QWidget" name="widget_4" native="true">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_4">
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>Nombre</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="5">
+               <widget class="QLineEdit" name="InputDescuento">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QLineEdit" name="InputDireccion">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QLabel" name="LabelSubtotal">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                 <string>$</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>Telefono</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>Metodo de Pago</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLineEdit" name="InputCedula&#10;">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="5">
+               <widget class="QPushButton" name="BtnGenerarVenta">
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+	margin-top:20px;
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Generar Venta</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLineEdit" name="InputTelefonoCli">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="5">
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Descuento Global</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QPushButton" name="BtnMetodoPago">
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>metodo de pago</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Subtotal</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_31">
+                <property name="text">
+                 <string>Cliente</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>C.C</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Direccion</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="InputNombreCli">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Pago</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QLabel" name="LabelTotal">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                 <string>$</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLineEdit" name="InputPago">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2" alignment="Qt::AlignRight">
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Total</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

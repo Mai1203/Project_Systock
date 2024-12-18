@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1654</width>
+    <height>954</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);
+</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QWidget" name="Contenedor" native="true">
+     <property name="styleSheet">
+      <string notr="true">
+QPushButton {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  rgb(50, 50, 50); /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: left; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+}
+
+QPushButton:hover {
+    background-color: #f2f2f2; /* Gris claro al pasar el mouse */
+}
+QLineEdit {
+    background-color: rgb(255, 255, 255); /* Fondo blanco */
+    border: none; /* Sin bordes visibles */
+    padding: 4px; /* Espaciado interno entre el texto y los bordes */
+    margin-right: 40px; /* Espaciado externo solo a la derecha */
+    border-radius: 10px; /* Bordes redondeados */
+    color: black; /* Texto negro */
+    text-align: left; /* Texto alineado a la izquierda */
+    font-size: 18px; /* Tamaño del texto */
+}
+
+/* Cuando el QLineEdit está enfocado (se está escribiendo) */
+QLineEdit:focus {
+    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */
+    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */
+}
+
+QLabel {
+    font-size: 20px; /* Tamaño de fuente */
+    color:  black; /* Color del texto */
+    margin-right: 10px; /* Espaciado a la derecha */
+    padding: 5px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto a la izquierda */
+}
+
+</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QWidget" name="navbar" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">#navbar {
+    background-color: white; /* Fondo blanco */
+    border-right: 1px solid black; /* Borde negro en el lado derecho */
+}
+</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="LabelImg">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>50</horstretch>
+             <verstretch>50</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#LabelImg {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%; /* Ajusta la imagen para que ocupe todo el área del label */
+    height: 200px; /* Ajusta la altura del QLabel */
+    width: 300px; /* Ajusta el ancho del QLabel */
+}
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>LETRA_2.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="LabelFuncionalidades">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>300</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#LabelFuncionalidades {
+    font-weight: bold; /* Negrita */
+    font-size: 22px; /* Tamaño de fuente */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Funcionalidades</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="BtnVentas">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/ventas.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Ventas</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="BtnCaja">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Caja.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Caja</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="BtnCredito">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Credito.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Credito</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="BtnEgreso">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Egreso.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Egreso</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="BtnRespaldo">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Respaldo.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Respaldo</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="LabelDatos">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>250</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#LabelDatos {
+    font-weight: bold; /* Negrita */
+    font-size: 22px; /* Tamaño de fuente */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Datos</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_9">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Productos.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Productos</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_8">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/CrediFactura.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>CrediFactura</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_6">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Facturas.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Facturas</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_7">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Reportes.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Reportes</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>100</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_11">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-image: url('C:/Users/Sm/Downloads/iconos/Usuarios.png'); /* Ruta de la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: left center; /* Alinea la imagen a la izquierda, centrada verticalmente */
+    padding-left: 50px; /* Ajusta el espacio entre la imagen y el texto */
+    padding-right: 10px; /* Opcional: para añadir un poco de espacio a la derecha del texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+  
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Control Usuarios</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_10">
+           <property name="text">
+            <string>Usuario</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="Contenido" native="true">
+        <property name="styleSheet">
+         <string notr="true">border-radius:15px;
+    background-color: #f2f2f2; 
+</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QWidget" name="widget_3" native="true">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="5" column="3">
+               <widget class="QLineEdit" name="InputCantidad">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Nombre </string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Cantidad </string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QLabel" name="label_6">
+                <property name="text">
+                 <string>Marca</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="3">
+               <widget class="QPushButton" name="pushButton_3">
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Agregar Producto</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="5">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Precio Unitario</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="Label_producto">
+                <property name="styleSheet">
+                 <string notr="true">#Label_producto {
+    font-size: 26px; /* Tamaño de fuente */
+}
+</string>
+                </property>
+                <property name="text">
+                 <string>Producto</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Valor Domicilio</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLineEdit" name="InputCodigo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="LabelVentasA">
+                <property name="styleSheet">
+                 <string notr="true">#LabelVentasA {
+    font-weight: bold; /* Negrita */
+    font-size: 34px; /* Tamaño de fuente */
+}
+</string>
+                </property>
+                <property name="text">
+                 <string>Ventas</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLineEdit" name="InputNombre">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="5">
+               <widget class="QPushButton" name="pushButton_4">
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: red; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Eliminar</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="5">
+               <widget class="QLineEdit" name="InputPrecioUnitario">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="2">
+               <widget class="QLineEdit" name="InputMarca">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Codigo</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0">
+               <widget class="QLineEdit" name="lineEdit_7">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="QPushButton" name="pushButton">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>100</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Factura A</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="5">
+               <widget class="QPushButton" name="pushButton_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Factura B</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_2" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>250</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(85, 85, 255);</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="styleSheet">
+               <string notr="true">QTableWidget {
+    border: none;
+    background-color: #e0e0e0; /* Color gris claro */
+    gridline-color: #f0f0f0; /* Color de las líneas */
+    font: 12pt &quot;Arial&quot;;
+}
+
+QHeaderView::section {
+    background-color: #d0d0d0; /* Fondo gris oscuro para las cabeceras */
+    padding: 8px;
+    font-weight: bold;
+    border: 1px solid #c0c0c0;
+    color: black;
+}
+
+QTableWidget::item {
+    padding: 10px;
+    border: 1px solid transparent; /* Evita bordes visibles en celdas */
+}
+
+QTableWidget::item:selected {
+    background-color: #a0a0a0; /* Color de selección gris */
+    color: white;
+}</string>
+              </property>
+              <column>
+               <property name="text">
+                <string>Código</string>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Producto</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Marca</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Categoria</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Precio Unitario</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Cantidad </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Total</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget" native="true">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 127);</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

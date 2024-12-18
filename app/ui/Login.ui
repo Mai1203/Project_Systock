@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CONTENEDEDOR1</class>
+ <widget class="QWidget" name="CONTENEDEDOR1">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>815</width>
+    <height>840</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QWidget" name="CONTENEDOR2" native="true">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QWidget" name="CONTENEDOR3" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>500</width>
+          <height>1000</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::ActionsContextMenu</enum>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item row="8" column="1">
+          <widget class="QPushButton" name="BtnLogin">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>500</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #000000; /* Fondo negro */
+    color: #FFFFFF; /* Letra blanca */
+    border: 2px solid #FFFFFF; /* Borde blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 8px 16px; /* Espaciado interno */
+    font-size: 20px; /* Tamaño de la letra */
+    font-weight: bold; /* Letra en negrita */
+    transition: all 0.3s ease; /* Transición suave para hover y pressed */
+}
+
+QPushButton:hover {
+    background-color: #444444; /* Fondo gris oscuro al pasar el mouse */
+    transform: scale(1.05); /* Efecto de aumentar tamaño */
+}
+
+QPushButton:pressed {
+    background-color: #555555; /* Fondo gris más claro al hacer clic */
+    color: #FFFFFF; /* Letra blanca */
+    border-color: #FFFFFF; /* Borde blanco */
+    transform: scale(0.98); /* Efecto de reducir tamaño */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Iniciar Sesion</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="InputPassword">
+           <property name="maximumSize">
+            <size>
+             <width>500</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    background-color: #FFFFFF;  /* Fondo blanco */
+    border: 2px solid #D3D3D3;  /* Borde gris suave */
+    border-radius: 10px;        /* Bordes redondeados */
+    padding: 10px;              /* Espaciado interno */
+    font-size: 18px;            /* Tamaño de la letra */
+    font-family: &quot;Arial&quot;, sans-serif; /* Fuente por defecto */
+    color: #A9A9A9;             /* Letra gris suave */
+}
+
+QLineEdit:focus {
+    border-color: #000000;      /* Borde verde al hacer foco */
+    background-color: #ffffff;  /* Fondo blanco al hacer foco */
+    color: #000000;             /* Letra negra al escribir */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>contraseña</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>200</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="1">
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Maximum</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>50</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="InputNombreUsuario">
+           <property name="maximumSize">
+            <size>
+             <width>500</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    background-color: #FFFFFF;  /* Fondo blanco */
+    border: 2px solid #D3D3D3;  /* Borde gris suave */
+    border-radius: 10px;        /* Bordes redondeados */
+    padding: 10px;              /* Espaciado interno */
+    font-size: 18px;            /* Tamaño de la letra */
+    font-family: &quot;Arial&quot;, sans-serif; /* Fuente por defecto */
+    color: #A9A9A9;             /* Letra gris suave */
+}
+
+QLineEdit:focus {
+    border-color: #000000;      /* Borde verde al hacer foco */
+    background-color: #ffffff;  /* Fondo blanco al hacer foco */
+    color: #000000;             /* Letra negra al escribir */
+}</string>
+           </property>
+           <property name="text">
+            <string>Usuario</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="0">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="4" column="1">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>100</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="5" column="1">
+          <widget class="QPushButton" name="BtnRol">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>50</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>500</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::ActionsContextMenu</enum>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #000000; /* Fondo negro */
+    color: #FFFFFF; /* Letra blanca */
+    border: 2px solid #FFFFFF; /* Borde blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 8px 16px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de la letra */
+    font-weight: bold; /* Letra en negrita */
+    transition: all 0.3s ease; /* Transición suave para hover y pressed */
+}
+
+QPushButton:hover {
+    background-color: #444444; /* Fondo gris oscuro al pasar el mouse */
+    transform: scale(1.05); /* Efecto de aumentar tamaño */
+}
+
+QPushButton:pressed {
+    background-color: #555555; /* Fondo gris más claro al hacer clic */
+    color: #FFFFFF; /* Letra blanca */
+    border-color: #FFFFFF; /* Borde blanco */
+    transform: scale(0.98); /* Efecto de reducir tamaño */
+}
+</string>
+           </property>
+           <property name="text">
+            <string>ADMINISTRADOR</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="IMAGEN">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>200</horstretch>
+             <verstretch>200</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>600</width>
+             <height>180</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../../assets/Letras-sinfondo.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

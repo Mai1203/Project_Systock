@@ -9,5 +9,5 @@ class Ingresos(Base):
     ID_Tipo_Ingreso = Column(Integer, ForeignKey('TIPO_INGRESO.ID_Tipo_Ingreso'))
 
     # Relaciones
-    tipo_ingreso = relationship('TipoIngreso', back_populates='Ingresos')
-    cajas = relationship('Cajas', back_populates='Ingresos')
+    tipoingreso = relationship('TipoIngreso', back_populates='ingresos')
+    caja = relationship('Caja', back_populates='ingresos')

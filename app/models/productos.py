@@ -20,9 +20,9 @@ class Productos(Base):
     ID_Categoria = Column(Integer, ForeignKey('CATEGORIAS.ID_Categoria'))
 
     # Relación con las tablas MARCA y CATEGORIA
-    marcas = relationship('Marcas', back_populates='Productos')
-    categorias = relationship('Categorias', back_populates='Productos')
-    detalle_factura = relationship('DetalleFactura', back_populates='Productos')
+    marcas = relationship('Marcas', back_populates='productos')
+    categorias = relationship('Categorias', back_populates='productos')
+    detallefacturas = relationship('DetalleFacturas', back_populates='productos')
 
 
 class Marcas(Base):
@@ -32,7 +32,7 @@ class Marcas(Base):
     Nombre = Column(String, nullable=False)
 
     # Relación con Producto
-    productos = relationship('Productos', back_populates='Marcas')
+    productos = relationship('Productos', back_populates='marcas')
     
 class Categorias(Base):
     __tablename__ = 'CATEGORIAS'
@@ -41,5 +41,5 @@ class Categorias(Base):
     Nombre = Column(String, nullable=False)
 
     # Relación con Producto
-    productos = relationship('Productos', back_populates='Categorias')
+    productos = relationship('Productos', back_populates='categorias')
 

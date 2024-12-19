@@ -14,9 +14,9 @@ class VentaCredito(Base):
     Fecha_Limite = Column(DateTime, nullable=True)
     
     ID_Cliente = Column(Integer, ForeignKey('CLIENTES.ID_Cliente'))
-    ID_Detalle_Factura = Column(Integer, ForeignKey('DETALLE_FACTURA.ID_Detalle_Factura'))
+    ID_Detalle_Factura = Column(Integer, ForeignKey('DETALLE_FACTURAS.ID_Detalle_Factura'))
 
     # Relaciones
-    cliente = relationship('Clientes', back_populates='VentaCredito')
-    detalle_factura = relationship('DetalleFactura', back_populates='VentaCredito')
-    pago_credito = relationship('PagoCredito', back_populates='VentaCredito')
+    clientes = relationship('Clientes', back_populates='ventacredito')
+    detallefacturas = relationship('DetalleFacturas', back_populates='ventacredito')
+    pagocredito = relationship('PagoCredito', back_populates='ventacredito')

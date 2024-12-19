@@ -13,7 +13,7 @@ class AnalisisFinanciero(Base):
     ID_Caja = Column(Integer, ForeignKey('CAJA.ID_Caja'))
 
     # Relaciones
-    egreso = relationship('Egresos', back_populates='AnalisisFinanciero')
-    tipo_ingreso = relationship('TipoIngreso', back_populates='AnalisisFinanciero')
-    caja = relationship('Cajas', back_populates='AnalisisFinanciero')
-    reportes = relationship('Reportes', back_populates='AnalisisFinanciero')
+    egresos = relationship('Egresos', back_populates='analisisfinanciero')
+    tipoingreso = relationship('TipoIngreso', back_populates='analisisfinanciero')
+    caja = relationship('Caja', back_populates='analisisfinanciero')
+    reporte = relationship('Reporte', back_populates='analisisfinanciero')

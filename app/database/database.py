@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, configure_mappers
 
 # Configuración de la conexión a la base de datos
 # Cambiar aquí entre SQLite o MySQL según la necesidad
@@ -20,4 +20,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def init_db():
     """Inicializa la base de datos (crea tablas si no existen)."""
     from app.models import usuarios, productos, facturas, detalle_facturas, venta_credito, clientes, pago_credito, tipo_ingresos, ingresos, caja, egresos, analisis_financiero, reporte, historial  # Importar los modelos
+    
+    try:
+        configure_mappers()  # Configura todos los mapeos
+    except Exception as e:
+        print(f"Error al configurar los mappers: {e}")
+        
     Base.metadata.create_all(bind=engine)

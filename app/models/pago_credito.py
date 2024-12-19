@@ -15,10 +15,10 @@ class PagoCredito(Base):
     ID_Tipo_Pago = Column(Integer, ForeignKey('TIPO_PAGO.ID_Tipo_Pago'))
 
     # Relaciones
-    venta_credito = relationship('VentaCredito', back_populates='PagoCredito')
-    metodo_pago = relationship('MetodoPago', back_populates='PagoCredito')
-    tipo_pago = relationship('TipoPago', back_populates='PagoCredito')
-    tipo_ingresos = relationship('TipoIngreso', back_populates='PagoCredito')
+    ventacredito = relationship('VentaCredito', back_populates='pagocredito')
+    metodopago = relationship('MetodoPago', back_populates='pagocredito')
+    tipopago = relationship('TipoPago', back_populates='pagocredito')
+    tipoingreso = relationship('TipoIngreso', back_populates='pagocredito')
     
 class TipoPago(Base):
     __tablename__ = 'TIPO_PAGO'
@@ -31,4 +31,4 @@ class TipoPago(Base):
     )
 
     # Relación con PagoCredito
-    pago_credito = relationship('PagoCredito', back_populates='TipoPago')
+    pagocredito = relationship('PagoCredito', back_populates='tipopago')

@@ -12,5 +12,5 @@ class Clientes(Base):
     Teléfono = Column(String(100), nullable=False)
 
     # Relación con Producto
-    detalle_factura = relationship('DetalleFactura', back_populates='Clientes')
-    venta_credito = relationship('VentaCredito', back_populates='Clientes')
+    detallefacturas = relationship('DetalleFacturas', back_populates='clientes')
+    ventacredito = relationship('VentaCredito', back_populates='clientes')

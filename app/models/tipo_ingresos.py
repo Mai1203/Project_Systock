@@ -13,10 +13,10 @@ class TipoIngreso(Base):
     )
     
     ID_Pago_Credito = Column(Integer, ForeignKey('PAGO_CREDITO.ID_Pago_Credito'))
-    ID_Detalle_Factura = Column(Integer, ForeignKey('DETALLE_FACTURA.ID_Detalle_Factura'))
+    ID_Detalle_Factura = Column(Integer, ForeignKey('DETALLE_FACTURAS.ID_Detalle_Factura'))
 
     # Relaciones
-    pago_credito = relationship('PagoCredito', back_populates='TipoIngreso')
-    detalle_factura = relationship('DetalleFactura', back_populates='TipoIngreso')
-    ingreso = relationship('Ingresos', back_populates='TipoIngreso')
-    analisis_financiero = relationship('AnalisisFinanciero', back_populates='TipoIngreso')
+    pagocredito = relationship('PagoCredito', back_populates='tipoingreso')
+    detallefacturas = relationship('DetalleFacturas', back_populates='tipoingreso')
+    ingresos = relationship('Ingresos', back_populates='tipoingreso')
+    analisisfinanciero = relationship('AnalisisFinanciero', back_populates='tipoingreso')

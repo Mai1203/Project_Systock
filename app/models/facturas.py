@@ -13,13 +13,13 @@ class Facturas(Base):
     Estado = Column(Boolean, nullable=False)
     ID_Metodo_Pago = Column(Integer, ForeignKey('METODO_PAGO.ID_Metodo_Pago'))
     ID_Tipo_Factura = Column(Integer, ForeignKey('TIPO_FACTURA.ID_Tipo_Factura'))
-    ID_Detalle_Factura = Column(Integer, ForeignKey('DETALLE_FACTURA.ID_Detalle_Factura'))
+    ID_Detalle_Factura = Column(Integer, ForeignKey('DETALLE_FACTURAS.ID_Detalle_Factura'))
 
     # Relaciones
-    metodo_pago = relationship('MetodoPago', back_populates='Facturas')
-    tipo_factura = relationship('TipoFactura', back_populates='Facturas')
-    detalle_factura = relationship('DetalleFactura', back_populates='Facturas')
-    historial_modificacion = relationship('HistorialModificacion', back_populates='Facturas')
+    metodopago = relationship('MetodoPago', back_populates='facturas')
+    tipofactura = relationship('TipoFactura', back_populates='facturas')
+    detallefacturas = relationship('DetalleFacturas', back_populates='facturas')
+    historialmodificacion = relationship('HistorialModificacion', back_populates='facturas')
 
 
 class MetodoPago(Base):
@@ -33,9 +33,9 @@ class MetodoPago(Base):
     )
 
     # Relación con Factura
-    facturas = relationship('Facturs', back_populates='MetodoPago')
-    pago_credito = relationship('PagoCredito', back_populates='MetodoPago')
-    egreso = relationship('Egresos', back_populates='MetodoPago')
+    facturas = relationship('Facturas', back_populates='metodopago')
+    pagocredito = relationship('PagoCredito', back_populates='metodopago')
+    egresos = relationship('Egresos', back_populates='metodopago')
 
 
 class TipoFactura(Base):
@@ -49,4 +49,4 @@ class TipoFactura(Base):
     )
 
     # Relación con Factura
-    facturas = relationship('Facturas', back_populates='TipoFactura')
+    facturas = relationship('Facturas', back_populates='tipofactura')

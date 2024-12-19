@@ -5,7 +5,7 @@ from app.database.database import Base
 class Usuarios(Base):
     __tablename__ = 'USUARIOS'
 
-    ID_Usuario = Column(Integer, primary_key=True, index=True)
+    ID_Usuario = Column(String(100), primary_key=True, index=True)
     Nombre = Column(String(100), nullable=False)
     Usuario = Column(String(100), unique=True, nullable=False)
     Contraseña = Column(String(255), nullable=False)
@@ -13,11 +13,11 @@ class Usuarios(Base):
     
     ID_Rol = Column(Integer, ForeignKey('ROL.ID_Rol'))
     # Relación con las tablas MARCA y CATEGORIA
-    rol = relationship('Rol', back_populates='Usuarios')
-    cajas = relationship('Cajas', back_populates='Usuarios')
-    reportes = relationship('Reportes', back_populates='Usuarios')
-    historial_modificacion = relationship('HistorialModificacion', back_populates='Usuarios')
-    historial_inicios = relationship('HistorialInicio', back_populates='Usuarios')
+    rol = relationship('Rol', back_populates='usuarios')
+    caja = relationship('Caja', back_populates='usuarios')
+    reporte = relationship('Reporte', back_populates='usuarios')
+    historialmodificacion = relationship('HistorialModificacion', back_populates='usuarios')
+    historialinicio = relationship('HistorialInicio', back_populates='usuarios')
     
 class Rol(Base):
     __tablename__ = 'ROL'
@@ -26,5 +26,5 @@ class Rol(Base):
     Nombre = Column(String(50), nullable=False)
     
      # Relación con usuarios
-    usuarios = relationship('Usuarios', back_populates='Rol')
+    usuarios = relationship('Usuarios', back_populates='rol')
     

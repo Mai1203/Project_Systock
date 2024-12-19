@@ -11,11 +11,11 @@ class HistorialModificacion(Base):
     Descripcion = Column(String(255), nullable=True)
     
     ID_Factura = Column(Integer, ForeignKey('FACTURA.ID_Factura'))
-    ID_Usuario = Column(Integer, ForeignKey('USUARIOS.ID_Usuario'))
+    ID_Usuario = Column(String, ForeignKey('USUARIOS.ID_Usuario'))
 
     # Relaciones
-    factura = relationship('Facturas', back_populates='HistorialModificacion')
-    usuario = relationship('Usuarios', back_populates='HistorialModificacion')
+    facturas = relationship('Facturas', back_populates='historialmodificacion')
+    usuarios = relationship('Usuarios', back_populates='historialmodificacion')
 
 class HistorialInicio(Base):
     __tablename__ = 'HISTORIAL_INICIO'
@@ -25,7 +25,7 @@ class HistorialInicio(Base):
     Inicio_Sesion = Column(DateTime, default=func.now())
     Cierre_Sesion = Column(DateTime, default=func.now())
     
-    ID_Usuario = Column(Integer, ForeignKey('USUARIOS.ID_Usuario'))
+    ID_Usuario = Column(String, ForeignKey('USUARIOS.ID_Usuario'))
 
     # Relaciones
-    usuario = relationship('Usuarios', back_populates='HistorialInicio')
+    usuarios = relationship('Usuarios', back_populates='historialinicio')

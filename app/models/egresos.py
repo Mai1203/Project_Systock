@@ -14,6 +14,6 @@ class Egresos(Base):
     ID_Metodo_Pago = Column(Integer, ForeignKey('METODO_PAGO.ID_Metodo_Pago'))
 
     # Relaciones
-    metodo_pago = relationship('MetodoPago', back_populates='Egresos')
-    cajas = relationship('Cajas', back_populates='Egresos')
-    analisis_financiero = relationship('AnalisisFinanciero', back_populates='Egresos')
+    metodopago = relationship('MetodoPago', back_populates='egresos')
+    caja = relationship('Caja', back_populates='egresos')
+    analisisfinanciero = relationship('AnalisisFinanciero', back_populates='egresos')

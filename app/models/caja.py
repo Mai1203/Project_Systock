@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, DateTime, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, Float, DateTime, Boolean, ForeignKey, String
 from sqlalchemy.orm import relationship
 from app.database.database import Base
 
@@ -17,10 +17,10 @@ class Caja(Base):
     
     ID_Ingreso = Column(Integer, ForeignKey('INGRESOS.ID_Ingreso'))
     ID_Egreso = Column(Integer, ForeignKey('EGRESOS.ID_Egreso'))
-    ID_Usuario = Column(Integer, ForeignKey('USUARIOS.ID_Usuario'))
+    ID_Usuario = Column(String, ForeignKey('USUARIOS.ID_Usuario'))
 
     # Relaciones
-    ingreso = relationship('Ingresos', back_populates='Cajas')
-    egreso = relationship('Egresos', back_populates='Cajas')
-    usuario = relationship('Usuarios', back_populates='Cajas')
-    analisis_financiero = relationship('AnalisisFinanciero', back_populates='Cajas')
+    ingresos = relationship('Ingresos', back_populates='caja')
+    egresos = relationship('Egresos', back_populates='caja')
+    usuarios = relationship('Usuarios', back_populates='caja')
+    analisisfinanciero = relationship('AnalisisFinanciero', back_populates='caja')

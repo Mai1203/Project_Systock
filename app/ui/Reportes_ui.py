@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'd:\SYSTOCK\SYSTOCK\DESARROLLO\python\programacion_ladynails\Project_LadyNails\app\ui\PagoCredito.ui'
+# Form implementation generated from reading ui file 'd:\SYSTOCK\SYSTOCK\DESARROLLO\python\programacion_ladynails\Project_LadyNails\app\ui\Reportes.ui'
 #
 # Created by: PyQt6 UI code generator 6.7.1
 #
@@ -439,7 +439,9 @@ class Ui_Form(object):
         self.Contenido = QtWidgets.QWidget(parent=self.Contenedor)
         self.Contenido.setStyleSheet("margin-left:10px;\n"
 "border-radius:15px;\n"
+"\n"
 "background-color: #f2f2f2; \n"
+"\n"
 "")
         self.Contenido.setObjectName("Contenido")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.Contenido)
@@ -449,295 +451,47 @@ class Ui_Form(object):
         self.widget.setObjectName("widget")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.frame_2 = QtWidgets.QFrame(parent=self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        self.widget_2 = QtWidgets.QWidget(parent=self.widget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
-        self.frame_2.setSizePolicy(sizePolicy)
-        self.frame_2.setMinimumSize(QtCore.QSize(1200, 50))
-        self.frame_2.setStyleSheet("")
-        self.frame_2.setObjectName("frame_2")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.frame_2)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-        self.LabelProductos = QtWidgets.QLabel(parent=self.frame_2)
-        self.LabelProductos.setStyleSheet("#LabelProductos {\n"
+        sizePolicy.setHeightForWidth(self.widget_2.sizePolicy().hasHeightForWidth())
+        self.widget_2.setSizePolicy(sizePolicy)
+        self.widget_2.setMinimumSize(QtCore.QSize(0, 80))
+        self.widget_2.setStyleSheet("")
+        self.widget_2.setObjectName("widget_2")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.widget_2)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.LabelReportes = QtWidgets.QLabel(parent=self.widget_2)
+        self.LabelReportes.setStyleSheet("#LabelReportes\n"
+" {\n"
 "    font-weight: bold; /* Negrita */\n"
 "    font-size: 34px; /* Tamaño de fuente */\n"
 "}\n"
 "")
-        self.LabelProductos.setObjectName("LabelProductos")
-        self.gridLayout_3.addWidget(self.LabelProductos, 0, 0, 1, 1)
-        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.TablaPagoCredito = QtWidgets.QTableWidget(parent=self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.TablaPagoCredito.sizePolicy().hasHeightForWidth())
-        self.TablaPagoCredito.setSizePolicy(sizePolicy)
-        self.TablaPagoCredito.setMinimumSize(QtCore.QSize(950, 400))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.TablaPagoCredito.setFont(font)
-        self.TablaPagoCredito.setStyleSheet("\n"
-"QTableWidget {\n"
-"    border: none;\n"
-"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-"    color: black; /* Texto negro para celdas seleccionadas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    border: none; \n"
-"    background-color: #f2f2f2; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    font-weight: normal; /* No negritas */\n"
-"    text-align: center; /* Centrado del texto en los encabezados */\n"
-"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-"}\n"
-"\n"
-"QHeaderView::section:focus {\n"
-"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-"    border: none; /* Sin borde cuando está en foco */\n"
-"}\n"
-"\n"
-"QTableWidget::item:focus {\n"
-"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-"}\n"
-"\n"
-"QTableCornerButton::section {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"}\n"
-"\n"
-"QTableWidget::verticalHeader {\n"
-"    background-color: #f2f2f2;\n"
-"    font-size: 23px;\n"
-"    border: none;\n"
-"    font-weight: normal; /* No negritas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"/* Personalización de la barra de desplazamiento */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    width: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-height: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    height: 0px; /* Sin altura para los botones */\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    height: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-width: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"")
-        self.TablaPagoCredito.setObjectName("TablaPagoCredito")
-        self.TablaPagoCredito.setColumnCount(8)
-        self.TablaPagoCredito.setRowCount(26)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(7, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(8, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(9, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(10, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(11, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(12, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(13, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(14, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(15, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(16, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(17, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(18, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(19, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(20, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(21, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(22, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(23, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(24, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaPagoCredito.setVerticalHeaderItem(25, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        font = QtGui.QFont()
-        font.setKerning(False)
-        item.setFont(font)
-        self.TablaPagoCredito.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(7, item)
-        self.verticalLayout_3.addWidget(self.TablaPagoCredito, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.verticalLayout_2.addWidget(self.widget)
-        self.widget_3 = QtWidgets.QWidget(parent=self.Contenido)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.widget_3.sizePolicy().hasHeightForWidth())
-        self.widget_3.setSizePolicy(sizePolicy)
-        self.widget_3.setMinimumSize(QtCore.QSize(600, 0))
+        self.LabelReportes.setObjectName("LabelReportes")
+        self.horizontalLayout_3.addWidget(self.LabelReportes)
+        self.verticalLayout_3.addWidget(self.widget_2)
+        self.widget_3 = QtWidgets.QWidget(parent=self.widget)
         self.widget_3.setStyleSheet("")
         self.widget_3.setObjectName("widget_3")
-        self.gridLayout = QtWidgets.QGridLayout(self.widget_3)
-        self.gridLayout.setObjectName("gridLayout")
-        self.label = QtWidgets.QLabel(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-        self.label.setSizePolicy(sizePolicy)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignBottom)
-        self.BtnMetodoPago = QtWidgets.QPushButton(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BtnMetodoPago.sizePolicy().hasHeightForWidth())
-        self.BtnMetodoPago.setSizePolicy(sizePolicy)
-        self.BtnMetodoPago.setMinimumSize(QtCore.QSize(250, 0))
-        self.BtnMetodoPago.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"color: rgb(0, 0, 0);")
-        self.BtnMetodoPago.setObjectName("BtnMetodoPago")
-        self.gridLayout.addWidget(self.BtnMetodoPago, 1, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
-        self.InputPago = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputPago.sizePolicy().hasHeightForWidth())
-        self.InputPago.setSizePolicy(sizePolicy)
-        self.InputPago.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputPago.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputPago.setObjectName("InputPago")
-        self.gridLayout.addWidget(self.InputPago, 3, 0, 1, 1)
-        self.label_2 = QtWidgets.QLabel(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
-        self.verticalLayout_2.addWidget(self.widget_3, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.widget_4 = QtWidgets.QWidget(parent=self.Contenido)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
-        self.widget_4.setSizePolicy(sizePolicy)
-        self.widget_4.setMinimumSize(QtCore.QSize(1000, 0))
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget_3)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.widget_4 = QtWidgets.QWidget(parent=self.widget_3)
         self.widget_4.setStyleSheet("")
         self.widget_4.setObjectName("widget_4")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget_4)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.BtnAbonar = QtWidgets.QPushButton(parent=self.widget_4)
+        self.gridLayout = QtWidgets.QGridLayout(self.widget_4)
+        self.gridLayout.setObjectName("gridLayout")
+        self.pushButton_3 = QtWidgets.QPushButton(parent=self.widget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BtnAbonar.sizePolicy().hasHeightForWidth())
-        self.BtnAbonar.setSizePolicy(sizePolicy)
-        self.BtnAbonar.setMinimumSize(QtCore.QSize(150, 0))
-        self.BtnAbonar.setStyleSheet("\n"
+        sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
+        self.pushButton_3.setSizePolicy(sizePolicy)
+        self.pushButton_3.setMinimumSize(QtCore.QSize(350, 70))
+        self.pushButton_3.setStyleSheet("\n"
 "QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
+"    background-color: red; /* Fondo blanco */\n"
 "    border: none; /* Sin borde ni decoración inicial */\n"
 "    color:  white; /* Color del texto */\n"
 "    border-radius: 15px; /* Bordes circulares */\n"
@@ -746,15 +500,237 @@ class Ui_Form(object):
 "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
 "    font-size: 18px; /* Tamaño de fuente */\n"
 "    margin-top:20px;\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
 "}")
-        self.BtnAbonar.setObjectName("BtnAbonar")
-        self.horizontalLayout.addWidget(self.BtnAbonar, 0, QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignBottom)
-        self.verticalLayout_2.addWidget(self.widget_4, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/pdf.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.pushButton_3.setIcon(icon11)
+        self.pushButton_3.setIconSize(QtCore.QSize(30, 30))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout.addWidget(self.pushButton_3, 8, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.pushButton_2 = QtWidgets.QPushButton(parent=self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
+        self.pushButton_2.setSizePolicy(sizePolicy)
+        self.pushButton_2.setMinimumSize(QtCore.QSize(250, 50))
+        self.pushButton_2.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);")
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout.addWidget(self.pushButton_2, 6, 0, 1, 1)
+        self.label = QtWidgets.QLabel(parent=self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setStyleSheet("\n"
+"    font-size: 28px; /* Tamaño de fuente */\n"
+"")
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.label_2 = QtWidgets.QLabel(parent=self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setMinimumSize(QtCore.QSize(250, 50))
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.pushButton = QtWidgets.QPushButton(parent=self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setMinimumSize(QtCore.QSize(250, 50))
+        self.pushButton.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);")
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 4, 0, 1, 1)
+        self.label_3 = QtWidgets.QLabel(parent=self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setMinimumSize(QtCore.QSize(250, 50))
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 5, 0, 1, 1)
+        self.calendarWidget = QtWidgets.QCalendarWidget(parent=self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.calendarWidget.sizePolicy().hasHeightForWidth())
+        self.calendarWidget.setSizePolicy(sizePolicy)
+        self.calendarWidget.setObjectName("calendarWidget")
+        self.gridLayout.addWidget(self.calendarWidget, 7, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.gridLayout.addItem(spacerItem2, 9, 0, 1, 1)
+        self.horizontalLayout.addWidget(self.widget_4)
+        self.widget_5 = QtWidgets.QWidget(parent=self.widget_3)
+        self.widget_5.setStyleSheet("")
+        self.widget_5.setObjectName("widget_5")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.widget_5)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.label_5 = QtWidgets.QLabel(parent=self.widget_5)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
+        self.label_5.setSizePolicy(sizePolicy)
+        self.label_5.setStyleSheet("\n"
+"    font-size: 28px; /* Tamaño de fuente */\n"
+"")
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_3.addWidget(self.label_5, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.pushButton_4 = QtWidgets.QPushButton(parent=self.widget_5)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
+        self.pushButton_4.setSizePolicy(sizePolicy)
+        self.pushButton_4.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);")
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.gridLayout_3.addWidget(self.pushButton_4, 1, 0, 1, 1)
+        self.pushButton_5 = QtWidgets.QPushButton(parent=self.widget_5)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
+        self.pushButton_5.setSizePolicy(sizePolicy)
+        self.pushButton_5.setMinimumSize(QtCore.QSize(350, 70))
+        self.pushButton_5.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: red; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    margin-top:20px;\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}")
+        self.pushButton_5.setIcon(icon11)
+        self.pushButton_5.setIconSize(QtCore.QSize(30, 30))
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.gridLayout_3.addWidget(self.pushButton_5, 2, 0, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.gridLayout_3.addItem(spacerItem3, 3, 0, 1, 1)
+        self.horizontalLayout.addWidget(self.widget_5)
+        self.widget_6 = QtWidgets.QWidget(parent=self.widget_3)
+        self.widget_6.setStyleSheet("")
+        self.widget_6.setObjectName("widget_6")
+        self.gridLayout_4 = QtWidgets.QGridLayout(self.widget_6)
+        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.pushButton_6 = QtWidgets.QPushButton(parent=self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
+        self.pushButton_6.setSizePolicy(sizePolicy)
+        self.pushButton_6.setMinimumSize(QtCore.QSize(250, 50))
+        self.pushButton_6.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);")
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.gridLayout_4.addWidget(self.pushButton_6, 2, 0, 1, 1)
+        self.label_7 = QtWidgets.QLabel(parent=self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
+        self.label_7.setSizePolicy(sizePolicy)
+        self.label_7.setMinimumSize(QtCore.QSize(250, 50))
+        self.label_7.setObjectName("label_7")
+        self.gridLayout_4.addWidget(self.label_7, 1, 0, 1, 1)
+        self.pushButton_8 = QtWidgets.QPushButton(parent=self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_8.sizePolicy().hasHeightForWidth())
+        self.pushButton_8.setSizePolicy(sizePolicy)
+        self.pushButton_8.setMinimumSize(QtCore.QSize(350, 70))
+        self.pushButton_8.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: red; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    margin-top:20px;\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}")
+        self.pushButton_8.setIcon(icon11)
+        self.pushButton_8.setIconSize(QtCore.QSize(30, 30))
+        self.pushButton_8.setObjectName("pushButton_8")
+        self.gridLayout_4.addWidget(self.pushButton_8, 6, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_6 = QtWidgets.QLabel(parent=self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
+        self.label_6.setSizePolicy(sizePolicy)
+        self.label_6.setStyleSheet("\n"
+"    font-size: 28px; /* Tamaño de fuente */\n"
+"")
+        self.label_6.setObjectName("label_6")
+        self.gridLayout_4.addWidget(self.label_6, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.pushButton_7 = QtWidgets.QPushButton(parent=self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_7.sizePolicy().hasHeightForWidth())
+        self.pushButton_7.setSizePolicy(sizePolicy)
+        self.pushButton_7.setMinimumSize(QtCore.QSize(250, 50))
+        self.pushButton_7.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);")
+        self.pushButton_7.setObjectName("pushButton_7")
+        self.gridLayout_4.addWidget(self.pushButton_7, 4, 0, 1, 1)
+        self.calendarWidget_2 = QtWidgets.QCalendarWidget(parent=self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.calendarWidget_2.sizePolicy().hasHeightForWidth())
+        self.calendarWidget_2.setSizePolicy(sizePolicy)
+        self.calendarWidget_2.setObjectName("calendarWidget_2")
+        self.gridLayout_4.addWidget(self.calendarWidget_2, 5, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_8 = QtWidgets.QLabel(parent=self.widget_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy)
+        self.label_8.setMinimumSize(QtCore.QSize(250, 50))
+        self.label_8.setObjectName("label_8")
+        self.gridLayout_4.addWidget(self.label_8, 3, 0, 1, 1)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.gridLayout_4.addItem(spacerItem4, 7, 0, 1, 1)
+        self.horizontalLayout.addWidget(self.widget_6)
+        self.verticalLayout_3.addWidget(self.widget_3)
+        self.verticalLayout_2.addWidget(self.widget)
         self.horizontalLayout_2.addWidget(self.Contenido)
         self.gridLayout_2.addWidget(self.Contenedor, 0, 0, 1, 1)
 
@@ -778,76 +754,19 @@ class Ui_Form(object):
         self.BtnReportes.setText(_translate("Form", "   Reportes"))
         self.BtnControlUsuario.setText(_translate("Form", "   Control Usuarios"))
         self.BtnUsuario.setText(_translate("Form", "   Usuario"))
-        self.LabelProductos.setText(_translate("Form", "Pago de Credito"))
-        item = self.TablaPagoCredito.verticalHeaderItem(0)
-        item.setText(_translate("Form", "1."))
-        item = self.TablaPagoCredito.verticalHeaderItem(1)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(2)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(3)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(4)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(5)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(6)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(7)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(8)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(9)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(10)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(11)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(12)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaPagoCredito.verticalHeaderItem(13)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(14)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(15)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(16)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(17)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(18)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(19)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(20)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(21)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(22)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(23)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(24)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.verticalHeaderItem(25)
-        item.setText(_translate("Form", "New Row"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(0)
-        item.setText(_translate("Form", "Id"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "Nombre"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "Max. Cre"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(3)
-        item.setText(_translate("Form", "F.Registro"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(4)
-        item.setText(_translate("Form", "F.Limite"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(5)
-        item.setText(_translate("Form", "T.Deuda"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(6)
-        item.setText(_translate("Form", "Pendiente"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(7)
-        item.setText(_translate("Form", "Estado"))
-        self.label.setText(_translate("Form", "Metodo de Pago"))
-        self.BtnMetodoPago.setText(_translate("Form", "Metodo de pago"))
-        self.label_2.setText(_translate("Form", "Monto:"))
-        self.BtnAbonar.setText(_translate("Form", "Abonar!"))
+        self.LabelReportes.setText(_translate("Form", "Reportes"))
+        self.pushButton_3.setText(_translate("Form", "   Generar PDF"))
+        self.pushButton_2.setText(_translate("Form", "Diario / Intervalo"))
+        self.label.setText(_translate("Form", "Reporte de Caja"))
+        self.label_2.setText(_translate("Form", "Caja"))
+        self.pushButton.setText(_translate("Form", "Ingreso / Egreso"))
+        self.label_3.setText(_translate("Form", "Tiempo"))
+        self.label_5.setText(_translate("Form", "Reporte de Productos"))
+        self.pushButton_4.setText(_translate("Form", "Bajo Stock / Mas Vendidos / Inactivos"))
+        self.pushButton_5.setText(_translate("Form", "   Generar PDF"))
+        self.pushButton_6.setText(_translate("Form", "Comparacion /  Analisis Credito "))
+        self.label_7.setText(_translate("Form", "Ventas"))
+        self.pushButton_8.setText(_translate("Form", "Exportar PDF"))
+        self.label_6.setText(_translate("Form", "Analisis de Venta"))
+        self.pushButton_7.setText(_translate("Form", "Dias / Intervalo de Dias"))
+        self.label_8.setText(_translate("Form", "Tiempo"))

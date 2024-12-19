@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.usuarios import Rol
 
+
 # Crear un rol
 def crear_rol(db: Session, nombre: str):
     """
@@ -15,6 +16,7 @@ def crear_rol(db: Session, nombre: str):
     db.refresh(nuevo_rol)
     return nuevo_rol
 
+
 # Obtener todos los roles
 def obtener_roles(db: Session):
     """
@@ -23,6 +25,7 @@ def obtener_roles(db: Session):
     :return: Lista de roles.
     """
     return db.query(Rol).all()
+
 
 # Obtener un rol por ID
 def obtener_rol_por_id(db: Session, id_rol: int):
@@ -33,6 +36,7 @@ def obtener_rol_por_id(db: Session, id_rol: int):
     :return: Objeto del rol o None si no existe.
     """
     return db.query(Rol).filter(Rol.ID_Rol == id_rol).first()
+
 
 # Actualizar un rol
 def actualizar_rol(db: Session, id_rol: int, nombre: str):
@@ -51,6 +55,7 @@ def actualizar_rol(db: Session, id_rol: int, nombre: str):
     db.commit()
     db.refresh(rol_existente)
     return rol_existente
+
 
 # Eliminar un rol
 def eliminar_rol(db: Session, id_rol: int):

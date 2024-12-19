@@ -1,8 +1,19 @@
 from sqlalchemy.orm import Session
-from app.models.venta_credito import VentaCredito  # Asegúrate de ajustar la importación de acuerdo a tu estructura de proyecto
+from app.models.venta_credito import (
+    VentaCredito,
+)  # Asegúrate de ajustar la importación de acuerdo a tu estructura de proyecto
+
 
 # Crear una venta a crédito
-def crear_venta_credito(db: Session, max_credito: float, total_deuda: float, saldo_pendiente: float, fecha_limite: str, id_cliente: int, id_detalle_factura: int):
+def crear_venta_credito(
+    db: Session,
+    max_credito: float,
+    total_deuda: float,
+    saldo_pendiente: float,
+    fecha_limite: str,
+    id_cliente: int,
+    id_detalle_factura: int,
+):
     """
     Crea una nueva venta a crédito.
     :param db: Sesión de base de datos.
@@ -20,12 +31,13 @@ def crear_venta_credito(db: Session, max_credito: float, total_deuda: float, sal
         Saldo_Pendiente=saldo_pendiente,
         Fecha_Limite=fecha_limite,
         ID_Cliente=id_cliente,
-        ID_Detalle_Factura=id_detalle_factura
+        ID_Detalle_Factura=id_detalle_factura,
     )
     db.add(nueva_venta)
     db.commit()
     db.refresh(nueva_venta)
     return nueva_venta
+
 
 # Obtener todas las ventas a crédito
 def obtener_ventas_credito(db: Session):
@@ -36,6 +48,7 @@ def obtener_ventas_credito(db: Session):
     """
     return db.query(VentaCredito).all()
 
+
 # Obtener una venta a crédito por ID
 def obtener_venta_credito_por_id(db: Session, id_venta_credito: int):
     """
@@ -44,10 +57,22 @@ def obtener_venta_credito_por_id(db: Session, id_venta_credito: int):
     :param id_venta_credito: ID de la venta a crédito.
     :return: Objeto de venta a crédito o None si no existe.
     """
-    return db.query(VentaCredito).filter(VentaCredito.ID_Venta_Credito == id_venta_credito).first()
+    return (
+        db.query(VentaCredito)
+        .filter(VentaCredito.ID_Venta_Credito == id_venta_credito)
+        .first()
+    )
+
 
 # Actualizar una venta a crédito
-def actualizar_venta_credito(db: Session, id_venta_credito: int, max_credito: float = None, total_deuda: float = None, saldo_pendiente: float = None, fecha_limite: str = None):
+def actualizar_venta_credito(
+    db: Session,
+    id_venta_credito: int,
+    max_credito: float = None,
+    total_deuda: float = None,
+    saldo_pendiente: float = None,
+    fecha_limite: str = None,
+):
     """
     Actualiza una venta a crédito existente.
     :param db: Sesión de base de datos.
@@ -58,7 +83,11 @@ def actualizar_venta_credito(db: Session, id_venta_credito: int, max_credito: fl
     :param fecha_limite: Nueva fecha límite.
     :return: Objeto de venta a crédito actualizado o None si no existe.
     """
-    venta_existente = db.query(VentaCredito).filter(VentaCredito.ID_Venta_Credito == id_venta_credito).first()
+    venta_existente = (
+        db.query(VentaCredito)
+        .filter(VentaCredito.ID_Venta_Credito == id_venta_credito)
+        .first()
+    )
     if not venta_existente:
         return None
 
@@ -75,6 +104,7 @@ def actualizar_venta_credito(db: Session, id_venta_credito: int, max_credito: fl
     db.refresh(venta_existente)
     return venta_existente
 
+
 # Eliminar una venta a crédito
 def eliminar_venta_credito(db: Session, id_venta_credito: int):
     """
@@ -83,7 +113,11 @@ def eliminar_venta_credito(db: Session, id_venta_credito: int):
     :param id_venta_credito: ID de la venta a crédito a eliminar.
     :return: True si se eliminó correctamente, False si no se encontró.
     """
-    venta_existente = db.query(VentaCredito).filter(VentaCredito.ID_Venta_Credito == id_venta_credito).first()
+    venta_existente = (
+        db.query(VentaCredito)
+        .filter(VentaCredito.ID_Venta_Credito == id_venta_credito)
+        .first()
+    )
     if not venta_existente:
         return False
 

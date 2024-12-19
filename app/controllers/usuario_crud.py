@@ -1,8 +1,17 @@
 from sqlalchemy.orm import Session
 from app.models.usuarios import Usuarios
 
+
 # Crear un usuario
-def crear_usuario(db: Session, Id_Usuario: str, nombre: str, usuario: str, contraseña: str, estado: bool, id_rol: int):
+def crear_usuario(
+    db: Session,
+    Id_Usuario: str,
+    nombre: str,
+    usuario: str,
+    contraseña: str,
+    estado: bool,
+    id_rol: int,
+):
     """
     Crea un nuevo usuario.
     :param db: Sesión de base de datos.
@@ -21,12 +30,13 @@ def crear_usuario(db: Session, Id_Usuario: str, nombre: str, usuario: str, contr
         Usuario=usuario,
         Contraseña=contraseña,
         Estado=estado,
-        ID_Rol=id_rol
+        ID_Rol=id_rol,
     )
     db.add(nuevo_usuario)
     db.commit()
     db.refresh(nuevo_usuario)
     return nuevo_usuario
+
 
 # Obtener todos los usuarios
 def obtener_usuarios(db: Session):
@@ -36,6 +46,7 @@ def obtener_usuarios(db: Session):
     :return: Lista de usuarios.
     """
     return db.query(Usuarios).all()
+
 
 # Obtener un usuario por ID
 def obtener_usuario_por_id(db: Session, id_usuario: int):
@@ -47,8 +58,17 @@ def obtener_usuario_por_id(db: Session, id_usuario: int):
     """
     return db.query(Usuarios).filter(Usuarios.ID_Usuario == id_usuario).first()
 
+
 # Actualizar un usuario
-def actualizar_usuario(db: Session, id_usuario: int, nombre: str = None, usuario: str = None, contraseña: str = None, estado: bool = None, id_rol: int = None):
+def actualizar_usuario(
+    db: Session,
+    id_usuario: int,
+    nombre: str = None,
+    usuario: str = None,
+    contraseña: str = None,
+    estado: bool = None,
+    id_rol: int = None,
+):
     """
     Actualiza un usuario existente.
     :param db: Sesión de base de datos.
@@ -60,7 +80,9 @@ def actualizar_usuario(db: Session, id_usuario: int, nombre: str = None, usuario
     :param id_rol: Nuevo ID de rol asociado.
     :return: Objeto de usuario actualizado o None si no existe.
     """
-    usuario_existente = db.query(Usuarios).filter(Usuarios.ID_Usuario == id_usuario).first()
+    usuario_existente = (
+        db.query(Usuarios).filter(Usuarios.ID_Usuario == id_usuario).first()
+    )
     if not usuario_existente:
         return None
 
@@ -69,7 +91,7 @@ def actualizar_usuario(db: Session, id_usuario: int, nombre: str = None, usuario
     if usuario:
         usuario_existente.Usuario = usuario
     if contraseña:
-        usuario_existente.Contraseña =contraseña
+        usuario_existente.Contraseña = contraseña
     if estado is not None:
         usuario_existente.Estado = estado
     if id_rol:
@@ -79,6 +101,7 @@ def actualizar_usuario(db: Session, id_usuario: int, nombre: str = None, usuario
     db.refresh(usuario_existente)
     return usuario_existente
 
+
 # Eliminar un usuario
 def eliminar_usuario(db: Session, id_usuario: int):
     """
@@ -87,7 +110,9 @@ def eliminar_usuario(db: Session, id_usuario: int):
     :param id_usuario: ID del usuario a eliminar.
     :return: True si se eliminó correctamente, False si no se encontró.
     """
-    usuario_existente = db.query(Usuarios).filter(Usuarios.ID_Usuario == id_usuario).first()
+    usuario_existente = (
+        db.query(Usuarios).filter(Usuarios.ID_Usuario == id_usuario).first()
+    )
     if not usuario_existente:
         return False
 

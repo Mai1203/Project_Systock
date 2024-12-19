@@ -19,5 +19,5 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
     """Inicializa la base de datos (crea tablas si no existen)."""
-    from app.models import usuarios, productos, marcas, categorias   # Importar los modelos
+    from app.models import usuarios, productos, facturas, detalle_facturas, venta_credito, clientes, pago_credito, tipo_ingresos, ingresos, caja, egresos, analisis_financiero, reporte, historial  # Importar los modelos
     Base.metadata.create_all(bind=engine)

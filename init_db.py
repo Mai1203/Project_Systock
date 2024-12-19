@@ -11,4 +11,4 @@ def poblar_datos_prueba():
 
 if __name__ == "__main__":
     init_db()  # Crear las tablas
-    poblar_datos_prueba()  # Poblar datos de prueba
+    # poblar_datos_prueba()  # Poblar datos de prueba

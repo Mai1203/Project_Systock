@@ -16,12 +16,30 @@ class Productos(Base):
     Stock_min = Column(Integer, nullable=False)
     Stock_max = Column(Integer, nullable=False)
 
-    ID_Marca = Column(Integer, ForeignKey('MARCA.ID_Marca'))
-    ID_Categoria = Column(Integer, ForeignKey('CATEGORIA.ID_Categoria'))
+    ID_Marca = Column(Integer, ForeignKey('MARCAS.ID_Marca'))
+    ID_Categoria = Column(Integer, ForeignKey('CATEGORIAS.ID_Categoria'))
 
     # Relación con las tablas MARCA y CATEGORIA
-    marca = relationship('Marca', back_populates='productos')
-    categoria = relationship('Categoria', back_populates='productos')
+    marcas = relationship('Marcas', back_populates='Productos')
+    categorias = relationship('Categorias', back_populates='Productos')
+    detalle_factura = relationship('DetalleFactura', back_populates='Productos')
 
 
+class Marcas(Base):
+    __tablename__ = 'MARCAS'
+
+    ID_Marca = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    Nombre = Column(String, nullable=False)
+
+    # Relación con Producto
+    productos = relationship('Productos', back_populates='Marcas')
+    
+class Categorias(Base):
+    __tablename__ = 'CATEGORIAS'
+
+    ID_Categoria = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    Nombre = Column(String, nullable=False)
+
+    # Relación con Producto
+    productos = relationship('Productos', back_populates='Categorias')
 

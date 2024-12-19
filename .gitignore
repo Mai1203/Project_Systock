@@ -1,5 +1,6 @@
 #base de datos
 .db
+systock.db
 
 __pycache__/
 .pyc

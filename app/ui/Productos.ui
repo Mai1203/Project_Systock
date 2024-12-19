@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1639</width>
-    <height>1073</height>
+    <width>1648</width>
+    <height>1083</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1158,7 +1158,7 @@ QPushButton:hover {
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(217, 217, 217);</string>
+               <string notr="true"/>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
@@ -1176,7 +1176,16 @@ QPushButton:hover {
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  <string notr="true">QLineEdit {
+    border: none;
+    border-bottom: 0.5px solid gray;
+}
+
+QLineEdit:focus {
+    border: none;
+    border-bottom: 1.5px solid black; /* Cambia el color y grosor según desees */
+}
+</string>
                  </property>
                  <property name="text">
                   <string>hhhh</string>
@@ -1215,7 +1224,7 @@ QPushButton:hover {
               </property>
               <property name="minimumSize">
                <size>
-                <width>1300</width>
+                <width>1320</width>
                 <height>600</height>
                </size>
               </property>

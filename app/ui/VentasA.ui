@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1643</width>
-    <height>1082</height>
+    <width>1640</width>
+    <height>1081</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -805,7 +805,7 @@ background-color: #f2f2f2;
               <item row="2" column="0">
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>Codigo</string>
+                 <string>Código</string>
                 </property>
                </widget>
               </item>
@@ -1399,7 +1399,7 @@ QScrollBar::handle:horizontal:hover {
               <item row="1" column="1">
                <widget class="QLabel" name="label_10">
                 <property name="text">
-                 <string>Nombre</string>
+                 <string>Nombre y apellido:</string>
                 </property>
                </widget>
               </item>
@@ -1484,7 +1484,7 @@ QScrollBar::handle:horizontal:hover {
               <item row="1" column="2">
                <widget class="QLabel" name="label_9">
                 <property name="text">
-                 <string>Telefono</string>
+                 <string>Teléfono:</string>
                 </property>
                </widget>
               </item>
@@ -1574,7 +1574,7 @@ QPushButton:hover {
               <item row="1" column="5">
                <widget class="QLabel" name="label_2">
                 <property name="text">
-                 <string>Descuento Global</string>
+                 <string>Descuento Global:</string>
                 </property>
                </widget>
               </item>
@@ -1606,14 +1606,14 @@ color: rgb(0, 0, 0);</string>
               <item row="1" column="0">
                <widget class="QLabel" name="label_4">
                 <property name="text">
-                 <string>C.C</string>
+                 <string>Cedula de Ciudadania:</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="3">
                <widget class="QLabel" name="label_11">
                 <property name="text">
-                 <string>Direccion</string>
+                 <string>Dirección:</string>
                 </property>
                </widget>
               </item>

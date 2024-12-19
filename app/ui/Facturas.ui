@@ -828,7 +828,16 @@ background-color: #f2f2f2;
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  <string notr="true">QLineEdit {
+    border: none;
+    border-bottom: 0.5px solid gray;
+}
+
+QLineEdit:focus {
+    border: none;
+    border-bottom: 1.5px solid black; /* Cambia el color y grosor según desees */
+}
+</string>
                  </property>
                  <property name="text">
                   <string/>

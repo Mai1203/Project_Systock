@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.reporte import (
     Reporte,
-)  # Asegúrate de ajustar la importación de acuerdo a tu estructura de proyecto
+)
 
 
 # Crear un nuevo reporte

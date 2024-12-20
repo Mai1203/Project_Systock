@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.venta_credito import (
     VentaCredito,
-)  # Asegúrate de ajustar la importación de acuerdo a tu estructura de proyecto
+)
 
 
 # Crear una venta a crédito

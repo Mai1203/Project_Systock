@@ -1,23 +1,38 @@
 from app.database.database import init_db, SessionLocal
-from app.controllers.usuario_crud import crear_usuario
-from app.controllers.rol_crud import crear_rol
-from app.controllers.producto_crud import crear_producto
+from app.controllers.usuario_crud import *
+from app.controllers.rol_crud import *
+from app.controllers.producto_crud import *
 
 def poblar_datos_prueba():
     db = SessionLocal()
     # Crear usuarios de prueba
     try:
-        print("Creando rol...")
-        crear_rol(db, "Administrador")
-        print("Rol creado exitosamente.")
+        print("Eliminando rol...")
+        rol = eliminar_rol(db, 2)
+        if(rol):
+            print("rol eliminado exitosamente.")
+        else:
+            print("No se encontro el rol")
+            
+            
         
-        print("Creando usuario...")
-        crear_usuario(db, "123456789", "Michael", "michael", "123456", True, 1)
-        print("Usuario creado exitosamente.")
+        print("Eliminando cliente...")
+        cli = eliminar_usuario(db, 987654321)
+        if(cli):
+            print("usuario eliminado exitosamente.")
+        else:
+            print("No se encontro el usuario.")
+            
+            
         
-        print("Creando producto...")
-        crear_producto(db, 1254, "Esmalte", 4500, 100, 10, 150, 1, 1)
-        print("Producto creado exitosamente.")
+        print("Eliminando producto...")
+        pro = eliminar_producto(db, 1254)
+        if(pro):
+            print("Producto eliminado exitosamente.")
+        else:
+            print("No se encontro el producto.")
+            
+        
     except Exception as e:
         print(f"Error al poblar datos: {e}")
     finally:

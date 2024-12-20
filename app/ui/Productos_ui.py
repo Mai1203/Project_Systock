@@ -12,306 +12,262 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1648, 1083)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        Form.resize(1658, 1083)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
         Form.setSizePolicy(sizePolicy)
-        Form.setStyleSheet("background-color: rgb(255, 255, 255);\n" "")
+        Form.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.Contenedor = QtWidgets.QWidget(parent=Form)
-        self.Contenedor.setStyleSheet(
-            "\n"
-            "QPushButton {\n"
-            "    background-color: black; /* Fondo blanco */\n"
-            "    border: none; /* Sin borde ni decoración inicial */\n"
-            "    color:  white; /* Color del texto */\n"
-            "    border-radius: 15px; /* Bordes circulares */\n"
-            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-            "    height: 40px; /* Altura del botón */\n"
-            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-            "    font-size: 18px; /* Tamaño de fuente */\n"
-            "    margin-top:20px;\n"
-            "}\n"
-            "\n"
-            "QPushButton:hover {\n"
-            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-            "}\n"
-            "\n"
-            "QToolButton {\n"
-            "    background-color: white; /* Fondo blanco */\n"
-            "    border: none; /* Sin borde ni decoración inicial */\n"
-            "    color:  rgb(50, 50, 50); /* Color del texto */\n"
-            "    border-radius: 15px; /* Bordes circulares */\n"
-            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-            "    height: 40px; /* Altura del botón */\n"
-            "    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
-            "    font-size: 18px; /* Tamaño de fuente */\n"
-            "    cursor: pointer;\n"
-            "}\n"
-            "\n"
-            "QToolButton:hover {\n"
-            "    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
-            "    cursor: pointer;\n"
-            "}\n"
-            "QLineEdit {\n"
-            "    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
-            "    border: none; /* Sin bordes visibles */\n"
-            "    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
-            "    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
-            "    border-radius: 10px; /* Bordes redondeados */\n"
-            "    color: black; /* Texto negro */\n"
-            "    text-align: left; /* Texto alineado a la izquierda */\n"
-            "    font-size: 18px; /* Tamaño del texto */\n"
-            "}\n"
-            "\n"
-            "/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
-            "QLineEdit:focus {\n"
-            "    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
-            "    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
-            "}\n"
-            "\n"
-            "QLabel {\n"
-            "    font-size: 20px; /* Tamaño de fuente */\n"
-            "    color:  black; /* Color del texto */\n"
-            "    margin-right: 10px; /* Espaciado a la derecha */\n"
-            "    padding: 5px; /* Espaciado interno */\n"
-            "    text-align: left; /* Alineación del texto a la izquierda */\n"
-            "}\n"
-            "QTableWidget {\n"
-            "    border: none;\n"
-            "    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
-            "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item {\n"
-            "    background-color: #f2f2f2; \n"
-            "    border: none; \n"
-            "    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-            "    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:selected {\n"
-            "    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-            "    color: black; /* Texto negro para celdas seleccionadas */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:hover {\n"
-            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-            "}\n"
-            "\n"
-            "QHeaderView::section {\n"
-            "    border: none; \n"
-            "    background-color: #f2f2f2; \n"
-            "    font-weight: normal; /* No negritas */\n"
-            "    text-align: center; /* Centrado del texto en los encabezados */\n"
-            "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-            "}\n"
-            "\n"
-            "QHeaderView::section:focus {\n"
-            "    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-            "    border: none; /* Sin borde cuando está en foco */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:focus {\n"
-            "    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-            "    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-            "}\n"
-            "\n"
-            "QTableCornerButton::section {\n"
-            "    background-color: #f2f2f2; \n"
-            "    border: none; \n"
-            "}\n"
-            "\n"
-            "QTableWidget::verticalHeader {\n"
-            "    background-color: #f2f2f2;\n"
-            "    border: none;\n"
-            "    font-weight: normal; /* No negritas */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:hover {\n"
-            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-            "}\n"
-            "\n"
-            "/* Personalización de la barra de desplazamiento */\n"
-            "QScrollBar:vertical {\n"
-            "    border: none;\n"
-            "    background: #f7f7f7; /* Fondo de la barra */\n"
-            "    width: 8px; /* Barra más delgada */\n"
-            "    border-radius: 4px; /* Bordes más redondeados */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:vertical {\n"
-            "    background: #bbb; /* Fondo del control deslizante */\n"
-            "    min-height: 20px; /* Control deslizante más delgado */\n"
-            "    border-radius: 4px; /* Bordes redondeados */\n"
-            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:vertical:hover {\n"
-            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-            "    border: none;\n"
-            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-            "    height: 0px; /* Sin altura para los botones */\n"
-            "}\n"
-            "\n"
-            "QScrollBar:horizontal {\n"
-            "    border: none;\n"
-            "    background: #f7f7f7; /* Fondo de la barra */\n"
-            "    height: 8px; /* Barra más delgada */\n"
-            "    border-radius: 4px; /* Bordes más redondeados */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:horizontal {\n"
-            "    background: #bbb; /* Fondo del control deslizante */\n"
-            "    min-width: 20px; /* Control deslizante más delgado */\n"
-            "    border-radius: 4px; /* Bordes redondeados */\n"
-            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:horizontal:hover {\n"
-            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-            "    border: none;\n"
-            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-            "    width: 0px; /* Sin ancho para los botones */\n"
-            "}\n"
-            "\n"
-            "\n"
-            ""
-        )
+        self.Contenedor.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: black; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    margin-top:20px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}\n"
+"\n"
+"QToolButton {\n"
+"    background-color: white; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  rgb(50, 50, 50); /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    cursor: pointer;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer;\n"
+"}\n"
+"QLineEdit {\n"
+"    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
+"    border: none; /* Sin bordes visibles */\n"
+"    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
+"    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
+"    border-radius: 10px; /* Bordes redondeados */\n"
+"    color: black; /* Texto negro */\n"
+"    text-align: left; /* Texto alineado a la izquierda */\n"
+"    font-size: 18px; /* Tamaño del texto */\n"
+"}\n"
+"\n"
+"/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
+"QLineEdit:focus {\n"
+"    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
+"    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
+"}\n"
+"\n"
+"QLabel {\n"
+"    font-size: 20px; /* Tamaño de fuente */\n"
+"    color:  black; /* Color del texto */\n"
+"    margin-right: 10px; /* Espaciado a la derecha */\n"
+"    padding: 5px; /* Espaciado interno */\n"
+"    text-align: left; /* Alineación del texto a la izquierda */\n"
+"}\n"
+"QTableWidget {\n"
+"    border: none;\n"
+"    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
+"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
+"}\n"
+"\n"
+"QTableWidget::item {\n"
+"    background-color: #f2f2f2; \n"
+"    border: none; \n"
+"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
+"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
+"}\n"
+"\n"
+"QTableWidget::item:selected {\n"
+"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
+"    color: black; /* Texto negro para celdas seleccionadas */\n"
+"}\n"
+"\n"
+"QTableWidget::item:hover {\n"
+"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    border: none; \n"
+"    background-color: #f2f2f2; \n"
+"    font-weight: normal; /* No negritas */\n"
+"    text-align: center; /* Centrado del texto en los encabezados */\n"
+"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
+"}\n"
+"\n"
+"QHeaderView::section:focus {\n"
+"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
+"    border: none; /* Sin borde cuando está en foco */\n"
+"}\n"
+"\n"
+"QTableWidget::item:focus {\n"
+"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
+"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
+"}\n"
+"\n"
+"QTableCornerButton::section {\n"
+"    background-color: #f2f2f2; \n"
+"    border: none; \n"
+"}\n"
+"\n"
+"QTableWidget::verticalHeader {\n"
+"    background-color: #f2f2f2;\n"
+"    border: none;\n"
+"    font-weight: normal; /* No negritas */\n"
+"}\n"
+"\n"
+"QTableWidget::item:hover {\n"
+"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+"}\n"
+"\n"
+"/* Personalización de la barra de desplazamiento */\n"
+"QScrollBar:vertical {\n"
+"    border: none;\n"
+"    background: #f7f7f7; /* Fondo de la barra */\n"
+"    width: 8px; /* Barra más delgada */\n"
+"    border-radius: 4px; /* Bordes más redondeados */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"    background: #bbb; /* Fondo del control deslizante */\n"
+"    min-height: 20px; /* Control deslizante más delgado */\n"
+"    border-radius: 4px; /* Bordes redondeados */\n"
+"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical:hover {\n"
+"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"    border: none;\n"
+"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+"    height: 0px; /* Sin altura para los botones */\n"
+"}\n"
+"\n"
+"QScrollBar:horizontal {\n"
+"    border: none;\n"
+"    background: #f7f7f7; /* Fondo de la barra */\n"
+"    height: 8px; /* Barra más delgada */\n"
+"    border-radius: 4px; /* Bordes más redondeados */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal {\n"
+"    background: #bbb; /* Fondo del control deslizante */\n"
+"    min-width: 20px; /* Control deslizante más delgado */\n"
+"    border-radius: 4px; /* Bordes redondeados */\n"
+"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal:hover {\n"
+"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"    border: none;\n"
+"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+"    width: 0px; /* Sin ancho para los botones */\n"
+"}\n"
+"\n"
+"\n"
+"")
         self.Contenedor.setObjectName("Contenedor")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.Contenedor)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.Navbar = QtWidgets.QWidget(parent=self.Contenedor)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Navbar.sizePolicy().hasHeightForWidth())
         self.Navbar.setSizePolicy(sizePolicy)
         self.Navbar.setMinimumSize(QtCore.QSize(250, 0))
-        self.Navbar.setStyleSheet(
-            "#navbar {\n"
-            "    background-color: white; /* Fondo blanco */\n"
-            "    border-right: 1px solid black; /* Borde negro en el lado derecho */\n"
-            "}\n"
-            ""
-        )
+        self.Navbar.setStyleSheet("#navbar {\n"
+"    background-color: white; /* Fondo blanco */\n"
+"    border-right: 1px solid black; /* Borde negro en el lado derecho */\n"
+"}\n"
+"")
         self.Navbar.setObjectName("Navbar")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.Navbar)
         self.verticalLayout.setObjectName("verticalLayout")
         self.LabelImgNavbar = QtWidgets.QLabel(parent=self.Navbar)
         self.LabelImgNavbar.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(50)
         sizePolicy.setVerticalStretch(50)
-        sizePolicy.setHeightForWidth(
-            self.LabelImgNavbar.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.LabelImgNavbar.sizePolicy().hasHeightForWidth())
         self.LabelImgNavbar.setSizePolicy(sizePolicy)
         self.LabelImgNavbar.setMinimumSize(QtCore.QSize(100, 50))
         self.LabelImgNavbar.setMaximumSize(QtCore.QSize(260, 70))
-        self.LabelImgNavbar.setStyleSheet(
-            "#LabelImg {\n"
-            "    background-position: center;\n"
-            "    background-repeat: no-repeat;\n"
-            "    background-size: 100% 100%; /* Ajusta la imagen para que ocupe todo el área del label */\n"
-            "    height: 200px; /* Ajusta la altura del QLabel */\n"
-            "    width: 300px; /* Ajusta el ancho del QLabel */\n"
-            "}\n"
-            ""
-        )
+        self.LabelImgNavbar.setStyleSheet("#LabelImg {\n"
+"    background-position: center;\n"
+"    background-repeat: no-repeat;\n"
+"    background-size: 100% 100%; /* Ajusta la imagen para que ocupe todo el área del label */\n"
+"    height: 200px; /* Ajusta la altura del QLabel */\n"
+"    width: 300px; /* Ajusta el ancho del QLabel */\n"
+"}\n"
+"")
         self.LabelImgNavbar.setText("")
-        self.LabelImgNavbar.setPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/Letras-sinfondo.png"
-            )
-        )
+        self.LabelImgNavbar.setPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/Letras-sinfondo.png"))
         self.LabelImgNavbar.setScaledContents(True)
         self.LabelImgNavbar.setObjectName("LabelImgNavbar")
         self.verticalLayout.addWidget(self.LabelImgNavbar)
-        spacerItem = QtWidgets.QSpacerItem(
-            20,
-            30,
-            QtWidgets.QSizePolicy.Policy.Minimum,
-            QtWidgets.QSizePolicy.Policy.Fixed,
-        )
+        spacerItem = QtWidgets.QSpacerItem(20, 30, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.verticalLayout.addItem(spacerItem)
         self.LabelFuncionalidades = QtWidgets.QLabel(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.LabelFuncionalidades.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.LabelFuncionalidades.sizePolicy().hasHeightForWidth())
         self.LabelFuncionalidades.setSizePolicy(sizePolicy)
         self.LabelFuncionalidades.setMinimumSize(QtCore.QSize(250, 30))
         self.LabelFuncionalidades.setMaximumSize(QtCore.QSize(300, 50))
-        self.LabelFuncionalidades.setStyleSheet(
-            "#LabelFuncionalidades {\n"
-            "    font-weight: bold; /* Negrita */\n"
-            "    font-size: 22px; /* Tamaño de fuente */\n"
-            "}\n"
-            ""
-        )
+        self.LabelFuncionalidades.setStyleSheet("#LabelFuncionalidades {\n"
+"    font-weight: bold; /* Negrita */\n"
+"    font-size: 22px; /* Tamaño de fuente */\n"
+"}\n"
+"")
         self.LabelFuncionalidades.setObjectName("LabelFuncionalidades")
         self.verticalLayout.addWidget(self.LabelFuncionalidades)
         self.BtnVentas = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnVentas.sizePolicy().hasHeightForWidth())
         self.BtnVentas.setSizePolicy(sizePolicy)
         self.BtnVentas.setMinimumSize(QtCore.QSize(0, 0))
         self.BtnVentas.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnVentas.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
-        self.BtnVentas.setStyleSheet(
-            "\n"
-            "    padding-left: 10px; /* Distancia entre icono y borde izquierdo */\n"
-            "    text-align: right; /* Texto más hacia la derecha */\n"
-            "\n"
-            ""
-        )
+        self.BtnVentas.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.BtnVentas.setStyleSheet("\n"
+"    padding-left: 10px; /* Distancia entre icono y borde izquierdo */\n"
+"    text-align: right; /* Texto más hacia la derecha */\n"
+"\n"
+"")
         icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/ventas.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/ventas.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnVentas.setIcon(icon)
         self.BtnVentas.setIconSize(QtCore.QSize(30, 30))
-        self.BtnVentas.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnVentas.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnVentas.setAutoRaise(False)
         self.BtnVentas.setObjectName("BtnVentas")
         self.verticalLayout.addWidget(self.BtnVentas)
         self.BtnCaja = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnCaja.sizePolicy().hasHeightForWidth())
@@ -320,301 +276,177 @@ class Ui_Form(object):
         self.BtnCaja.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.BtnCaja.setStyleSheet("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Caja.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon1.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Caja.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnCaja.setIcon(icon1)
         self.BtnCaja.setIconSize(QtCore.QSize(30, 30))
-        self.BtnCaja.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnCaja.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnCaja.setObjectName("BtnCaja")
         self.verticalLayout.addWidget(self.BtnCaja)
         self.BtnCredito = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnCredito.sizePolicy().hasHeightForWidth())
         self.BtnCredito.setSizePolicy(sizePolicy)
         self.BtnCredito.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnCredito.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
+        self.BtnCredito.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Credito.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon2.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Credito.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnCredito.setIcon(icon2)
         self.BtnCredito.setIconSize(QtCore.QSize(30, 30))
-        self.BtnCredito.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnCredito.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnCredito.setObjectName("BtnCredito")
         self.verticalLayout.addWidget(self.BtnCredito)
         self.BtnEgreso = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnEgreso.sizePolicy().hasHeightForWidth())
         self.BtnEgreso.setSizePolicy(sizePolicy)
         self.BtnEgreso.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnEgreso.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
+        self.BtnEgreso.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Egreso.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon3.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Egreso.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnEgreso.setIcon(icon3)
         self.BtnEgreso.setIconSize(QtCore.QSize(30, 30))
-        self.BtnEgreso.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnEgreso.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnEgreso.setObjectName("BtnEgreso")
         self.verticalLayout.addWidget(self.BtnEgreso)
         self.BtnRespaldo = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnRespaldo.sizePolicy().hasHeightForWidth())
         self.BtnRespaldo.setSizePolicy(sizePolicy)
         self.BtnRespaldo.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnRespaldo.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
+        self.BtnRespaldo.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Respaldo.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon4.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Respaldo.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnRespaldo.setIcon(icon4)
         self.BtnRespaldo.setIconSize(QtCore.QSize(30, 30))
-        self.BtnRespaldo.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnRespaldo.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnRespaldo.setObjectName("BtnRespaldo")
         self.verticalLayout.addWidget(self.BtnRespaldo)
         self.LabelDatos = QtWidgets.QLabel(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.LabelDatos.sizePolicy().hasHeightForWidth())
         self.LabelDatos.setSizePolicy(sizePolicy)
         self.LabelDatos.setMinimumSize(QtCore.QSize(250, 40))
         self.LabelDatos.setMaximumSize(QtCore.QSize(250, 40))
-        self.LabelDatos.setStyleSheet(
-            "#LabelDatos {\n"
-            "    font-weight: bold; /* Negrita */\n"
-            "    font-size: 22px; /* Tamaño de fuente */\n"
-            "}\n"
-            ""
-        )
+        self.LabelDatos.setStyleSheet("#LabelDatos {\n"
+"    font-weight: bold; /* Negrita */\n"
+"    font-size: 22px; /* Tamaño de fuente */\n"
+"}\n"
+"")
         self.LabelDatos.setObjectName("LabelDatos")
         self.verticalLayout.addWidget(self.LabelDatos)
         self.BtnProductos = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnProductos.sizePolicy().hasHeightForWidth())
         self.BtnProductos.setSizePolicy(sizePolicy)
         self.BtnProductos.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnProductos.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
+        self.BtnProductos.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Productos.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon5.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Productos.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnProductos.setIcon(icon5)
         self.BtnProductos.setIconSize(QtCore.QSize(30, 30))
-        self.BtnProductos.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnProductos.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnProductos.setObjectName("BtnProductos")
         self.verticalLayout.addWidget(self.BtnProductos)
         self.BtnCrediFactura = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.BtnCrediFactura.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.BtnCrediFactura.sizePolicy().hasHeightForWidth())
         self.BtnCrediFactura.setSizePolicy(sizePolicy)
         self.BtnCrediFactura.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnCrediFactura.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
+        self.BtnCrediFactura.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/CrediFactura.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon6.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/CrediFactura.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnCrediFactura.setIcon(icon6)
         self.BtnCrediFactura.setIconSize(QtCore.QSize(30, 30))
-        self.BtnCrediFactura.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnCrediFactura.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnCrediFactura.setObjectName("BtnCrediFactura")
         self.verticalLayout.addWidget(self.BtnCrediFactura)
         self.BtnFacturas = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnFacturas.sizePolicy().hasHeightForWidth())
         self.BtnFacturas.setSizePolicy(sizePolicy)
         self.BtnFacturas.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnFacturas.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
+        self.BtnFacturas.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Facturas.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon7.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Facturas.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnFacturas.setIcon(icon7)
         self.BtnFacturas.setIconSize(QtCore.QSize(30, 30))
-        self.BtnFacturas.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnFacturas.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnFacturas.setObjectName("BtnFacturas")
         self.verticalLayout.addWidget(self.BtnFacturas)
         self.BtnReportes = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnReportes.sizePolicy().hasHeightForWidth())
         self.BtnReportes.setSizePolicy(sizePolicy)
         self.BtnReportes.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.BtnReportes.setCursor(
-            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
-        )
+        self.BtnReportes.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Reportes.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon8.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Reportes.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnReportes.setIcon(icon8)
         self.BtnReportes.setIconSize(QtCore.QSize(30, 30))
-        self.BtnReportes.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnReportes.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnReportes.setObjectName("BtnReportes")
         self.verticalLayout.addWidget(self.BtnReportes)
-        spacerItem1 = QtWidgets.QSpacerItem(
-            20,
-            150,
-            QtWidgets.QSizePolicy.Policy.Minimum,
-            QtWidgets.QSizePolicy.Policy.Fixed,
-        )
+        spacerItem1 = QtWidgets.QSpacerItem(20, 150, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.verticalLayout.addItem(spacerItem1)
         self.BtnControlUsuario = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.BtnControlUsuario.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.BtnControlUsuario.sizePolicy().hasHeightForWidth())
         self.BtnControlUsuario.setSizePolicy(sizePolicy)
         self.BtnControlUsuario.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnControlUsuario.setStyleSheet("")
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Usuarios.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon9.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/Usuarios.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnControlUsuario.setIcon(icon9)
         self.BtnControlUsuario.setIconSize(QtCore.QSize(30, 30))
-        self.BtnControlUsuario.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnControlUsuario.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnControlUsuario.setObjectName("BtnControlUsuario")
         self.verticalLayout.addWidget(self.BtnControlUsuario)
         self.BtnUsuario = QtWidgets.QToolButton(parent=self.Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnUsuario.sizePolicy().hasHeightForWidth())
         self.BtnUsuario.setSizePolicy(sizePolicy)
         self.BtnUsuario.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.BtnUsuario.setStyleSheet("background-color: rgb(255, 255, 255);\n" "")
+        self.BtnUsuario.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"")
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/perfil.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon10.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/perfil.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnUsuario.setIcon(icon10)
         self.BtnUsuario.setIconSize(QtCore.QSize(60, 60))
-        self.BtnUsuario.setToolButtonStyle(
-            QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-        )
+        self.BtnUsuario.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         self.BtnUsuario.setObjectName("BtnUsuario")
         self.verticalLayout.addWidget(self.BtnUsuario)
         self.horizontalLayout_2.addWidget(self.Navbar)
-        self.Contenido = QtWidgets.QWidget(parent=self.Contenedor)
-        self.Contenido.setStyleSheet(
-            "margin-left:10px;\n"
-            "border-radius:15px;\n"
-            "background-color: #f2f2f2; \n"
-            ""
-        )
+        self.Contenido = QtWidgets.QStackedWidget(parent=self.Contenedor)
+        self.Contenido.setStyleSheet("margin-left:10px;\n"
+"border-radius:15px;\n"
+"background-color: #f2f2f2; \n"
+"")
         self.Contenido.setObjectName("Contenido")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.Contenido)
+        self.ContenidoPage1 = QtWidgets.QWidget()
+        self.ContenidoPage1.setObjectName("ContenidoPage1")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.ContenidoPage1)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.widget_3 = QtWidgets.QWidget(parent=self.Contenido)
+        self.widget_3 = QtWidgets.QWidget(parent=self.ContenidoPage1)
         self.widget_3.setStyleSheet("")
         self.widget_3.setObjectName("widget_3")
         self.gridLayout = QtWidgets.QGridLayout(self.widget_3)
@@ -622,29 +454,19 @@ class Ui_Form(object):
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.InputCantidadMax = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred,
-            QtWidgets.QSizePolicy.Policy.Preferred,
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputCantidadMax.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputCantidadMax.sizePolicy().hasHeightForWidth())
         self.InputCantidadMax.setSizePolicy(sizePolicy)
         self.InputCantidadMax.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputCantidadMax.setObjectName("InputCantidadMax")
         self.gridLayout_2.addWidget(self.InputCantidadMax, 5, 1, 1, 1)
         self.InputPrecioCompra = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred,
-            QtWidgets.QSizePolicy.Policy.Preferred,
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputPrecioCompra.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputPrecioCompra.sizePolicy().hasHeightForWidth())
         self.InputPrecioCompra.setSizePolicy(sizePolicy)
         self.InputPrecioCompra.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputPrecioCompra.setObjectName("InputPrecioCompra")
@@ -653,15 +475,10 @@ class Ui_Form(object):
         self.label_9.setObjectName("label_9")
         self.gridLayout_2.addWidget(self.label_9, 4, 3, 1, 1)
         self.InputPrecioUnitario = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred,
-            QtWidgets.QSizePolicy.Policy.Preferred,
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputPrecioUnitario.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputPrecioUnitario.sizePolicy().hasHeightForWidth())
         self.InputPrecioUnitario.setSizePolicy(sizePolicy)
         self.InputPrecioUnitario.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputPrecioUnitario.setObjectName("InputPrecioUnitario")
@@ -670,14 +487,10 @@ class Ui_Form(object):
         self.label.setObjectName("label")
         self.gridLayout_2.addWidget(self.label, 2, 5, 1, 1)
         self.InputCantidad = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputCantidad.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputCantidad.sizePolicy().hasHeightForWidth())
         self.InputCantidad.setSizePolicy(sizePolicy)
         self.InputCantidad.setMinimumSize(QtCore.QSize(250, 50))
         self.InputCantidad.setMaximumSize(QtCore.QSize(250, 50))
@@ -697,24 +510,18 @@ class Ui_Form(object):
         self.label_5.setObjectName("label_5")
         self.gridLayout_2.addWidget(self.label_5, 2, 1, 1, 1)
         self.LabelVentasA = QtWidgets.QLabel(parent=self.widget_3)
-        self.LabelVentasA.setStyleSheet(
-            "#LabelVentasA {\n"
-            "    font-weight: bold; /* Negrita */\n"
-            "    font-size: 34px; /* Tamaño de fuente */\n"
-            "}\n"
-            ""
-        )
+        self.LabelVentasA.setStyleSheet("#LabelVentasA {\n"
+"    font-weight: bold; /* Negrita */\n"
+"    font-size: 34px; /* Tamaño de fuente */\n"
+"}\n"
+"")
         self.LabelVentasA.setObjectName("LabelVentasA")
         self.gridLayout_2.addWidget(self.LabelVentasA, 0, 0, 1, 1)
         self.InputCategoria = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputCategoria.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputCategoria.sizePolicy().hasHeightForWidth())
         self.InputCategoria.setSizePolicy(sizePolicy)
         self.InputCategoria.setMinimumSize(QtCore.QSize(250, 50))
         self.InputCategoria.setMaximumSize(QtCore.QSize(250, 50))
@@ -722,9 +529,7 @@ class Ui_Form(object):
         self.InputCategoria.setObjectName("InputCategoria")
         self.gridLayout_2.addWidget(self.InputCategoria, 3, 3, 1, 1)
         self.InputMarca = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.InputMarca.sizePolicy().hasHeightForWidth())
@@ -735,9 +540,7 @@ class Ui_Form(object):
         self.InputMarca.setObjectName("InputMarca")
         self.gridLayout_2.addWidget(self.InputMarca, 3, 2, 1, 1)
         self.InputNombre = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.InputNombre.sizePolicy().hasHeightForWidth())
@@ -751,9 +554,7 @@ class Ui_Form(object):
         self.label_3.setObjectName("label_3")
         self.gridLayout_2.addWidget(self.label_3, 2, 0, 1, 1)
         self.InputCodigo = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.InputCodigo.sizePolicy().hasHeightForWidth())
@@ -767,14 +568,10 @@ class Ui_Form(object):
         self.label_10.setObjectName("label_10")
         self.gridLayout_2.addWidget(self.label_10, 4, 5, 1, 1)
         self.InputCantidadMin = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputCantidadMin.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputCantidadMin.sizePolicy().hasHeightForWidth())
         self.InputCantidadMin.setSizePolicy(sizePolicy)
         self.InputCantidadMin.setMinimumSize(QtCore.QSize(250, 50))
         self.InputCantidadMin.setMaximumSize(QtCore.QSize(250, 50))
@@ -782,25 +579,23 @@ class Ui_Form(object):
         self.InputCantidadMin.setObjectName("InputCantidadMin")
         self.gridLayout_2.addWidget(self.InputCantidadMin, 5, 0, 1, 1)
         self.BtnIngresarProducto = QtWidgets.QPushButton(parent=self.widget_3)
-        self.BtnIngresarProducto.setStyleSheet(
-            "\n"
-            "QPushButton {\n"
-            "    background-color: black; /* Fondo blanco */\n"
-            "    border: none; /* Sin borde ni decoración inicial */\n"
-            "    color:  white; /* Color del texto */\n"
-            "    border-radius: 15px; /* Bordes circulares */\n"
-            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-            "    height: 40px; /* Altura del botón */\n"
-            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-            "    font-size: 18px; /* Tamaño de fuente */\n"
-            "    margin-top:20px;\n"
-            "}\n"
-            "\n"
-            "QPushButton:hover {\n"
-            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-            "}"
-        )
+        self.BtnIngresarProducto.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: black; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    margin-top:20px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}")
         self.BtnIngresarProducto.setObjectName("BtnIngresarProducto")
         self.gridLayout_2.addWidget(self.BtnIngresarProducto, 8, 3, 1, 1)
         self.label_8 = QtWidgets.QLabel(parent=self.widget_3)
@@ -810,64 +605,48 @@ class Ui_Form(object):
         self.label_4.setObjectName("label_4")
         self.gridLayout_2.addWidget(self.label_4, 4, 2, 1, 1)
         self.InputPrecioMayor = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred,
-            QtWidgets.QSizePolicy.Policy.Preferred,
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputPrecioMayor.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputPrecioMayor.sizePolicy().hasHeightForWidth())
         self.InputPrecioMayor.setSizePolicy(sizePolicy)
         self.InputPrecioMayor.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputPrecioMayor.setObjectName("InputPrecioMayor")
         self.gridLayout_2.addWidget(self.InputPrecioMayor, 5, 5, 1, 1)
         self.pushButton_4 = QtWidgets.QPushButton(parent=self.widget_3)
-        self.pushButton_4.setStyleSheet(
-            "\n"
-            "QPushButton {\n"
-            "    background-color: red; /* Fondo blanco */\n"
-            "    border: none; /* Sin borde ni decoración inicial */\n"
-            "    color:  white; /* Color del texto */\n"
-            "    border-radius: 15px; /* Bordes circulares */\n"
-            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-            "    height: 40px; /* Altura del botón */\n"
-            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-            "    font-size: 18px; /* Tamaño de fuente */\n"
-            "    margin-top:20px;\n"
-            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-            "}\n"
-            "\n"
-            "QPushButton:hover {\n"
-            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-            "}"
-        )
+        self.pushButton_4.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: red; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    margin-top:20px;\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}")
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/eliminar.png"
-            ),
-            QtGui.QIcon.Mode.Normal,
-            QtGui.QIcon.State.Off,
-        )
+        icon11.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/eliminar.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_4.setIcon(icon11)
         self.pushButton_4.setIconSize(QtCore.QSize(30, 30))
         self.pushButton_4.setObjectName("pushButton_4")
         self.gridLayout_2.addWidget(self.pushButton_4, 8, 5, 1, 1)
         self.gridLayout.addLayout(self.gridLayout_2, 0, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.widget_3)
-        self.widget = QtWidgets.QWidget(parent=self.Contenido)
+        self.widget = QtWidgets.QWidget(parent=self.ContenidoPage1)
         self.widget.setStyleSheet("")
         self.widget.setObjectName("widget")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.frame_2 = QtWidgets.QFrame(parent=self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Preferred,
-            QtWidgets.QSizePolicy.Policy.Preferred,
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
@@ -878,263 +657,244 @@ class Ui_Form(object):
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_2)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.InputBuscador = QtWidgets.QLineEdit(parent=self.frame_2)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.InputBuscador.sizePolicy().hasHeightForWidth()
-        )
+        sizePolicy.setHeightForWidth(self.InputBuscador.sizePolicy().hasHeightForWidth())
         self.InputBuscador.setSizePolicy(sizePolicy)
         self.InputBuscador.setMinimumSize(QtCore.QSize(1100, 0))
-        self.InputBuscador.setStyleSheet(
-            "QLineEdit {\n"
-            "    border: none;\n"
-            "    border-bottom: 0.5px solid gray;\n"
-            "}\n"
-            "\n"
-            "QLineEdit:focus {\n"
-            "    border: none;\n"
-            "    border-bottom: 1.5px solid black; /* Cambia el color y grosor según desees */\n"
-            "}\n"
-            ""
-        )
+        self.InputBuscador.setStyleSheet("QLineEdit {\n"
+"    border: none;\n"
+"    border-bottom: 0.5px solid gray;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"    border: none;\n"
+"    border-bottom: 1.5px solid black; /* Cambia el color y grosor según desees */\n"
+"}\n"
+"")
         self.InputBuscador.setObjectName("InputBuscador")
         self.horizontalLayout_3.addWidget(self.InputBuscador)
         self.label_11 = QtWidgets.QLabel(parent=self.frame_2)
         self.label_11.setMaximumSize(QtCore.QSize(50, 50))
         self.label_11.setText("")
-        self.label_11.setPixmap(
-            QtGui.QPixmap(
-                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/buscar.png"
-            )
-        )
+        self.label_11.setPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\programacion_ladynails\\Project_LadyNails\\app\\ui\\../../assets/iconos/buscar.png"))
         self.label_11.setScaledContents(True)
         self.label_11.setObjectName("label_11")
         self.horizontalLayout_3.addWidget(self.label_11)
-        self.verticalLayout_3.addWidget(
-            self.frame_2, 0, QtCore.Qt.AlignmentFlag.AlignHCenter
-        )
-        self.tableWidget = QtWidgets.QTableWidget(parent=self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed
-        )
+        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.TablaProductos = QtWidgets.QTableWidget(parent=self.widget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
-        self.tableWidget.setSizePolicy(sizePolicy)
-        self.tableWidget.setMinimumSize(QtCore.QSize(1320, 600))
+        sizePolicy.setHeightForWidth(self.TablaProductos.sizePolicy().hasHeightForWidth())
+        self.TablaProductos.setSizePolicy(sizePolicy)
+        self.TablaProductos.setMinimumSize(QtCore.QSize(1320, 530))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
-        self.tableWidget.setFont(font)
-        self.tableWidget.setStyleSheet(
-            "\n"
-            "QTableWidget {\n"
-            "    border: none;\n"
-            "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item {\n"
-            "    background-color: #f2f2f2; \n"
-            "    border: none; \n"
-            "    font-size: 18px; /* Tamaño de letra */\n"
-            "    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-            "    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:selected {\n"
-            "    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-            "    color: black; /* Texto negro para celdas seleccionadas */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:hover {\n"
-            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-            "}\n"
-            "\n"
-            "QHeaderView::section {\n"
-            "    border: none; \n"
-            "    background-color: #f2f2f2; \n"
-            "    font-size: 18px; /* Tamaño de letra */\n"
-            "    font-weight: normal; /* No negritas */\n"
-            "    text-align: center; /* Centrado del texto en los encabezados */\n"
-            "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-            "}\n"
-            "\n"
-            "QHeaderView::section:focus {\n"
-            "    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-            "    border: none; /* Sin borde cuando está en foco */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:focus {\n"
-            "    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-            "    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-            "}\n"
-            "\n"
-            "QTableCornerButton::section {\n"
-            "    background-color: #f2f2f2; \n"
-            "    border: none; \n"
-            "}\n"
-            "\n"
-            "QTableWidget::verticalHeader {\n"
-            "    background-color: #f2f2f2;\n"
-            "    font-size: 23px;\n"
-            "    border: none;\n"
-            "    font-weight: normal; /* No negritas */\n"
-            "}\n"
-            "\n"
-            "QTableWidget::item:hover {\n"
-            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-            "}\n"
-            "/* Personalización de la barra de desplazamiento */\n"
-            "QScrollBar:vertical {\n"
-            "    border: none;\n"
-            "    background: #f7f7f7; /* Fondo de la barra */\n"
-            "    width: 8px; /* Barra más delgada */\n"
-            "    border-radius: 4px; /* Bordes más redondeados */\n"
-            "    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:vertical {\n"
-            "    background: #bbb; /* Fondo del control deslizante */\n"
-            "    min-height: 20px; /* Control deslizante más delgado */\n"
-            "    border-radius: 4px; /* Bordes redondeados */\n"
-            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:vertical:hover {\n"
-            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-            "    border: none;\n"
-            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-            "    height: 0px; /* Sin altura para los botones */\n"
-            "}\n"
-            "\n"
-            "QScrollBar:horizontal {\n"
-            "    border: none;\n"
-            "    background: #f7f7f7; /* Fondo de la barra */\n"
-            "    height: 8px; /* Barra más delgada */\n"
-            "    border-radius: 4px; /* Bordes más redondeados */\n"
-            "    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:horizontal {\n"
-            "    background: #bbb; /* Fondo del control deslizante */\n"
-            "    min-width: 20px; /* Control deslizante más delgado */\n"
-            "    border-radius: 4px; /* Bordes redondeados */\n"
-            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-            "}\n"
-            "\n"
-            "QScrollBar::handle:horizontal:hover {\n"
-            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-            "}\n"
-            ""
-        )
-        self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(12)
-        self.tableWidget.setRowCount(26)
+        self.TablaProductos.setFont(font)
+        self.TablaProductos.setStyleSheet("\n"
+"QTableWidget {\n"
+"    border: none;\n"
+"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
+"}\n"
+"\n"
+"QTableWidget::item {\n"
+"    background-color: #f2f2f2; \n"
+"    border: none; \n"
+"    font-size: 18px; /* Tamaño de letra */\n"
+"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
+"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
+"}\n"
+"\n"
+"QTableWidget::item:selected {\n"
+"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
+"    color: black; /* Texto negro para celdas seleccionadas */\n"
+"}\n"
+"\n"
+"QTableWidget::item:hover {\n"
+"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    border: none; \n"
+"    background-color: #f2f2f2; \n"
+"    font-size: 18px; /* Tamaño de letra */\n"
+"    font-weight: normal; /* No negritas */\n"
+"    text-align: center; /* Centrado del texto en los encabezados */\n"
+"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
+"}\n"
+"\n"
+"QHeaderView::section:focus {\n"
+"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
+"    border: none; /* Sin borde cuando está en foco */\n"
+"}\n"
+"\n"
+"QTableWidget::item:focus {\n"
+"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
+"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
+"}\n"
+"\n"
+"QTableCornerButton::section {\n"
+"    background-color: #f2f2f2; \n"
+"    border: none; \n"
+"}\n"
+"\n"
+"QTableWidget::verticalHeader {\n"
+"    background-color: #f2f2f2;\n"
+"    font-size: 23px;\n"
+"    border: none;\n"
+"    font-weight: normal; /* No negritas */\n"
+"}\n"
+"\n"
+"QTableWidget::item:hover {\n"
+"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+"}\n"
+"/* Personalización de la barra de desplazamiento */\n"
+"QScrollBar:vertical {\n"
+"    border: none;\n"
+"    background: #f7f7f7; /* Fondo de la barra */\n"
+"    width: 8px; /* Barra más delgada */\n"
+"    border-radius: 4px; /* Bordes más redondeados */\n"
+"    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"    background: #bbb; /* Fondo del control deslizante */\n"
+"    min-height: 20px; /* Control deslizante más delgado */\n"
+"    border-radius: 4px; /* Bordes redondeados */\n"
+"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical:hover {\n"
+"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"    border: none;\n"
+"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+"    height: 0px; /* Sin altura para los botones */\n"
+"}\n"
+"\n"
+"QScrollBar:horizontal {\n"
+"    border: none;\n"
+"    background: #f7f7f7; /* Fondo de la barra */\n"
+"    height: 8px; /* Barra más delgada */\n"
+"    border-radius: 4px; /* Bordes más redondeados */\n"
+"    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal {\n"
+"    background: #bbb; /* Fondo del control deslizante */\n"
+"    min-width: 20px; /* Control deslizante más delgado */\n"
+"    border-radius: 4px; /* Bordes redondeados */\n"
+"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal:hover {\n"
+"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+"}\n"
+"")
+        self.TablaProductos.setObjectName("TablaProductos")
+        self.TablaProductos.setColumnCount(12)
+        self.TablaProductos.setRowCount(26)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(0, item)
+        self.TablaProductos.setVerticalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(1, item)
+        self.TablaProductos.setVerticalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(2, item)
+        self.TablaProductos.setVerticalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(3, item)
+        self.TablaProductos.setVerticalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(4, item)
+        self.TablaProductos.setVerticalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(5, item)
+        self.TablaProductos.setVerticalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(6, item)
+        self.TablaProductos.setVerticalHeaderItem(6, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(7, item)
+        self.TablaProductos.setVerticalHeaderItem(7, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(8, item)
+        self.TablaProductos.setVerticalHeaderItem(8, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(9, item)
+        self.TablaProductos.setVerticalHeaderItem(9, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(10, item)
+        self.TablaProductos.setVerticalHeaderItem(10, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(11, item)
+        self.TablaProductos.setVerticalHeaderItem(11, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(12, item)
+        self.TablaProductos.setVerticalHeaderItem(12, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(13, item)
+        self.TablaProductos.setVerticalHeaderItem(13, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(14, item)
+        self.TablaProductos.setVerticalHeaderItem(14, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(15, item)
+        self.TablaProductos.setVerticalHeaderItem(15, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(16, item)
+        self.TablaProductos.setVerticalHeaderItem(16, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(17, item)
+        self.TablaProductos.setVerticalHeaderItem(17, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(18, item)
+        self.TablaProductos.setVerticalHeaderItem(18, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(19, item)
+        self.TablaProductos.setVerticalHeaderItem(19, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(20, item)
+        self.TablaProductos.setVerticalHeaderItem(20, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(21, item)
+        self.TablaProductos.setVerticalHeaderItem(21, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(22, item)
+        self.TablaProductos.setVerticalHeaderItem(22, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(23, item)
+        self.TablaProductos.setVerticalHeaderItem(23, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(24, item)
+        self.TablaProductos.setVerticalHeaderItem(24, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(25, item)
+        self.TablaProductos.setVerticalHeaderItem(25, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         font = QtGui.QFont()
         font.setKerning(False)
         item.setFont(font)
-        self.tableWidget.setHorizontalHeaderItem(0, item)
+        self.TablaProductos.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(1, item)
+        self.TablaProductos.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(2, item)
+        self.TablaProductos.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(3, item)
+        self.TablaProductos.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(4, item)
+        self.TablaProductos.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(5, item)
+        self.TablaProductos.setHorizontalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(6, item)
+        self.TablaProductos.setHorizontalHeaderItem(6, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(7, item)
+        self.TablaProductos.setHorizontalHeaderItem(7, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(8, item)
+        self.TablaProductos.setHorizontalHeaderItem(8, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(9, item)
+        self.TablaProductos.setHorizontalHeaderItem(9, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(10, item)
+        self.TablaProductos.setHorizontalHeaderItem(10, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.tableWidget.setHorizontalHeaderItem(11, item)
-        self.verticalLayout_3.addWidget(
-            self.tableWidget,
-            0,
-            QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter,
-        )
+        self.TablaProductos.setHorizontalHeaderItem(11, item)
+        self.verticalLayout_3.addWidget(self.TablaProductos, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.verticalLayout_2.addWidget(self.widget)
+        self.Contenido.addWidget(self.ContenidoPage1)
         self.horizontalLayout_2.addWidget(self.Contenido)
         self.horizontalLayout.addWidget(self.Contenedor)
 
@@ -1145,11 +905,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.LabelFuncionalidades.setText(_translate("Form", "Funcionalidades"))
-        self.BtnVentas.setToolTip(
-            _translate(
-                "Form", '<html><head/><body><p align="center"><br/></p></body></html>'
-            )
-        )
+        self.BtnVentas.setToolTip(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.BtnVentas.setText(_translate("Form", "   Ventas"))
         self.BtnCaja.setText(_translate("Form", "   Caja"))
         self.BtnCredito.setText(_translate("Form", "   Credito"))
@@ -1176,79 +932,79 @@ class Ui_Form(object):
         self.label_4.setText(_translate("Form", "Precio Compra"))
         self.pushButton_4.setText(_translate("Form", "   Eliminar"))
         self.InputBuscador.setText(_translate("Form", "hhhh"))
-        item = self.tableWidget.verticalHeaderItem(0)
+        item = self.TablaProductos.verticalHeaderItem(0)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(1)
+        item = self.TablaProductos.verticalHeaderItem(1)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(2)
+        item = self.TablaProductos.verticalHeaderItem(2)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(3)
+        item = self.TablaProductos.verticalHeaderItem(3)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(4)
+        item = self.TablaProductos.verticalHeaderItem(4)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(5)
+        item = self.TablaProductos.verticalHeaderItem(5)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(6)
+        item = self.TablaProductos.verticalHeaderItem(6)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(7)
+        item = self.TablaProductos.verticalHeaderItem(7)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(8)
+        item = self.TablaProductos.verticalHeaderItem(8)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(9)
+        item = self.TablaProductos.verticalHeaderItem(9)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(10)
+        item = self.TablaProductos.verticalHeaderItem(10)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(11)
+        item = self.TablaProductos.verticalHeaderItem(11)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(12)
+        item = self.TablaProductos.verticalHeaderItem(12)
         item.setText(_translate("Form", "Nueva fila"))
-        item = self.tableWidget.verticalHeaderItem(13)
+        item = self.TablaProductos.verticalHeaderItem(13)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(14)
+        item = self.TablaProductos.verticalHeaderItem(14)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(15)
+        item = self.TablaProductos.verticalHeaderItem(15)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(16)
+        item = self.TablaProductos.verticalHeaderItem(16)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(17)
+        item = self.TablaProductos.verticalHeaderItem(17)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(18)
+        item = self.TablaProductos.verticalHeaderItem(18)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(19)
+        item = self.TablaProductos.verticalHeaderItem(19)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(20)
+        item = self.TablaProductos.verticalHeaderItem(20)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(21)
+        item = self.TablaProductos.verticalHeaderItem(21)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(22)
+        item = self.TablaProductos.verticalHeaderItem(22)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(23)
+        item = self.TablaProductos.verticalHeaderItem(23)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(24)
+        item = self.TablaProductos.verticalHeaderItem(24)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.verticalHeaderItem(25)
+        item = self.TablaProductos.verticalHeaderItem(25)
         item.setText(_translate("Form", "New Row"))
-        item = self.tableWidget.horizontalHeaderItem(0)
+        item = self.TablaProductos.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Código"))
-        item = self.tableWidget.horizontalHeaderItem(1)
+        item = self.TablaProductos.horizontalHeaderItem(1)
         item.setText(_translate("Form", "Nombre"))
-        item = self.tableWidget.horizontalHeaderItem(2)
+        item = self.TablaProductos.horizontalHeaderItem(2)
         item.setText(_translate("Form", "Marca"))
-        item = self.tableWidget.horizontalHeaderItem(3)
+        item = self.TablaProductos.horizontalHeaderItem(3)
         item.setText(_translate("Form", "Categoria"))
-        item = self.tableWidget.horizontalHeaderItem(4)
+        item = self.TablaProductos.horizontalHeaderItem(4)
         item.setText(_translate("Form", "Cantidad"))
-        item = self.tableWidget.horizontalHeaderItem(5)
+        item = self.TablaProductos.horizontalHeaderItem(5)
         item.setText(_translate("Form", "CMin"))
-        item = self.tableWidget.horizontalHeaderItem(6)
+        item = self.TablaProductos.horizontalHeaderItem(6)
         item.setText(_translate("Form", "CMax"))
-        item = self.tableWidget.horizontalHeaderItem(7)
+        item = self.TablaProductos.horizontalHeaderItem(7)
         item.setText(_translate("Form", "CP"))
-        item = self.tableWidget.horizontalHeaderItem(8)
+        item = self.TablaProductos.horizontalHeaderItem(8)
         item.setText(_translate("Form", "PU"))
-        item = self.tableWidget.horizontalHeaderItem(9)
+        item = self.TablaProductos.horizontalHeaderItem(9)
         item.setText(_translate("Form", "PAM"))
-        item = self.tableWidget.horizontalHeaderItem(10)
+        item = self.TablaProductos.horizontalHeaderItem(10)
         item.setText(_translate("Form", "GU"))
-        item = self.tableWidget.horizontalHeaderItem(11)
+        item = self.TablaProductos.horizontalHeaderItem(11)
         item.setText(_translate("Form", "GAM"))

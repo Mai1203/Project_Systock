@@ -1,7 +1,7 @@
 from app.database.database import init_db, SessionLocal
-from app.controllers.usuario_crud import crear_usuario
-from app.controllers.rol_crud import crear_rol
-from app.controllers.producto_crud import crear_producto
+from app.controllers.usuario_crud import *
+from app.controllers.rol_crud import *
+from app.controllers.producto_crud import *
 
 
 def poblar_datos_prueba():

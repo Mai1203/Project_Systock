@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.pago_credito import (
     TipoPago,
-)  # Asegúrate de ajustar la importación de acuerdo a tu estructura de proyecto
+)
 
 
 # Crear un nuevo tipo de pago

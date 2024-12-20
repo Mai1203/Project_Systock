@@ -1117,7 +1117,7 @@ QPushButton:hover {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-             <widget class="QTableWidget" name="tableWidget">
+             <widget class="QTableWidget" name="TablaVentaMayor">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>

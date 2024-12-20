@@ -845,12 +845,11 @@ QLineEdit:focus {
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">
-</string>
+                  <string notr="true"/>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3">
                   <item row="2" column="2">
-                   <widget class="QPushButton" name="pushButton_4">
+                   <widget class="QPushButton" name="BtnCajaCierre">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -896,7 +895,7 @@ QPushButton:hover {
                    </widget>
                   </item>
                   <item row="0" column="5">
-                   <widget class="QLabel" name="LabelMontoTotal">
+                   <widget class="QLabel" name="LabelCajaMontoTotal">
                     <property name="styleSheet">
                      <string notr="true">#LabelMontoTotal {
     font-size: 34px; /* Tamaño de fuente */
@@ -930,7 +929,7 @@ QPushButton:hover {
                    </widget>
                   </item>
                   <item row="2" column="0">
-                   <widget class="QLineEdit" name="lineEdit">
+                   <widget class="QLineEdit" name="InputMontoCaja">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -950,7 +949,7 @@ background-color: rgb(255, 255, 255);</string>
                    </widget>
                   </item>
                   <item row="2" column="1">
-                   <widget class="QPushButton" name="pushButton_3">
+                   <widget class="QPushButton" name="BtnCajaApertura">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1033,7 +1032,7 @@ QPushButton:hover {
              </widget>
             </item>
             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-             <widget class="QTableWidget" name="TablaFacturasCredito">
+             <widget class="QTableWidget" name="TablaCaja">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -1388,7 +1387,7 @@ QScrollBar::handle:horizontal:hover {
               </property>
               <layout class="QGridLayout" name="gridLayout">
                <item row="0" column="2" alignment="Qt::AlignRight">
-                <widget class="QToolButton" name="BtnEditarFactura">
+                <widget class="QToolButton" name="BtnCajaImprimir">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>

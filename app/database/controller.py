@@ -1,38 +1,47 @@
 import sqlite3 as sql
 
+
 # Función para crear la base de datos
 def createDB():
     conn = sql.connect("systock.db")
     conn.commit()
     conn.close()
 
+
 # Función para crear las tablas principales
 def createTables():
     conn = sql.connect("systock.db")
     cursor = conn.cursor()
-    
-    cursor.execute("""
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS CLIENTE (
         ID_Cliente VARCHAR(25) PRIMARY KEY,
         Nombre TEXT,
         Apellido TEXT,
         Dirección TEXT,
         Teléfono TEXT
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS MARCA (
         ID_Marca INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre TEXT
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS CATEGORIA (
         ID_Categoria INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre TEXT
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS PRODUCTOS (
         ID_Producto INTEGER PRIMARY KEY,
         Nombre TEXT,
@@ -48,9 +57,11 @@ def createTables():
         ID_Categoria INTEGER,
         FOREIGN KEY (ID_Marca) REFERENCES MARCA(ID_Marca),
         FOREIGN KEY (ID_Categoria) REFERENCES CATEGORIA(ID_Categoria)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS USUARIO (
         ID_Usuario INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre TEXT,
@@ -59,15 +70,19 @@ def createTables():
         Estado bollean,
         ID_Rol INTEGER,
         FOREIGN KEY (ID_Rol) REFERENCES ROL(ID_Rol)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS ROL (
         ID_Rol INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre TEXT NOT NULL CHECK (Nombre IN ('Administrador', 'Asesor'))
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS FACTURA (
         ID_Factura INTEGER PRIMARY KEY AUTOINCREMENT,
         Fecha_Factura DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -80,21 +95,27 @@ def createTables():
         FOREIGN KEY (ID_Detalle_Factura) REFERENCES DETALLE_FACTURA(ID_Detalle_Factura),
         FOREIGN KEY (ID_Metodo_Pago) REFERENCES METODO_PAGO(ID_Metodo_Pago),
         FOREIGN KEY (ID_Tipo_Factura) REFERENCES TIPO_FACTURA(ID_Tipo_Factura)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS METODO_PAGO (
         ID_Metodo_Pago INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre TEXT NOT NULL CHECK (Nombre IN ('Transferencia', 'Pago en efectivo'))
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS TIPO_FACTURA(
         ID_Tipo_Factura INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre TEXT NOT NULL CHECK (Nombre IN ('Factura A', 'Factura B'))
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS DETALLE_FACTURA(
         ID_Detalle_Factura INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Producto INTEGER,
@@ -106,9 +127,11 @@ def createTables():
         FOREIGN KEY (ID_Producto) REFERENCES PRODUCTOS(ID_Producto),
         FOREIGN KEY (ID_Cliente) REFERENCES CLIENTE(ID_Cliente)
     )               
-    """ )
-    
-    cursor.execute("""
+    """
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS VENTA_CREDITO(
         ID_Venta_Credito INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Cliente INTEGER,
@@ -120,9 +143,11 @@ def createTables():
         Fecha_Limite DATETIME,
         FOREIGN KEY (ID_Cliente) REFERENCES CLIENTE(ID_Cliente),
         FOREIGN KEY (ID_Detalle_Factura) REFERENCES DETALLE_FACTURA(ID_Detalle_Factura)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS PAGO_CREDITO(
         ID_Pago_Credito INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Venta_Credito INTEGER,
@@ -133,9 +158,11 @@ def createTables():
         FOREIGN KEY (ID_Venta_Credito) REFERENCES VENTA_CREDITO(ID_Venta_Credito),
         FOREIGN KEY (ID_Metodo_Pago) REFERENCES METODO_PAGO(ID_Metodo_Pago),
         FOREIGN KEY (ID_Tipo_Pago) REFERENCES TIPO_PAGO(ID_Tipo_Pago)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS TIPO_INGRESO(
         ID_Tipo_Ingreso INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Pago_Credito INTEGER,
@@ -143,16 +170,20 @@ def createTables():
         Tipo_Ingreso TEXT NOT NULL CHECK (Tipo_Ingreso IN ('Venta', 'Abono')),
         FOREIGN KEY (ID_Pago_Credito) REFERENCES PAGO_CREDITO(ID_Pago_Credito),
         FOREIGN KEY (ID_Detalle_Factura) REFERENCES DETALLE_FACTURA(ID_Detalle_Factura)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS INGRESOS(
         ID_Ingreso INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Tipo_Ingreso INTEGER,
         FOREIGN KEY (ID_Tipo_Ingreso) REFERENCES TIPO_INGRESO(ID_Tipo_Ingreso)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS CAJA(
         ID_Caja INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Ingreso INTEGER,
@@ -168,9 +199,11 @@ def createTables():
         FOREIGN KEY (ID_Ingreso) REFERENCES INGRESOS(ID_Ingreso),
         FOREIGN KEY (ID_Usuario) REFERENCES USUARIO(ID_Usuario),
         FOREIGN KEY (ID_Egreso) REFERENCES EGRESOS(ID_Egreso)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS EGRESOS(
         ID_Egreso INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Metodo_Pago INTEGER,
@@ -179,9 +212,11 @@ def createTables():
         Descripcion VARCHAR(255),
         Monto_Egreso DECIMAL(10,2),
         FOREIGN KEY (ID_Metodo_Pago) REFERENCES METODO_PAGO(ID_Metodo_Pago)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS ANALISIS_FINANCIERO(
         ID_Analisis_Financiero INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Egreso INTEGER,
@@ -191,9 +226,11 @@ def createTables():
         FOREIGN KEY (ID_Egreso) REFERENCES EGRESOS(ID_Egreso),
         FOREIGN KEY (ID_Tipo_Ingreso) REFERENCES TIPO_INGRESO(ID_Tipo_Ingreso),
         FOREIGN KEY (ID_Caja) REFERENCES CAJA(ID_Caja)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS REPORTE(
         ID_Reporte INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Usuario INTEGER,
@@ -201,9 +238,11 @@ def createTables():
         Fecha_Reporte DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (ID_Usuario) REFERENCES USUARIO(ID_Usuario),
         FOREIGN KEY (ID_Analisis_Financiero) REFERENCES ANALISIS_FINANCIERO(ID_Analisis_Financiero)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS HISTORIAL_MODIFICACION(
         ID_Modificacion INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Factura INTEGER,
@@ -212,22 +251,25 @@ def createTables():
         Descripcion VARCHAR(255),
         FOREIGN KEY (ID_Factura) REFERENCES FACTURA(ID_Factura),
         FOREIGN KEY (ID_Usuario) REFERENCES USUARIO(ID_Usuario)
-    )""")
-    
-    cursor.execute("""
+    )"""
+    )
+
+    cursor.execute(
+        """
     CREATE TABLE IF NOT EXISTS HISTORIAL_INICIO(
         ID_Inicio INTEGER PRIMARY KEY AUTOINCREMENT,
         ID_Usuario INTEGER,
         Inicio_Sesion DATETIME DEFAULT CURRENT_TIMESTAMP,
         Cierre_Sesion DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (ID_Usuario) REFERENCES USUARIO(ID_Usuario)
-    )""")
-    
+    )"""
+    )
+
     conn.commit()
     conn.close()
+
 
 # Ejecución de las funciones
 if __name__ == "__main__":
     createDB()
     createTables()
-

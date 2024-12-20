@@ -820,7 +820,7 @@ background-color: #f2f2f2;
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item alignment="Qt::AlignHCenter">
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="BtnRespaldoExportar">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -858,7 +858,7 @@ QPushButton:hover {
                 </widget>
                </item>
                <item alignment="Qt::AlignHCenter">
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="BtnRespaldoImportar">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>

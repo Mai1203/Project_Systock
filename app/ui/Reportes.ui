@@ -832,7 +832,7 @@ background-color: #f2f2f2;
                  </property>
                  <layout class="QGridLayout" name="gridLayout">
                   <item row="8" column="0" alignment="Qt::AlignHCenter">
-                   <widget class="QPushButton" name="pushButton_3">
+                   <widget class="QPushButton" name="BtnTicketCaja">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -881,7 +881,7 @@ QPushButton:hover {
                    </widget>
                   </item>
                   <item row="6" column="0">
-                   <widget class="QPushButton" name="pushButton_2">
+                   <widget class="QPushButton" name="BtnTiempoCaja">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -941,7 +941,7 @@ color: rgb(0, 0, 0);</string>
                    </widget>
                   </item>
                   <item row="4" column="0">
-                   <widget class="QPushButton" name="pushButton">
+                   <widget class="QPushButton" name="BtnReporteCaja">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -983,7 +983,7 @@ color: rgb(0, 0, 0);</string>
                    </widget>
                   </item>
                   <item row="7" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
-                   <widget class="QCalendarWidget" name="calendarWidget">
+                   <widget class="QCalendarWidget" name="CalendarioCaja">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1033,7 +1033,7 @@ color: rgb(0, 0, 0);</string>
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QPushButton" name="pushButton_4">
+                   <widget class="QPushButton" name="BtnReporteProducto">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1050,7 +1050,7 @@ color: rgb(0, 0, 0);</string>
                    </widget>
                   </item>
                   <item row="2" column="0">
-                   <widget class="QPushButton" name="pushButton_5">
+                   <widget class="QPushButton" name="BtnTicketProducto">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1121,7 +1121,7 @@ QPushButton:hover {
                  </property>
                  <layout class="QGridLayout" name="gridLayout_4">
                   <item row="2" column="0">
-                   <widget class="QPushButton" name="pushButton_6">
+                   <widget class="QPushButton" name="BtnReporteAnalisis">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1163,7 +1163,7 @@ color: rgb(0, 0, 0);</string>
                    </widget>
                   </item>
                   <item row="6" column="0" alignment="Qt::AlignVCenter">
-                   <widget class="QPushButton" name="pushButton_8">
+                   <widget class="QPushButton" name="BtnTicketAnalisis">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1230,7 +1230,7 @@ QPushButton:hover {
                    </widget>
                   </item>
                   <item row="4" column="0">
-                   <widget class="QPushButton" name="pushButton_7">
+                   <widget class="QPushButton" name="BtnTiempoAnalisis">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1253,7 +1253,7 @@ color: rgb(0, 0, 0);</string>
                    </widget>
                   </item>
                   <item row="5" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                   <widget class="QCalendarWidget" name="calendarWidget_2">
+                   <widget class="QCalendarWidget" name="CalendarioAnalisis">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>

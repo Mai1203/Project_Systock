@@ -778,7 +778,7 @@ background-color: #f2f2f2;
             <item row="0" column="0">
              <layout class="QGridLayout" name="gridLayout_2">
               <item row="3" column="1">
-               <widget class="QLineEdit" name="InputNombre">
+               <widget class="QLineEdit" name="InputDescripcionEgreso">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -799,32 +799,6 @@ background-color: #f2f2f2;
                 </property>
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(255, 255, 255);</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="2">
-               <widget class="QPushButton" name="BtnAgregarProducto">
-                <property name="styleSheet">
-                 <string notr="true">
-QPushButton {
-    background-color: black; /* Fondo blanco */
-    border: none; /* Sin borde ni decoración inicial */
-    color:  white; /* Color del texto */
-    border-radius: 15px; /* Bordes circulares */
-    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
-	height: 40px; /* Altura del botón */
-    text-align: center; /* Alinea el texto del botón a la izquierda */
-    font-size: 18px; /* Tamaño de fuente */
-	margin-top:20px;
-}
-
-QPushButton:hover {
-    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
-    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
-}</string>
-                </property>
-                <property name="text">
-                 <string>Editar Egreso</string>
                 </property>
                </widget>
               </item>
@@ -857,7 +831,7 @@ QPushButton:hover {
                </widget>
               </item>
               <item row="3" column="3">
-               <widget class="QLineEdit" name="InputPrecioUnitario">
+               <widget class="QLineEdit" name="InputFechaEgreso">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -896,7 +870,7 @@ QPushButton:hover {
                </widget>
               </item>
               <item row="3" column="0">
-               <widget class="QLineEdit" name="InputCodigo">
+               <widget class="QLineEdit" name="InputTipoGasto">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -921,7 +895,7 @@ QPushButton:hover {
                </widget>
               </item>
               <item row="3" column="2">
-               <widget class="QLineEdit" name="InputCantidad">
+               <widget class="QLineEdit" name="InputPagoEgreso">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -970,7 +944,33 @@ color: rgb(0, 0, 0);</string>
                 </property>
                </widget>
               </item>
-              <item row="6" column="3">
+              <item row="5" column="2">
+               <widget class="QPushButton" name="BtnRegistrarEgreso">
+                <property name="styleSheet">
+                 <string notr="true">
+QPushButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white; /* Color del texto */
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: center; /* Alinea el texto del botón a la izquierda */
+    font-size: 18px; /* Tamaño de fuente */
+	margin-top:20px;
+}
+
+QPushButton:hover {
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+}</string>
+                </property>
+                <property name="text">
+                 <string>Registar Egreso</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="3">
                <widget class="QPushButton" name="BtnEliminar">
                 <property name="styleSheet">
                  <string notr="true">
@@ -1007,32 +1007,6 @@ QPushButton:hover {
                 </property>
                </widget>
               </item>
-              <item row="5" column="3">
-               <widget class="QPushButton" name="BtnGenerarVenta">
-                <property name="styleSheet">
-                 <string notr="true">
-QPushButton {
-    background-color: black; /* Fondo blanco */
-    border: none; /* Sin borde ni decoración inicial */
-    color:  white; /* Color del texto */
-    border-radius: 15px; /* Bordes circulares */
-    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
-	height: 40px; /* Altura del botón */
-    text-align: center; /* Alinea el texto del botón a la izquierda */
-    font-size: 18px; /* Tamaño de fuente */
-	margin-top:20px;
-}
-
-QPushButton:hover {
-    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
-    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
-}</string>
-                </property>
-                <property name="text">
-                 <string>Registar Egreso</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
            </layout>
@@ -1045,7 +1019,7 @@ QPushButton:hover {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-             <widget class="QTableWidget" name="tableWidget">
+             <widget class="QTableWidget" name="TablaEgreso">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>

@@ -767,68 +767,69 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="Contenido" native="true">
+       <widget class="QStackedWidget" name="Contenido">
         <property name="styleSheet">
          <string notr="true">margin-left:10px;
 border-radius:15px;
 background-color: #f2f2f2; 
 </string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QWidget" name="widget" native="true">
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item alignment="Qt::AlignHCenter">
-             <widget class="QFrame" name="frame_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>1200</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_3">
-               <item row="0" column="0">
-                <widget class="QLabel" name="LabelProductos">
-                 <property name="styleSheet">
-                  <string notr="true">#LabelProductos {
+        <widget class="QWidget" name="ContenidoPage1" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QWidget" name="widget" native="true">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item alignment="Qt::AlignHCenter">
+              <widget class="QFrame" name="frame_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1200</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="LabelProductos">
+                  <property name="styleSheet">
+                   <string notr="true">#LabelProductos {
     font-weight: bold; /* Negrita */
     font-size: 34px; /* Tamaño de fuente */
 }
 </string>
-                 </property>
-                 <property name="text">
-                  <string>Facturas</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLineEdit" name="InputBuscador">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>1100</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QLineEdit {
+                  </property>
+                  <property name="text">
+                   <string>Facturas</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLineEdit" name="InputBuscador">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>1100</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLineEdit {
     border: none;
     border-bottom: 0.5px solid gray;
 }
@@ -838,64 +839,64 @@ QLineEdit:focus {
     border-bottom: 1.5px solid black; /* Cambia el color y grosor según desees */
 }
 </string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLabel" name="label_11">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap>../../assets/iconos/buscar.png</pixmap>
-                 </property>
-                 <property name="scaledContents">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-             <widget class="QTableWidget" name="TablaFacturas">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>1150</width>
-                <height>600</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>MS Shell Dlg 2</family>
-                <pointsize>11</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_11">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>50</width>
+                    <height>35</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>../../assets/iconos/buscar.png</pixmap>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+              <widget class="QTableWidget" name="TablaFacturas">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1150</width>
+                 <height>600</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>MS Shell Dlg 2</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">
 QTableWidget {
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */
@@ -997,246 +998,246 @@ QScrollBar::handle:horizontal:hover {
     background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */
 }
 </string>
-              </property>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
                </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>Nueva fila</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>New Row</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Id</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <kerning>false</kerning>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Usuario</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>MedPago</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>TipoFac</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Fecha</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>F.Modif</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Efectivo</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Transferencia</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>M.Total</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Estado</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignRight">
+              <widget class="QWidget" name="widget_2" native="true">
+               <property name="styleSheet">
+                <string notr="true"/>
                </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>Nueva fila</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>New Row</string>
-               </property>
-              </row>
-              <column>
-               <property name="text">
-                <string>Id</string>
-               </property>
-               <property name="font">
-                <font>
-                 <kerning>false</kerning>
-                </font>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Usuario</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>MedPago</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>TipoFac</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Fecha</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>F.Modif</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Efectivo</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Transferencia</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>M.Total</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Estado</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
-              </column>
-             </widget>
-            </item>
-            <item alignment="Qt::AlignRight">
-             <widget class="QWidget" name="widget_2" native="true">
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <layout class="QGridLayout" name="gridLayout">
-               <item row="0" column="0">
-                <widget class="QToolButton" name="BtnFacturaPagada">
-                 <property name="minimumSize">
-                  <size>
-                   <width>200</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>200</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QToolButton {
+               <layout class="QGridLayout" name="gridLayout">
+                <item row="0" column="0">
+                 <widget class="QToolButton" name="BtnFacturaPagada">
+                  <property name="minimumSize">
+                   <size>
+                    <width>200</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
     background-color: black; /* Fondo blanco */
     border: none; /* Sin borde ni decoración inicial */
     color:  white;
@@ -1253,34 +1254,34 @@ QToolButton:hover {
     background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
     cursor: pointer;
 }</string>
-                 </property>
-                 <property name="text">
-                  <string>Factura Pagada</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="3">
-                <widget class="QToolButton" name="BtnEditarFactura">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>200</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>200</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QToolButton {
+                  </property>
+                  <property name="text">
+                   <string>Factura Pagada</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QToolButton" name="BtnEditarFactura">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>200</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
     background-color: black; /* Fondo blanco */
     border: none; /* Sin borde ni decoración inicial */
     color:  white;
@@ -1297,34 +1298,34 @@ QToolButton:hover {
     background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
     cursor: pointer;
 }</string>
-                 </property>
-                 <property name="text">
-                  <string>Editar Factura</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="4">
-                <widget class="QToolButton" name="BtnEliminarFactura">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>250</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>250</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QToolButton {
+                  </property>
+                  <property name="text">
+                   <string>Editar Factura</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QToolButton" name="BtnEliminarFactura">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>250</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
     background-color: red; /* Fondo blanco */
     border: none; /* Sin borde ni decoración inicial */
     color:  white;
@@ -1341,41 +1342,41 @@ QToolButton:hover {
     background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
     cursor: pointer;
 }</string>
-                 </property>
-                 <property name="text">
-                  <string>   Eliminar Factura</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../../assets/iconos/eliminar.png</normaloff>../../assets/iconos/eliminar.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextBesideIcon</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
-                <widget class="QToolButton" name="BtnGenerarTicket">
-                 <property name="minimumSize">
-                  <size>
-                   <width>250</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>250</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QToolButton {
+                  </property>
+                  <property name="text">
+                   <string>   Eliminar Factura</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/eliminar.png</normaloff>../../assets/iconos/eliminar.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QToolButton" name="BtnGenerarTicket">
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>250</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
     background-color: black; /* Fondo blanco */
     border: none; /* Sin borde ni decoración inicial */
     color:  white;
@@ -1392,32 +1393,33 @@ QToolButton:hover {
     background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
     cursor: pointer;
 }</string>
-                 </property>
-                 <property name="text">
-                  <string>   Generar Ticket</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../../assets/iconos/pdf.png</normaloff>../../assets/iconos/pdf.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextBesideIcon</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
+                  </property>
+                  <property name="text">
+                   <string>   Generar Ticket</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/pdf.png</normaloff>../../assets/iconos/pdf.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
      </layout>

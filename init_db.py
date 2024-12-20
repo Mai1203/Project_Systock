@@ -3,17 +3,23 @@ from app.controllers.usuario_crud import *
 from app.controllers.rol_crud import *
 from app.controllers.producto_crud import *
 
+def conectar_base():
+    try:
+        db = SessionLocal()
+        return db
+    except Exception as e:
+        print(f"Error al conectar a la base de datos: {e}")
 
 def poblar_datos_prueba():
     db = SessionLocal()
     # Crear usuarios de prueba
     try:
         print("Creando rol...")
-        crear_rol(db, "Administrador")
+        crear_rol(db, "ADMINISTRADOR")
         print("Rol creado exitosamente.")
 
         print("Creando usuario...")
-        crear_usuario(db, "123456789", "Michael", "michael", "123456", True, 1)
+        crear_usuario(db, 1004598203, "Michael", "michael", "314159", True, 1)
         print("Usuario creado exitosamente.")
 
         print("Creando producto...")
@@ -24,7 +30,3 @@ def poblar_datos_prueba():
     finally:
         db.close()
 
-
-if __name__ == "__main__":
-    # init_db()  # Crear las tablas
-    poblar_datos_prueba()  # Poblar datos de prueba

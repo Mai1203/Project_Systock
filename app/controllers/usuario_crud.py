@@ -119,3 +119,17 @@ def eliminar_usuario(db: Session, id_usuario: int):
     db.delete(usuario_existente)
     db.commit()
     return True
+
+def verificar_credenciales(db: Session, usuario: str, contraseña: str):
+    """
+    Verifica las credenciales del usuario.
+    :param db: Sesión de la base de datos.
+    :param usuario: Nombre de usuario.
+    :param contraseña: Contraseña ingresada por el usuario.
+    :return: Objeto del usuario si las credenciales son válidas, None si no lo son.
+    """
+    usuario_existente = db.query(Usuarios).filter(Usuarios.Usuario == usuario).first()
+    if usuario_existente and usuario_existente.Contraseña == contraseña:
+        return usuario_existente
+    return None
+

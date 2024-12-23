@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Productos</class>
+ <widget class="QWidget" name="Productos">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -774,136 +774,6 @@ QScrollBar::handle:horizontal:hover {
 }
 </string>
                </property>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
-                </property>
-               </row>
                <column>
                 <property name="text">
                  <string>Código</string>

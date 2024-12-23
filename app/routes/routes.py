@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QStackedWidget,
     QSizePolicy,
+    QMessageBox,
 )
 from PyQt5 import QtWidgets
 from ..ui import Ui_Navbar, Ui_Respaldo, Ui_ControlUsuario, Ui_VentasA, Ui_VentasCredito, Ui_Facturas, Ui_Egreso, Ui_Productos, Ui_FacturasCredito, Ui_Caja, Ui_Reportes
@@ -60,6 +61,54 @@ class ProductosView(QWidget, Ui_Productos):
         self.setupUi(self)
         
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
+        self.BtnEliminar.clicked.connect(self.eliminar_producto)
+        self.limpiar_tabla_productos()
+        self.mostrar_productos()
+    
+    def obtener_id_producto(self):
+        """
+        Obtiene el id del producto seleccionado en la tabla.
+        """
+        fila_seleccionada = self.TablaProductos.currentRow()
+        
+        if fila_seleccionada == -1:
+            QtWidgets.QMessageBox.warning(self, "Error", "Selecciona un producto")
+            return None
+        
+        id = self.TablaProductos.item(fila_seleccionada, 0).text()
+        if id:
+            return id
+        else:
+            QtWidgets.QMessageBox.warning(self, "Error", "No se pudo obtener el ID del producto")
+            return None
+    
+        
+    def eliminar_producto(self):
+        """
+        Elimina el producto seleccionado en la tabla.
+        """
+        id = self.obtener_id_producto()
+        if id is None:
+            return
+        respuesta = QMessageBox.question(
+            self,
+            "Confirmar Eliminación",
+            f"¿Estás seguro de que deseas eliminar el producto con ID {id}?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if respuesta == QMessageBox.No:
+            return
+        
+        try:
+            self.db = SessionLocal()
+            eliminar_producto(self.db, id)  # Llamar a la función de base de datos
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"No se pudo eliminar el producto: {str(e)}")
+            return
+
+        QMessageBox.information(self, "Éxito", "Producto eliminado correctamente.")
+        
+        self.db.close()
         self.limpiar_tabla_productos()
         self.mostrar_productos()
     
@@ -69,8 +118,6 @@ class ProductosView(QWidget, Ui_Productos):
         """
         self.db = SessionLocal()
         rows = obtener_productos(self.db)
-        print(type(rows))
-        print(rows)
         
         if rows:
             self.TablaProductos.setRowCount(len(rows))
@@ -98,8 +145,8 @@ class ProductosView(QWidget, Ui_Productos):
                 self.TablaProductos.setItem(row_idx, 5, QtWidgets.QTableWidgetItem(cantidad_min))
                 self.TablaProductos.setItem(row_idx, 6, QtWidgets.QTableWidgetItem(cantidad_max))
                 self.TablaProductos.setItem(row_idx, 7, QtWidgets.QTableWidgetItem(precio_compra))
-                self.TablaProductos.setItem(row_idx, 8, QtWidgets.QTableWidgetItem(precio_venta_mayor))
                 self.TablaProductos.setItem(row_idx, 9, QtWidgets.QTableWidgetItem(precio_venta_normal))
+                self.TablaProductos.setItem(row_idx, 8, QtWidgets.QTableWidgetItem(precio_venta_mayor))
                 self.TablaProductos.setItem(row_idx, 10, QtWidgets.QTableWidgetItem(ganancia_producto_normal))
                 self.TablaProductos.setItem(row_idx, 11, QtWidgets.QTableWidgetItem(ganancia_producto_mayor))
         
@@ -112,7 +159,6 @@ class ProductosView(QWidget, Ui_Productos):
         self.TablaProductos.setRowCount(0)
         self.TablaProductos.setColumnCount(12)
         
-    
     def ingresar_producto(self):
         """
         Captura los datos del formulario y los registra en la base de datos.

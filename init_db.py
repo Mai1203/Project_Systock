@@ -19,16 +19,17 @@ def poblar_datos_prueba():
         print("Rol creado exitosamente.")
 
         print("Creando usuario...")
-        crear_usuario(db, 1004598203, "Sergio", "Alg4ret3", "123456789", True, 1)
+        crear_usuario(db, 1004598203, "Michael", "michael", "314159", True, 1)
         print("Usuario creado exitosamente.")
 
         print("Creando producto...")
         crear_producto(db, 1254, "Esmalte", 4500, 100, 10, 150, 1, 1)
         print("Producto creado exitosamente.")
     except Exception as e:
-        print(f"Error al probar datos: {e}")
+        print(f"Error al poblar datos: {e}")
     finally:
         db.close()
-if __name__ == "__main__":
+
+if _name_ == "_main_":
     init_db()
     poblar_datos_prueba()

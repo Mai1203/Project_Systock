@@ -30,6 +30,6 @@ def poblar_datos_prueba():
     finally:
         db.close()
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     init_db()
     poblar_datos_prueba()

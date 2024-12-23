@@ -11,12 +11,35 @@ class ProductosView(QWidget, Ui_Productos):
     def __init__(self, parent=None):
         super(ProductosView, self).__init__(parent)
         self.setupUi(self)
+        # Enfocar automáticamente el campo de entrada al abrir
+        self.InputCodigo.setFocus()
+
+        # Conectar el evento de tecla Enter para procesar el código
+        self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
         self.BtnEliminar.clicked.connect(self.eliminar_producto)
         self.limpiar_tabla_productos()
         self.mostrar_productos()
+        
+    def procesar_codigo(self):
+        codigo = self.InputCodigo.text().strip()
     
+        # Validar si el código es válido
+      
+    
+         # Aquí puedes agregar la lógica para buscar el producto usando el código
+        self.buscar_producto_por_codigo(codigo)
+
+        # Limpiar el campo InputCodigo para que se pueda escanear otro código
+        self.InputCodigo.clear()
+
+        
+    def procesar_codigo(self):
+        """
+        Procesa el código ingresado en el campo InputCodigo.
+        """
+        codigo = self.InputCodigo.text().strip()
     def obtener_id_producto(self):
         """
         Obtiene el id del producto seleccionado en la tabla.

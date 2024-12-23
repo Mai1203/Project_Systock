@@ -97,8 +97,8 @@ class ProductosView(QWidget, Ui_Productos):
                 self.TablaProductos.setItem(row_idx, 5, QtWidgets.QTableWidgetItem(cantidad_min))
                 self.TablaProductos.setItem(row_idx, 6, QtWidgets.QTableWidgetItem(cantidad_max))
                 self.TablaProductos.setItem(row_idx, 7, QtWidgets.QTableWidgetItem(precio_compra))
-                self.TablaProductos.setItem(row_idx, 9, QtWidgets.QTableWidgetItem(precio_venta_normal))
-                self.TablaProductos.setItem(row_idx, 8, QtWidgets.QTableWidgetItem(precio_venta_mayor))
+                self.TablaProductos.setItem(row_idx, 8, QtWidgets.QTableWidgetItem(precio_venta_normal))
+                self.TablaProductos.setItem(row_idx, 9, QtWidgets.QTableWidgetItem(precio_venta_mayor))
                 self.TablaProductos.setItem(row_idx, 10, QtWidgets.QTableWidgetItem(ganancia_producto_normal))
                 self.TablaProductos.setItem(row_idx, 11, QtWidgets.QTableWidgetItem(ganancia_producto_mayor))
         

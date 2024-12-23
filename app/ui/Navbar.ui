@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Navbar</class>
+ <widget class="QWidget" name="Navbar">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1639</width>
+    <width>337</width>
     <height>1068</height>
    </rect>
   </property>
@@ -23,9 +23,21 @@
    <string notr="true">background-color: rgb(255, 255, 255);
 </string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <item>
     <widget class="QWidget" name="Contenedor" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>900</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">
 QPushButton {
@@ -192,9 +204,9 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
 
 </string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QWidget" name="Navbar" native="true">
+       <widget class="QWidget" name="QWNavbar" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -204,7 +216,7 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
         <property name="minimumSize">
          <size>
           <width>250</width>
-          <height>0</height>
+          <height>800</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -270,7 +282,7 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>30</height>
+             <height>50</height>
             </size>
            </property>
           </spacer>
@@ -687,7 +699,7 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>150</height>
+             <height>200</height>
             </size>
            </property>
           </spacer>
@@ -705,6 +717,9 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
              <width>16777215</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
@@ -741,6 +756,9 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
              <height>16777215</height>
             </size>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="styleSheet">
             <string notr="true">background-color: rgb(255, 255, 255);
 </string>
@@ -764,19 +782,6 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QStackedWidget" name="Contenido">
-        <property name="styleSheet">
-         <string notr="true">margin-left:10px;
-border-radius:15px;
-background-color: #f2f2f2; 
-</string>
-        </property>
-        <widget class="QWidget" name="ContenidoPage1" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_2"/>
-        </widget>
        </widget>
       </item>
      </layout>

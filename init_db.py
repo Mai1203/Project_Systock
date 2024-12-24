@@ -29,7 +29,19 @@ def poblar_datos_prueba():
         print(f"Error al poblar datos: {e}")
     finally:
         db.close()
+        
+def editar():
+    db = SessionLocal()
+    try:
+        print("Editando producto...")
+        actualizar_producto(db, 852, "Teclado_Mecanico", 4500, 100, 150, 10, 10, 150, 1, 1)
+        print("Producto editado exitosamente.")
+    except Exception as e:
+        print(f"Error al editar: {e}")
+    finally:
+        db.close()
 
-if _name_ == "_main_":
-    init_db()
-    poblar_datos_prueba()
+if __name__ == "__main__":
+    # init_db()
+    # poblar_datos_prueba()
+    editar()

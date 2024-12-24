@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from app.models.productos import Productos
 from app.models.productos import Marcas
 from app.models.productos import Categorias
@@ -15,7 +16,11 @@ def calcular_ganancia(precio_venta, precio_costo):
 def calcular_precio(precio_costo, porcentaje):
     return redondear_a_cientos(precio_costo + (precio_costo * porcentaje))
 
-
+def cambiar_estado(stock_actual):
+    if stock_actual > 0:
+        return True
+    else:
+        return False
 # Crear un producto
 def crear_producto(
     db: Session,
@@ -31,7 +36,7 @@ def crear_producto(
     """
     Crea un nuevo producto.
     """
-
+    estado = cambiar_estado(stock_actual)
     precio_venta_normal = calcular_precio(precio_costo, 0.5)
     precio_venta_mayor = calcular_precio(precio_costo, 0.35)
 
@@ -51,6 +56,7 @@ def crear_producto(
         Stock_max=stock_max,
         ID_Marca=id_marca,
         ID_Categoria=id_categoria,
+        Estado=estado,
     )
     db.add(nuevo_producto)
     db.commit()
@@ -75,8 +81,15 @@ def obtener_productos(db: Session):
             Productos.Stock_actual,
             Productos.Stock_min,
             Productos.Stock_max,
+<<<<<<< HEAD
             Marcas.Nombre.label("marcas"),
             Categorias.Nombre.label("categorias"),
+=======
+            Productos.Estado,
+            
+            Marcas.Nombre.label('marcas'),
+            Categorias.Nombre.label('categorias')
+>>>>>>> upstream/main
         )
         .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
         .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
@@ -110,6 +123,45 @@ def obtener_producto_por_id(db: Session, id_producto: int):
     return productos
 
 
+
+def buscar_productos(db: Session, busqueda: str):
+    """
+    Busca productos por código, nombre, marca o categoría.
+    """
+    if not busqueda:
+        return None
+    
+    productos = (
+        db.query(
+            Productos.ID_Producto,
+            Productos.Nombre,
+            Productos.Precio_costo,
+            Productos.Precio_venta_mayor,
+            Productos.Precio_venta_normal,
+            Productos.Ganancia_Producto_mayor,
+            Productos.Ganancia_Producto_normal,
+            Productos.Stock_actual,
+            Productos.Stock_min,
+            Productos.Stock_max,
+            Productos.Estado,
+            
+            Marcas.Nombre.label('marcas'),
+            Categorias.Nombre.label('categorias')
+        )
+        .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
+        .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
+        .filter(
+            or_(
+                Productos.Nombre.like(f"%{busqueda}%"),
+                Productos.ID_Producto.like(f"%{busqueda}%"),
+                Marcas.Nombre.like(f"%{busqueda}%"),
+                Categorias.Nombre.like(f"%{busqueda}%")
+            )
+        )
+        .all()
+    )
+    return productos
+
 # Actualizar un producto
 def actualizar_producto(
     db: Session,
@@ -129,7 +181,7 @@ def actualizar_producto(
     """
     ganancia_producto_normal = calcular_ganancia(precio_venta_normal, precio_costo)
     ganancia_producto_mayor = calcular_ganancia(precio_venta_mayor, precio_costo)
-
+    estado = estado(stock_actual)
     producto_existente = (
         db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
     )
@@ -158,6 +210,8 @@ def actualizar_producto(
         producto_existente.ID_Marca = id_marca
     if id_categoria:
         producto_existente.ID_Categoria = id_categoria
+    if estado:
+        producto_existente.Estado = estado
 
     db.commit()
     db.refresh(producto_existente)

@@ -11,7 +11,13 @@ class ProductosView(QWidget, Ui_Productos):
     def __init__(self, parent=None):
         super(ProductosView, self).__init__(parent)
         self.setupUi(self)
+<<<<<<< HEAD
         self.InputCodigo.setFocus()
+=======
+        self.InputBuscador.setPlaceholderText("Buscar por código, Nombre, Marca o Categoria")
+        self.InputBuscador.textChanged.connect(self.buscar_productos)
+        
+>>>>>>> upstream/main
         self.TablaProductos.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         # Conectar el evento de presionar Enter en los inputs
@@ -33,11 +39,111 @@ class ProductosView(QWidget, Ui_Productos):
         self.BtnEliminar.clicked.connect(self.eliminar_producto)
         self.limpiar_tabla_productos()
         self.mostrar_productos()
+<<<<<<< HEAD
 
+=======
+   
+    def buscar_productos(self):
+       """
+       Busca productos por código, nombre, marca o categoría.
+       """
+       busqueda = self.InputBuscador.text().strip()
+       if not busqueda:
+           return
+       
+       self.db = SessionLocal()
+       
+       productos = buscar_productos(self.db, busqueda)
+       self.actualizar_tabla_productos(productos)
+       
+       self.db.close()
+       
+    def actualizar_tabla_productos(self, productos):
+        """
+        Actualiza la tabla de productos con los productos buscados.
+        """
+        
+        if productos:
+            self.TablaProductos.setRowCount(len(productos))
+            self.TablaProductos.setColumnCount(13)
+            
+            for row_idx, row in enumerate(productos):
+                id_producto = str(row.ID_Producto)
+                nombre = str(row.Nombre)
+                precio_compra = str(row.Precio_costo)
+                precio_venta_mayor = str(row.Precio_venta_mayor)
+                precio_venta_normal = str(row.Precio_venta_normal)
+                ganancia_producto_mayor = str(row.Ganancia_Producto_mayor)
+                ganancia_producto_normal = str(row.Ganancia_Producto_normal)
+                cantidad = str(row.Stock_actual)
+                cantidad_min = str(row.Stock_min)
+                cantidad_max = str(row.Stock_max)
+                marca = str(row.marcas)
+                categoria = str(row.categorias)
+                if(row.Estado):
+                    estado = "Activo"
+                else:
+                    estado = "Inactivo"
+                
+                
+                id_item = QtWidgets.QTableWidgetItem(id_producto)
+                id_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaProductos.setItem(row_idx, 0, id_item)
+    
+                nombre_item = QtWidgets.QTableWidgetItem(nombre)
+                nombre_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaProductos.setItem(row_idx, 1, nombre_item)
+    
+                marca_item = QtWidgets.QTableWidgetItem(marca)
+                marca_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaProductos.setItem(row_idx, 2, marca_item)
+    
+                categoria_item = QtWidgets.QTableWidgetItem(categoria)
+                categoria_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaProductos.setItem(row_idx, 3, categoria_item)
+    
+                cantidad_item = QtWidgets.QTableWidgetItem(cantidad)
+                cantidad_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaProductos.setItem(row_idx, 4, cantidad_item)
+    
+                cantidad_min_item = QtWidgets.QTableWidgetItem(cantidad_min)
+                cantidad_min_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaProductos.setItem(row_idx, 5, cantidad_min_item)
+    
+                cantidad_max_item = QtWidgets.QTableWidgetItem(cantidad_max)
+                cantidad_max_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaProductos.setItem(row_idx, 6, cantidad_max_item)
+    
+                precio_compra_item = QtWidgets.QTableWidgetItem(precio_compra)
+                precio_compra_item.setTextAlignment(QtCore.Qt.AlignRight)
+                self.TablaProductos.setItem(row_idx, 7, precio_compra_item)
+    
+                precio_venta_normal_item = QtWidgets.QTableWidgetItem(precio_venta_normal)
+                precio_venta_normal_item.setTextAlignment(QtCore.Qt.AlignRight)
+                self.TablaProductos.setItem(row_idx, 8, precio_venta_normal_item)
+    
+                precio_venta_mayor_item = QtWidgets.QTableWidgetItem(precio_venta_mayor)
+                precio_venta_mayor_item.setTextAlignment(QtCore.Qt.AlignRight)
+                self.TablaProductos.setItem(row_idx, 9, precio_venta_mayor_item)
+    
+                ganancia_producto_normal_item = QtWidgets.QTableWidgetItem(ganancia_producto_normal)
+                ganancia_producto_normal_item.setTextAlignment(QtCore.Qt.AlignRight)
+                self.TablaProductos.setItem(row_idx, 10, ganancia_producto_normal_item)
+    
+                ganancia_producto_mayor_item = QtWidgets.QTableWidgetItem(ganancia_producto_mayor)
+                ganancia_producto_mayor_item.setTextAlignment(QtCore.Qt.AlignRight)    
+                self.TablaProductos.setItem(row_idx, 11, ganancia_producto_mayor_item)
+                
+                estado_item = QtWidgets.QTableWidgetItem(estado)
+                estado_item.setTextAlignment(QtCore.Qt.AlignCenter)    
+                self.TablaProductos.setItem(row_idx, 12, estado_item)
+   
+>>>>>>> upstream/main
     def procesar_codigo(self):
         """
         Procesa el código ingresado en el campo InputCodigo.
         """
+        self.limpiar_formulario_codigo()
         codigo = self.InputCodigo.text().strip()
         self.limpiar_formulario()
 
@@ -119,6 +225,7 @@ class ProductosView(QWidget, Ui_Productos):
         """
         self.db = SessionLocal()
         rows = obtener_productos(self.db)
+<<<<<<< HEAD
 
         if rows:
             self.TablaProductos.setRowCount(len(rows))
@@ -192,6 +299,11 @@ class ProductosView(QWidget, Ui_Productos):
                 ganancia_producto_mayor_item.setTextAlignment(QtCore.Qt.AlignRight)
                 self.TablaProductos.setItem(row_idx, 11, ganancia_producto_mayor_item)
 
+=======
+        
+        self.actualizar_tabla_productos(rows)
+        
+>>>>>>> upstream/main
         self.db.close()
 
     def limpiar_tabla_productos(self):
@@ -375,3 +487,20 @@ class ProductosView(QWidget, Ui_Productos):
         self.InputCategoria.setText("")
         self.InputPrecioUnitario.setText("")
         self.InputPrecioMayor.setText("")
+<<<<<<< HEAD
+=======
+        
+    def limpiar_formulario_codigo(self):
+        """
+        Limpia el formulario de todos los campos.
+        """
+        self.InputNombre.setText("")
+        self.InputPrecioCompra.setText("")
+        self.InputCantidad.setText("")
+        self.InputCantidadMin.setText("")
+        self.InputCantidadMax.setText("")
+        self.InputMarca.setText("")
+        self.InputCategoria.setText("")
+        self.InputPrecioUnitario.setText("")
+        self.InputPrecioMayor.setText("")
+>>>>>>> upstream/main

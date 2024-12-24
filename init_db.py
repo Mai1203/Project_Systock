@@ -48,6 +48,10 @@ def editar():
 
 
 if __name__ == "__main__":
-    # init_db()
+    init_db()
     # poblar_datos_prueba()
+<<<<<<< HEAD
     editar()
+=======
+    # editar()
+>>>>>>> upstream/main

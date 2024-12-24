@@ -81,15 +81,14 @@ def obtener_productos(db: Session):
             Productos.Stock_actual,
             Productos.Stock_min,
             Productos.Stock_max,
-<<<<<<< HEAD
+
             Marcas.Nombre.label("marcas"),
             Categorias.Nombre.label("categorias"),
-=======
             Productos.Estado,
             
             Marcas.Nombre.label('marcas'),
             Categorias.Nombre.label('categorias')
->>>>>>> upstream/main
+
         )
         .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
         .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)

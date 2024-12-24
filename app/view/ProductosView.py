@@ -14,6 +14,8 @@ class ProductosView(QWidget, Ui_Productos):
         super(ProductosView, self).__init__(parent)
         self.setupUi(self)
         
+        
+        
         self.TablaProductos.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         
         # Conectar el evento de presionar Enter en los inputs

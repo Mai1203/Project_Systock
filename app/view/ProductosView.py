@@ -13,7 +13,6 @@ class ProductosView(QWidget, Ui_Productos):
         self.setupUi(self)
         # Enfocar automáticamente el campo de entrada al abrir
         self.InputCodigo.setFocus()
-
         # Conectar el evento de tecla Enter para procesar el código
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         

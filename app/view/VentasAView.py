@@ -7,7 +7,7 @@ from ..controllers.facturas_crud import *
 from ..ui import Ui_VentasA
 
 
-class VentasAView(QWidget, Ui_VentasA):
+cclass VentasAView(QWidget, Ui_VentasA):
     def __init__(self, parent=None):
         super(VentasAView, self).__init__(parent)
         self.setupUi(self)

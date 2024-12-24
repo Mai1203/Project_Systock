@@ -15,183 +15,186 @@ class Ui_VentasCredito(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1422, 1073)
-        Form.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"")
+        Form.setStyleSheet("background-color: rgb(255, 255, 255);\n" "")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.Contenedor = QtWidgets.QWidget(Form)
-        self.Contenedor.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}\n"
-"\n"
-"QToolButton {\n"
-"    background-color: white; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  rgb(50, 50, 50); /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    cursor: pointer;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer;\n"
-"}\n"
-"QLineEdit {\n"
-"    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
-"    border: none; /* Sin bordes visibles */\n"
-"    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
-"    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
-"    border-radius: 10px; /* Bordes redondeados */\n"
-"    color: black; /* Texto negro */\n"
-"    text-align: left; /* Texto alineado a la izquierda */\n"
-"    font-size: 18px; /* Tamaño del texto */\n"
-"}\n"
-"\n"
-"/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
-"QLineEdit:focus {\n"
-"    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
-"    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
-"}\n"
-"\n"
-"QLabel {\n"
-"    font-size: 20px; /* Tamaño de fuente */\n"
-"    color:  black; /* Color del texto */\n"
-"    margin-right: 10px; /* Espaciado a la derecha */\n"
-"    padding: 5px; /* Espaciado interno */\n"
-"    text-align: left; /* Alineación del texto a la izquierda */\n"
-"}\n"
-"QTableWidget {\n"
-"    border: none;\n"
-"    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
-"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-"    color: black; /* Texto negro para celdas seleccionadas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    border: none; \n"
-"    background-color: #f2f2f2; \n"
-"    font-weight: normal; /* No negritas */\n"
-"    text-align: center; /* Centrado del texto en los encabezados */\n"
-"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-"}\n"
-"\n"
-"QHeaderView::section:focus {\n"
-"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-"    border: none; /* Sin borde cuando está en foco */\n"
-"}\n"
-"\n"
-"QTableWidget::item:focus {\n"
-"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-"}\n"
-"\n"
-"QTableCornerButton::section {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"}\n"
-"\n"
-"QTableWidget::verticalHeader {\n"
-"    background-color: #f2f2f2;\n"
-"    border: none;\n"
-"    font-weight: normal; /* No negritas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"/* Personalización de la barra de desplazamiento */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    width: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-height: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    height: 0px; /* Sin altura para los botones */\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    height: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-width: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    width: 0px; /* Sin ancho para los botones */\n"
-"}\n"
-"\n"
-"\n"
-"")
+        self.Contenedor.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: black; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}\n"
+            "\n"
+            "QToolButton {\n"
+            "    background-color: white; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  rgb(50, 50, 50); /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    cursor: pointer;\n"
+            "}\n"
+            "\n"
+            "QToolButton:hover {\n"
+            "    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer;\n"
+            "}\n"
+            "QLineEdit {\n"
+            "    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
+            "    border: none; /* Sin bordes visibles */\n"
+            "    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
+            "    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
+            "    border-radius: 10px; /* Bordes redondeados */\n"
+            "    color: black; /* Texto negro */\n"
+            "    text-align: left; /* Texto alineado a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño del texto */\n"
+            "}\n"
+            "\n"
+            "/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
+            "QLineEdit:focus {\n"
+            "    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
+            "    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
+            "}\n"
+            "\n"
+            "QLabel {\n"
+            "    font-size: 20px; /* Tamaño de fuente */\n"
+            "    color:  black; /* Color del texto */\n"
+            "    margin-right: 10px; /* Espaciado a la derecha */\n"
+            "    padding: 5px; /* Espaciado interno */\n"
+            "    text-align: left; /* Alineación del texto a la izquierda */\n"
+            "}\n"
+            "QTableWidget {\n"
+            "    border: none;\n"
+            "    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
+            "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
+            "    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:selected {\n"
+            "    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
+            "    color: black; /* Texto negro para celdas seleccionadas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section {\n"
+            "    border: none; \n"
+            "    background-color: #f2f2f2; \n"
+            "    font-weight: normal; /* No negritas */\n"
+            "    text-align: center; /* Centrado del texto en los encabezados */\n"
+            "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section:focus {\n"
+            "    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
+            "    border: none; /* Sin borde cuando está en foco */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:focus {\n"
+            "    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
+            "    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
+            "}\n"
+            "\n"
+            "QTableCornerButton::section {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "}\n"
+            "\n"
+            "QTableWidget::verticalHeader {\n"
+            "    background-color: #f2f2f2;\n"
+            "    border: none;\n"
+            "    font-weight: normal; /* No negritas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "/* Personalización de la barra de desplazamiento */\n"
+            "QScrollBar:vertical {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    width: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-height: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    height: 0px; /* Sin altura para los botones */\n"
+            "}\n"
+            "\n"
+            "QScrollBar:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    height: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-width: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    width: 0px; /* Sin ancho para los botones */\n"
+            "}\n"
+            "\n"
+            "\n"
+            ""
+        )
         self.Contenedor.setObjectName("Contenedor")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.Contenedor)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.Contenido = QtWidgets.QStackedWidget(self.Contenedor)
-        self.Contenido.setStyleSheet("margin-left:10px;\n"
-"border-radius:15px;\n"
-"background-color: #f2f2f2; \n"
-"")
+        self.Contenido.setStyleSheet(
+            "margin-left:10px;\n"
+            "border-radius:15px;\n"
+            "background-color: #f2f2f2; \n"
+            ""
+        )
         self.Contenido.setObjectName("Contenido")
         self.ContenidoPage1 = QtWidgets.QWidget()
         self.ContenidoPage1.setObjectName("ContenidoPage1")
@@ -205,7 +208,9 @@ class Ui_VentasCredito(object):
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.InputNombre = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.InputNombre.sizePolicy().hasHeightForWidth())
@@ -219,7 +224,9 @@ class Ui_VentasCredito(object):
         self.label_3.setObjectName("label_3")
         self.gridLayout_2.addWidget(self.label_3, 2, 0, 1, 1)
         self.InputCodigo = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.InputCodigo.sizePolicy().hasHeightForWidth())
@@ -236,7 +243,9 @@ class Ui_VentasCredito(object):
         self.label.setObjectName("label")
         self.gridLayout_2.addWidget(self.label, 2, 5, 1, 1)
         self.InputMarca = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.InputMarca.sizePolicy().hasHeightForWidth())
@@ -247,10 +256,14 @@ class Ui_VentasCredito(object):
         self.InputMarca.setObjectName("InputMarca")
         self.gridLayout_2.addWidget(self.InputMarca, 3, 2, 1, 1)
         self.InputDomicilio = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputDomicilio.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputDomicilio.sizePolicy().hasHeightForWidth()
+        )
         self.InputDomicilio.setSizePolicy(sizePolicy)
         self.InputDomicilio.setMinimumSize(QtCore.QSize(250, 50))
         self.InputDomicilio.setMaximumSize(QtCore.QSize(250, 50))
@@ -261,10 +274,14 @@ class Ui_VentasCredito(object):
         self.label_5.setObjectName("label_5")
         self.gridLayout_2.addWidget(self.label_5, 2, 1, 1, 1)
         self.InputCantidad = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputCantidad.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputCantidad.sizePolicy().hasHeightForWidth()
+        )
         self.InputCantidad.setSizePolicy(sizePolicy)
         self.InputCantidad.setMinimumSize(QtCore.QSize(250, 50))
         self.InputCantidad.setMaximumSize(QtCore.QSize(250, 50))
@@ -281,18 +298,24 @@ class Ui_VentasCredito(object):
         self.label_8.setObjectName("label_8")
         self.gridLayout_2.addWidget(self.label_8, 4, 0, 1, 1)
         self.LabelVentasA = QtWidgets.QLabel(self.widget_3)
-        self.LabelVentasA.setStyleSheet("#LabelVentasA {\n"
-"    font-weight: bold; /* Negrita */\n"
-"    font-size: 34px; /* Tamaño de fuente */\n"
-"}\n"
-"")
+        self.LabelVentasA.setStyleSheet(
+            "#LabelVentasA {\n"
+            "    font-weight: bold; /* Negrita */\n"
+            "    font-size: 34px; /* Tamaño de fuente */\n"
+            "}\n"
+            ""
+        )
         self.LabelVentasA.setObjectName("LabelVentasA")
         self.gridLayout_2.addWidget(self.LabelVentasA, 0, 0, 1, 1)
         self.InputPrecioUnitario = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputPrecioUnitario.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputPrecioUnitario.sizePolicy().hasHeightForWidth()
+        )
         self.InputPrecioUnitario.setSizePolicy(sizePolicy)
         self.InputPrecioUnitario.setMinimumSize(QtCore.QSize(250, 50))
         self.InputPrecioUnitario.setMaximumSize(QtCore.QSize(250, 50))
@@ -301,46 +324,54 @@ class Ui_VentasCredito(object):
         self.gridLayout_2.addWidget(self.InputPrecioUnitario, 3, 5, 1, 1)
         self.BtnAgregarProducto = QtWidgets.QPushButton(self.widget_3)
         self.BtnAgregarProducto.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnAgregarProducto.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}")
+        self.BtnAgregarProducto.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: black; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}"
+        )
         self.BtnAgregarProducto.setObjectName("BtnAgregarProducto")
         self.gridLayout_2.addWidget(self.BtnAgregarProducto, 5, 3, 1, 1)
         self.BtnEliminar = QtWidgets.QPushButton(self.widget_3)
-        self.BtnEliminar.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: red; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}")
+        self.BtnEliminar.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: red; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}"
+        )
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("assets/iconos/eliminar.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnEliminar.setIcon(icon)
         self.BtnEliminar.setIconSize(QtCore.QSize(30, 30))
         self.BtnEliminar.setObjectName("BtnEliminar")
@@ -353,10 +384,14 @@ class Ui_VentasCredito(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.TablaVentasCredito = QtWidgets.QTableWidget(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.TablaVentasCredito.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.TablaVentasCredito.sizePolicy().hasHeightForWidth()
+        )
         self.TablaVentasCredito.setSizePolicy(sizePolicy)
         self.TablaVentasCredito.setMinimumSize(QtCore.QSize(845, 300))
         font = QtGui.QFont()
@@ -365,108 +400,110 @@ class Ui_VentasCredito(object):
         font.setBold(True)
         font.setWeight(75)
         self.TablaVentasCredito.setFont(font)
-        self.TablaVentasCredito.setStyleSheet("\n"
-"QTableWidget {\n"
-"    border: none;\n"
-"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-"    color: black; /* Texto negro para celdas seleccionadas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    border: none; \n"
-"    background-color: #f2f2f2; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    font-weight: normal; /* No negritas */\n"
-"    text-align: center; /* Centrado del texto en los encabezados */\n"
-"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-"}\n"
-"\n"
-"QHeaderView::section:focus {\n"
-"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-"    border: none; /* Sin borde cuando está en foco */\n"
-"}\n"
-"\n"
-"QTableWidget::item:focus {\n"
-"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-"}\n"
-"\n"
-"QTableCornerButton::section {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"}\n"
-"\n"
-"QTableWidget::verticalHeader {\n"
-"    background-color: #f2f2f2;\n"
-"    font-size: 23px;\n"
-"    border: none;\n"
-"    font-weight: normal; /* No negritas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"/* Personalización de la barra de desplazamiento */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    width: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-height: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    height: 0px; /* Sin altura para los botones */\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    height: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-width: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"")
+        self.TablaVentasCredito.setStyleSheet(
+            "\n"
+            "QTableWidget {\n"
+            "    border: none;\n"
+            "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "    font-size: 18px; /* Tamaño de letra */\n"
+            "    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
+            "    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:selected {\n"
+            "    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
+            "    color: black; /* Texto negro para celdas seleccionadas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section {\n"
+            "    border: none; \n"
+            "    background-color: #f2f2f2; \n"
+            "    font-size: 18px; /* Tamaño de letra */\n"
+            "    font-weight: normal; /* No negritas */\n"
+            "    text-align: center; /* Centrado del texto en los encabezados */\n"
+            "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section:focus {\n"
+            "    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
+            "    border: none; /* Sin borde cuando está en foco */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:focus {\n"
+            "    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
+            "    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
+            "}\n"
+            "\n"
+            "QTableCornerButton::section {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "}\n"
+            "\n"
+            "QTableWidget::verticalHeader {\n"
+            "    background-color: #f2f2f2;\n"
+            "    font-size: 23px;\n"
+            "    border: none;\n"
+            "    font-weight: normal; /* No negritas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "/* Personalización de la barra de desplazamiento */\n"
+            "QScrollBar:vertical {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    width: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-height: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    height: 0px; /* Sin altura para los botones */\n"
+            "}\n"
+            "\n"
+            "QScrollBar:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    height: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-width: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            ""
+        )
         self.TablaVentasCredito.setObjectName("TablaVentasCredito")
         self.TablaVentasCredito.setColumnCount(7)
         self.TablaVentasCredito.setRowCount(16)
@@ -526,7 +563,9 @@ class Ui_VentasCredito(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.TablaVentasCredito.setHorizontalHeaderItem(6, item)
-        self.verticalLayout_3.addWidget(self.TablaVentasCredito, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_3.addWidget(
+            self.TablaVentasCredito, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
+        )
         self.verticalLayout_2.addWidget(self.widget)
         self.widget_4 = QtWidgets.QWidget(self.ContenidoPage1)
         self.widget_4.setStyleSheet("")
@@ -536,10 +575,14 @@ class Ui_VentasCredito(object):
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.InputTelefonoCli = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputTelefonoCli.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputTelefonoCli.sizePolicy().hasHeightForWidth()
+        )
         self.InputTelefonoCli.setSizePolicy(sizePolicy)
         self.InputTelefonoCli.setMinimumSize(QtCore.QSize(250, 50))
         self.InputTelefonoCli.setMaximumSize(QtCore.QSize(250, 50))
@@ -547,10 +590,14 @@ class Ui_VentasCredito(object):
         self.InputTelefonoCli.setObjectName("InputTelefonoCli")
         self.gridLayout_4.addWidget(self.InputTelefonoCli, 2, 3, 1, 1)
         self.InputDireccion_2 = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputDireccion_2.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputDireccion_2.sizePolicy().hasHeightForWidth()
+        )
         self.InputDireccion_2.setSizePolicy(sizePolicy)
         self.InputDireccion_2.setMinimumSize(QtCore.QSize(250, 50))
         self.InputDireccion_2.setMaximumSize(QtCore.QSize(250, 50))
@@ -558,7 +605,9 @@ class Ui_VentasCredito(object):
         self.InputDireccion_2.setObjectName("InputDireccion_2")
         self.gridLayout_4.addWidget(self.InputDireccion_2, 2, 2, 1, 1)
         self.LabelTotal = QtWidgets.QLabel(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.LabelTotal.sizePolicy().hasHeightForWidth())
@@ -570,10 +619,14 @@ class Ui_VentasCredito(object):
         self.LabelTotal.setObjectName("LabelTotal")
         self.gridLayout_4.addWidget(self.LabelTotal, 4, 3, 1, 1)
         self.LabelSubtotal = QtWidgets.QLabel(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.LabelSubtotal.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.LabelSubtotal.sizePolicy().hasHeightForWidth()
+        )
         self.LabelSubtotal.setSizePolicy(sizePolicy)
         self.LabelSubtotal.setMinimumSize(QtCore.QSize(250, 50))
         self.LabelSubtotal.setMaximumSize(QtCore.QSize(250, 50))
@@ -592,7 +645,9 @@ class Ui_VentasCredito(object):
         self.label_31.setObjectName("label_31")
         self.gridLayout_4.addWidget(self.label_31, 0, 0, 1, 1)
         self.InputCedula = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.InputCedula.sizePolicy().hasHeightForWidth())
@@ -603,10 +658,14 @@ class Ui_VentasCredito(object):
         self.InputCedula.setObjectName("InputCedula")
         self.gridLayout_4.addWidget(self.InputCedula, 2, 5, 1, 1)
         self.InputNombreCli_2 = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputNombreCli_2.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputNombreCli_2.sizePolicy().hasHeightForWidth()
+        )
         self.InputNombreCli_2.setSizePolicy(sizePolicy)
         self.InputNombreCli_2.setMinimumSize(QtCore.QSize(250, 50))
         self.InputNombreCli_2.setMaximumSize(QtCore.QSize(250, 50))
@@ -630,36 +689,45 @@ class Ui_VentasCredito(object):
         self.gridLayout_4.addWidget(self.label_10, 1, 1, 1, 1)
         self.BtnFechaPago = QtWidgets.QPushButton(self.widget_4)
         self.BtnFechaPago.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
-        self.BtnFechaPago.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"color: rgb(0, 0, 0);")
+        self.BtnFechaPago.setStyleSheet(
+            "background-color: rgb(255, 255, 255);\n" "color: rgb(0, 0, 0);"
+        )
         self.BtnFechaPago.setObjectName("BtnFechaPago")
         self.gridLayout_4.addWidget(self.BtnFechaPago, 4, 0, 1, 1)
         self.BtnGenerarVentaCredito = QtWidgets.QPushButton(self.widget_4)
-        self.BtnGenerarVentaCredito.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnGenerarVentaCredito.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}")
+        self.BtnGenerarVentaCredito.setCursor(
+            QtGui.QCursor(QtCore.Qt.PointingHandCursor)
+        )
+        self.BtnGenerarVentaCredito.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: black; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}"
+        )
         self.BtnGenerarVentaCredito.setObjectName("BtnGenerarVentaCredito")
         self.gridLayout_4.addWidget(self.BtnGenerarVentaCredito, 4, 5, 1, 1)
         self.InputMaxCredito = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputMaxCredito.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputMaxCredito.sizePolicy().hasHeightForWidth()
+        )
         self.InputMaxCredito.setSizePolicy(sizePolicy)
         self.InputMaxCredito.setMinimumSize(QtCore.QSize(250, 50))
         self.InputMaxCredito.setMaximumSize(QtCore.QSize(250, 50))
@@ -670,10 +738,14 @@ class Ui_VentasCredito(object):
         self.label_11.setObjectName("label_11")
         self.gridLayout_4.addWidget(self.label_11, 1, 3, 1, 1)
         self.InputApellidoCli = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputApellidoCli.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputApellidoCli.sizePolicy().hasHeightForWidth()
+        )
         self.InputApellidoCli.setSizePolicy(sizePolicy)
         self.InputApellidoCli.setMinimumSize(QtCore.QSize(250, 50))
         self.InputApellidoCli.setMaximumSize(QtCore.QSize(250, 50))
@@ -684,7 +756,9 @@ class Ui_VentasCredito(object):
         self.label_9.setObjectName("label_9")
         self.gridLayout_4.addWidget(self.label_9, 1, 2, 1, 1)
         self.gridLayout_3.addLayout(self.gridLayout_4, 0, 0, 1, 1)
-        self.verticalLayout_2.addWidget(self.widget_4, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_2.addWidget(
+            self.widget_4, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
+        )
         self.Contenido.addWidget(self.ContenidoPage1)
         self.horizontalLayout_2.addWidget(self.Contenido)
         self.horizontalLayout.addWidget(self.Contenedor)
@@ -761,6 +835,8 @@ class Ui_VentasCredito(object):
         self.label_12.setText(_translate("Form", "Fecha limite de Pago"))
         self.label_10.setText(_translate("Form", "Apellido:"))
         self.BtnFechaPago.setText(_translate("Form", "7 dias / 15 dias "))
-        self.BtnGenerarVentaCredito.setText(_translate("Form", "Generar Venta a Credito"))
+        self.BtnGenerarVentaCredito.setText(
+            _translate("Form", "Generar Venta a Credito")
+        )
         self.label_11.setText(_translate("Form", "Teléfono:"))
         self.label_9.setText(_translate("Form", "Dirección:"))

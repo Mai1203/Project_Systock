@@ -4,16 +4,17 @@ from app.controllers.usuario_crud import verificar_credenciales
 from app.ui import Ui_CONTENEDEDOR1, Ui_Form
 import sys
 
+
 class MainWindow(QtWidgets.QWidget, Ui_CONTENEDEDOR1):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.show()
-         
+
         self.BtnLogin.clicked.connect(self.iniciar_sesion)
-        
+
         self.db = conectar_base()
-        
+
     def iniciar_sesion(self):
         # Obtener los datos ingresados por el usuario
         usuario = self.InputNombreUsuario.text()
@@ -28,7 +29,9 @@ class MainWindow(QtWidgets.QWidget, Ui_CONTENEDEDOR1):
             self.abrir_ventana_principal()
         else:
             # Si las credenciales son inválidas, mostrar un mensaje de error
-            QtWidgets.QMessageBox.warning(self, "Error", "Usuario o contraseña incorrectos")
+            QtWidgets.QMessageBox.warning(
+                self, "Error", "Usuario o contraseña incorrectos"
+            )
 
     def abrir_ventana_principal(self):
         # Cerrar la ventana de login y abrir la ventana principal

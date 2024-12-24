@@ -57,6 +57,7 @@ def crear_producto(
     db.refresh(nuevo_producto)
     return nuevo_producto
 
+
 # Obtener todos los productos
 def obtener_productos(db: Session):
     """
@@ -74,9 +75,8 @@ def obtener_productos(db: Session):
             Productos.Stock_actual,
             Productos.Stock_min,
             Productos.Stock_max,
-            
-            Marcas.Nombre.label('marcas'),
-            Categorias.Nombre.label('categorias')
+            Marcas.Nombre.label("marcas"),
+            Categorias.Nombre.label("categorias"),
         )
         .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
         .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
@@ -84,12 +84,31 @@ def obtener_productos(db: Session):
     )
     return productos
 
+
 # Obtener un producto por ID
 def obtener_producto_por_id(db: Session, id_producto: int):
-    """
-    Obtiene un producto por su ID.
-    """
-    return db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
+    productos = (
+        db.query(
+            Productos.ID_Producto,
+            Productos.Nombre,
+            Productos.Precio_costo,
+            Productos.Precio_venta_mayor,
+            Productos.Precio_venta_normal,
+            Productos.Ganancia_Producto_mayor,
+            Productos.Ganancia_Producto_normal,
+            Productos.Stock_actual,
+            Productos.Stock_min,
+            Productos.Stock_max,
+            Marcas.Nombre.label("marcas"),
+            Categorias.Nombre.label("categorias"),
+        )
+        .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
+        .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
+        .filter(Productos.ID_Producto == id_producto)
+        .all()
+    )
+    return productos
+
 
 # Actualizar un producto
 def actualizar_producto(
@@ -144,6 +163,7 @@ def actualizar_producto(
     db.refresh(producto_existente)
     return producto_existente
 
+
 # Eliminar un producto
 def eliminar_producto(db: Session, id_producto: int):
     """
@@ -158,6 +178,7 @@ def eliminar_producto(db: Session, id_producto: int):
     db.delete(producto_existente)
     db.commit()
     return True
+
 
 # Verificar el stock de un producto
 def verificar_stock(db: Session, id_producto: int):

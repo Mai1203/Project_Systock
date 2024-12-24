@@ -15,245 +15,270 @@ class Ui_Navbar(object):
     def setupUi(self, Navbar):
         Navbar.setObjectName("Navbar")
         Navbar.resize(337, 1068)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Navbar.sizePolicy().hasHeightForWidth())
         Navbar.setSizePolicy(sizePolicy)
-        Navbar.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"")
+        Navbar.setStyleSheet("background-color: rgb(255, 255, 255);\n" "")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(Navbar)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.Contenedor = QtWidgets.QWidget(Navbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Contenedor.sizePolicy().hasHeightForWidth())
         self.Contenedor.setSizePolicy(sizePolicy)
         self.Contenedor.setMinimumSize(QtCore.QSize(0, 900))
-        self.Contenedor.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}\n"
-"\n"
-"QToolButton {\n"
-"    background-color: white; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  rgb(50, 50, 50); /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    cursor: pointer;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer;\n"
-"}\n"
-"QLineEdit {\n"
-"    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
-"    border: none; /* Sin bordes visibles */\n"
-"    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
-"    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
-"    border-radius: 10px; /* Bordes redondeados */\n"
-"    color: black; /* Texto negro */\n"
-"    text-align: left; /* Texto alineado a la izquierda */\n"
-"    font-size: 18px; /* Tamaño del texto */\n"
-"}\n"
-"\n"
-"/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
-"QLineEdit:focus {\n"
-"    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
-"    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
-"}\n"
-"\n"
-"QLabel {\n"
-"    font-size: 20px; /* Tamaño de fuente */\n"
-"    color:  black; /* Color del texto */\n"
-"    margin-right: 10px; /* Espaciado a la derecha */\n"
-"    padding: 5px; /* Espaciado interno */\n"
-"    text-align: left; /* Alineación del texto a la izquierda */\n"
-"}\n"
-"QTableWidget {\n"
-"    border: none;\n"
-"    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
-"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-"    color: black; /* Texto negro para celdas seleccionadas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    border: none; \n"
-"    background-color: #f2f2f2; \n"
-"    font-weight: normal; /* No negritas */\n"
-"    text-align: center; /* Centrado del texto en los encabezados */\n"
-"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-"}\n"
-"\n"
-"QHeaderView::section:focus {\n"
-"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-"    border: none; /* Sin borde cuando está en foco */\n"
-"}\n"
-"\n"
-"QTableWidget::item:focus {\n"
-"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-"}\n"
-"\n"
-"QTableCornerButton::section {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"}\n"
-"\n"
-"QTableWidget::verticalHeader {\n"
-"    background-color: #f2f2f2;\n"
-"    border: none;\n"
-"    font-weight: normal; /* No negritas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"/* Personalización de la barra de desplazamiento */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    width: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-height: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    height: 0px; /* Sin altura para los botones */\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    height: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-width: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    width: 0px; /* Sin ancho para los botones */\n"
-"}\n"
-"\n"
-"\n"
-"")
+        self.Contenedor.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: black; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}\n"
+            "\n"
+            "QToolButton {\n"
+            "    background-color: white; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  rgb(50, 50, 50); /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    cursor: pointer;\n"
+            "}\n"
+            "\n"
+            "QToolButton:hover {\n"
+            "    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer;\n"
+            "}\n"
+            "QLineEdit {\n"
+            "    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
+            "    border: none; /* Sin bordes visibles */\n"
+            "    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
+            "    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
+            "    border-radius: 10px; /* Bordes redondeados */\n"
+            "    color: black; /* Texto negro */\n"
+            "    text-align: left; /* Texto alineado a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño del texto */\n"
+            "}\n"
+            "\n"
+            "/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
+            "QLineEdit:focus {\n"
+            "    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
+            "    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
+            "}\n"
+            "\n"
+            "QLabel {\n"
+            "    font-size: 20px; /* Tamaño de fuente */\n"
+            "    color:  black; /* Color del texto */\n"
+            "    margin-right: 10px; /* Espaciado a la derecha */\n"
+            "    padding: 5px; /* Espaciado interno */\n"
+            "    text-align: left; /* Alineación del texto a la izquierda */\n"
+            "}\n"
+            "QTableWidget {\n"
+            "    border: none;\n"
+            "    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
+            "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
+            "    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:selected {\n"
+            "    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
+            "    color: black; /* Texto negro para celdas seleccionadas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section {\n"
+            "    border: none; \n"
+            "    background-color: #f2f2f2; \n"
+            "    font-weight: normal; /* No negritas */\n"
+            "    text-align: center; /* Centrado del texto en los encabezados */\n"
+            "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section:focus {\n"
+            "    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
+            "    border: none; /* Sin borde cuando está en foco */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:focus {\n"
+            "    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
+            "    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
+            "}\n"
+            "\n"
+            "QTableCornerButton::section {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "}\n"
+            "\n"
+            "QTableWidget::verticalHeader {\n"
+            "    background-color: #f2f2f2;\n"
+            "    border: none;\n"
+            "    font-weight: normal; /* No negritas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "/* Personalización de la barra de desplazamiento */\n"
+            "QScrollBar:vertical {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    width: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-height: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    height: 0px; /* Sin altura para los botones */\n"
+            "}\n"
+            "\n"
+            "QScrollBar:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    height: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-width: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    width: 0px; /* Sin ancho para los botones */\n"
+            "}\n"
+            "\n"
+            "\n"
+            ""
+        )
         self.Contenedor.setObjectName("Contenedor")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.Contenedor)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.QWNavbar = QtWidgets.QWidget(self.Contenedor)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.QWNavbar.sizePolicy().hasHeightForWidth())
         self.QWNavbar.setSizePolicy(sizePolicy)
         self.QWNavbar.setMinimumSize(QtCore.QSize(250, 800))
-        self.QWNavbar.setStyleSheet("#navbar {\n"
-"    background-color: white; /* Fondo blanco */\n"
-"    border-right: 1px solid black; /* Borde negro en el lado derecho */\n"
-"}\n"
-"")
+        self.QWNavbar.setStyleSheet(
+            "#navbar {\n"
+            "    background-color: white; /* Fondo blanco */\n"
+            "    border-right: 1px solid black; /* Borde negro en el lado derecho */\n"
+            "}\n"
+            ""
+        )
         self.QWNavbar.setObjectName("QWNavbar")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.QWNavbar)
         self.verticalLayout.setObjectName("verticalLayout")
         self.LabelImgNavbar = QtWidgets.QLabel(self.QWNavbar)
         self.LabelImgNavbar.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(50)
         sizePolicy.setVerticalStretch(50)
-        sizePolicy.setHeightForWidth(self.LabelImgNavbar.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.LabelImgNavbar.sizePolicy().hasHeightForWidth()
+        )
         self.LabelImgNavbar.setSizePolicy(sizePolicy)
         self.LabelImgNavbar.setMinimumSize(QtCore.QSize(100, 50))
         self.LabelImgNavbar.setMaximumSize(QtCore.QSize(260, 70))
-        self.LabelImgNavbar.setStyleSheet("#LabelImg {\n"
-"    background-position: center;\n"
-"    background-repeat: no-repeat;\n"
-"    background-size: 100% 100%; /* Ajusta la imagen para que ocupe todo el área del label */\n"
-"    height: 200px; /* Ajusta la altura del QLabel */\n"
-"    width: 300px; /* Ajusta el ancho del QLabel */\n"
-"}\n"
-"")
+        self.LabelImgNavbar.setStyleSheet(
+            "#LabelImg {\n"
+            "    background-position: center;\n"
+            "    background-repeat: no-repeat;\n"
+            "    background-size: 100% 100%; /* Ajusta la imagen para que ocupe todo el área del label */\n"
+            "    height: 200px; /* Ajusta la altura del QLabel */\n"
+            "    width: 300px; /* Ajusta el ancho del QLabel */\n"
+            "}\n"
+            ""
+        )
         self.LabelImgNavbar.setText("")
         self.LabelImgNavbar.setPixmap(QtGui.QPixmap("assets/Letras-sinfondo.png"))
         self.LabelImgNavbar.setScaledContents(True)
         self.LabelImgNavbar.setObjectName("LabelImgNavbar")
         self.verticalLayout.addWidget(self.LabelImgNavbar)
-        spacerItem = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        spacerItem = QtWidgets.QSpacerItem(
+            20, 50, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         self.verticalLayout.addItem(spacerItem)
         self.LabelFuncionalidades = QtWidgets.QLabel(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.LabelFuncionalidades.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.LabelFuncionalidades.sizePolicy().hasHeightForWidth()
+        )
         self.LabelFuncionalidades.setSizePolicy(sizePolicy)
         self.LabelFuncionalidades.setMinimumSize(QtCore.QSize(250, 30))
         self.LabelFuncionalidades.setMaximumSize(QtCore.QSize(300, 50))
-        self.LabelFuncionalidades.setStyleSheet("#LabelFuncionalidades {\n"
-"    font-weight: bold; /* Negrita */\n"
-"    font-size: 22px; /* Tamaño de fuente */\n"
-"}\n"
-"")
+        self.LabelFuncionalidades.setStyleSheet(
+            "#LabelFuncionalidades {\n"
+            "    font-weight: bold; /* Negrita */\n"
+            "    font-size: 22px; /* Tamaño de fuente */\n"
+            "}\n"
+            ""
+        )
         self.LabelFuncionalidades.setObjectName("LabelFuncionalidades")
         self.verticalLayout.addWidget(self.LabelFuncionalidades)
         self.BtnVentas = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnVentas.sizePolicy().hasHeightForWidth())
@@ -261,13 +286,19 @@ class Ui_Navbar(object):
         self.BtnVentas.setMinimumSize(QtCore.QSize(0, 0))
         self.BtnVentas.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnVentas.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnVentas.setStyleSheet("\n"
-"    padding-left: 10px; /* Distancia entre icono y borde izquierdo */\n"
-"    text-align: right; /* Texto más hacia la derecha */\n"
-"\n"
-"")
+        self.BtnVentas.setStyleSheet(
+            "\n"
+            "    padding-left: 10px; /* Distancia entre icono y borde izquierdo */\n"
+            "    text-align: right; /* Texto más hacia la derecha */\n"
+            "\n"
+            ""
+        )
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/iconos/ventas.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("assets/iconos/ventas.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnVentas.setIcon(icon)
         self.BtnVentas.setIconSize(QtCore.QSize(30, 30))
         self.BtnVentas.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
@@ -275,7 +306,9 @@ class Ui_Navbar(object):
         self.BtnVentas.setObjectName("BtnVentas")
         self.verticalLayout.addWidget(self.BtnVentas)
         self.BtnCaja = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnCaja.sizePolicy().hasHeightForWidth())
@@ -284,14 +317,18 @@ class Ui_Navbar(object):
         self.BtnCaja.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnCaja.setStyleSheet("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("assets/iconos/Caja.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(
+            QtGui.QPixmap("assets/iconos/Caja.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.BtnCaja.setIcon(icon1)
         self.BtnCaja.setIconSize(QtCore.QSize(30, 30))
         self.BtnCaja.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnCaja.setObjectName("BtnCaja")
         self.verticalLayout.addWidget(self.BtnCaja)
         self.BtnCredito = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnCredito.sizePolicy().hasHeightForWidth())
@@ -299,14 +336,20 @@ class Ui_Navbar(object):
         self.BtnCredito.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnCredito.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("assets/iconos/Credito.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(
+            QtGui.QPixmap("assets/iconos/Credito.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnCredito.setIcon(icon2)
         self.BtnCredito.setIconSize(QtCore.QSize(30, 30))
         self.BtnCredito.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnCredito.setObjectName("BtnCredito")
         self.verticalLayout.addWidget(self.BtnCredito)
         self.BtnEgreso = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnEgreso.sizePolicy().hasHeightForWidth())
@@ -314,14 +357,20 @@ class Ui_Navbar(object):
         self.BtnEgreso.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnEgreso.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("assets/iconos/Egreso.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(
+            QtGui.QPixmap("assets/iconos/Egreso.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnEgreso.setIcon(icon3)
         self.BtnEgreso.setIconSize(QtCore.QSize(30, 30))
         self.BtnEgreso.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnEgreso.setObjectName("BtnEgreso")
         self.verticalLayout.addWidget(self.BtnEgreso)
         self.BtnRespaldo = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnRespaldo.sizePolicy().hasHeightForWidth())
@@ -329,29 +378,39 @@ class Ui_Navbar(object):
         self.BtnRespaldo.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnRespaldo.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("assets/iconos/Respaldo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(
+            QtGui.QPixmap("assets/iconos/Respaldo.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnRespaldo.setIcon(icon4)
         self.BtnRespaldo.setIconSize(QtCore.QSize(30, 30))
         self.BtnRespaldo.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnRespaldo.setObjectName("BtnRespaldo")
         self.verticalLayout.addWidget(self.BtnRespaldo)
         self.LabelDatos = QtWidgets.QLabel(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.LabelDatos.sizePolicy().hasHeightForWidth())
         self.LabelDatos.setSizePolicy(sizePolicy)
         self.LabelDatos.setMinimumSize(QtCore.QSize(250, 40))
         self.LabelDatos.setMaximumSize(QtCore.QSize(250, 40))
-        self.LabelDatos.setStyleSheet("#LabelDatos {\n"
-"    font-weight: bold; /* Negrita */\n"
-"    font-size: 22px; /* Tamaño de fuente */\n"
-"}\n"
-"")
+        self.LabelDatos.setStyleSheet(
+            "#LabelDatos {\n"
+            "    font-weight: bold; /* Negrita */\n"
+            "    font-size: 22px; /* Tamaño de fuente */\n"
+            "}\n"
+            ""
+        )
         self.LabelDatos.setObjectName("LabelDatos")
         self.verticalLayout.addWidget(self.LabelDatos)
         self.BtnProductos = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnProductos.sizePolicy().hasHeightForWidth())
@@ -359,29 +418,43 @@ class Ui_Navbar(object):
         self.BtnProductos.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnProductos.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("assets/iconos/Productos.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(
+            QtGui.QPixmap("assets/iconos/Productos.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnProductos.setIcon(icon5)
         self.BtnProductos.setIconSize(QtCore.QSize(30, 30))
         self.BtnProductos.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnProductos.setObjectName("BtnProductos")
         self.verticalLayout.addWidget(self.BtnProductos)
         self.BtnCrediFactura = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BtnCrediFactura.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.BtnCrediFactura.sizePolicy().hasHeightForWidth()
+        )
         self.BtnCrediFactura.setSizePolicy(sizePolicy)
         self.BtnCrediFactura.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnCrediFactura.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("assets/iconos/CrediFactura.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(
+            QtGui.QPixmap("assets/iconos/CrediFactura.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnCrediFactura.setIcon(icon6)
         self.BtnCrediFactura.setIconSize(QtCore.QSize(30, 30))
         self.BtnCrediFactura.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnCrediFactura.setObjectName("BtnCrediFactura")
         self.verticalLayout.addWidget(self.BtnCrediFactura)
         self.BtnFacturas = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnFacturas.sizePolicy().hasHeightForWidth())
@@ -389,14 +462,20 @@ class Ui_Navbar(object):
         self.BtnFacturas.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnFacturas.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("assets/iconos/Facturas.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(
+            QtGui.QPixmap("assets/iconos/Facturas.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnFacturas.setIcon(icon7)
         self.BtnFacturas.setIconSize(QtCore.QSize(30, 30))
         self.BtnFacturas.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnFacturas.setObjectName("BtnFacturas")
         self.verticalLayout.addWidget(self.BtnFacturas)
         self.BtnReportes = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnReportes.sizePolicy().hasHeightForWidth())
@@ -404,42 +483,61 @@ class Ui_Navbar(object):
         self.BtnReportes.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnReportes.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("assets/iconos/Reportes.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(
+            QtGui.QPixmap("assets/iconos/Reportes.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnReportes.setIcon(icon8)
         self.BtnReportes.setIconSize(QtCore.QSize(30, 30))
         self.BtnReportes.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnReportes.setObjectName("BtnReportes")
         self.verticalLayout.addWidget(self.BtnReportes)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            20, 200, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed
+        )
         self.verticalLayout.addItem(spacerItem1)
         self.BtnControlUsuario = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BtnControlUsuario.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.BtnControlUsuario.sizePolicy().hasHeightForWidth()
+        )
         self.BtnControlUsuario.setSizePolicy(sizePolicy)
         self.BtnControlUsuario.setMaximumSize(QtCore.QSize(16777215, 40))
         self.BtnControlUsuario.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnControlUsuario.setStyleSheet("")
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("assets/iconos/Usuarios.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon9.addPixmap(
+            QtGui.QPixmap("assets/iconos/Usuarios.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnControlUsuario.setIcon(icon9)
         self.BtnControlUsuario.setIconSize(QtCore.QSize(30, 30))
         self.BtnControlUsuario.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnControlUsuario.setObjectName("BtnControlUsuario")
         self.verticalLayout.addWidget(self.BtnControlUsuario)
         self.BtnUsuario = QtWidgets.QToolButton(self.QWNavbar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnUsuario.sizePolicy().hasHeightForWidth())
         self.BtnUsuario.setSizePolicy(sizePolicy)
         self.BtnUsuario.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.BtnUsuario.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnUsuario.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"")
+        self.BtnUsuario.setStyleSheet("background-color: rgb(255, 255, 255);\n" "")
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("assets/iconos/perfil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(
+            QtGui.QPixmap("assets/iconos/perfil.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         self.BtnUsuario.setIcon(icon10)
         self.BtnUsuario.setIconSize(QtCore.QSize(60, 60))
         self.BtnUsuario.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
@@ -455,7 +553,11 @@ class Ui_Navbar(object):
         _translate = QtCore.QCoreApplication.translate
         Navbar.setWindowTitle(_translate("Navbar", "Form"))
         self.LabelFuncionalidades.setText(_translate("Navbar", "Funcionalidades"))
-        self.BtnVentas.setToolTip(_translate("Navbar", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
+        self.BtnVentas.setToolTip(
+            _translate(
+                "Navbar", '<html><head/><body><p align="center"><br/></p></body></html>'
+            )
+        )
         self.BtnVentas.setText(_translate("Navbar", "   Ventas"))
         self.BtnCaja.setText(_translate("Navbar", "   Caja"))
         self.BtnCredito.setText(_translate("Navbar", "   Credito"))

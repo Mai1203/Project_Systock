@@ -16,6 +16,21 @@ def crear_categoria(db: Session, nombre: str):
     db.refresh(nueva_categoria)
     return nueva_categoria
 
+def obtener_o_crear_categoria(db: Session, nombre_categoria):
+    """
+    Busca una categoría por su nombre. Si no existe, la crea y devuelve su ID.
+    """
+    # Buscar la categoría por nombre
+    categoria = db.query(Categorias).filter(Categorias.Nombre == nombre_categoria).first()
+    if categoria:
+        return categoria.ID_Categoria  # Devolver ID si ya existe
+    
+    # Crear nueva categoría si no existe
+    nueva_categoria = Categorias(Nombre=nombre_categoria)
+    db.add(nueva_categoria)
+    db.commit()  # Confirmar los cambios
+    db.refresh(nueva_categoria)  # Actualizar el objeto para obtener el ID
+    return nueva_categoria.ID_Categoria
 
 # Obtener todas las categorías
 def obtener_categorias(db: Session):

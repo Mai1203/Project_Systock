@@ -16,6 +16,21 @@ def crear_marca(db: Session, nombre: str):
     db.refresh(nueva_marca)
     return nueva_marca
 
+def obtener_o_crear_marca(db: Session, nombre_marca):
+    """
+    Busca una marca por su nombre. Si no existe, la crea y devuelve su ID.
+    """
+    # Buscar la marca por nombre
+    marca = db.query(Marcas).filter(Marcas.Nombre == nombre_marca).first()
+    if marca:
+        return marca.ID_Marca  # Devolver ID si ya existe
+    
+    # Crear nueva marca si no existe
+    nueva_marca = Marcas(Nombre=nombre_marca)
+    db.add(nueva_marca)
+    db.commit()  # Confirmar los cambios
+    db.refresh(nueva_marca)  # Actualizar el objeto para obtener el ID
+    return nueva_marca.ID_Marca
 
 # Obtener todas las marcas
 def obtener_marcas(db: Session):

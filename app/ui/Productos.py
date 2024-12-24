@@ -431,6 +431,7 @@ class Ui_Productos(object):
 "    border-bottom: 1.5px solid black; /* Cambia el color y grosor según desees */\n"
 "}\n"
 "")
+        self.InputBuscador.setText("")
         self.InputBuscador.setObjectName("InputBuscador")
         self.horizontalLayout_3.addWidget(self.InputBuscador)
         self.label_11 = QtWidgets.QLabel(self.frame_2)
@@ -557,7 +558,7 @@ class Ui_Productos(object):
 "}\n"
 "")
         self.TablaProductos.setObjectName("TablaProductos")
-        self.TablaProductos.setColumnCount(12)
+        self.TablaProductos.setColumnCount(13)
         self.TablaProductos.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -598,6 +599,9 @@ class Ui_Productos(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.TablaProductos.setHorizontalHeaderItem(11, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.TablaProductos.setHorizontalHeaderItem(12, item)
         self.verticalLayout_3.addWidget(self.TablaProductos, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.verticalLayout_2.addWidget(self.widget)
         self.Contenido.addWidget(self.ContenidoPage1)
@@ -623,7 +627,6 @@ class Ui_Productos(object):
         self.LabelVentasA.setText(_translate("Productos", "Productos"))
         self.label_3.setText(_translate("Productos", "Codigo"))
         self.BtnEliminar.setText(_translate("Productos", "   Eliminar"))
-        self.InputBuscador.setText(_translate("Productos", ""))
         item = self.TablaProductos.horizontalHeaderItem(0)
         item.setText(_translate("Productos", "Código"))
         item = self.TablaProductos.horizontalHeaderItem(1)
@@ -648,3 +651,5 @@ class Ui_Productos(object):
         item.setText(_translate("Productos", "GU"))
         item = self.TablaProductos.horizontalHeaderItem(11)
         item.setText(_translate("Productos", "GAM"))
+        item = self.TablaProductos.horizontalHeaderItem(12)
+        item.setText(_translate("Productos", "State"))

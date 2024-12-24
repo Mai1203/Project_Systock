@@ -42,6 +42,6 @@ def editar():
         db.close()
 
 if __name__ == "__main__":
-    # init_db()
+    init_db()
     # poblar_datos_prueba()
-    editar()
+    # editar()

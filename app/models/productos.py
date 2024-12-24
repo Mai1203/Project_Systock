@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from app.database.database import Base
 
@@ -16,6 +16,7 @@ class Productos(Base):
     Stock_actual = Column(Integer, nullable=False)
     Stock_min = Column(Integer, nullable=False)
     Stock_max = Column(Integer, nullable=False)
+    Estado = Column(Boolean, nullable=False)
 
     ID_Marca = Column(Integer, ForeignKey("MARCAS.ID_Marca"))
     ID_Categoria = Column(Integer, ForeignKey("CATEGORIAS.ID_Categoria"))

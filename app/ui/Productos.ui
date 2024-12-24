@@ -502,7 +502,7 @@ QPushButton:hover {
                 </widget>
                </item>
                <item row="8" column="5">
-                <widget class="QPushButton" name="pushButton_4">
+                <widget class="QPushButton" name="BtnEliminar">
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
@@ -622,7 +622,7 @@ QLineEdit:focus {
 </string>
                   </property>
                   <property name="text">
-                   <string>hhhh</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -870,6 +870,14 @@ QScrollBar::handle:horizontal:hover {
                <column>
                 <property name="text">
                  <string>GAM</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>State</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>

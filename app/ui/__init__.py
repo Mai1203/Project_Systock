@@ -6,7 +6,6 @@ from .Caja import *
 from .Egreso import *
 from .Facturas import *
 from .FacturasCredito import *
-from .Login import *
 from .Productos import *
 from .VentasA import *
 from .VentasB import *

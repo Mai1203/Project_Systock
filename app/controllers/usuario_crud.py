@@ -120,6 +120,7 @@ def eliminar_usuario(db: Session, id_usuario: int):
     db.commit()
     return True
 
+
 def verificar_credenciales(db: Session, usuario: str, contraseña: str):
     """
     Verifica las credenciales del usuario.
@@ -132,4 +133,3 @@ def verificar_credenciales(db: Session, usuario: str, contraseña: str):
     if usuario_existente and usuario_existente.Contraseña == contraseña:
         return usuario_existente
     return None
-

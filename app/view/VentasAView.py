@@ -6,9 +6,10 @@ from ..controllers.detalle_factura_crud import *
 from ..controllers.facturas_crud import *
 from ..ui import Ui_VentasA
 
-class VentasA_View(QWidget, Ui_VentasA):
-    def __init__(self, parent=None):
-        super(VentasA_View, self).__init__(parent)
+
+cclass VentasAView(QWidget, Ui_VentasA):
+    def _init_(self, parent=None):
+        super(VentasAView, self)._init_(parent)
         self.setupUi(self)
         self.limpiar_tabla()
         # Conectar evento del input para escanear el código

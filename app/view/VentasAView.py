@@ -1,21 +1,33 @@
 from PyQt5.QtWidgets import QMessageBox, QWidget
+from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
 from ..controllers.detalle_factura_crud import *
 from ..controllers.facturas_crud import *
 from ..ui import Ui_VentasA
+import locale
 
-
-cclass VentasAView(QWidget, Ui_VentasA):
-    def _init_(self, parent=None):
-        super(VentasAView, self)._init_(parent)
+class VentasA_View(QWidget, Ui_VentasA):
+    def __init__(self, parent=None):
+        super(VentasA_View, self).__init__(parent)
         self.setupUi(self)
         self.limpiar_tabla()
         # Conectar evento del input para escanear el código
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         self.BtnAgregarProducto.clicked.connect(self.agregar_producto)
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
+        self.InputDomicilio.textChanged.connect(self.calcular_subtotal)  # Actualizar total cuando cambia el input domicilio
+        self.tableWidget.itemChanged.connect(self.actualizar_total) 
+        self.configurar_localizacion()
+
+
+    def configurar_localizacion(self):
+        try:
+            # Configura la localización a Colombia
+            locale.setlocale(locale.LC_ALL, 'es_CO.UTF-8')
+        except locale.Error:
+            print("No se pudo configurar la localización de Colombia.")
 
     def procesar_codigo(self):
         codigo = self.InputCodigo.text().strip()
@@ -139,22 +151,35 @@ cclass VentasAView(QWidget, Ui_VentasA):
             self.tableWidget.insertRow(rowPosition)
 
             # Agregar los datos a la nueva fila
-            self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(codigo))
-            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(nombre))
-            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(marca))
-            self.tableWidget.setItem(
-                rowPosition, 3, QtWidgets.QTableWidgetItem(categoria)
-            )  # Agregar categoría
-            self.tableWidget.setItem(
-                rowPosition, 4, QtWidgets.QTableWidgetItem(str(cantidad))
-            )
-            self.tableWidget.setItem(
-                rowPosition, 5, QtWidgets.QTableWidgetItem(str(precio_unitario))
-            )
-            self.tableWidget.setItem(
-                rowPosition, 6, QtWidgets.QTableWidgetItem(str(total))
-            )  # Mostrar el total
+            item_codigo = QtWidgets.QTableWidgetItem(codigo)
+            item_codigo.setFlags(item_codigo.flags() & ~QtCore.Qt.ItemIsEditable)
+            self.tableWidget.setItem(rowPosition, 0, item_codigo)
 
+            item_nombre = QtWidgets.QTableWidgetItem(nombre)
+            item_nombre.setFlags(item_nombre.flags() & ~QtCore.Qt.ItemIsEditable)
+            self.tableWidget.setItem(rowPosition, 1, item_nombre)
+
+            item_marca = QtWidgets.QTableWidgetItem(marca)
+            item_marca.setFlags(item_marca.flags() & ~QtCore.Qt.ItemIsEditable)
+            self.tableWidget.setItem(rowPosition, 2, item_marca)
+
+            item_categoria = QtWidgets.QTableWidgetItem(categoria)
+            item_categoria.setFlags(item_categoria.flags() & ~QtCore.Qt.ItemIsEditable)
+            self.tableWidget.setItem(rowPosition, 3, item_categoria)
+
+            item_cantidad = QtWidgets.QTableWidgetItem(str(cantidad))
+            item_cantidad.setFlags(item_cantidad.flags() & ~QtCore.Qt.ItemIsEditable)
+            self.tableWidget.setItem(rowPosition, 4, item_cantidad)
+
+            item_precio = QtWidgets.QTableWidgetItem(str(precio_unitario))
+            item_precio.setFlags(item_precio.flags() & ~QtCore.Qt.ItemIsEditable)
+            self.tableWidget.setItem(rowPosition, 5, item_precio)
+
+            item_total = QtWidgets.QTableWidgetItem(str(total))
+            item_total.setFlags(item_total.flags() & ~QtCore.Qt.ItemIsEditable)
+            self.tableWidget.setItem(rowPosition, 6, item_total)
+
+          
             # Limpiar los campos después de agregar
             self.limpiar_campos()
 
@@ -202,3 +227,56 @@ cclass VentasAView(QWidget, Ui_VentasA):
             QMessageBox.warning(
                 self, "Error", "Por favor, selecciona una fila para eliminar."
             )
+            
+    def obtener_valor_domicilio(self):
+        # Leer el valor del input de domicilio
+        domicilio = self.InputDomicilio.text().strip()
+        try:
+            domicilio = float(domicilio) if domicilio else 0.0  # Convertir a float
+        except ValueError:
+            QMessageBox.warning(self, "Error", "Por favor, ingrese un valor numérico válido para el domicilio.")
+            return 0.0
+        return domicilio
+
+    def calcular_subtotal(self):
+        # Calcular el subtotal sumando los valores de la columna "Total" (columna 6)
+        subtotal = 0.0
+        for row in range(self.tableWidget.rowCount()):
+            total_item = self.tableWidget.item(row, 6)  # Columna 6 contiene el total por producto
+            if total_item is not None:
+                try:
+                    subtotal += float(total_item.text())
+                except ValueError:
+                    continue  # Ignorar valores inválidos
+        return subtotal
+
+    def actualizar_total(self):
+        subtotal = self.calcular_subtotal()
+
+        # Verificar si el subtotal es un número entero
+        if subtotal.is_integer():
+            # Si es entero, formatear sin decimales
+            subtotal_formateado = locale.currency(subtotal, grouping=True, symbol=True).split('.')[0]
+        else:
+            # Si no es entero, mostrar con dos decimales
+            subtotal_formateado = locale.currency(subtotal, grouping=True, symbol=True)
+
+        # Actualizar el label de subtotal
+        self.LabelSubtotal.setText(f"Subtotal: {subtotal_formateado}")
+
+        # Obtener el valor del domicilio
+        domicilio = self.obtener_valor_domicilio()
+
+        # Calcular el total
+        total = subtotal + domicilio
+
+        # Verificar si el total es un número entero
+        if total.is_integer():
+            # Si es entero, formatear sin decimales
+            total_formateado = locale.currency(total, grouping=True, symbol=True).split('.')[0]
+        else:
+            # Si no es entero, mostrar con dos decimales
+            total_formateado = locale.currency(total, grouping=True, symbol=True)
+
+        # Actualizar el label de total
+        self.LabelTotal.setText(f"Total: {total_formateado}")

@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
 )
 from ..ui import Ui_ControlUsuario
 
-class ControlUsuarioView(QWidget, Ui_ControlUsuario):
+class ControlUsuario_View(QWidget, Ui_ControlUsuario):
     def __init__(self, parent=None):
-        super(ControlUsuarioView, self).__init__(parent)
+        super(ControlUsuario_View, self).__init__(parent)
         self.setupUi(self)

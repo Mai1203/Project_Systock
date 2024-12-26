@@ -3,15 +3,16 @@ from PyQt5.QtWidgets import (
     QWidget
 )
 from PyQt5 import QtWidgets, QtCore
+# from app.utils.enviar_notifi import *
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
 from ..controllers.marca_crud import *
 from ..controllers.categorias_crud import *
 from ..ui import Ui_Productos
 
-class ProductosView(QWidget, Ui_Productos):
+class Productos_View(QWidget, Ui_Productos):
     def __init__(self, parent=None):
-        super(ProductosView, self).__init__(parent)
+        super(Productos_View, self).__init__(parent)
         self.setupUi(self)
         self.InputBuscador.setPlaceholderText("Buscar por código, Nombre, Marca o Categoria")
         self.InputBuscador.textChanged.connect(self.buscar_productos)
@@ -150,12 +151,14 @@ class ProductosView(QWidget, Ui_Productos):
         
         if fila_seleccionada == -1:
             QtWidgets.QMessageBox.warning(self, "Error", "Selecciona un producto")
+            # enviar_notificacion("Error", "Seleccione un Producto!")
             return None
         
         id = self.TablaProductos.item(fila_seleccionada, 0).text()
         if id:
             return id
         else:
+            # enviar_notificacion("Error", "No se pudo obtener el ID del Producto")
             QtWidgets.QMessageBox.warning(self, "Error", "No se pudo obtener el ID del producto")
             return None
         

@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
 )
 from ..ui import Ui_FacturasCredito
 
-class CrediFacturaView(QWidget, Ui_FacturasCredito):
+class CrediFactura_View(QWidget, Ui_FacturasCredito):
     def __init__(self, parent=None):
-        super(CrediFacturaView, self).__init__(parent)
+        super(CrediFactura_View, self).__init__(parent)
         self.setupUi(self)

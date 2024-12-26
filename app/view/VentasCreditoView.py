@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import (
 )
 from ..ui import Ui_VentasCredito
 
-class VentasCreditoView(QWidget, Ui_VentasCredito):
+class VentasCredito_View(QWidget, Ui_VentasCredito):
     def __init__(self, parent=None):
-        super(VentasCreditoView, self).__init__(parent)
+        super(VentasCredito_View, self).__init__(parent)
         self.setupUi(self)
 

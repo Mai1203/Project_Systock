@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
 )
 from ..ui import Ui_Caja
 
-class CajaView(QWidget, Ui_Caja):
+class Caja_View(QWidget, Ui_Caja):
     def __init__(self, parent=None):
-        super(CajaView, self).__init__(parent)
+        super(Caja_View, self).__init__(parent)
         self.setupUi(self)

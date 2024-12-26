@@ -1,33 +1,25 @@
 from PyQt5.QtWidgets import (
     QMainWindow,
-    # QApplication,
+    QApplication,
     QHBoxLayout,
     QWidget,
     QStackedWidget,
 )
 # import sys
 from app.view import (
-    NavbarView,
-    RespaldoView,
-    ControlUsuarioView,
-    VentasAView,
-    VentasCreditoView,
-    FacturasView,
-    CrediFacturaView,
-    CajaView,
-    EgresoView,
-    ProductosView,
-    ReportesView,
+    Navbar_View,
+    Respaldo_View,
+    ControlUsuario_View,
+    VentasCredito_View,
+    Facturas_View,
+    CrediFactura_View,
+    VentasA_View,
+    Caja_View,
+    Egreso_View,
+    Productos_View,
+    Reportes_View,
 )
 
-# from ..ui import Ui_Navbar
-
-# class NavbarView(QWidget, Ui_Navbar):
-#     def __init__(self, parent=None):
-#         super(NavbarView, self).__init__(parent)
-#         self.setupUi(self)
-
-# Clase principal
 class MainApp(QMainWindow):
     def __init__(self):
         super(MainApp, self).__init__()
@@ -49,7 +41,7 @@ class MainApp(QMainWindow):
         layout.setSpacing(0)
 
         # Crear el Navbar
-        self.navbar = NavbarView()
+        self.navbar = Navbar_View()
         layout.addWidget(self.navbar)  # Agregar el Navbar al lado izquierdo
 
         # Crear el QStackedWidget para el contenido
@@ -57,16 +49,16 @@ class MainApp(QMainWindow):
         layout.addWidget(self.stacked_widget)  # Agregar el QStackedWidget al lado derecho
 
         # Crear y agregar vistas al QStackedWidget
-        self.ventasA = VentasAView()
-        self.ventasCredito = VentasCreditoView()
-        self.facturas = FacturasView()
-        self.caja = CajaView()
-        self.egreso = EgresoView()
-        self.productos = ProductosView()
-        self.respaldo_view = RespaldoView()
-        self.control_usuario_view = ControlUsuarioView()
-        self.reportes = ReportesView()
-        self.crediFactura = CrediFacturaView()
+        self.ventasA = VentasA_View()
+        self.ventasCredito = VentasCredito_View()
+        self.facturas = Facturas_View()
+        self.caja = Caja_View()
+        self.egreso = Egreso_View()
+        self.productos = Productos_View()
+        self.respaldo_view = Respaldo_View()
+        self.control_usuario_view = ControlUsuario_View()
+        self.reportes = Reportes_View()
+        self.crediFactura = CrediFactura_View()
 
         self.stacked_widget.addWidget(self.ventasA)       # Índice 0
         self.stacked_widget.addWidget(self.ventasCredito) # Índice 1
@@ -111,21 +103,21 @@ class MainApp(QMainWindow):
             lambda: self.stacked_widget.setCurrentWidget(self.control_usuario_view)
         )
         
-    # def center_window(self):
-    #     screen = QApplication.primaryScreen()
-    #     screen_geometry = screen.availableGeometry()
-    #     window_geometry = self.frameGeometry()
+    def center_window(self):
+        screen = QApplication.primaryScreen()
+        screen_geometry = screen.availableGeometry()
+        window_geometry = self.frameGeometry()
         
-    #     # Calcular la posición del centro
-    #     print(f"Screen geometry: {screen_geometry}")
-    #     print(f"Window geometry (before centering): {window_geometry}")
+        # Calcular la posición del centro
+        print(f"Screen geometry: {screen_geometry}")
+        print(f"Window geometry (before centering): {window_geometry}")
         
-    #     window_geometry.moveCenter(screen_geometry.center())
+        window_geometry.moveCenter(screen_geometry.center())
         
-    #     print(f"Window geometry (after centering): {window_geometry}")
-    #     print(f"Top-left position to move: {window_geometry.topLeft()}")
+        print(f"Window geometry (after centering): {window_geometry}")
+        print(f"Top-left position to move: {window_geometry.topLeft()}")
         
-    #     self.move(window_geometry.topLeft())
+        self.move(window_geometry.topLeft())
 
 
 # Ejecución de la aplicación

@@ -4,9 +4,9 @@ from PyQt5.QtWidgets import (
 )
 from ..ui import Ui_Navbar
 
-class NavbarView(QWidget, Ui_Navbar):
+class Navbar_View(QWidget, Ui_Navbar):
     def __init__(self, parent=None):
-        super(NavbarView, self).__init__(parent)
+        super(Navbar_View, self).__init__(parent)
         self.setupUi(self)
         
         

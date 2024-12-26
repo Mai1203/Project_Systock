@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
     QWidget
 )
 from PyQt5 import QtWidgets, QtCore
-# from app.utils.enviar_notifi import *
+from ..utils.enviar_notifi import enviar_notificacion
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
 from ..controllers.marca_crud import *
@@ -17,6 +17,8 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputBuscador.setPlaceholderText("Buscar por código, Nombre, Marca o Categoria")
         self.InputBuscador.textChanged.connect(self.buscar_productos)
         
+        self.TablaProductos.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.TablaProductos.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.TablaProductos.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         
         # Conectar el evento de presionar Enter en los inputs
@@ -37,10 +39,23 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         self.TablaProductos.cellClicked.connect(self.cargar_datos_fila)
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
-        self.BtnEliminar.clicked.connect(self.eliminar_producto)
+        self.BtnEliminar.clicked.connect(self.eliminar_productos)
         self.limpiar_tabla_productos()
         self.mostrar_productos()
-   
+        
+    def obtener_ids_seleccionados(self):
+        """
+        Obtiene los IDs de los productos seleccionados en la tabla.
+        """
+        filas_seleccionadas = self.TablaProductos.selectionModel().selectedRows()
+        ids = []
+
+        for fila in filas_seleccionadas:
+            id_producto = self.TablaProductos.item(fila.row(), 0).text()  # Columna 0: ID del producto
+            ids.append(int(id_producto))
+        
+        return ids
+
     def buscar_productos(self):
        """
        Busca productos por código, nombre, marca o categoría.
@@ -150,16 +165,14 @@ class Productos_View(QWidget, Ui_Productos):
         fila_seleccionada = self.TablaProductos.currentRow()
         
         if fila_seleccionada == -1:
-            QtWidgets.QMessageBox.warning(self, "Error", "Selecciona un producto")
-            # enviar_notificacion("Error", "Seleccione un Producto!")
+            enviar_notificacion("Error", "Seleccione un Producto!")
             return None
         
         id = self.TablaProductos.item(fila_seleccionada, 0).text()
         if id:
             return id
         else:
-            # enviar_notificacion("Error", "No se pudo obtener el ID del Producto")
-            QtWidgets.QMessageBox.warning(self, "Error", "No se pudo obtener el ID del producto")
+            enviar_notificacion("Error", "No se pudo obtener el ID del Producto")
             return None
         
     def cargar_datos_fila(self):
@@ -182,36 +195,6 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputPrecioCompra.setText(datos_fila[7])
         self.InputPrecioUnitario.setText(datos_fila[8])
         self.InputPrecioMayor.setText(datos_fila[9])
-        
-    def eliminar_producto(self):
-        """
-        Elimina el producto seleccionado en la tabla.
-        """
-        id = self.obtener_id_producto()
-        if id is None:
-            return
-        respuesta = QMessageBox.question(
-            self,
-            "Confirmar Eliminación",
-            f"¿Estás seguro de que deseas eliminar el producto con ID {id}?",
-            QMessageBox.Yes | QMessageBox.No
-        )
-        if respuesta == QMessageBox.No:
-            return
-        
-        try:
-            self.db = SessionLocal()
-            eliminar_producto(self.db, id)  # Llamar a la función de base de datos
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"No se pudo eliminar el producto: {str(e)}")
-            return
-
-        QMessageBox.information(self, "Éxito", "Producto eliminado correctamente.")
-        
-        self.db.close()
-        self.limpiar_formulario()
-        self.limpiar_tabla_productos()
-        self.mostrar_productos()
     
     def mostrar_productos(self):
         """
@@ -245,7 +228,7 @@ class Productos_View(QWidget, Ui_Productos):
         categoria = self.InputCategoria.text()
         
         if not id or not nombre or not precio_compra or not cantidad or not cantidad_min or not cantidad_max or not marca or not categoria:
-            QtWidgets.QMessageBox.warning(self, "Error", "Por favor, rellene todos los campos")
+            enviar_notificacion("Error", "Por favor, rellene todos los campos")
             return
         
         try:
@@ -259,17 +242,23 @@ class Productos_View(QWidget, Ui_Productos):
             id_marca = obtener_o_crear_marca(self.db, marca)
             id_categoria = obtener_o_crear_categoria(self.db, categoria)
             
+            producto_existente = obtener_producto_por_id(self.db, id)
+            if producto_existente:
+                enviar_notificacion("Error", "El producto ya existe en la base de datos")
+                return
+            
             crear_producto(self.db, id, nombre, precio_compra, cantidad, cantidad_min, cantidad_max, id_marca, id_categoria)
-            QtWidgets.QMessageBox.information(self, "Éxito", "Producto registrado exitosamente")
+            enviar_notificacion("Éxito", "Producto registrado exitosamente")
             self.limpiar_formulario()
             self.limpiar_tabla_productos()
             self.mostrar_productos()
 
         except ValueError:
-            QtWidgets.QMessageBox.warning(self, "Error", "Por favor, ingrese valores numéricos")
+            enviar_notificacion("Error", "Por favor, ingrese valores numéricos")
         
         except Exception as e:
-            QtWidgets.QMessageBox.critical(self, "Error", f"Error: {e}")
+            print(f"Error: {e}")
+            enviar_notificacion("Error", f"Error: {e}")
             
         finally:
             if hasattr(self, "db") and self.db:
@@ -294,7 +283,7 @@ class Productos_View(QWidget, Ui_Productos):
         
         # Verificar que todos los campos tengan datos
         if not id or not nombre or not precio_compra or not cantidad or not cantidad_min or not cantidad_max or not marca or not categoria or not precio_mayor or not precio_unitario:
-            QMessageBox.warning(self, "Error", "Por favor, rellene todos los campos")
+            enviar_notificacion("Error", "Por favor, rellene todos los campos")
             return
         
         # Confirmar si el usuario desea realizar la edición
@@ -320,12 +309,12 @@ class Productos_View(QWidget, Ui_Productos):
                 producto_actualizado = actualizar_producto(self.db, id, nombre, precio_compra, precio_mayor, precio_unitario, cantidad, cantidad_min, cantidad_max, id_marca, id_categoria)
                 
                 if producto_actualizado:
-                    QMessageBox.information(self, "Éxito", "Producto actualizado correctamente")
+                    enviar_notificacion("Éxito", "Producto actualizado correctamente")
                     self.limpiar_formulario()
                     self.limpiar_tabla_productos()
                     self.mostrar_productos()
                 else:
-                    QMessageBox.warning(self, "Error", "Hubo un problema al actualizar el producto")
+                    enviar_notificacion("Error", "Hubo un problema al actualizar el producto")
                 
                 self.db.close()
             
@@ -363,3 +352,40 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputCategoria.setText("")
         self.InputPrecioUnitario.setText("")
         self.InputPrecioMayor.setText("")
+        
+    def eliminar_productos(self):
+        """
+        Elimina los productos seleccionados de la base de datos y actualiza la tabla.
+        """
+        ids = self.obtener_ids_seleccionados()
+
+        if not ids:
+            enviar_notificacion("Advertencia", "No se seleccionaron productos para eliminar.")
+            return
+
+        respuesta = QtWidgets.QMessageBox.question(
+            self,
+            "Confirmar Eliminación",
+            f"¿Está seguro de que desea eliminar {len(ids)} producto(s)?",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No
+        )
+
+        if respuesta == QtWidgets.QMessageBox.Yes:
+            try:
+                self.db = SessionLocal()
+                
+                # Eliminar los productos de la base de datos
+                for id_producto in ids:
+                    eliminar_producto(self.db, id_producto)
+                
+                self.db.commit()
+                enviar_notificacion("Éxito", "Producto(s) eliminado(s) correctamente.")
+                
+                # Actualizar la tabla
+                self.limpiar_tabla_productos()
+                self.mostrar_productos()
+                self.limpiar_formulario()
+            except Exception as e:
+                enviar_notificacion("Error", f"Error al eliminar productos: {e}")
+            finally:
+                self.db.close()

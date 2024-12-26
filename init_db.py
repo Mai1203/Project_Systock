@@ -14,17 +14,9 @@ def poblar_datos_prueba():
     db = SessionLocal()
     # Crear usuarios de prueba
     try:
-        print("Creando rol...")
-        crear_rol(db, "ADMINISTRADOR")
-        print("Rol creado exitosamente.")
-
-        print("Creando usuario...")
-        crear_usuario(db, 1004598203, "Michael", "michael", "314159", True, 1)
-        print("Usuario creado exitosamente.")
-
-        print("Creando producto...")
-        crear_producto(db, 1254, "Esmalte", 4500, 100, 10, 150, 1, 1)
-        print("Producto creado exitosamente.")
+        print("Creando usuarios de prueba...")
+        crear_usuario(db, 1004598203, "Michael", "maicol", "12032003", True, 1)
+        print("usuarios de prueba creados exitosamente.")
     except Exception as e:
         print(f"Error al poblar datos: {e}")
     finally:
@@ -42,6 +34,6 @@ def editar():
         db.close()
 
 if __name__ == "__main__":
-    init_db()
-    # poblar_datos_prueba()
+    # init_db()
+    poblar_datos_prueba()
     # editar()

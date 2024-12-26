@@ -5,8 +5,21 @@ from app.models.productos import Marcas
 from app.models.productos import Categorias
 
 
-def redondear_a_cientos(valor):
-    return round(valor / 100) * 100
+def redondear_a_cientos(numero):
+    """
+    Redondea el número hacia el siguiente múltiplo de 100.
+    Siempre redondea hacia arriba.
+    """
+    if numero is None:  # Comprobar si el número es None
+        raise ValueError("El valor de 'numero' no puede ser None")
+
+    if not isinstance(numero, (int, float)):  # Verifica que el número sea int o float
+        raise TypeError("El valor debe ser un número entero o flotante")
+
+    if numero % 100 == 0:
+        return numero  # Ya es múltiplo de 100
+    
+    return ((numero // 100) + 1) * 100
 
 
 def calcular_ganancia(precio_venta, precio_costo):
@@ -172,7 +185,9 @@ def actualizar_producto(
     """
     ganancia_producto_normal = calcular_ganancia(precio_venta_normal, precio_costo)
     ganancia_producto_mayor = calcular_ganancia(precio_venta_mayor, precio_costo)
-    estado = estado(stock_actual)
+    
+    estado = cambiar_estado(stock_actual)
+    
     producto_existente = (
         db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
     )

@@ -9,3 +9,4 @@ from .RespaldoView import *
 from .ReportesView import *
 from .VentasAView import *
 from .VentasCreditoView import *
+from .LoginView import *

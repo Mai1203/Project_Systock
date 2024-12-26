@@ -14,13 +14,35 @@ def poblar_datos_prueba():
     db = SessionLocal()
     # Crear usuarios de prueba
     try:
+        print("Creando rols de prueba...")
+        crear_rol(db, "ADMINISTRADOR")
+        crear_rol(db, "ASESOR")
+        print("Rols de prueba creados exitosamente.")
+    except Exception as e:
+        print(f"Error al poblar datos: {e}")
+        
+    
+    try:
         print("Creando usuarios de prueba...")
-        crear_usuario(db, 1004598203, "Michael", "maicol", "12032003", True, 1)
+        crear_usuario(db, 1004, "Admin", "admin", "admin", True, 1)
         print("usuarios de prueba creados exitosamente.")
     except Exception as e:
         print(f"Error al poblar datos: {e}")
-    finally:
-        db.close()
+        
+    try:
+        print("Creando productos de prueba...")
+        crear_producto(db, 852, "Teclado_Mecanico", 4500, 100, 10, 150, 1, 1)
+        crear_producto(db, 853, "Teclado_Mecanico", 3200, 100, 10, 150, 1, 1)
+        crear_producto(db, 854, "Teclado_Mecanico", 1200, 100, 10, 150, 1, 1)
+        crear_producto(db, 855, "Teclado_Mecanico", 2000, 100, 10, 150, 1, 1)
+        crear_producto(db, 856, "Teclado_Mecanico", 80000, 100, 10, 150, 1, 1)
+        print("Productos de prueba creados exitosamente.")
+    except Exception as e:
+        print(f"Error al poblar datos: {e}")
+    
+       
+    db.close()
+    
         
 def editar():
     db = SessionLocal()
@@ -33,7 +55,7 @@ def editar():
     finally:
         db.close()
 
-if __name__ == "__main__":
-    # init_db()
-    poblar_datos_prueba()
-    # editar()
+# if __name__ == "__main__":
+#     init_db()
+#     poblar_datos_prueba()
+#     editar()

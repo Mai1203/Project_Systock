@@ -1,12 +1,9 @@
 from PyQt5.QtWidgets import (
-    QMainWindow,
-    QApplication,
-    QHBoxLayout,
     QWidget,
+    QHBoxLayout,
     QStackedWidget,
 )
 from PyQt5.QtGui import QIcon
-# import sys
 from app.view import (
     Navbar_View,
     Respaldo_View,
@@ -21,24 +18,19 @@ from app.view import (
     Reportes_View,
 )
 
-class MainApp(QMainWindow):
-    def __init__(self):
-        super(MainApp, self).__init__()
+class MainApp(QWidget):
+    def __init__(self, parent=None):
+        super(MainApp, self).__init__(parent)
 
         # Configurar la ventana principal
         self.setWindowTitle("Systock")
         self.setWindowIcon(QIcon("assets/logo.ico"))
         self.resize(800, 600)
-        # self.center_window()
-
+        
         self.setStyleSheet("background-color: white;")
         
         # Widget central que contiene el diseño principal
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
-
-        # Crear el diseño principal
-        layout = QHBoxLayout(central_widget)
+        layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)  # Sin márgenes
         layout.setSpacing(0)
 
@@ -104,27 +96,3 @@ class MainApp(QMainWindow):
         self.navbar.BtnControlUsuario.clicked.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.control_usuario_view)
         )
-        
-    def center_window(self):
-        screen = QApplication.primaryScreen()
-        screen_geometry = screen.availableGeometry()
-        window_geometry = self.frameGeometry()
-        
-        # Calcular la posición del centro
-        print(f"Screen geometry: {screen_geometry}")
-        print(f"Window geometry (before centering): {window_geometry}")
-        
-        window_geometry.moveCenter(screen_geometry.center())
-        
-        print(f"Window geometry (after centering): {window_geometry}")
-        print(f"Top-left position to move: {window_geometry.topLeft()}")
-        
-        self.move(window_geometry.topLeft())
-
-
-# Ejecución de la aplicación
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     main_window = MainApp()
-#     main_window.show()
-#     sys.exit(app.exec_())

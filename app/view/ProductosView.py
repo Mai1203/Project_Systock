@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import (
     QWidget
 )
 from PyQt5 import QtWidgets, QtCore
+from ..utils.formateador import formatear_numero
 from ..utils.enviar_notifi import enviar_notificacion
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
@@ -233,6 +234,7 @@ class Productos_View(QWidget, Ui_Productos):
         
         try:
             id = int(id)
+            
             precio_compra = float(precio_compra)
             cantidad = int(cantidad)
             cantidad_min = int(cantidad_min)

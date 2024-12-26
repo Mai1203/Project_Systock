@@ -602,6 +602,8 @@ class Ui_Productos(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.TablaProductos.setHorizontalHeaderItem(12, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.verticalLayout_3.addWidget(self.TablaProductos, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.verticalLayout_2.addWidget(self.widget)
         self.Contenido.addWidget(self.ContenidoPage1)

@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QStackedWidget,
 )
+from PyQt5.QtGui import QIcon
 # import sys
 from app.view import (
     Navbar_View,
@@ -25,7 +26,8 @@ class MainApp(QMainWindow):
         super(MainApp, self).__init__()
 
         # Configurar la ventana principal
-        self.setWindowTitle("Aplicación Principal")
+        self.setWindowTitle("Systock")
+        self.setWindowIcon(QIcon("assets/logo.ico"))
         self.resize(800, 600)
         # self.center_window()
 

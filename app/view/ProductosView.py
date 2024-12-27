@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QWidget,
 )
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from ..utils import *
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
@@ -180,7 +180,17 @@ class Productos_View(QWidget, Ui_Productos):
                 estado_item = QtWidgets.QTableWidgetItem(estado)
                 estado_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.TablaProductos.setItem(row_idx, 12, estado_item)
-
+                
+                if row.Stock_actual <= row.Stock_min:
+                    for col in range(self.TablaProductos.columnCount()):
+                        item = self.TablaProductos.item(row_idx, col)
+                        if item:  # Verifica que el elemento no sea None
+                            item.setForeground(QtGui.QColor(255, 0, 0))  # Texto blanco
+                        else:
+                            print(f"No se encontró un elemento en la fila {row_idx}, columna {col}")
+                    self.TablaProductos.viewport().update() 
+                
+                        
     def procesar_codigo(self):
         """
         Procesa el código ingresado en el campo InputCodigo.

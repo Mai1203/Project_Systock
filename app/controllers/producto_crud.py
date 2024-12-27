@@ -183,41 +183,51 @@ def actualizar_producto(
     """
     Actualiza un producto existente.
     """
-    ganancia_producto_normal = calcular_ganancia(precio_venta_normal, precio_costo)
-    ganancia_producto_mayor = calcular_ganancia(precio_venta_mayor, precio_costo)
-    
-    estado = cambiar_estado(stock_actual)
-    
     producto_existente = (
         db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
     )
     if not producto_existente:
         return None
 
+    # Actualizar valores si se proporcionan
     if nombre:
         producto_existente.Nombre = nombre
     if precio_costo:
         producto_existente.Precio_costo = precio_costo
+        
+    if precio_costo and not precio_venta_normal:
+        producto_existente.Precio_venta_normal = calcular_precio(precio_costo, 0.5)
+    if precio_costo and not precio_venta_mayor:
+        producto_existente.Precio_venta_mayor = calcular_precio(precio_costo, 0.35)
+
     if precio_venta_mayor:
         producto_existente.Precio_venta_mayor = precio_venta_mayor
     if precio_venta_normal:
         producto_existente.Precio_venta_normal = precio_venta_normal
-    if ganancia_producto_mayor:
-        producto_existente.Ganancia_Producto_mayor = ganancia_producto_mayor
-    if ganancia_producto_normal:
-        producto_existente.Ganancia_Producto_normal = ganancia_producto_normal
+    
+    # Recalcular ganancias si precio_costo o precios de venta fueron actualizados
+    if precio_costo or precio_venta_normal:
+        producto_existente.Ganancia_Producto_normal = calcular_ganancia(
+            producto_existente.Precio_venta_normal, producto_existente.Precio_costo
+        )
+    if precio_costo or precio_venta_mayor:
+        producto_existente.Ganancia_Producto_mayor = calcular_ganancia(
+            producto_existente.Precio_venta_mayor, producto_existente.Precio_costo
+        )
+    
     if stock_actual is not None:
         producto_existente.Stock_actual = stock_actual
+        # Actualizar estado según el nuevo stock_actual
+        producto_existente.Estado = cambiar_estado(stock_actual)
     if stock_min is not None:
         producto_existente.Stock_min = stock_min
     if stock_max is not None:
         producto_existente.Stock_max = stock_max
+        
     if id_marca:
         producto_existente.ID_Marca = id_marca
     if id_categoria:
         producto_existente.ID_Categoria = id_categoria
-    if estado:
-        producto_existente.Estado = estado
 
     db.commit()
     db.refresh(producto_existente)

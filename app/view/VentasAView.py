@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMessageBox, QWidget, QTableWidgetItem
 from PyQt5.QtCore import QRegularExpression
 from PyQt5.QtGui import QRegularExpressionValidator
 from PyQt5 import QtCore
+from PyQt5.QtCore import QTimer
 from PyQt5 import QtWidgets
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
@@ -22,16 +23,20 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.configurar_localizacion()
         self.validar_campos()
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
-        self.BtnAgregarProducto.clicked.connect(self.agregar_producto)
+        self.timer = QTimer(self) #Timer para evitar consultas excesivas
+        self.timer.timeout.connect(self.procesar_codigo_y_agregar)
+        self.InputCodigo.textChanged.connect(self.iniciar_timer)
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
         self.tableWidget.cellClicked.connect(self.cargar_datos)
         self.InputCantidad.returnPressed.connect(self.actualizar_datos)
         self.InputPrecioUnitario.returnPressed.connect(self.actualizar_datos)
+        self.InputDomicilio.returnPressed.connect(self.actualizar_datos)
         self.InputDomicilio.editingFinished.connect(self.actualizar_total)
         self.tableWidget.itemChanged.connect(self.actualizar_total)
         # self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
         self.InputCedula.textChanged.connect(self.validar_campos)
         self.InputCedula.returnPressed.connect(self.completar_campos)
+        self.InputDescuento.returnPressed.connect(self.aplicar_descuento)
         self.InputDescuento.returnPressed.connect(self.aplicar_descuento)
 
 
@@ -90,7 +95,21 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.tableWidget.setRowCount(
             0
         )  # Solo elimina las filas, pero mantiene las columnas
-
+    def iniciar_timer(self):
+        self.timer.stop()  # Reiniciar el timer con cada pulsación de tecla
+        self.timer.start(500)  # Iniciar el timer con un retraso de 500ms
+         
+    def procesar_codigo_y_agregar(self):
+        self.timer.stop() #Detener el timer para evitar ejecuciones duplicadas
+        codigo = self.InputCodigo.text().strip()
+        if codigo:
+            self.procesar_codigo()
+            if self.id_categoria is not None:
+                self.InputCantidad.setText("1")
+                self.agregar_producto()
+                self.InputCodigo.clear()
+                self.InputCodigo.setFocus()
+            
     def agregar_producto(self):
         # Leer los datos de los campos de entrada
         codigo = self.InputCodigo.text().strip()
@@ -148,6 +167,7 @@ class VentasA_View(QWidget, Ui_VentasA):
 
             # Calcular el total
             total = cantidad * precio_unitario
+            total_redondeado = round(total / 100) * 100
 
             # Obtener la posición de la nueva fila en la tabla
             rowPosition = (
@@ -188,10 +208,10 @@ class VentasA_View(QWidget, Ui_VentasA):
             item_precio.setTextAlignment(QtCore.Qt.AlignCenter)
             self.tableWidget.setItem(rowPosition, 5, item_precio)
 
-            item_total = QtWidgets.QTableWidgetItem(str(total))
-            item_total.setFlags(item_total.flags() & ~QtCore.Qt.ItemIsEditable)
-            item_total.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.tableWidget.setItem(rowPosition, 6, item_total)
+            item_total_redondeado = QtWidgets.QTableWidgetItem(str(total_redondeado))
+            item_total_redondeado.setFlags(item_total_redondeado.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_total_redondeado.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.tableWidget.setItem(rowPosition, 6, item_total_redondeado)
             # Limpiar los campos después de agregar
             self.limpiar_campos()
 
@@ -235,6 +255,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             if reply == QMessageBox.Yes:
                 # Eliminar la fila seleccionada
                 self.tableWidget.removeRow(fila_seleccionada)
+                self.limpiar_campos()
 
                 # Actualizar el subtotal y total después de eliminar la fila
                 self.actualizar_total()
@@ -298,7 +319,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             if (
                 row >= 0 and row < self.tableWidget.rowCount()
             ):  # Comprobar que la fila existe
-                codigo_item = self.tableWidget.item(row, 0)
+                #codigo_item = self.tableWidget.item(row, 0)
                 nombre_item = self.tableWidget.item(row, 1)
                 marca_item = self.tableWidget.item(row, 2)
                 categoria_item = self.tableWidget.item(row, 3)
@@ -308,7 +329,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 if all(
                     item is not None
                     for item in [
-                        codigo_item,
+                 #       codigo_item,
                         nombre_item,
                         marca_item,
                         categoria_item,
@@ -316,14 +337,14 @@ class VentasA_View(QWidget, Ui_VentasA):
                         precio_unitario_item,
                     ]
                 ):  # Comprobar que los items no son None
-                    codigo = codigo_item.text()
+                 #   codigo = codigo_item.text()
                     nombre = nombre_item.text()
                     marca = marca_item.text()
                     categoria = categoria_item.text()
                     cantidad = cantidad_item.text()
                     precio_unitario = precio_unitario_item.text()
 
-                    self.InputCodigo.setText(codigo)
+                 #   self.InputCodigo.setText(codigo)
                     self.InputNombre.setText(nombre)
                     self.InputMarca.setText(marca)
                     self.InputCantidad.setText(cantidad)
@@ -359,7 +380,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         # Almacenar la fila seleccionada para usarla más tarde en la actualización
         self.fila_seleccionada = row
 
-    def actualizar_datos(self):  # Función corregida
+    def actualizar_datos(self):  
         if self.fila_seleccionada is not None:
             try:
                 cantidad_str = self.InputCantidad.text().strip()
@@ -376,32 +397,76 @@ class VentasA_View(QWidget, Ui_VentasA):
                 cantidad = int(cantidad_str)
                 precio_unitario = float(precio_unitario_str)
 
+                # Obtener el código del producto desde la fila seleccionada
                 row = self.fila_seleccionada
-
                 if row < self.tableWidget.rowCount():
-                    self.tableWidget.setItem(row, 4, QTableWidgetItem(str(cantidad)))
-                    self.tableWidget.setItem(
-                        row, 5, QTableWidgetItem(str(precio_unitario))
-                    )
-                    total = cantidad * precio_unitario
-                    self.tableWidget.setItem(row, 6, QTableWidgetItem(str(total)))
-
-                    self.actualizar_total()  # Recalcular el total
-
-                    self.limpiar_campos()
-                    QMessageBox.information(
-                        self, "Actualización", "Datos actualizados satisfactoriamente."
-                    )
-                    self.fila_seleccionada = None
-                    self.InputDomicilio.setEnabled(False)
-
+                    item_codigo = self.tableWidget.item(row, 0)  # Suponiendo que la columna 0 contiene el código
+                    if item_codigo:
+                        codigo = item_codigo.text().strip()
+                    else:
+                        QMessageBox.warning(
+                            self,
+                            "Error",
+                            "No se pudo obtener el código del producto desde la fila seleccionada.",
+                        )
+                        return
                 else:
                     QMessageBox.warning(
-                        self, "Error", "La fila seleccionada ya no existe en la tabla."
+                        self,
+                        "Error",
+                        "La fila seleccionada ya no existe en la tabla.",
                     )
-                    self.fila_seleccionada = None
-                    self.InputDomicilio.setEnabled(False)
-                    self.InputDomicilio.clear()
+                    return
+
+                # Conexión a la base de datos
+                db = SessionLocal()
+
+                try:
+                    # Obtener el producto desde la base de datos usando la función obtener_producto_por_id
+                    productos = obtener_producto_por_id(db, int(codigo))
+
+                    if productos:
+                        producto = productos[0]
+                        # Obtener el stock disponible
+                        stock_disponible = producto.Stock_actual
+
+                        # Verificar si la cantidad ingresada es mayor al stock disponible
+                        if cantidad > stock_disponible:
+                            QMessageBox.warning(
+                                self,
+                                "Stock insuficiente",
+                                f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
+                            )
+                            return  # No proceder con la venta si no hay suficiente stock
+                    else:
+                        QMessageBox.warning(
+                            self,
+                            "Producto no encontrado",
+                            "No existe un producto asociado a este código.",
+                        )
+                        return
+                finally:
+                    db.close()
+
+                # Actualizar los datos en la tabla
+                self.tableWidget.setItem(row, 4, QTableWidgetItem(str(cantidad)))
+                self.tableWidget.item(row, 4).setTextAlignment(QtCore.Qt.AlignCenter) 
+                self.tableWidget.setItem(
+                    row, 5, QTableWidgetItem(str(precio_unitario))
+                )
+                self.tableWidget.item(row, 5).setTextAlignment(QtCore.Qt.AlignCenter) 
+                total = cantidad * precio_unitario
+                self.tableWidget.setItem(row, 6, QTableWidgetItem(str(total)))
+                self.tableWidget.item(row, 6).setTextAlignment(QtCore.Qt.AlignCenter) 
+
+                self.actualizar_total()  # Recalcular el total
+
+                self.limpiar_campos()
+                QMessageBox.information(
+                    self, "Actualización", "Datos actualizados satisfactoriamente."
+                )
+                self.fila_seleccionada = None
+
             except ValueError:
                 QMessageBox.warning(
                     self,
@@ -416,8 +481,6 @@ class VentasA_View(QWidget, Ui_VentasA):
             QMessageBox.warning(
                 self, "Error", "No se ha seleccionado ninguna fila para actualizar."
             )
-            self.InputDomicilio.setEnabled(False)
-            self.InputDomicilio.clear()
 
     def validar_campos(self):
         # Cédula (solo números)
@@ -464,14 +527,13 @@ class VentasA_View(QWidget, Ui_VentasA):
         )  # Expresión para números y puntos
         validator_descuento = QRegularExpressionValidator(rx_descuento)
         self.InputDescuento.setValidator(validator_descuento)
-        
-        rx_descuento = QRegularExpression(r"^\d+(\.\d+)?$") #Permite numeros enteros y decimales
+        rx_descuento = QRegularExpression(r"^\d+$") #Permite numeros enteros 
         validator_descuento = QRegularExpressionValidator(rx_descuento)
         self.InputDescuento.setValidator(validator_descuento)
 
     def completar_campos(self):
 
-        if self.InputCedula.text() == "747":
+        if self.InputCedula.text() == "111":
             self.InputNombreCli.setText(
                 "Predeterminado"
             )  # Cambia por el nombre que desees
@@ -482,46 +544,52 @@ class VentasA_View(QWidget, Ui_VentasA):
             
     def aplicar_descuento(self):
         try:
+            # Obtener y validar el valor de descuento ingresado
             descuento_str = self.InputDescuento.text().strip()
+            
+            # Si el campo está vacío, asignar descuento a 0
             if not descuento_str:
-                self.InputDescuento.clear()
-                self.actualizar_total()
-                return
-
-            descuento = float(descuento_str)
-            if descuento < 0:
-                raise ValueError("El descuento no puede ser negativo.")
+                descuento = 0
+                self.InputDescuento.setText("0")  # Actualizar visualmente el campo a 0
+            else:
+                descuento = float(descuento_str)
+                if descuento < 0:  # Validar que el descuento no sea negativo
+                    raise ValueError("El descuento no puede ser negativo.")
 
         except ValueError:
             QMessageBox.warning(self, "Error", "Valor de descuento no válido.")
             self.InputDescuento.clear()
             return
-        
+
+        # Calcular el subtotal antes del descuento
         subtotal_antes_descuento = self.calcular_subtotal()
 
+        # Validar que el descuento no sea mayor al subtotal
         if descuento > subtotal_antes_descuento:
             QMessageBox.warning(self, "Error", "El descuento no puede ser mayor al subtotal.")
             self.InputDescuento.clear()
             return
 
-        # *** Aplicar el descuento a CADA FILA de la tabla ***
-        for row in range(self.tableWidget.rowCount()):
-            try:
-                cantidad_item = self.tableWidget.item(row, 4)
-                precio_item = self.tableWidget.item(row, 5)
+        # Calcular el nuevo subtotal después del descuento
+        nuevo_subtotal = subtotal_antes_descuento - descuento
 
-                if cantidad_item and precio_item:
-                    cantidad = int(cantidad_item.text())
-                    precio_unitario = float(precio_item.text())
-                    total_sin_descuento = cantidad * precio_unitario
+        # Formatear el subtotal: Si no hay decimales, no los muestra
+        if nuevo_subtotal.is_integer():
+            subtotal_formateado = f"{nuevo_subtotal:,.0f}"
+        else:
+            subtotal_formateado = f"{nuevo_subtotal:,.2f}"
 
-                    # Calcula el descuento proporcional por cada item
-                    descuento_proporcional = (total_sin_descuento / subtotal_antes_descuento) * descuento
-                    
-                    nuevo_total = total_sin_descuento - descuento_proporcional
-                    self.tableWidget.setItem(row, 6, QTableWidgetItem(str(nuevo_total)))
-            except ValueError:
-                continue
+        # Actualizar el label de Subtotal con formato de moneda
+        self.LabelSubtotal.setText(f"Subtotal: {subtotal_formateado}")
 
-        self.actualizar_total()
-        QMessageBox.information(self, "Descuento Aplicado", "Descuento aplicado correctamente.")
+        # Calcular el total considerando el domicilio u otros cargos (si aplica)
+        total = nuevo_subtotal + self.obtener_valor_domicilio()
+
+        # Formatear el total: Si no hay decimales, no los muestra
+        if total.is_integer():
+            total_formateado = f"{total:,.0f}"
+        else:
+            total_formateado = f"{total:,.2f}"
+
+        # Actualizar el label de Total con formato de moneda
+        self.LabelTotal.setText(f"Total: {total_formateado}")

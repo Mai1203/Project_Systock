@@ -34,6 +34,7 @@ def cambiar_estado(stock_actual):
         return True
     else:
         return False
+
 # Crear un producto
 def crear_producto(
     db: Session,
@@ -43,6 +44,8 @@ def crear_producto(
     stock_actual: int,
     stock_min: int,
     stock_max: int,
+    precio_venta_normal: float,
+    precio_venta_mayor: float,
     id_marca: int,
     id_categoria: int,
 ):
@@ -50,8 +53,6 @@ def crear_producto(
     Crea un nuevo producto.
     """
     estado = cambiar_estado(stock_actual)
-    precio_venta_normal = calcular_precio(precio_costo, 0.5)
-    precio_venta_mayor = calcular_precio(precio_costo, 0.35)
 
     ganancia_producto_normal = calcular_ganancia(precio_venta_normal, precio_costo)
     ganancia_producto_mayor = calcular_ganancia(precio_venta_mayor, precio_costo)

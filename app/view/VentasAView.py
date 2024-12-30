@@ -30,6 +30,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.tableWidget.cellClicked.connect(self.cargar_datos)
         self.InputCantidad.returnPressed.connect(self.actualizar_datos)
         self.InputPrecioUnitario.returnPressed.connect(self.actualizar_datos)
+        self.InputDomicilio.returnPressed.connect(self.actualizar_datos)
         self.InputDomicilio.editingFinished.connect(self.actualizar_total)
         self.tableWidget.itemChanged.connect(self.actualizar_total)
         # self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
@@ -379,7 +380,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         # Almacenar la fila seleccionada para usarla más tarde en la actualización
         self.fila_seleccionada = row
 
-    def actualizar_datos(self):  # Función corregida
+    def actualizar_datos(self):  
         if self.fila_seleccionada is not None:
             try:
                 cantidad_str = self.InputCantidad.text().strip()
@@ -396,36 +397,76 @@ class VentasA_View(QWidget, Ui_VentasA):
                 cantidad = int(cantidad_str)
                 precio_unitario = float(precio_unitario_str)
 
+                # Obtener el código del producto desde la fila seleccionada
                 row = self.fila_seleccionada
-
                 if row < self.tableWidget.rowCount():
-                    self.tableWidget.setItem(row, 4, QTableWidgetItem(str(cantidad)))
-                    self.tableWidget.item(row, 4).setTextAlignment(QtCore.Qt.AlignCenter) 
-                    self.tableWidget.setItem(
-                        row, 5, QTableWidgetItem(str(precio_unitario))
-                    )
-                    self.tableWidget.item(row, 5).setTextAlignment(QtCore.Qt.AlignCenter) 
-                    
-                    total = cantidad * precio_unitario
-                    self.tableWidget.setItem(row, 6, QTableWidgetItem(str(total)))
-                    self.tableWidget.item(row, 6).setTextAlignment(QtCore.Qt.AlignCenter) 
-
-                    self.actualizar_total()  # Recalcular el total
-
-                    self.limpiar_campos()
-                    QMessageBox.information(
-                        self, "Actualización", "Datos actualizados satisfactoriamente."
-                    )
-                    self.fila_seleccionada = None
-                    self.InputDomicilio.setEnabled(False)
-
+                    item_codigo = self.tableWidget.item(row, 0)  # Suponiendo que la columna 0 contiene el código
+                    if item_codigo:
+                        codigo = item_codigo.text().strip()
+                    else:
+                        QMessageBox.warning(
+                            self,
+                            "Error",
+                            "No se pudo obtener el código del producto desde la fila seleccionada.",
+                        )
+                        return
                 else:
                     QMessageBox.warning(
-                        self, "Error", "La fila seleccionada ya no existe en la tabla."
+                        self,
+                        "Error",
+                        "La fila seleccionada ya no existe en la tabla.",
                     )
-                    self.fila_seleccionada = None
-                    self.InputDomicilio.setEnabled(False)
-                    self.InputDomicilio.clear()
+                    return
+
+                # Conexión a la base de datos
+                db = SessionLocal()
+
+                try:
+                    # Obtener el producto desde la base de datos usando la función obtener_producto_por_id
+                    productos = obtener_producto_por_id(db, int(codigo))
+
+                    if productos:
+                        producto = productos[0]
+                        # Obtener el stock disponible
+                        stock_disponible = producto.Stock_actual
+
+                        # Verificar si la cantidad ingresada es mayor al stock disponible
+                        if cantidad > stock_disponible:
+                            QMessageBox.warning(
+                                self,
+                                "Stock insuficiente",
+                                f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
+                            )
+                            return  # No proceder con la venta si no hay suficiente stock
+                    else:
+                        QMessageBox.warning(
+                            self,
+                            "Producto no encontrado",
+                            "No existe un producto asociado a este código.",
+                        )
+                        return
+                finally:
+                    db.close()
+
+                # Actualizar los datos en la tabla
+                self.tableWidget.setItem(row, 4, QTableWidgetItem(str(cantidad)))
+                self.tableWidget.item(row, 4).setTextAlignment(QtCore.Qt.AlignCenter) 
+                self.tableWidget.setItem(
+                    row, 5, QTableWidgetItem(str(precio_unitario))
+                )
+                self.tableWidget.item(row, 5).setTextAlignment(QtCore.Qt.AlignCenter) 
+                total = cantidad * precio_unitario
+                self.tableWidget.setItem(row, 6, QTableWidgetItem(str(total)))
+                self.tableWidget.item(row, 6).setTextAlignment(QtCore.Qt.AlignCenter) 
+
+                self.actualizar_total()  # Recalcular el total
+
+                self.limpiar_campos()
+                QMessageBox.information(
+                    self, "Actualización", "Datos actualizados satisfactoriamente."
+                )
+                self.fila_seleccionada = None
+
             except ValueError:
                 QMessageBox.warning(
                     self,
@@ -440,8 +481,6 @@ class VentasA_View(QWidget, Ui_VentasA):
             QMessageBox.warning(
                 self, "Error", "No se ha seleccionado ninguna fila para actualizar."
             )
-            self.InputDomicilio.setEnabled(False)
-            self.InputDomicilio.clear()
 
     def validar_campos(self):
         # Cédula (solo números)

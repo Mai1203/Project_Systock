@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5 import QtWidgets, QtCore, QtGui
 from ..utils import *
+from ..utils.autocomplementado import configurar_autocompletado
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
 from ..controllers.marca_crud import *
@@ -33,7 +34,10 @@ class Productos_View(QWidget, Ui_Productos):
         configurar_validador_texto(self.InputNombre)
         configurar_validador_texto(self.InputMarca)
         configurar_validador_texto(self.InputCategoria)
-
+        
+        self.InputPrecioCompra.textChanged.connect(self.agregar_placeholder)
+        
+         
         configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
 
         configurar_autocompletado(
@@ -65,7 +69,45 @@ class Productos_View(QWidget, Ui_Productos):
         self.BtnEliminar.clicked.connect(self.eliminar_productos)
         self.limpiar_tabla_productos()
         self.mostrar_productos()
+        
+    def agregar_placeholder(self):
+        """
+        Agrega un placeholder con el precio de venta
+        """
+        precio_compra = self.InputPrecioCompra.text().strip()
+        
+        if not precio_compra:
+            self.InputPrecioUnitario.setPlaceholderText("")
+            self.InputPrecioMayor.setPlaceholderText("")
+            return
+        
+        precio_compra = float(precio_compra)
+        
+        precio_unitario = precio_compra + (precio_compra * 0.5)
+        precio_mayor = precio_compra + (precio_compra * 0.35)
+        
+        precio_unitario = redondear_a_cientos(precio_unitario)
+        precio_mayor = redondear_a_cientos(precio_mayor)
+        
+        self.InputPrecioUnitario.setPlaceholderText(f"{precio_unitario}")
+        self.InputPrecioMayor.setPlaceholderText(f"{precio_mayor}")
+        
+    def redondear_a_cientos(numero):
+        """
+        Redondea el número hacia el siguiente múltiplo de 100.
+        Siempre redondea hacia arriba.
+        """
+        if numero is None:  # Comprobar si el número es None
+            raise ValueError("El valor de 'numero' no puede ser None")
 
+        if not isinstance(numero, (int, float)):  # Verifica que el número sea int o float
+            raise TypeError("El valor debe ser un número entero o flotante")
+
+        if numero % 100 == 0:
+            return numero  # Ya es múltiplo de 100
+        
+        return ((numero // 100) + 1) * 100
+        
     def obtener_ids_seleccionados(self):
         """
         Obtiene los IDs de los productos seleccionados en la tabla.
@@ -87,6 +129,7 @@ class Productos_View(QWidget, Ui_Productos):
         """
         busqueda = self.InputBuscador.text().strip()
         if not busqueda:
+            self.mostrar_productos()
             return
 
         self.db = SessionLocal()
@@ -189,8 +232,7 @@ class Productos_View(QWidget, Ui_Productos):
                         else:
                             print(f"No se encontró un elemento en la fila {row_idx}, columna {col}")
                     self.TablaProductos.viewport().update() 
-                
-                        
+                           
     def procesar_codigo(self):
         """
         Procesa el código ingresado en el campo InputCodigo.
@@ -266,6 +308,14 @@ class Productos_View(QWidget, Ui_Productos):
         cantidad_max = self.InputCantidadMax.text()
         marca = self.InputMarca.text()
         categoria = self.InputCategoria.text()
+        precio_unitario = self.InputPrecioUnitario.text()
+        precio_mayor = self.InputPrecioMayor.text()
+        
+        if not precio_unitario:
+            precio_unitario = self.InputPrecioUnitario.placeholderText()
+            
+        if not precio_mayor:
+            precio_mayor = self.InputPrecioMayor.placeholderText()
 
         if (
             not id
@@ -284,6 +334,8 @@ class Productos_View(QWidget, Ui_Productos):
             id = int(id)
 
             precio_compra = float(precio_compra)
+            precio_unitario = float(precio_unitario)
+            precio_mayor = float(precio_mayor)
             cantidad = int(cantidad)
             cantidad_min = int(cantidad_min)
             cantidad_max = int(cantidad_max)
@@ -307,6 +359,8 @@ class Productos_View(QWidget, Ui_Productos):
                 cantidad,
                 cantidad_min,
                 cantidad_max,
+                precio_unitario,
+                precio_mayor,
                 id_marca,
                 id_categoria,
             )
@@ -314,7 +368,10 @@ class Productos_View(QWidget, Ui_Productos):
             self.limpiar_formulario()
             self.limpiar_tabla_productos()
             self.mostrar_productos()
-            self.configurar_autocompletado()
+            configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
+            configurar_autocompletado(
+                self.InputCategoria, obtener_categorias, "Nombre", self.db
+            )
 
         except ValueError:
             enviar_notificacion("Error", "Por favor, ingrese valores numéricos")

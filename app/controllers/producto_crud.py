@@ -125,7 +125,7 @@ def obtener_producto_por_id(db: Session, id_producto: int):
         .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
         .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
         .filter(Productos.ID_Producto == id_producto)
-        .all()
+        .first()
     )
     return productos
 

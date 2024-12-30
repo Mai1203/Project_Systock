@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.usuarios import Usuarios
+from app.models.usuarios import Usuarios, Rol
 
 
 # Crear un usuario
@@ -8,7 +8,7 @@ def crear_usuario(
     Id_Usuario: str,
     nombre: str,
     usuario: str,
-    contraseña: str,
+    contrasena: str,
     estado: bool,
     id_rol: int,
 ):
@@ -28,7 +28,7 @@ def crear_usuario(
         ID_Usuario=Id_Usuario,
         Nombre=nombre,
         Usuario=usuario,
-        Contraseña=contraseña,
+        Contrasena=contrasena,
         Estado=estado,
         ID_Rol=id_rol,
     )
@@ -45,18 +45,45 @@ def obtener_usuarios(db: Session):
     :param db: Sesión de base de datos.
     :return: Lista de usuarios.
     """
-    return db.query(Usuarios).all()
-
+    usuarios = (
+        db.query(
+            Usuarios.ID_Usuario,
+            Usuarios.Nombre,
+            Usuarios.Usuario,
+            Usuarios.Contrasena,
+            Usuarios.Estado,
+            
+            Rol.Nombre.label('rol')
+        )
+        .join(Rol, Usuarios.ID_Rol == Rol.ID_Rol)
+        .all()
+    )
+    return usuarios
 
 # Obtener un usuario por ID
-def obtener_usuario_por_id(db: Session, id_usuario: int):
+def obtener_usuario_por_id(db: Session, id_usuario: str):
     """
     Obtiene un usuario por su ID.
     :param db: Sesión de base de datos.
     :param id_usuario: ID del usuario.
     :return: Objeto de usuario o None si no existe.
     """
-    return db.query(Usuarios).filter(Usuarios.ID_Usuario == id_usuario).first()
+    usuario = (
+        db.query(
+            Usuarios.ID_Usuario,
+            Usuarios.Nombre,
+            Usuarios.Usuario,
+            Usuarios.Contrasena,
+            Usuarios.Estado,
+            
+            Rol.Nombre.label('rol')
+        )
+        .join(Rol, Usuarios.ID_Rol == Rol.ID_Rol)
+        .filter(Usuarios.ID_Usuario == id_usuario)
+        .first()
+    )
+    
+    return usuario
 
 
 # Actualizar un usuario
@@ -65,9 +92,8 @@ def actualizar_usuario(
     id_usuario: int,
     nombre: str = None,
     usuario: str = None,
-    contraseña: str = None,
+    contrasena: str = None,
     estado: bool = None,
-    id_rol: int = None,
 ):
     """
     Actualiza un usuario existente.
@@ -77,7 +103,6 @@ def actualizar_usuario(
     :param usuario: Nuevo nombre de usuario.
     :param contraseña: Nueva contraseña en texto plano.
     :param estado: Nuevo estado del usuario.
-    :param id_rol: Nuevo ID de rol asociado.
     :return: Objeto de usuario actualizado o None si no existe.
     """
     usuario_existente = (
@@ -90,12 +115,10 @@ def actualizar_usuario(
         usuario_existente.Nombre = nombre
     if usuario:
         usuario_existente.Usuario = usuario
-    if contraseña:
-        usuario_existente.Contraseña = contraseña
+    if contrasena:
+        usuario_existente.Contrasena = contrasena
     if estado is not None:
         usuario_existente.Estado = estado
-    if id_rol:
-        usuario_existente.ID_Rol = id_rol
 
     db.commit()
     db.refresh(usuario_existente)
@@ -103,7 +126,7 @@ def actualizar_usuario(
 
 
 # Eliminar un usuario
-def eliminar_usuario(db: Session, id_usuario: int):
+def eliminar_usuario(db: Session, id_usuario: str):
     """
     Elimina un usuario por su ID.
     :param db: Sesión de base de datos.
@@ -120,7 +143,7 @@ def eliminar_usuario(db: Session, id_usuario: int):
     db.commit()
     return True
 
-def verificar_credenciales(db: Session, usuario: str, contraseña: str):
+def verificar_credenciales(db: Session, usuario: str, contrasena: str):
     """
     Verifica las credenciales del usuario.
     :param db: Sesión de la base de datos.
@@ -129,7 +152,7 @@ def verificar_credenciales(db: Session, usuario: str, contraseña: str):
     :return: Objeto del usuario si las credenciales son válidas, None si no lo son.
     """
     usuario_existente = db.query(Usuarios).filter(Usuarios.Usuario == usuario).first()
-    if usuario_existente and usuario_existente.Contraseña == contraseña:
+    if usuario_existente and usuario_existente.Contrasena == contrasena:
         return usuario_existente
     return None
 

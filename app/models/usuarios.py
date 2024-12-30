@@ -9,7 +9,7 @@ class Usuarios(Base):
     ID_Usuario = Column(String(100), primary_key=True, index=True)
     Nombre = Column(String(100), nullable=False)
     Usuario = Column(String(100), unique=True, nullable=False)
-    Contraseña = Column(String(255), nullable=False)
+    Contrasena = Column(String(255), nullable=False)
     Estado = Column(Boolean, nullable=False)
 
     ID_Rol = Column(Integer, ForeignKey("ROL.ID_Rol"))

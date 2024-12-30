@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (
     QStackedWidget,
 )
 from PyQt5.QtGui import QIcon, QScreen
+from PyQt5 import QtWidgets
 from init_db import conectar_base
 from app.utils.enviar_notifi import enviar_notificacion
 from app.controllers.usuario_crud import verificar_credenciales
@@ -44,6 +45,22 @@ class MainWindow(QMainWindow):
         self.Login.InputPassword.returnPressed.connect(self.iniciar_sesion) 
         
         self.db = conectar_base()
+        
+    def closeEvent(self, event):
+        """
+        Sobrescribe el evento de cierre para mostrar una ventana de confirmación.
+        """
+        respuesta = QtWidgets.QMessageBox.question(
+            self,
+            "Salir del programa",
+            "¿Estás seguro de que deseas cerrar el programa?",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No
+        )
+
+        if respuesta == QtWidgets.QMessageBox.Yes:
+            event.accept()  # Permite cerrar la ventana
+        else:
+            event.ignore()  # Cancela el cierre de la ventana
     
     def showEvent(self, event):
         super(MainWindow, self).showEvent(event)

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (
     QWidget,
-    QButtonGroup
+    QButtonGroup,
 )
 from ..ui import Ui_Navbar
 
@@ -9,6 +9,7 @@ class Navbar_View(QWidget, Ui_Navbar):
         super(Navbar_View, self).__init__(parent)
         self.setupUi(self)
         
+        self.BtnVentas.setStyleSheet("background-color: #f2f2f2;\n")
         
         self.button_group = QButtonGroup(self)
         self.button_group.addButton(self.BtnVentas)
@@ -42,7 +43,7 @@ class Navbar_View(QWidget, Ui_Navbar):
         }"""
         
         self.estilo_seleccionado = " background-color: #f2f2f2;"
-        
+    
     def cambiar_color_boton(self, boton_seleccionado):
         """
         Cambia el color del botón seleccionado en función de su estado.
@@ -53,3 +54,9 @@ class Navbar_View(QWidget, Ui_Navbar):
         
         # Aplicar el estilo seleccionado al botón que fue presionado
         boton_seleccionado.setStyleSheet(self.estilo_seleccionado)
+        
+    def actualizar_usuario_rol(self, usuario):
+        """
+        Actualiza el texto del botón con el nombre de usuario
+        """
+        self.BtnUsuario.setText(f"{usuario}")

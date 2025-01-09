@@ -155,4 +155,3 @@ def verificar_credenciales(db: Session, usuario: str, contrasena: str):
     if usuario_existente and usuario_existente.Contrasena == contrasena:
         return usuario_existente
     return None
-

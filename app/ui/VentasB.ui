@@ -418,35 +418,6 @@ background-color: #f2f2f2;
                  </property>
                 </widget>
                </item>
-               <item row="5" column="3">
-                <widget class="QPushButton" name="BtnAgregarProducto">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">
-QPushButton {
-    background-color: black; /* Fondo blanco */
-    border: none; /* Sin borde ni decoración inicial */
-    color:  white; /* Color del texto */
-    border-radius: 15px; /* Bordes circulares */
-    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
-	height: 40px; /* Altura del botón */
-    text-align: center; /* Alinea el texto del botón a la izquierda */
-    font-size: 18px; /* Tamaño de fuente */
-	margin-top:20px;
-}
-
-QPushButton:hover {
-    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
-    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Agregar Producto</string>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="3" alignment="Qt::AlignRight|Qt::AlignVCenter">
                 <widget class="QPushButton" name="BtnFacturaA">
                  <property name="styleSheet">
@@ -1015,20 +986,6 @@ QPushButton:hover {
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
-                <widget class="QPushButton" name="BtnMetodoPago">
-                 <property name="cursor">
-                  <cursorShape>IBeamCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
                <item row="3" column="2" alignment="Qt::AlignRight">
                 <widget class="QLabel" name="label_14">
                  <property name="text">
@@ -1149,6 +1106,56 @@ color: rgb(0, 0, 0);</string>
                 <widget class="QLabel" name="label_15">
                  <property name="text">
                   <string>Total</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QComboBox" name="MetodoPagoBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>250</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QComboBox {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de fuente */
+    height: 40px; /* Altura del combo box */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+QComboBox::drop-down {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    width: 20px; /* Tamaño del botón */
+    /* No se define la flecha, por lo que se elimina */
+}
+
+QComboBox:hover {
+    cursor: pointer; /* Cursor de mano */
+}
+
+QComboBox QAbstractItemView {
+    background-color: white; /* Fondo del menú desplegable */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto en las opciones */
+    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */
+    selection-color: white; /* Texto blanco al seleccionar */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+</string>
                  </property>
                 </widget>
                </item>

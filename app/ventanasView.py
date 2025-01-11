@@ -12,6 +12,7 @@ from app.view import (
     Facturas_View,
     CrediFactura_View,
     VentasA_View,
+    VentasB_View,
     Caja_View,
     Egreso_View,
     Productos_View,
@@ -44,6 +45,7 @@ class MainApp(QWidget):
 
         # Crear y agregar vistas al QStackedWidget
         self.ventasA = VentasA_View()
+        self.ventasB = VentasB_View()
         self.ventasCredito = VentasCredito_View()
         self.facturas = Facturas_View()
         self.caja = Caja_View()
@@ -55,6 +57,7 @@ class MainApp(QWidget):
         self.crediFactura = CrediFactura_View()
 
         self.stacked_widget.addWidget(self.ventasA)       # Índice 0
+        self.stacked_widget.addWidget(self.ventasB)       # Índice 1
         self.stacked_widget.addWidget(self.ventasCredito) # Índice 1
         self.stacked_widget.addWidget(self.facturas)      # Índice 2
         self.stacked_widget.addWidget(self.crediFactura)   # Índice 3
@@ -95,4 +98,11 @@ class MainApp(QWidget):
         )
         self.navbar.BtnControlUsuario.clicked.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.control_usuario_view)
+        )
+        self.ventasA.cambiar_a_ventanab.connect(
+            lambda: self.stacked_widget.setCurrentWidget(self.ventasB)
+        )
+        
+        self.ventasB.cambiar_a_ventanaA.connect(
+            lambda: self.stacked_widget.setCurrentWidget(self.ventasA)
         )

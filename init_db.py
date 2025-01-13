@@ -4,6 +4,8 @@ from app.controllers.rol_crud import *
 from app.controllers.producto_crud import *
 from app.controllers.marca_crud import *
 from app.controllers.categorias_crud import *
+from app.controllers.metodo_pago_crud import *
+
 
 def conectar_base():
     try:
@@ -98,8 +100,13 @@ def poblar_datos_prueba():
         print("Productos de prueba creados exitosamente.")
     except Exception as e:
         print(f"Error al poblar datos: {e}")
-    
-       
+    try:
+        print("Creando metodos de pago ...")
+        crear_metodo_pago(db, "Transferencia")
+        crear_metodo_pago(db, "Efectivo")
+        crear_metodo_pago(db, "Mixto")
+    except Exception as e:
+        print(f"Error al poblar datos: {e}")
     db.close()
     
         

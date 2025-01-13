@@ -43,7 +43,7 @@ class MetodoPago(Base):
     Nombre = Column(String, nullable=False)
 
     __table_args__ = (
-        CheckConstraint("Nombre IN ('Transferencia', 'Pago en efectivo')"),
+        CheckConstraint("Nombre IN ('Transferencia', 'Efectivo', 'Mixto')"),
     )
 
     # Relación con Factura

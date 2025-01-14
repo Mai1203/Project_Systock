@@ -36,7 +36,6 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.id_categoria = None
         self.valor_domicilio = 0.0
         self.fila_seleccionada = None
-        self.aplicando_descuento = False  # Inicializar la bandera
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas
 
         # Inicialización y configuración

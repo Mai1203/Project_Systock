@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMessageBox, QWidget, QTableWidgetItem
 from PyQt5.QtCore import QRegularExpression, QTimer, QUrl
 from PyQt5.QtGui import QRegularExpressionValidator
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from decimal import Decimal  # Importar Decimal para manejar números con precisión
 from PyQt5 import QtCore, QtWidgets
 
 
@@ -10,6 +11,7 @@ from PyQt5 import QtCore, QtWidgets
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
 from ..controllers.detalle_factura_crud import *
+from ..controllers.clientes_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..ui import Ui_VentasCredito
@@ -45,18 +47,22 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputDomicilio.editingFinished.connect(self.actualizar_total)
         self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
         self.InputCedula.textChanged.connect(self.validar_campos)
+        #self.InputMaxCredito.textChanged.connect(self.VerificarMaxCredito)
         
         #placeholder
         self.InputCedula.setPlaceholderText("Ej: 10004194608")
-        self.InputNombreCli.setPlaceholderText("Ej: Pepito Perez")
+        self.InputNombreCli.setPlaceholderText("Ej: Pepito")
+        self.InputApellidoCli.setPlaceholderText("Ej: Perez")
         self.InputTelefonoCli.setPlaceholderText("Ej: 3170065430")
         self.InputDireccion.setPlaceholderText("Ej: Calle 1, 123 - Piso 1")
+        self.LimitePagoBox.addItems(["7 días","15 dias"])
         
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
+        self.BtnGenerarVentaCredito.clicked.connect(self.agregar_cliente)
         self.TablaVentasCredito.cellClicked.connect(self.cargar_datos)
         self.TablaVentasCredito.itemChanged.connect(self.actualizar_total)
-
+        
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
         
     def reproducir_sonido(self):
@@ -508,6 +514,10 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         validator_codigo = QRegularExpressionValidator(rx_codigo)
         self.InputCodigo.setValidator(validator_codigo)
 
+        rx_maxcredito = QRegularExpression(r"^\d+\.\d+$")  # Expresión para números y puntos
+        validator_maxcredito = QRegularExpressionValidator(rx_maxcredito)
+        self.InputMaxCredito.setValidator(validator_maxcredito)
+        
         rx_domicilio = QRegularExpression(
             r"^\d+\.\d+$"
         )  # Expresión para números y puntos
@@ -527,13 +537,19 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         rx_cedula = QRegularExpression(r"^\d+$")  # Expresión para solo números
         validator_cedula = QRegularExpressionValidator(rx_cedula)
         self.InputCedula.setValidator(validator_cedula)
-
         # Nombre (solo letras y espacios)
         rx_nombre = QRegularExpression(
-            r"^[a-zA-Z ]+$"
+            r"^[a-zA-Z]+$"
         )       
         validator_nombre = QRegularExpressionValidator(rx_nombre)
         self.InputNombreCli.setValidator(validator_nombre)
+        
+        
+        rx_apellido = QRegularExpression(
+            r"^[a-zA-Z]+$"
+        )
+        validator_apellido = QRegularExpressionValidator(rx_apellido)
+        self.InputApellidoCli.setValidator(validator_apellido)
 
         # Teléfono (solo números y guiones)
         rx_telefono = QRegularExpression(
@@ -541,4 +557,105 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         )  # Expresión para números y guiones
         validator_telefono = QRegularExpressionValidator(rx_telefono)
         self.InputTelefonoCli.setValidator(validator_telefono)
+        
+        
+        
+    def agregar_cliente(self):
+        cedula = self.InputCedula.text().strip()
+        nombre = self.InputNombreCli.text().strip()
+        apellido = self.InputApellidoCli.text().strip()
+        direccion = self.InputDireccion.text().strip()
+        telefono = self.InputTelefonoCli.text().strip()
 
+        # Validación de campos obligatorios
+        if not nombre or not apellido or not direccion or not telefono or not cedula:
+            QMessageBox.information(self, "Campos obligatorios", "Todos los campos son obligatorios")
+            return
+        # Validación de cédula
+        if len(cedula) < 6 or len(cedula) > 11 or not cedula.isdigit():
+            QMessageBox.warning(self, "Cédula inválida", "La cédula debe tener entre 6 y 11 dígitos.")
+            return
+        # Validación de teléfono
+        if len(telefono) != 10 or not telefono.isdigit():
+            QMessageBox.warning(self, "Teléfono inválido", "El teléfono debe tener 10 dígitos.")
+            return
+
+        # Crear una sesión de base de datos
+        db = SessionLocal()  # Asegúrate de que `SessionLocal` está correctamente configurado
+        try:
+            # Verificar si el cliente ya existe
+            cliente_existente = obtener_cliente_por_id(db, cedula)
+            if cliente_existente:
+                QMessageBox.information(
+                    self,
+                    "Cliente existente",
+                    f"El cliente con cédula {cedula} ya existe. Se utilizarán sus datos."
+                )
+                print(f"Cliente encontrado: {cliente_existente.Nombre} {cliente_existente.Apellido}")
+                clientes_db = db.query(Clientes).all()
+                print("Clientes en la base de datos:")
+                for cliente in clientes_db:
+                    print(f"ID: {cliente.ID_Cliente}, Nombre: {cliente.Nombre}, Apellido: {cliente.Apellido}, Dirección: {cliente.Direccion}, Teléfono: {cliente.Teléfono}")
+
+            else:
+                # Crear un nuevo cliente si no existe
+                nuevo_cliente = crear_cliente(
+                    db=db,
+                    id_cliente=cedula,
+                    nombre=nombre,
+                    apellido=apellido,
+                    direccion=direccion,
+                    telefono=telefono,
+                )
+                QMessageBox.information(self, "Cliente creado", "El cliente ha sido creado exitosamente")
+
+                # Opcional: Mostrar todos los clientes en la base de datos
+                clientes_db = db.query(Clientes).all()
+                print("Clientes en la base de datos:")
+                for cliente in clientes_db:
+                    print(f"ID: {cliente.ID_Cliente}, Nombre: {cliente.Nombre}, Apellido: {cliente.Apellido}, Dirección: {cliente.Direccion}, Teléfono: {cliente.Teléfono}")
+
+            # Limpiar los campos del formulario
+            self.InputCedula.clear()
+            self.InputNombreCli.clear()
+            self.InputApellidoCli.clear()
+            self.InputDireccion.clear()
+            self.InputTelefonoCli.clear()
+            self.limpiar_campos()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Error al procesar el cliente: {str(e)}")
+        finally:
+            # Cerrar la sesión para liberar recursos
+            db.close()
+
+"""    def VerificarMaxCredito(self, total_venta_propuesta):
+        max_credito_str = self.InputMaxCredito.text().strip()  # Obtener y limpiar el texto del input
+
+        # Verificar si el campo está vacío
+        if not max_credito_str:
+            QMessageBox.warning(self, "Advertencia", "Debe ingresar un valor para el Máximo Crédito.")
+            return False
+
+        try:
+            max_credito = float(max_credito_str)  
+            
+            total_venta_propuesta = float(total_venta_propuesta)
+# Intentar convertir el valor a float
+
+            # Comparar el total de la venta con el crédito máximo permitido
+            if total_venta_propuesta > max_credito:
+                QMessageBox.warning(
+                    self,
+                    "Límite Excedido",
+                    f"El total de la venta ({total_venta_propuesta:,.2f}) excede el máximo crédito permitido ({max_credito:,.2f})."
+                )
+                return False
+
+            # Si está dentro del límite
+            return True
+
+        except ValueError:
+            # Mostrar advertencia si el valor ingresado no es numérico
+            QMessageBox.warning(self, "Error de Formato", "El valor ingresado en 'Máximo Crédito' no es válido. Por favor, ingrese un número.")
+            return False
+"""

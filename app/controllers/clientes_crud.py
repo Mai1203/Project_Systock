@@ -5,6 +5,7 @@ from app.models.clientes import Clientes
 # Crear un cliente
 def crear_cliente(
     db: Session,
+    id_cliente: str,
     nombre: str,
     apellido: str,
     direccion: str,
@@ -13,6 +14,7 @@ def crear_cliente(
     """
     Crea un nuevo cliente en la base de datos.
     :param db: Sesión de base de datos.
+    :param id_cliente: Cedula del cliente.
     :param nombre: Nombre del cliente.
     :param apellido: Apellido del cliente.
     :param direccion: Dirección del cliente.
@@ -20,6 +22,7 @@ def crear_cliente(
     :return: Objeto del cliente creado.
     """
     nuevo_cliente = Clientes(
+        ID_Cliente=id_cliente,
         Nombre=nombre,
         Apellido=apellido,
         Direccion=direccion,

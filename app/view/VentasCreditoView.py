@@ -59,7 +59,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
-        self.BtnGenerarVentaCredito.clicked.connect(self.agregar_cliente)
+        self.BtnGenerarVentaCredito.clicked.connect(self.verficar_cliente)
         self.TablaVentasCredito.cellClicked.connect(self.cargar_datos)
         self.TablaVentasCredito.itemChanged.connect(self.actualizar_total)
         
@@ -560,7 +560,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         
         
         
-    def agregar_cliente(self):
+    def verficar_cliente(self):
         cedula = self.InputCedula.text().strip()
         nombre = self.InputNombreCli.text().strip()
         apellido = self.InputApellidoCli.text().strip()

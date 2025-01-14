@@ -38,7 +38,6 @@ def crear_venta_credito(
     db.refresh(nueva_venta)
     return nueva_venta
 
-
 # Obtener todas las ventas a crédito
 def obtener_ventas_credito(db: Session):
     """

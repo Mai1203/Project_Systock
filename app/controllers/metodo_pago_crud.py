@@ -40,6 +40,19 @@ def obtener_metodo_pago_por_id(db: Session, id_metodo_pago: int):
     return (
         db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == id_metodo_pago).first()
     )
+    
+def obtener_metodo_pago_por_nombre(db: Session, nombre_metodo_pago: str):
+    """
+    Obtiene un método de pago por su nombre.
+    :param db: Sesión de base de datos.
+    :param nombre_metodo_pago: Nombre del método de pago.
+    :return: Objeto de método de pago o None si no existe.
+    """
+    return (
+        db.query(MetodoPago)
+        .filter(MetodoPago.Nombre.ilike(f"%{nombre_metodo_pago}%"))
+        .first()
+    )
 
 
 # Actualizar un método de pago

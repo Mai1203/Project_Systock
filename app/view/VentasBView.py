@@ -15,6 +15,7 @@ from ..controllers.detalle_factura_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..ui import Ui_VentasB
+from ..utils.restructura_ticket import generate_ticket
 
 # Standard library imports
 import os
@@ -73,10 +74,99 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
         self.TablaVentaMayor.cellClicked.connect(self.cargar_datos)
         self.TablaVentaMayor.itemChanged.connect(self.actualizar_total)
+        self.BtnGenerarVenta.clicked.connect(self.generar_venta)
 
 
         # Timer
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
+        
+    def generar_venta(self):
+        
+        if self.TablaVentaMayor.rowCount() == 0:
+            QMessageBox.warning(self, "Error", "No hay productos en la venta.")
+            return
+    
+        try:
+            # Obtener datos del cliente
+            client_name = self.InputNombreCli.text().strip()
+            client_id = self.InputCedula.text().strip()
+            client_address = self.InputDireccion.text().strip()
+            client_phone = self.InputTelefonoCli.text().strip()
+            payment_method = self.MetodoPagoBox.currentText().strip()
+            
+            # Verificar que los datos básicos estén completos
+            if not client_name or not client_id or not client_address or not client_phone:
+                QMessageBox.warning(self, "Datos incompletos", "Por favor, completa los datos del cliente.")
+                return
+
+            db = SessionLocal()
+            
+            # Obtener los artículos de la tabla
+            items = []
+            for row in range(self.TablaVentaMayor.rowCount()):
+                codigo = self.TablaVentaMayor.item(row, 0).text()
+                quantity = int(self.TablaVentaMayor.item(row, 4).text())
+                description = self.TablaVentaMayor.item(row, 1).text()
+                value = float(self.TablaVentaMayor.item(row, 6).text())
+                
+                producto = obtener_producto_por_id(db, int(codigo))
+                
+                if not producto:
+                    QMessageBox.warning(self, "Error", f"Producto con código {codigo} no encontrado.")
+                    return
+                producto = producto[0]
+                
+                stock_actual = producto.Stock_actual - quantity
+                
+                actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
+                items.append((quantity, description, value))
+
+            # Calcular totales
+            subtotal = sum(item[2] for item in items)
+            delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
+            total = subtotal + delivery_fee
+
+            # Datos adicionales
+            invoice_number = f"001"
+            pan = "123456789"  # Cambiar por el PAN de tu empresa
+            filename = ""  # El usuario seleccionará el nombre y ruta
+
+            # Llamar a la función para generar el ticket
+            generate_ticket(
+                client_name=client_name,
+                client_id=client_id,
+                client_address=client_address,
+                client_phone=client_phone,
+                items=items,
+                subtotal=subtotal,
+                delivery_fee=delivery_fee,
+                total=total,
+                payment_method=payment_method,
+                invoice_number=invoice_number,
+                pan=pan,
+                filename=filename,
+            )
+
+            QMessageBox.information(self, "Éxito", "Factura generada exitosamente.")
+            self.limpiar_campos()  # Opcional: limpiar campos después de generar la venta
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")
+            
+        self.limpiar_tabla()
+        self.limpiar_campos()
+        self.limpiar_datos_cliente()
+        db.close()
+        
+    def limpiar_datos_cliente(self):
+        self.InputPago.clear()
+        self.InputCedula.clear() 
+        self.InputNombreCli.clear() 
+        self.InputTelefonoCli.clear()
+        self.InputDireccion.clear()    
+        self.InputPago.clear()
+        self.LabelTotal.setText("$")
+        self.LabelSubtotal.setText("$")
         
     def reproducir_sonido(self):
         sonido_path = "./assets/sound_scanner.wav"

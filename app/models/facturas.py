@@ -21,11 +21,9 @@ class Facturas(Base):
     Monto_efectivo = Column(Float, nullable=False)
     Monto_TRANSACCION = Column(Float, nullable=False)
     Estado = Column(Boolean, nullable=False)
+    
     ID_Metodo_Pago = Column(Integer, ForeignKey("METODO_PAGO.ID_Metodo_Pago"))
     ID_Tipo_Factura = Column(Integer, ForeignKey("TIPO_FACTURA.ID_Tipo_Factura"))
-    ID_Detalle_Factura = Column(
-        Integer, ForeignKey("DETALLE_FACTURAS.ID_Detalle_Factura")
-    )
 
     # Relaciones
     metodopago = relationship("MetodoPago", back_populates="facturas")

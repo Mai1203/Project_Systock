@@ -135,10 +135,7 @@ def generate_ticket(
     # Guardar el PDF
     pdf.save()
 
-        
-
 
 # Crear la ventana principal
 root = tk.Tk()
 root.withdraw()  # Ocultar la ventana principal
-

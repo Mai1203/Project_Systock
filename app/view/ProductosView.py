@@ -67,6 +67,11 @@ class Productos_View(QWidget, Ui_Productos):
         self.TablaProductos.cellClicked.connect(self.cargar_datos_fila)
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
         self.BtnEliminar.clicked.connect(self.eliminar_productos)
+        
+        
+        
+    def showEvent(self, event):
+        super().showEvent(event)
         self.limpiar_tabla_productos()
         self.mostrar_productos()
         

@@ -5,6 +5,7 @@ from app.controllers.producto_crud import *
 from app.controllers.marca_crud import *
 from app.controllers.categorias_crud import *
 from app.controllers.metodo_pago_crud import *
+from app.controllers.tipo_factura_crud import *
 
 
 def conectar_base():
@@ -17,6 +18,14 @@ def conectar_base():
 def poblar_datos_prueba():
     db = SessionLocal()
     # Crear usuarios de prueba
+    try: 
+        print("creando Tipo Facturas")
+        crear_tipo_factura(db, "Factura A")
+        crear_tipo_factura(db, "Factura B")
+        print("Tipo Facturas creados exitosamente.")
+    except Exception as e:
+        print(f"Error al poblar datos: {e}")
+    
     try:
         print("Creando rols de prueba...")
         crear_rol(db, "ADMINISTRADOR")
@@ -109,19 +118,9 @@ def poblar_datos_prueba():
         print(f"Error al poblar datos: {e}")
     db.close()
     
-        
-def editar():
-    db = SessionLocal()
-    try:
-        print("Editando producto...")
-        actualizar_producto(db, 852, "Teclado_Mecanico", 4500, 100, 150, 10, 10, 150, 1, 1)
-        print("Producto editado exitosamente.")
-    except Exception as e:
-        print(f"Error al editar: {e}")
-    finally:
-        db.close()
+    
 
 if __name__ == "__main__":
     init_db()
+    print("Base de datos inicializada exitosamente.")
     poblar_datos_prueba()
-    # editar()

@@ -14,14 +14,15 @@ from ..controllers.producto_crud import *
 from ..controllers.detalle_factura_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
+from ..controllers.facturas_crud import crear_factura
+from ..controllers.detalle_factura_crud import crear_detalle_factura
+from ..controllers.metodo_pago_crud import obtener_metodo_pago_por_nombre
 from ..ui import Ui_VentasA
 from ..utils.restructura_ticket import generate_ticket
 
 # Standard library imports
 import os
 import locale
-
-
 
 class VentasA_View(QWidget, Ui_VentasA):
     cambiar_a_ventanab = pyqtSignal()
@@ -82,6 +83,11 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
         
     def generar_venta(self):
+        
+        if self.tableWidget.rowCount() == 0:
+            QMessageBox.warning(self, "Error", "No hay productos en la venta.")
+            return
+    
         try:
             # Obtener datos del cliente
             client_name = self.InputNombreCli.text().strip()
@@ -95,12 +101,26 @@ class VentasA_View(QWidget, Ui_VentasA):
                 QMessageBox.warning(self, "Datos incompletos", "Por favor, completa los datos del cliente.")
                 return
 
+            db = SessionLocal()
+            
             # Obtener los artículos de la tabla
             items = []
             for row in range(self.tableWidget.rowCount()):
+                codigo = self.tableWidget.item(row, 0).text()
                 quantity = int(self.tableWidget.item(row, 4).text())
                 description = self.tableWidget.item(row, 1).text()
                 value = float(self.tableWidget.item(row, 6).text())
+                
+                producto = obtener_producto_por_id(db, int(codigo))
+                
+                if not producto:
+                    QMessageBox.warning(self, "Error", f"Producto con código {codigo} no encontrado.")
+                    return
+                producto = producto[0]
+                
+                stock_actual = producto.Stock_actual - quantity
+                
+                actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
                 items.append((quantity, description, value))
 
             # Calcular totales
@@ -108,6 +128,11 @@ class VentasA_View(QWidget, Ui_VentasA):
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
 
+            factura_id = self.guardar_factura(db, client_id, payment_method, items, total)
+            if not factura_id:
+                QMessageBox.warning(self, "Error", "No se pudo registrar la factura.")
+                return
+            
             # Datos adicionales
             invoice_number = f"001"
             pan = "123456789"  # Cambiar por el PAN de tu empresa
@@ -134,9 +159,66 @@ class VentasA_View(QWidget, Ui_VentasA):
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")
-
+            
+        self.limpiar_tabla()
+        self.limpiar_campos()
+        self.limpiar_datos_cliente()
+        db.close()
         
+    def guardar_factura(self, db, client_id, payment_method, items, total):
+    
+        """
+        Registra la factura y sus detalles en la base de datos.
+        """
+        try:
+            # Determinar el método de pago
+            id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
+            if not id_metodo_pago:
+                QMessageBox.warning(self, "Error", f"Método de pago {payment_method} no encontrado.")
+                return False
+            
+            if self.valor_domicilio == 0.0:
+                estado = True
+            else: 
+                estado = False
+            
+            # Crear registros en la tabla 'detalle_factura' para cada producto
+            detalles_factura_ids = []
+            for item in items:
+                cantidad, precio_unitario, subtotal, descuento, id_producto = item
 
+                # Crear detalle de factura
+                detalle_factura = crear_detalle_factura(
+                    db=db,
+                    cantidad=cantidad,
+                    precio_unitario=precio_unitario,
+                    subtotal=subtotal,
+                    descuento=descuento,
+                    id_producto=id_producto,
+                    id_cliente=client_id
+                )
+                detalles_factura_ids.append(detalle_factura.ID)
+
+            # Asociar el último detalle de factura con la factura
+            id_detalle_factura = detalles_factura_ids[-1] if detalles_factura_ids else None
+
+            # Crear la factura principal
+            factura_data = {
+                "monto_efectivo": total if payment_method == "Efectivo" else 0.0,
+                "monto_transaccion": total if payment_method != "Efectivo" else 0.0,
+                "estado": estado,
+                "id_metodo_pago": id_metodo_pago.ID_Metodo_Pago,
+                "id_tipo_factura": 1, 
+                "id_detalle_factura": detalles[0] if detalles else None,
+            }
+            id_factura = crear_factura(db, factura_data)
+
+            return id_factura
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Error al guardar la factura: {str(e)}")
+            return False
+        
     def reproducir_sonido(self):
         sonido_path = "./assets/sound_scanner.wav"
         if os.path.exists(sonido_path):
@@ -391,7 +473,6 @@ class VentasA_View(QWidget, Ui_VentasA):
         else:
             return self.valor_domicilio  # Retornar el valor actual
 
-
     def calcular_subtotal(self):
         # Calcular el subtotal sumando los valores de la columna "Total" (columna 6)
         subtotal = 0.0
@@ -479,6 +560,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         # Actualizar los labels de la interfaz en tiempo real
         self.LabelSubtotal.setText(f"Subtotal: {subtotal_formateado}")
         self.LabelTotal.setText(f"Total: {total_formateado}")
+        
     def cargar_datos(self, row, column):
         try:
             if (
@@ -760,5 +842,15 @@ class VentasA_View(QWidget, Ui_VentasA):
             # Si no es Efectivo, Transferencia ni Mixto, mostramos solo el símbolo $
             self.InputPago.setText("$")
             
-            
+    def limpiar_datos_cliente(self):
+        self.InputPago.clear()
+        self.InputCedula.clear() 
+        self.InputNombreCli.clear() 
+        self.InputTelefonoCli.clear()
+        self.InputDireccion.clear()    
+        self.InputDescuento.clear()
+        self.InputPago.clear()
+        self.LabelTotal.setText("$")
+        self.LabelSubtotal.setText("$")
+         
     

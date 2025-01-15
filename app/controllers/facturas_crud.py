@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
-from app.models.facturas import Facturas
+from sqlalchemy import or_
+from app.models.facturas import Facturas, MetodoPago, TipoFactura
+from app.models.detalle_facturas import DetalleFacturas
 
 
 # Crear una factura
@@ -10,7 +12,7 @@ def crear_factura(
     estado: bool,
     id_metodo_pago: int,
     id_tipo_factura: int,
-    id_detalle_factura: int,
+    id_cliente: int,
 ):
     """
     Crea una nueva factura.
@@ -20,7 +22,7 @@ def crear_factura(
     :param estado: Estado de la factura (True: Activa, False: Cancelada).
     :param id_metodo_pago: ID del método de pago.
     :param id_tipo_factura: ID del tipo de factura.
-    :param id_detalle_factura: ID del detalle de factura.
+    :param id_cliente: ID del cliente.
     :return: Objeto de factura creada.
     """
     nueva_factura = Facturas(
@@ -29,13 +31,12 @@ def crear_factura(
         Estado=estado,
         ID_Metodo_Pago=id_metodo_pago,
         ID_Tipo_Factura=id_tipo_factura,
-        ID_Detalle_Factura=id_detalle_factura,
+        ID_Cliente=id_cliente,
     )
     db.add(nueva_factura)
     db.commit()
     db.refresh(nueva_factura)
     return nueva_factura
-
 
 # Obtener todas las facturas
 def obtener_facturas(db: Session):
@@ -44,8 +45,59 @@ def obtener_facturas(db: Session):
     :param db: Sesión de base de datos.
     :return: Lista de facturas.
     """
-    return db.query(Facturas).all()
+    facturas = (
+        db.query(
+            Facturas.ID_Factura,
+            Facturas.Fecha_Factura,
+            Facturas.Monto_efectivo,
+            Facturas.Monto_TRANSACCION,
+            Facturas.Estado,
+            
+            MetodoPago.Nombre.label("metodopago"),
+            TipoFactura.Nombre.label("tipofactura"),
+        )
+        .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+        .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
+        .all()
+    )
+    
+    return facturas
 
+def buscar_facturas(db: Session, busqueda: str):
+    """
+    Busca facturas en la base de datos.
+    :param db: Sesión de base de datos.
+    :param busqueda: Texto a buscar.
+    :return: Lista de facturas.
+    """
+    if not busqueda:
+        return None
+    
+    facturas = (
+        db.query(
+             Facturas.ID_Factura,
+            Facturas.Fecha_Factura,
+            Facturas.Monto_efectivo,
+            Facturas.Monto_TRANSACCION,
+            Facturas.Estado,
+            
+            MetodoPago.Nombre.label("metodopago"),
+            TipoFactura.Nombre.label("tipofactura"),
+        )
+        .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+        .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
+        .filter(
+            or_(
+                Facturas.ID_Factura.like(f"%{busqueda}%"),
+                Facturas.Fecha_Factura.like(f"%{busqueda}%"),
+                TipoFactura.Nombre.like(f"%{busqueda}%"),
+                MetodoPago.Nombre.like(f"%{busqueda}%"),
+                Facturas.Estado.like(f"%{busqueda}%"),
+            )
+        )
+        .all()
+    )
+    return facturas
 
 # Obtener una factura por ID
 def obtener_factura_por_id(db: Session, id_factura: int):
@@ -67,7 +119,6 @@ def actualizar_factura(
     estado: bool = None,
     id_metodo_pago: int = None,
     id_tipo_factura: int = None,
-    id_detalle_factura: int = None,
 ):
     """
     Actualiza una factura existente.
@@ -78,7 +129,6 @@ def actualizar_factura(
     :param estado: Nuevo estado de la factura.
     :param id_metodo_pago: Nuevo ID del método de pago.
     :param id_tipo_factura: Nuevo ID del tipo de factura.
-    :param id_detalle_factura: Nuevo ID del detalle de factura.
     :return: Objeto de factura actualizado o None si no existe.
     """
     factura_existente = (
@@ -97,8 +147,6 @@ def actualizar_factura(
         factura_existente.ID_Metodo_Pago = id_metodo_pago
     if id_tipo_factura:
         factura_existente.ID_Tipo_Factura = id_tipo_factura
-    if id_detalle_factura:
-        factura_existente.ID_Detalle_Factura = id_detalle_factura
 
     db.commit()
     db.refresh(factura_existente)

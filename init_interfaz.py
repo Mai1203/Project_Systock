@@ -161,7 +161,7 @@ class MainWindow(QMainWindow):
             navbar.BtnVentas.setEnabled(True)
             navbar.BtnCaja.setEnabled(True)
             navbar.BtnCredito.setEnabled(True)
-            navbar.BtnEgreso.setEnabled(False)
+            navbar.BtnEgreso.setEnabled(True)
             navbar.BtnRespaldo.setEnabled(False)
             navbar.BtnProductos.setEnabled(False)
             navbar.BtnCrediFactura.setEnabled(True)

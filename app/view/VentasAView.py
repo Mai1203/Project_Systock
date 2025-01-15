@@ -17,6 +17,7 @@ from ..controllers.metodo_pago_crud import *
 from ..controllers.facturas_crud import crear_factura
 from ..controllers.detalle_factura_crud import crear_detalle_factura
 from ..controllers.metodo_pago_crud import obtener_metodo_pago_por_nombre
+from ..controllers.clientes_crud import *
 from ..ui import Ui_VentasA
 from ..utils.restructura_ticket import generate_ticket
 
@@ -94,16 +95,20 @@ class VentasA_View(QWidget, Ui_VentasA):
             client_id = self.InputCedula.text().strip()
             client_address = self.InputDireccion.text().strip()
             client_phone = self.InputTelefonoCli.text().strip()
+            monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
             
             # Verificar que los datos básicos estén completos
             if not client_name or not client_id or not client_address or not client_phone:
                 QMessageBox.warning(self, "Datos incompletos", "Por favor, completa los datos del cliente.")
                 return
+            
+            self.verificar_cliente(client_id, client_name, client_address, client_phone)
 
             db = SessionLocal()
             
             # Obtener los artículos de la tabla
+            produc_datos = []
             items = []
             for row in range(self.tableWidget.rowCount()):
                 codigo = self.tableWidget.item(row, 0).text()
@@ -122,16 +127,14 @@ class VentasA_View(QWidget, Ui_VentasA):
                 
                 actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
                 items.append((quantity, description, value))
+                produc_datos.append((codigo, quantity, value))
 
             # Calcular totales
             subtotal = sum(item[2] for item in items)
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
 
-            factura_id = self.guardar_factura(db, client_id, payment_method, items, total)
-            if not factura_id:
-                QMessageBox.warning(self, "Error", "No se pudo registrar la factura.")
-                return
+            self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee)
             
             # Datos adicionales
             invoice_number = f"001"
@@ -153,6 +156,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 pan=pan,
                 filename=filename,
             )
+            db.close()
 
             QMessageBox.information(self, "Éxito", "Factura generada exitosamente.")
             self.limpiar_campos()  # Opcional: limpiar campos después de generar la venta
@@ -163,15 +167,53 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.limpiar_tabla()
         self.limpiar_campos()
         self.limpiar_datos_cliente()
-        db.close()
+          
+    def verificar_cliente(self, cedula, nombre_completo , direccion, telefono): 
+
+        # Crear una sesión de base de datos 
+        db = SessionLocal()  # Asegúrate de que SessionLocal está correctamente configurado 
+        try: 
+            # Verificar si el cliente ya existe 
+            cliente_existente = obtener_cliente_por_id(db, cedula) 
+            if cliente_existente: 
+                QMessageBox.information( 
+                    self, 
+                    "Cliente existente", 
+                    f"El cliente con cédula {cedula} ya existe. Se utilizarán sus datos." 
+                ) 
+            else: 
+                try:
+                    nombres = nombre_completo.split(" ")
+                    nombre = nombres[0]
+                    apellido = nombres[1]
+                except Exception as e:
+                    print(f"Error al procesar el nombre del cliente: {e}")
+                    return
+                # Crear un nuevo cliente si no existe 
+                nuevo_cliente = crear_cliente( 
+                    db=db, 
+                    id_cliente=cedula, 
+                    nombre=nombre, 
+                    apellido=apellido, 
+                    direccion=direccion, 
+                    telefono=telefono, 
+                ) 
+                if nuevo_cliente:
+                    QMessageBox.information(self, "Cliente creado", "El cliente ha sido creado exitosamente") 
+ 
+        except Exception as e: 
+            QMessageBox.critical(self, "Error", f"Error al procesar el cliente: {str(e)}") 
+        finally: 
+            # Cerrar la sesión para liberar recursos 
+            db.close()    
         
-    def guardar_factura(self, db, client_id, payment_method, items, total):
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee):
     
         """
         Registra la factura y sus detalles en la base de datos.
         """
         try:
-            # Determinar el método de pago
+            
             id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
             if not id_metodo_pago:
                 QMessageBox.warning(self, "Error", f"Método de pago {payment_method} no encontrado.")
@@ -182,42 +224,53 @@ class VentasA_View(QWidget, Ui_VentasA):
             else: 
                 estado = False
             
+            if '/' in monto_pago:
+                total = monto_pago.split("/") 
+                efectivo = float(total[0])
+                tranferencia = float(total[1])
+            else:
+                efectivo = float(monto_pago)
+                tranferencia = float(monto_pago)
+            
+            # Crear registro en la tabla 'facturas'
+            factura = crear_factura(
+                db=db,
+                monto_efectivo= efectivo if payment_method != "Transferencia" else 0.0,
+                monto_transaccion= tranferencia if payment_method != "Efectivo" else 0.0,
+                estado=estado,
+                id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
+                id_tipo_factura=1,
+                id_cliente=client_id,
+            )
+            
+            # Obtener el ID de la factura recién creada
+            id_factura = factura.ID_Factura
+
             # Crear registros en la tabla 'detalle_factura' para cada producto
-            detalles_factura_ids = []
             for item in items:
-                cantidad, precio_unitario, subtotal, descuento, id_producto = item
+                codigo, quantity, value = item
+                
+                total = quantity * value
 
                 # Crear detalle de factura
-                detalle_factura = crear_detalle_factura(
+                crear_detalle_factura(
                     db=db,
-                    cantidad=cantidad,
-                    precio_unitario=precio_unitario,
-                    subtotal=subtotal,
-                    descuento=descuento,
-                    id_producto=id_producto,
-                    id_cliente=client_id
+                    cantidad=quantity,
+                    precio_unitario=value,
+                    subtotal=total,
+                    descuento=delivery_fee,
+                    id_producto=codigo,
+                    id_factura=id_factura
                 )
-                detalles_factura_ids.append(detalle_factura.ID)
 
-            # Asociar el último detalle de factura con la factura
-            id_detalle_factura = detalles_factura_ids[-1] if detalles_factura_ids else None
-
-            # Crear la factura principal
-            factura_data = {
-                "monto_efectivo": total if payment_method == "Efectivo" else 0.0,
-                "monto_transaccion": total if payment_method != "Efectivo" else 0.0,
-                "estado": estado,
-                "id_metodo_pago": id_metodo_pago.ID_Metodo_Pago,
-                "id_tipo_factura": 1, 
-                "id_detalle_factura": detalles[0] if detalles else None,
-            }
-            id_factura = crear_factura(db, factura_data)
-
-            return id_factura
+            # Confirmar cambios en la base de datos
+            db.commit()
+            print("Factura guardada exitosamente.")
 
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Error al guardar la factura: {str(e)}")
-            return False
+            db.rollback()
+            print(f"Error al guardar la factura: {e}")
+            raise
         
     def reproducir_sonido(self):
         sonido_path = "./assets/sound_scanner.wav"
@@ -832,7 +885,7 @@ class VentasA_View(QWidget, Ui_VentasA):
 
         elif metodo_seleccionado == "Mixto":
             # Si el método de pago es Mixto, mostramos el placeholder con la barra /
-            self.InputPago.setPlaceholderText("$ / $")
+            self.InputPago.setPlaceholderText("$Efectivo / $Transferencia")
             
             # Expresión regular para permitir el formato 50000 / 30000 (con espacio antes y después de la barra)
             rx_inpago = QRegularExpression(r"^\d+(\.\d{1,2})?\s*/\s*\d+(\.\d{1,2})?$")  # Formato: 50000.00 / 30000.00

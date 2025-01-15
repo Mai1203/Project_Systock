@@ -16,6 +16,7 @@ class Productos_View(QWidget, Ui_Productos):
     def __init__(self, parent=None):
         super(Productos_View, self).__init__(parent)
         self.setupUi(self)
+        
         self.InputBuscador.setPlaceholderText(
             "Buscar por código, Nombre, Marca o Categoria"
         )
@@ -67,7 +68,6 @@ class Productos_View(QWidget, Ui_Productos):
         self.TablaProductos.cellClicked.connect(self.cargar_datos_fila)
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
         self.BtnEliminar.clicked.connect(self.eliminar_productos)
-        
         
         
     def showEvent(self, event):

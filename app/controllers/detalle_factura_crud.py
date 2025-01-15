@@ -10,7 +10,7 @@ def crear_detalle_factura(
     subtotal: float,
     descuento: float,
     id_producto: int,
-    id_cliente: int,
+    id_factura: int
 ):
     """
     Crea un nuevo registro de detalle de factura.
@@ -20,7 +20,7 @@ def crear_detalle_factura(
     :param subtotal: Subtotal del detalle.
     :param descuento: Descuento aplicado.
     :param id_producto: ID del producto relacionado.
-    :param id_cliente: ID del cliente relacionado.
+    :param id_factura: ID de la factura relacionada.
     :return: Objeto del detalle de factura creado.
     """
     nuevo_detalle = DetalleFacturas(
@@ -29,7 +29,7 @@ def crear_detalle_factura(
         Subtotal=subtotal,
         Descuento=descuento,
         ID_Producto=id_producto,
-        ID_Cliente=id_cliente,
+        ID_Factura=id_factura
     )
     db.add(nuevo_detalle)
     db.commit()
@@ -71,7 +71,7 @@ def actualizar_detalle_factura(
     subtotal: float = None,
     descuento: float = None,
     id_producto: int = None,
-    id_cliente: int = None,
+    id_factura: int = None
 ):
     """
     Actualiza un registro de detalle de factura existente.
@@ -82,7 +82,7 @@ def actualizar_detalle_factura(
     :param subtotal: Nuevo subtotal.
     :param descuento: Nuevo descuento.
     :param id_producto: Nuevo ID de producto relacionado.
-    :param id_cliente: Nuevo ID de cliente relacionado.
+    :param id_factura: Nuevo ID de factura relacionada.
     :return: Objeto del detalle de factura actualizado o None si no existe.
     """
     detalle_existente = (
@@ -103,8 +103,8 @@ def actualizar_detalle_factura(
         detalle_existente.Descuento = descuento
     if id_producto is not None:
         detalle_existente.ID_Producto = id_producto
-    if id_cliente is not None:
-        detalle_existente.ID_Cliente = id_cliente
+    if id_factura is not None:
+        detalle_existente.ID_Factura = id_factura
 
     db.commit()
     db.refresh(detalle_existente)

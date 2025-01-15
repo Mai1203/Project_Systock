@@ -13,12 +13,10 @@ class DetalleFacturas(Base):
     Descuento = Column(Float, nullable=False)
 
     ID_Producto = Column(Integer, ForeignKey("PRODUCTOS.ID_Producto"))
-    ID_Cliente = Column(Integer, ForeignKey("CLIENTES.ID_Cliente"))
     ID_Factura = Column(Integer, ForeignKey("FACTURA.ID_Factura"))
 
     # Relaciones
     productos = relationship("Productos", back_populates="detallefacturas")
-    clientes = relationship("Clientes", back_populates="detallefacturas")
     facturas = relationship("Facturas", back_populates="detallefacturas")
     tipoingreso = relationship("TipoIngreso", back_populates="detallefacturas")
     ventacredito = relationship("VentaCredito", back_populates="detallefacturas")

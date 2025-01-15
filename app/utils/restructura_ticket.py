@@ -1,9 +1,12 @@
 import tkinter as tk
+import locale
 from tkinter import filedialog
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from datetime import datetime
+
+locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")
 
 
 def generate_ticket(
@@ -36,13 +39,15 @@ def generate_ticket(
     :param pan: PAN de la empresa.
     :param filename: Ruta y nombre del archivo donde se guardará el PDF.
     """
-    
+
     current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     default_filename = f"{client_name.replace(' ', '_')}_{current_datetime}.pdf"
-    
+
     # Ventana emergente para seleccionar la ruta donde guardar el archivo PDF
     filename = filedialog.asksaveasfilename(
-        defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")], initialfile=default_filename
+        defaultextension=".pdf",
+        filetypes=[("PDF files", "*.pdf")],
+        initialfile=default_filename,
     )
 
     # Configuración del tamaño dinámico del PDF
@@ -107,17 +112,21 @@ def generate_ticket(
         pdf.drawString(240, y, f"${value:.2f}")
         y -= line_height
 
+    sub = locale.currency(subtotal, grouping=True)
+    descu = locale.currency(delivery_fee, grouping=True)
+    totalpagar = locale.currency(total, grouping=True)
+
     # Subtotales y totales
     pdf.setFont("Helvetica-Bold", 10)
     y -= line_height
     pdf.drawString(160, y, "Subtotal:")
-    pdf.drawString(240, y, f"${subtotal:.2f}")
+    pdf.drawString(240, y, f"{sub}")
     y -= line_height
     pdf.drawString(160, y, "Domicilio:")
-    pdf.drawString(240, y, f"${delivery_fee:.2f}")
+    pdf.drawString(240, y, f"{descu}")
     y -= line_height
     pdf.drawString(160, y, "Total:")
-    pdf.drawString(240, y, f"${total:.2f}")
+    pdf.drawString(240, y, f"{totalpagar}")
 
     # Forma de pago
     y -= line_height * 2

@@ -32,6 +32,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         super(VentasA_View, self).__init__(parent)
         self.setupUi(self)
         # Configuración inicial
+        QTimer.singleShot(0, self.InputCodigo.setFocus)
         self.player = QMediaPlayer()
         self.InputCodigo.setFocus()
         self.id_categoria = None

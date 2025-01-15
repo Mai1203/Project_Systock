@@ -13,7 +13,6 @@ from ..controllers.producto_crud import *
 from ..controllers.detalle_factura_crud import *
 from ..controllers.clientes_crud import *
 from ..controllers.facturas_crud import *
-from ..controllers.metodo_pago_crud import *
 from ..ui import Ui_VentasCredito
 
 # Standard library imports
@@ -47,7 +46,11 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputDomicilio.editingFinished.connect(self.actualizar_total)
         self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
         self.InputCedula.textChanged.connect(self.validar_campos)
-        #self.InputMaxCredito.textChanged.connect(self.VerificarMaxCredito)
+
+#        self.InputMaxCredito.textChanged.connect(self.VerificarMaxCredito)
+        
+    
+
         
         #placeholder
         self.InputCedula.setPlaceholderText("Ej: 10004194608")
@@ -59,7 +62,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
-        self.BtnGenerarVentaCredito.clicked.connect(self.verficar_cliente)
+        self.BtnGenerarVentaCredito.clicked.connect(self.verificar_cliente)
         self.TablaVentasCredito.cellClicked.connect(self.cargar_datos)
         self.TablaVentasCredito.itemChanged.connect(self.actualizar_total)
         
@@ -74,8 +77,14 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             print("No se encontró el archivo de sonido")
     
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Return and self.InputDomicilio.hasFocus():
-            self.actualizar_datos()
+        # Verificar si el campo InputMaxCredito tiene el foco
+        if self.InputMaxCredito.hasFocus():
+            self.VerificarMaxCredito()  # Llamar a la función para verificar el crédito
+
+        # Si tienes otros campos donde presionar Enter debe hacer algo específico
+        elif self.InputDomicilio.hasFocus():
+            self.actualizar_datos()  # Esto es lo que ya tenías para InputDomicilio
+
         # Llamar al método original para procesar otros eventos
         super().keyPressEvent(event)
         
@@ -160,6 +169,12 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 "Por favor, ingrese valores numéricos válidos para la cantidad y el precio.",
             )
             return
+                
+        # Calcular el total del producto
+        total_producto = cantidad * precio_unitario
+        # Validar si el subtotal actual más el nuevo total excede el crédito máximo permitido
+        if not self.validar_credito(total_producto):
+            return  # Detener el proceso si el crédito no es válido
         # Verificar si el código del producto ya existe en la tabla
         for row in range(self.TablaVentasCredito.rowCount()):
             item_codigo = self.TablaVentasCredito.item(row, 0)  # Obtener el código de la fila
@@ -446,6 +461,14 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                         "La fila seleccionada ya no existe en la tabla.",
                     )
                     return
+                
+                # Calcular el total del producto
+                total_producto =   precio_unitario
+                print(f"Total del producto: {total_producto}")
+
+                # Validar si el subtotal actual más el nuevo total excede el crédito máximo permitido
+                if not self.validar_credito(total_producto):
+                    return  # Detener el proceso si el crédito no es válido
 
                 # Conexión a la base de datos
                 db = SessionLocal()
@@ -476,6 +499,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                         return
                 finally:
                     db.close()
+                    
+               
 
                 # Actualizar los datos en la tabla
                 self.TablaVentasCredito.setItem(row, 4, QTableWidgetItem(str(cantidad)))
@@ -485,6 +510,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 total = cantidad * precio_unitario
                 self.TablaVentasCredito.setItem(row, 6, QTableWidgetItem(str(total)))
                 self.TablaVentasCredito.item(row, 6).setTextAlignment(QtCore.Qt.AlignCenter)
+                
+                
+                
 
                 self.actualizar_total()  # Recalcular el total
 
@@ -560,7 +588,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         
         
         
-    def verficar_cliente(self):
+    def verificar_cliente(self):
         cedula = self.InputCedula.text().strip()
         nombre = self.InputNombreCli.text().strip()
         apellido = self.InputApellidoCli.text().strip()
@@ -627,35 +655,57 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         finally:
             # Cerrar la sesión para liberar recursos
             db.close()
-
-"""    def VerificarMaxCredito(self, total_venta_propuesta):
-        max_credito_str = self.InputMaxCredito.text().strip()  # Obtener y limpiar el texto del input
-
-        # Verificar si el campo está vacío
-        if not max_credito_str:
-            QMessageBox.warning(self, "Advertencia", "Debe ingresar un valor para el Máximo Crédito.")
-            return False
-
-        try:
-            max_credito = float(max_credito_str)  
             
-            total_venta_propuesta = float(total_venta_propuesta)
-# Intentar convertir el valor a float
-
-            # Comparar el total de la venta con el crédito máximo permitido
-            if total_venta_propuesta > max_credito:
-                QMessageBox.warning(
-                    self,
-                    "Límite Excedido",
-                    f"El total de la venta ({total_venta_propuesta:,.2f}) excede el máximo crédito permitido ({max_credito:,.2f})."
-                )
-                return False
-
-            # Si está dentro del límite
-            return True
-
+    def VerificarMaxCredito(self):
+        self.configurar_localizacion()
+        max_credito_str = self.InputMaxCredito.text().strip()
+        try:
+            # Convertir el texto ingresado a un valor float
+            max_credito = float(max_credito_str)
+            
+            # Formatear el crédito como moneda colombiana
+            max_credito_formateado = locale.currency(max_credito, grouping=True)
+            
+            # Cambiar el estilo de la entrada a fondo blanco y texto negro
+            self.InputMaxCredito.setStyleSheet("background-color: white; color: black;")
+            
+            # Mostrar mensaje de éxito con el valor formateado
+            QMessageBox.information(
+                self, 
+                "Éxito", 
+                f"Crédito establecido con éxito: {max_credito_formateado}."
+            )
+            return max_credito
         except ValueError:
-            # Mostrar advertencia si el valor ingresado no es numérico
-            QMessageBox.warning(self, "Error de Formato", "El valor ingresado en 'Máximo Crédito' no es válido. Por favor, ingrese un número.")
-            return False
-"""
+            # Si el valor no es válido, cambiar a fondo rojo y texto blanco
+            self.InputMaxCredito.setStyleSheet("background-color: red; color: white;")
+            QMessageBox.warning(self, "Error", "Por favor, ingrese un valor válido para el crédito.")
+            return None
+    def validar_credito(self, total_producto):
+        # Obtener el crédito máximo
+        max_credito = self.VerificarMaxCredito()
+        print(f"Crédito máximo: {max_credito}")
+        
+        if max_credito is None:
+            return False  # Crédito máximo no válido, no permitir agregar productos
+
+        # Obtener el subtotal actual
+        subtotal = self.calcular_subtotal()
+
+        # Calcular el nuevo subtotal con el producto que se quiere agregar
+        nuevo_subtotal = subtotal + total_producto
+        print(f"Nuevo subtotal: {nuevo_subtotal}")
+        print(f"subtotal: {subtotal}")
+        print(f"total_producto: {total_producto}")
+        
+
+        # Verificar si el nuevo subtotal excede el crédito máximo
+        if nuevo_subtotal > max_credito:
+            QMessageBox.warning(
+                self, 
+                "Advertencia", 
+                "El subtotal excede el crédito máximo permitido."
+            )
+            return False  # No permitir agregar productos
+
+        return True  # Permitir agregar productos

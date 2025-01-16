@@ -12,12 +12,20 @@ from app.utils.enviar_notifi import enviar_notificacion
 from app.controllers.usuario_crud import verificar_credenciales, obtener_usuario_por_id
 from app.ventanasView import MainApp
 from app.view import Login_View
+from dotenv import load_dotenv
+import os
 import sys
+import jwt
+import datetime
 
+
+load_dotenv()  # Carga las variables de entorno desde el archivo .env
+SECRET_KEY = os.getenv("SECRET_KEY")
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         
+        self.usuario_actual_id = None
         self.setWindowTitle("Systock")
         self.setWindowIcon(QIcon("assets/logo.ico"))
         self.resize(800, 600)
@@ -47,7 +55,7 @@ class MainWindow(QMainWindow):
         self.Login.InputPassword.returnPressed.connect(self.iniciar_sesion) 
         
         self.db = conectar_base()
-        
+     
     def cerrar_sesion(self):
         """
         Manejar el evento de cierre de sesión.
@@ -97,47 +105,61 @@ class MainWindow(QMainWindow):
         
         self.move(x, y)
         
-        
     def iniciar_sesion(self):
+        """
+        Maneja el inicio de sesión y genera un token JWT.
+        """
         # Obtener los datos ingresados por el usuario
         usuario = self.Login.InputNombreUsuario.text()
         contraseña = self.Login.InputPassword.text()
-        rol = self.Login.BtnRol.text()
+        rol = self.Login.BtnRol.text()  # Asegúrate de obtener el rol del usuario
         
         if not usuario or not contraseña:
-            # Si no se ingresaron los datos, mostrar un mensaje de error
             enviar_notificacion("Error", "Por favor, ingresa tus credenciales")
             return
 
-        # Verificar credenciales en la base de datos
+        # Verificar las credenciales
         usuario_autenticado = verificar_credenciales(self.db, usuario, contraseña)
-
         if not usuario_autenticado:
-            # Si las credenciales son inválidas, mostrar un mensaje de error
-            enviar_notificacion("Error al ingresar", "Usuario o contraseña incorrectos")
+            enviar_notificacion("Error", "Usuario o contraseña incorrectos")
             return
 
-        # Obtener el rol del usuario autenticado
+        # Verificar que el rol sea correcto
         usuario_data = obtener_usuario_por_id(self.db, usuario_autenticado.ID_Usuario)
-        rol_autenticado = usuario_data.rol
-
-        if rol_autenticado != rol:
-            # Si el rol del usuario no coincide con el rol ingresado, mostrar un mensaje de error
-            enviar_notificacion("Error al ingresar", "No tiene permisos para ingresar con este Rol")
+        if usuario_data.rol != rol:
+            enviar_notificacion("Error", "El rol seleccionado no coincide con tus permisos")
             return
-        
-        # Configurar accesos según el rol
-        self.configurar_accesos_por_rol(rol_autenticado)
-        
-        # Actualizar el texto del botón con el nombre de usuario
-        self.MainApp.navbar.actualizar_usuario_rol(usuario.upper())
 
-        # Si las credenciales son válidas, mostrar la ventana principal
-        enviar_notificacion("Inicio de sesión exitoso", "Puedes continuar con tus operaciones")
+        # Generar el token JWT
+        self.usuario_actual_id = usuario_autenticado.ID_Usuario
+        self.MainApp.ventasA.usuario_actual_id = usuario_autenticado.ID_Usuario
+        token = self.generar_token(usuario_autenticado.ID_Usuario, rol)
+
+        # Almacenar el token en el objeto MainWindow
+        self.token_actual = token
+
+        # Mostrar la ventana principal
+        enviar_notificacion("Inicio de sesión exitoso", "Bienvenido")
         self.stacked_widget.setCurrentWidget(self.MainApp)
 
-        # Cerrar conexión a la base de datos
-        self.db.close()
+        # Configurar accesos por rol
+        self.configurar_accesos_por_rol(rol)
+
+        # Actualizar el nombre del usuario en la barra de navegación
+        self.MainApp.navbar.actualizar_usuario_rol(usuario.upper())
+        self.db.close()    
+    
+    def generar_token(self, usuario_id, rol):
+        """
+        Genera un token JWT con el ID del usuario y su rol.
+        """
+        payload = {
+            "id_usuario": usuario_id,
+            "rol": rol,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1),  # Expira en 1 hora
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+        return token
     
     def configurar_accesos_por_rol(self, rol):
         """

@@ -60,6 +60,7 @@ class Facturas_View(QWidget, Ui_Facturas):
                 estado = str(row.Estado)
                 id_tipo_factura = str(row.tipofactura)
                 id_metodo_pago = str(row.metodopago)
+                usuario = str(row.usuario)
 
                 if row.Estado:
                     estado = "Activo"
@@ -70,7 +71,7 @@ class Facturas_View(QWidget, Ui_Facturas):
                 id_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.TablaFacturas.setItem(row_idx, 0, id_item)
 
-                id_cliente_item = QtWidgets.QTableWidgetItem("ADMIN")    #usuario
+                id_cliente_item = QtWidgets.QTableWidgetItem(usuario)    #usuario
                 id_cliente_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.TablaFacturas.setItem(row_idx, 1, id_cliente_item)
 

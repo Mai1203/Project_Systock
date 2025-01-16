@@ -4,6 +4,7 @@ from app.models.facturas import Facturas, MetodoPago, TipoFactura
 from app.models.detalle_facturas import DetalleFacturas
 from app.models.clientes import Clientes
 from app.models.productos import Productos
+from app.models.usuarios import Usuarios
 
 
 # Crear una factura
@@ -139,9 +140,11 @@ def obtener_facturas(db: Session):
             Facturas.Monto_TRANSACCION,
             Facturas.Estado,
             
+            Usuarios.Usuario.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
             TipoFactura.Nombre.label("tipofactura"),
         )
+        .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
         .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
         .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
         .all()

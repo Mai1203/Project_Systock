@@ -79,6 +79,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.tableWidget.cellClicked.connect(self.cargar_datos)
         self.tableWidget.itemChanged.connect(self.actualizar_total)
         
+        self.usuario_actual_id = None
         # Timer
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
         
@@ -135,7 +136,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             
             pago = float(self.InputPago.text().strip()) if payment_method == "Efectivo" else 0.0
 
-            self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee)
+            self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
             
             # Datos adicionales
             invoice_number = f"001"
@@ -209,7 +210,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             # Cerrar la sesión para liberar recursos 
             db.close()    
         
-    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee):
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee, id_usuario):
     
         """
         Registra la factura y sus detalles en la base de datos.
@@ -243,6 +244,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
                 id_tipo_factura=1,
                 id_cliente=client_id,
+                id_usuario=id_usuario,
             )
             
             # Obtener el ID de la factura recién creada

@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from app.models.facturas import Facturas, MetodoPago, TipoFactura
 from app.models.detalle_facturas import DetalleFacturas
+from app.models.clientes import Clientes
+from app.models.productos import Productos
 
 
 # Crear una factura
@@ -37,6 +39,87 @@ def crear_factura(
     db.commit()
     db.refresh(nueva_factura)
     return nueva_factura
+
+def obtener_factura_completa(db: Session, id_factura: int):
+    """
+    Obtiene todos los datos de una factura, sus detalles y el cliente asociado.
+    :param db: Sesión de base de datos.
+    :param id_factura: ID de la factura a buscar.
+    :return: Diccionario con la información de la factura, cliente y sus detalles.
+    """
+    # Consulta principal para la factura y cliente
+    factura = (
+        db.query(
+            Facturas.ID_Factura,
+            Facturas.Fecha_Factura,
+            Facturas.Monto_efectivo,
+            Facturas.Monto_TRANSACCION,
+            Facturas.Estado,
+            Facturas.ID_Cliente,
+            Clientes.Nombre.label("cliente"),
+            Clientes.Apellido.label("apellido"),
+            Clientes.Direccion.label("direccion"),
+            Clientes.Teléfono.label("telefono"),
+            MetodoPago.Nombre.label("metodo_pago"),
+            TipoFactura.Nombre.label("tipo_factura"),
+        )
+        .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+        .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
+        .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
+        .filter(Facturas.ID_Factura == id_factura)
+        .first()
+    )
+
+    if not factura:
+        return None  # Si no se encuentra la factura, devolver None
+
+    # Consulta para los detalles de la factura
+    detalles = (
+        db.query(
+            DetalleFacturas.ID_Detalle_Factura,
+            DetalleFacturas.Cantidad,
+            DetalleFacturas.Precio_unitario,
+            DetalleFacturas.Subtotal,
+            DetalleFacturas.Descuento,
+            Productos.Nombre.label("producto"),
+        )
+        .join(Productos, DetalleFacturas.ID_Producto == Productos.ID_Producto)
+        .filter(DetalleFacturas.ID_Factura == id_factura)
+        .all()
+    )
+
+    # Formatear el resultado como un diccionario
+    resultado = {
+        "Factura": {
+            "ID_Factura": factura.ID_Factura,
+            "Fecha_Factura": factura.Fecha_Factura,
+            "Monto_efectivo": factura.Monto_efectivo,
+            "Monto_TRANSACCION": factura.Monto_TRANSACCION,
+            "Estado": factura.Estado,
+            "MetodoPago": factura.metodo_pago,
+            "TipoFactura": factura.tipo_factura,
+        },
+        "Cliente": {
+            "ID_Cliente": factura.ID_Cliente,
+            "Nombre": factura.cliente,
+            "Apellido": factura.apellido,
+            "Direccion": factura.direccion,
+            "Teléfono": factura.telefono,
+        },
+        "Detalles": [
+            {
+                "ID_Detalle": detalle.ID_Detalle_Factura,
+                "Cantidad": detalle.Cantidad,
+                "Precio_Unitario": detalle.Precio_unitario,
+                "Subtotal": detalle.Subtotal,
+                "Descuento": detalle.Descuento,
+                "Producto": detalle.producto,
+            }
+            for detalle in detalles
+        ],
+    }
+
+    return resultado
 
 # Obtener todas las facturas
 def obtener_facturas(db: Session):

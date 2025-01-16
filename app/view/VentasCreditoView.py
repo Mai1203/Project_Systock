@@ -25,7 +25,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.setupUi(self)
         # configuración inicial
         self.player = QMediaPlayer() 
-        self.InputCodigo.setFocus()
+        QTimer.singleShot(0, self.InputMaxCredito.setFocus)
         self.id_categoria = None
         self.valor_domicilio = 0.0
         self.fila_seleccionada = None
@@ -45,11 +45,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputPrecioUnitario.returnPressed.connect(self.actualizar_datos)
         self.InputDomicilio.editingFinished.connect(self.actualizar_total)
         self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
-        self.InputCedula.textChanged.connect(self.validar_campos)
-
-#        self.InputMaxCredito.textChanged.connect(self.VerificarMaxCredito)
-        
-    
+        self.InputCedula.textChanged.connect(self.validar_campos)    
 
         
         #placeholder
@@ -280,7 +276,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputCantidad.clear()
         self.InputPrecioUnitario.clear()
         self.InputDomicilio.clear()
-        self.InputCodigo.setFocus()  # Establece el foco nuevamente en el campo InputCodigo
+        
     def eliminar_fila(self):
         # Obtener la fila seleccionada
         fila_seleccionada = self.TablaVentasCredito.currentRow()
@@ -598,14 +594,20 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         # Validación de campos obligatorios
         if not nombre or not apellido or not direccion or not telefono or not cedula:
             QMessageBox.information(self, "Campos obligatorios", "Todos los campos son obligatorios")
+            QTimer.singleShot(0, self.InputNombreCli.setFocus)
+            
             return
         # Validación de cédula
         if len(cedula) < 6 or len(cedula) > 11 or not cedula.isdigit():
             QMessageBox.warning(self, "Cédula inválida", "La cédula debe tener entre 6 y 11 dígitos.")
+            QTimer.singleShot(0, self.InputCedula.setFocus)
+            
             return
         # Validación de teléfono
         if len(telefono) != 10 or not telefono.isdigit():
             QMessageBox.warning(self, "Teléfono inválido", "El teléfono debe tener 10 dígitos.")
+            QTimer.singleShot(0, self.InputTelefonoCli.setFocus)
+            
             return
 
         # Crear una sesión de base de datos
@@ -652,11 +654,13 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             self.limpiar_campos()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Error al procesar el cliente: {str(e)}")
+            QTimer.singleShot(0, self.InputMaxCredito.setFocus)
+            
         finally:
             # Cerrar la sesión para liberar recursos
             db.close()
             
-    def VerificarMaxCredito(self):
+    def VerificarMaxCredito(self,  mostrar_mensaje=True):
         self.configurar_localizacion()
         max_credito_str = self.InputMaxCredito.text().strip()
         try:
@@ -670,37 +674,47 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             self.InputMaxCredito.setStyleSheet("background-color: white; color: black;")
             
             # Mostrar mensaje de éxito con el valor formateado
-            QMessageBox.information(
-                self, 
-                "Éxito", 
-                f"Crédito establecido con éxito: {max_credito_formateado}."
-            )
+            
+            if mostrar_mensaje:
+                QMessageBox.information(
+                    self, 
+                    "Éxito", 
+                    f"Crédito establecido con éxito: {max_credito_formateado}."
+                )
+                QTimer.singleShot(0, self.InputCodigo.setFocus)
+                
             return max_credito
         except ValueError:
             # Si el valor no es válido, cambiar a fondo rojo y texto blanco
-            self.InputMaxCredito.setStyleSheet("background-color: red; color: white;")
+            self.InputMaxCredito.setStyleSheet("border: 2px solid red; background-color: white; color: black;")
             QMessageBox.warning(self, "Error", "Por favor, ingrese un valor válido para el crédito.")
+            self.limpiar_campos()
+            QTimer.singleShot(0, self.InputMaxCredito.setFocus)
+
             return None
     def validar_credito(self, total_producto):
         # Obtener el crédito máximo
-        max_credito = self.VerificarMaxCredito()
+        max_credito = self.VerificarMaxCredito(mostrar_mensaje=False)
         print(f"Crédito máximo: {max_credito}")
         
         if max_credito is None:
             return False  # Crédito máximo no válido, no permitir agregar productos
 
+        print(f"total_producto: {total_producto}")  
         # Obtener el subtotal actual
         subtotal = self.calcular_subtotal()
+        print(f"subtotal: {subtotal}")
+        
 
         # Calcular el nuevo subtotal con el producto que se quiere agregar
         nuevo_subtotal = subtotal + total_producto
         print(f"Nuevo subtotal: {nuevo_subtotal}")
         print(f"subtotal: {subtotal}")
-        print(f"total_producto: {total_producto}")
+        print(f"total_producto: {total_producto}")  
         
 
         # Verificar si el nuevo subtotal excede el crédito máximo
-        if nuevo_subtotal > max_credito:
+        if subtotal > max_credito:
             QMessageBox.warning(
                 self, 
                 "Advertencia", 

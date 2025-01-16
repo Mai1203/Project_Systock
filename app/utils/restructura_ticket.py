@@ -21,6 +21,7 @@ def generate_ticket(
     payment_method,
     invoice_number,
     pan,
+    pago,
     filename,
 ):
     """
@@ -115,6 +116,7 @@ def generate_ticket(
     sub = locale.currency(subtotal, grouping=True)
     descu = locale.currency(delivery_fee, grouping=True)
     totalpagar = locale.currency(total, grouping=True)
+    pago = locale.currency(pago, grouping=True)
 
     # Subtotales y totales
     pdf.setFont("Helvetica-Bold", 10)
@@ -127,6 +129,9 @@ def generate_ticket(
     y -= line_height
     pdf.drawString(160, y, "Total:")
     pdf.drawString(240, y, f"{totalpagar}")
+    y -= line_height
+    pdf.drawString(160, y, "Pago:")
+    pdf.drawString(240, y, f"{pago}")
 
     # Forma de pago
     y -= line_height * 2

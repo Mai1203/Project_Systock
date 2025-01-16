@@ -8,6 +8,7 @@ from ..database.database import SessionLocal
 from ..controllers.facturas_crud import *
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import generate_ticket
+from ..view.VentasAView import VentasA_View
 
 
 class Facturas_View(QWidget, Ui_Facturas):
@@ -24,6 +25,8 @@ class Facturas_View(QWidget, Ui_Facturas):
 
         self.BtnEliminarFactura.clicked.connect(self.eliminar_factura)
         self.BtnGenerarTicket.clicked.connect(self.generar_ticket)
+        self.BtnFacturaPagada.clicked.connect(self.factura_pagada)
+        self.BtnEditarFactura.clicked.connect(self.editar_factura)
 
     def showEvent(self, event):
         super().showEvent(event)
@@ -254,3 +257,58 @@ class Facturas_View(QWidget, Ui_Facturas):
         
         QMessageBox.warning(self, "Ticket", f"Factura generada exitosamente.")
 
+    def factura_pagada(self):
+        """
+        Marca la factura como pagada.
+        """
+        ids = self.obtener_ids_seleccionados()
+
+        if not ids:
+            enviar_notificacion(
+                "Advertencia", "No se seleccionaron productos para marcar como pagada."
+            )
+            return
+
+        try:
+            db = SessionLocal()
+            
+            for id_factura in ids:
+                factura = obtener_factura_por_id(db=db, id_factura=id_factura)
+                if factura.Estado == True:
+                    QMessageBox.warning(self, "Factura", f"La factura {id_factura} ya está pagada.")
+                else:
+                    actualizar_factura(db=db, id_factura=id_factura, estado=True)
+            db.commit()
+            enviar_notificacion("Éxito", "Factura(s) marcada(s) como pagada(s) correctamente.")
+            self.limpiar_tabla_facturas()
+            self.mostrar_facturas()
+        except Exception as e:
+            enviar_notificacion("Error", f"Error al marcar factura(s) como pagada(s): {e}")
+        finally:
+            db.close()
+    
+    def editar_factura(self):
+        """Abrir ventana de ventas con los datos de la factura seleccionada."""
+        try:
+            seleccion = self.lista_facturas.curselection()
+            if not seleccion:
+                QMessageBox.showwarning("Advertencia", "Seleccione una factura para editar.")
+                return
+
+            # Obtener ID de la factura seleccionada
+            factura_id = int(self.lista_facturas.get(seleccion[0]).split()[1])
+
+            # Llamar a la función para obtener todos los datos de la factura
+            factura_completa = obtener_factura_completa(self.db, factura_id)
+
+            if not factura_completa:
+                QMessageBox.showerror("Error", f"No se encontró la factura con ID {factura_id}.")
+                return
+
+            # Abrir la ventana de ventas y pasar los datos de la factura
+            VentasA_View(self.root, self.db, factura_completa)
+            self.frame.destroy()  # Cierra la ventana actual
+
+        except Exception as e:
+            QMessageBox.showerror("Error", str(e))
+    

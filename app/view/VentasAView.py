@@ -31,6 +31,7 @@ class VentasA_View(QWidget, Ui_VentasA):
     def __init__(self, parent=None):
         super(VentasA_View, self).__init__(parent)
         self.setupUi(self)
+        
         # Configuración inicial
         QTimer.singleShot(0, self.InputCodigo.setFocus)
         self.player = QMediaPlayer()
@@ -73,14 +74,11 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.BtnFacturaB.clicked.connect(self.cambiar_a_ventanab)
         self.BtnGenerarVenta.clicked.connect(self.generar_venta)
 
-
-
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
         self.tableWidget.cellClicked.connect(self.cargar_datos)
         self.tableWidget.itemChanged.connect(self.actualizar_total)
         
-
         # Timer
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
         
@@ -134,6 +132,8 @@ class VentasA_View(QWidget, Ui_VentasA):
             subtotal = sum(item[2] for item in items)
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
+            
+            pago = float(self.InputPago.text().strip()) if payment_method == "Efectivo" else 0.0
 
             self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee)
             
@@ -155,6 +155,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 payment_method=payment_method,
                 invoice_number=invoice_number,
                 pan=pan,
+                pago = pago,
                 filename=filename,
             )
             db.close()

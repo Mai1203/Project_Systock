@@ -21,6 +21,7 @@ class Usuarios(Base):
         "HistorialModificacion", back_populates="usuarios"
     )
     historialinicio = relationship("HistorialInicio", back_populates="usuarios")
+    facturas = relationship("Facturas", back_populates="usuarios")
 
 
 class Rol(Base):

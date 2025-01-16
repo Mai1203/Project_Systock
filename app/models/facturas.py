@@ -24,13 +24,15 @@ class Facturas(Base):
     
     ID_Metodo_Pago = Column(Integer, ForeignKey("METODO_PAGO.ID_Metodo_Pago"))
     ID_Tipo_Factura = Column(Integer, ForeignKey("TIPO_FACTURA.ID_Tipo_Factura"))
-    ID_Cliente = Column(String(100), ForeignKey("CLIENTES.ID_Cliente"))
+    ID_Cliente = Column(Integer, ForeignKey("CLIENTES.ID_Cliente"))
+    ID_Usuario = Column(Integer, ForeignKey("USUARIOS.ID_Usuario"))
 
     # Relaciones
     metodopago = relationship("MetodoPago", back_populates="facturas")
     tipofactura = relationship("TipoFactura", back_populates="facturas")
     detallefacturas = relationship("DetalleFacturas", back_populates="facturas")
     clientes = relationship("Clientes", back_populates="facturas")
+    usuarios = relationship("Usuarios", back_populates="facturas")
     historialmodificacion = relationship(
         "HistorialModificacion", back_populates="facturas"
     )

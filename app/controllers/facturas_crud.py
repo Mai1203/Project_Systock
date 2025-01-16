@@ -15,6 +15,7 @@ def crear_factura(
     id_metodo_pago: int,
     id_tipo_factura: int,
     id_cliente: int,
+    id_usuario: int,
 ):
     """
     Crea una nueva factura.
@@ -25,6 +26,7 @@ def crear_factura(
     :param id_metodo_pago: ID del método de pago.
     :param id_tipo_factura: ID del tipo de factura.
     :param id_cliente: ID del cliente.
+    :param id_usuario: ID del usuario.
     :return: Objeto de factura creada.
     """
     nueva_factura = Facturas(
@@ -34,12 +36,13 @@ def crear_factura(
         ID_Metodo_Pago=id_metodo_pago,
         ID_Tipo_Factura=id_tipo_factura,
         ID_Cliente=id_cliente,
+        ID_Usuario=id_usuario,
     )
     db.add(nueva_factura)
     db.commit()
     db.refresh(nueva_factura)
-    return nueva_factura
-
+    return nueva_factura  
+    
 def obtener_factura_completa(db: Session, id_factura: int):
     """
     Obtiene todos los datos de una factura, sus detalles y el cliente asociado.

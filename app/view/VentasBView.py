@@ -16,6 +16,7 @@ from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..ui import Ui_VentasB
 from ..utils.restructura_ticket import generate_ticket
+from ..controllers.clientes_crud import *
 
 # Standard library imports
 import os
@@ -91,16 +92,20 @@ class VentasB_View(QWidget, Ui_VentasB):
             client_id = self.InputCedula.text().strip()
             client_address = self.InputDireccion.text().strip()
             client_phone = self.InputTelefonoCli.text().strip()
+            monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
             
             # Verificar que los datos básicos estén completos
             if not client_name or not client_id or not client_address or not client_phone:
                 QMessageBox.warning(self, "Datos incompletos", "Por favor, completa los datos del cliente.")
                 return
+            
+            self.verificar_cliente(client_id, client_name, client_address, client_phone)
 
             db = SessionLocal()
             
             # Obtener los artículos de la tabla
+            produc_datos = []
             items = []
             for row in range(self.TablaVentaMayor.rowCount()):
                 codigo = self.TablaVentaMayor.item(row, 0).text()
@@ -119,12 +124,17 @@ class VentasB_View(QWidget, Ui_VentasB):
                 
                 actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
                 items.append((quantity, description, value))
+                produc_datos.append((codigo, quantity, value))
 
             # Calcular totales
             subtotal = sum(item[2] for item in items)
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
+            
+            pago = float(self.InputPago.text().strip()) if payment_method == "Efectivo" else 0.0
 
+            self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee)
+            
             # Datos adicionales
             invoice_number = f"001"
             pan = "123456789"  # Cambiar por el PAN de tu empresa
@@ -143,8 +153,10 @@ class VentasB_View(QWidget, Ui_VentasB):
                 payment_method=payment_method,
                 invoice_number=invoice_number,
                 pan=pan,
+                pago = pago,
                 filename=filename,
             )
+            db.close()
 
             QMessageBox.information(self, "Éxito", "Factura generada exitosamente.")
             self.limpiar_campos()  # Opcional: limpiar campos después de generar la venta
@@ -155,8 +167,111 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.limpiar_tabla()
         self.limpiar_campos()
         self.limpiar_datos_cliente()
-        db.close()
+          
+    def verificar_cliente(self, cedula, nombre_completo , direccion, telefono): 
+
+        # Crear una sesión de base de datos 
+        db = SessionLocal()  # Asegúrate de que SessionLocal está correctamente configurado 
+        try: 
+            # Verificar si el cliente ya existe 
+            cliente_existente = obtener_cliente_por_id(db, cedula) 
+            if cliente_existente: 
+                QMessageBox.information( 
+                    self, 
+                    "Cliente existente", 
+                    f"El cliente con cédula {cedula} ya existe. Se utilizarán sus datos." 
+                ) 
+            else: 
+                try:
+                    nombres = nombre_completo.split(" ")
+                    nombre = nombres[0]
+                    apellido = nombres[1]
+                except Exception as e:
+                    print(f"Error al procesar el nombre del cliente: {e}")
+                    return
+                # Crear un nuevo cliente si no existe 
+                nuevo_cliente = crear_cliente( 
+                    db=db, 
+                    id_cliente=cedula, 
+                    nombre=nombre, 
+                    apellido=apellido, 
+                    direccion=direccion, 
+                    telefono=telefono, 
+                ) 
+                if nuevo_cliente:
+                    QMessageBox.information(self, "Cliente creado", "El cliente ha sido creado exitosamente") 
+ 
+        except Exception as e: 
+            QMessageBox.critical(self, "Error", f"Error al procesar el cliente: {str(e)}") 
+        finally: 
+            # Cerrar la sesión para liberar recursos 
+            db.close()    
         
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee):
+    
+        """
+        Registra la factura y sus detalles en la base de datos.
+        """
+        try:
+            
+            id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
+            if not id_metodo_pago:
+                QMessageBox.warning(self, "Error", f"Método de pago {payment_method} no encontrado.")
+                return False
+            
+            if self.valor_domicilio == 0.0:
+                estado = True
+            else: 
+                estado = False
+            
+            if '/' in monto_pago:
+                total = monto_pago.split("/") 
+                efectivo = float(total[0])
+                tranferencia = float(total[1])
+            else:
+                efectivo = float(monto_pago)
+                tranferencia = float(monto_pago)
+            
+            # Crear registro en la tabla 'facturas'
+            factura = crear_factura(
+                db=db,
+                monto_efectivo= efectivo if payment_method != "Transferencia" else 0.0,
+                monto_transaccion= tranferencia if payment_method != "Efectivo" else 0.0,
+                estado=estado,
+                id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
+                id_tipo_factura=2,
+                id_cliente=client_id,
+            )
+            
+            # Obtener el ID de la factura recién creada
+            id_factura = factura.ID_Factura
+
+            # Crear registros en la tabla 'detalle_factura' para cada producto
+            for item in items:
+                codigo, quantity, value = item
+                
+                total = quantity * value
+
+                # Crear detalle de factura
+                crear_detalle_factura(
+                    db=db,
+                    cantidad=quantity,
+                    precio_unitario=value,
+                    subtotal=total,
+                    descuento=delivery_fee,
+                    id_producto=codigo,
+                    id_factura=id_factura
+                )
+
+            # Confirmar cambios en la base de datos
+            db.commit()
+            print("Factura guardada exitosamente.")
+
+        except Exception as e:
+            db.rollback()
+            print(f"Error al guardar la factura: {e}")
+            raise
+          
     def limpiar_datos_cliente(self):
         self.InputPago.clear()
         self.InputCedula.clear() 
@@ -654,8 +769,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         if self.InputCedula.text() == "111":
             self.InputNombreCli.setText("Predeterminado")  # Cambia por el nombre que desees
             self.InputTelefonoCli.setText("1234567890")  # Cambia por el número que desees
-            self.InputDireccion.setText("Predeterminado")
-            
+            self.InputDireccion.setText("Predeterminado")      
             
     def metodo_pago(self):
         try:

@@ -335,7 +335,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         return subtotal
     def actualizar_total(self):
         subtotal = self.calcular_subtotal()
-
         if subtotal.is_integer():
             subtotal_formateado = f"{subtotal:,.0f}"
         else:
@@ -353,6 +352,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             total_formateado = f"{total:,.2f}"
 
         self.LabelTotal.setText(f"Total: {total_formateado}")
+        print(f"Subtotal: desde actualizar_total linea 336: {subtotal}")
+        return subtotal_formateado
+    
         
     def cargar_datos(self, row, column):
         try:
@@ -459,11 +461,12 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     return
                 
                 # Calcular el total del producto
-                total_producto =   precio_unitario
-                print(f"Total del producto: {total_producto}")
-
+                precio_u = precio_unitario
+                cantidad_producto = cantidad
+                print(f"Total del producto desde actualzioar datos: {cantidad_producto}")
+                print(f"Precio unitario: {precio_u}")
                 # Validar si el subtotal actual más el nuevo total excede el crédito máximo permitido
-                if not self.validar_credito(total_producto):
+                if not self.validar_credito_actualizar(cantidad_producto, precio_u):
                     return  # Detener el proceso si el crédito no es válido
 
                 # Conexión a la base de datos
@@ -692,34 +695,73 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             QTimer.singleShot(0, self.InputMaxCredito.setFocus)
 
             return None
-    def validar_credito(self, total_producto):
-        # Obtener el crédito máximo
+    def validar_credito(self, total_producto, ):
+        
+        subtotal_antes = self.calcular_subtotal()
+        print(f"Total actualizado desde ventas credito : {subtotal_antes}")
+        
         max_credito = self.VerificarMaxCredito(mostrar_mensaje=False)
         print(f"Crédito máximo: {max_credito}")
         
         if max_credito is None:
             return False  # Crédito máximo no válido, no permitir agregar productos
 
-        print(f"total_producto: {total_producto}")  
-        # Obtener el subtotal actual
-        subtotal = self.calcular_subtotal()
-        print(f"subtotal: {subtotal}")
-        
-
         # Calcular el nuevo subtotal con el producto que se quiere agregar
-        nuevo_subtotal = subtotal + total_producto
+        nuevo_subtotal = subtotal_antes + total_producto
         print(f"Nuevo subtotal: {nuevo_subtotal}")
-        print(f"subtotal: {subtotal}")
-        print(f"total_producto: {total_producto}")  
+        print(f"subtotal: {subtotal_antes}")
+        print(f"total_producto: {total_producto}")
         
-
         # Verificar si el nuevo subtotal excede el crédito máximo
-        if subtotal > max_credito:
+        if nuevo_subtotal > max_credito:
             QMessageBox.warning(
-                self, 
-                "Advertencia", 
+                self,
+                "Advertencia",
                 "El subtotal excede el crédito máximo permitido."
             )
             return False  # No permitir agregar productos
+        
+        # Confirmar el producto solo si es válido
+        print(f"Producto de {total_producto} confirmado.")
+        return True  # Permitir agregar productos
+    def validar_credito_actualizar(self, cantidad_producto, precio_u):
+        print("----- INICIO validación crédito -----")
+        
+        # Obtener el subtotal antes de agregar el nuevo producto
+        subtotal_antes = self.actualizar_total()
+        print(f"Subtotal antes de actualizar: {subtotal_antes}")
 
+        # Verificar si el subtotal es válido
+        if subtotal_antes is None:
+            print("ERROR: El subtotal es None.")
+            return False
+        
+        # Obtener el crédito máximo
+        max_credito = self.VerificarMaxCredito(mostrar_mensaje=False)
+        print(f"Crédito máximo desde actualizar: {max_credito}")
+        
+        # Verificar si el crédito máximo es válido
+        if max_credito is None:
+            return False  # Crédito máximo no válido, no permitir agregar productos
+        
+        # Calcular el total del producto internamente
+        total_producto = cantidad_producto * precio_u  # Aquí no restamos 1, a menos que sea necesario
+        print(f"Total producto (calculado): {total_producto}")
+        
+        # Calcular el nuevo subtotal con el producto agregado
+        nuevo_subtotal = subtotal_antes + total_producto
+        print(f"Nuevo subtotal después de agregar el producto: {nuevo_subtotal}")
+        
+        # Verificar si el nuevo subtotal excede el crédito máximo
+        if nuevo_subtotal > max_credito:
+            QMessageBox.warning(
+                self,
+                "Advertencia",
+                "El subtotal excede el crédito máximo permitido."
+            )
+            return False  # No permitir agregar productos
+        
+        # Confirmar el producto si el crédito es suficiente
+        print(f"Producto confirmado con cantidad {cantidad_producto} y precio unitario {precio_u}.")
+        
         return True  # Permitir agregar productos

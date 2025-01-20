@@ -39,6 +39,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         rows = obtener_facturas(self.db)
 
         self.actualizar_tabla_facturas(rows)
+        print("Mostrar facturas en la tabla")
 
         # Cerrar la conexión a la base de datos
         self.db.close()
@@ -145,7 +146,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         respuesta = QtWidgets.QMessageBox.question(
             self,
             "Confirmar Eliminación",
-            f"¿Está seguro de que desea eliminar {len(ids)} producto(s)?",
+            f"¿Está seguro de que desea eliminar {len(ids)} factura(s)?",
             QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
         )
 

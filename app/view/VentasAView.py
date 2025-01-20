@@ -380,7 +380,6 @@ class VentasA_View(QWidget, Ui_VentasA):
             # Asegurarse de cerrar la sesión de la base de datos
             db.close()
 
-
     def limpiar_tabla(self):
 
         self.tableWidget.setRowCount(

@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QCompleter
 from PyQt5 import QtCore
 
-def configurar_autocompletado(input_widget, obtener_datos_func, columna, db_session):
+def configurar_autocompletado(input_widget, obtener_datos_func, columna, db_session, procesar_func=None):
     """
     Configura el autocompletado de un campo de entrada.
 
@@ -19,4 +19,8 @@ def configurar_autocompletado(input_widget, obtener_datos_func, columna, db_sess
     completer.setCaseSensitivity(False)
     completer.setFilterMode(QtCore.Qt.MatchContains)
     input_widget.setCompleter(completer)
+    
+      # Conectar el evento de selección al procesar_func si está definido
+    if procesar_func:
+        completer.activated.connect(procesar_func)
 

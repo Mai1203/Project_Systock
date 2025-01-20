@@ -75,8 +75,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.MetodoPagoBox.currentIndexChanged.connect(self.configuracion_pago)
         self.BtnFacturaB.clicked.connect(self.cambiar_a_ventanab)
         self.BtnGenerarVenta.clicked.connect(self.generar_venta)
-        configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db)
-        self.InputNombre.editingFinished.connect(self.procesar_codigo)
+        configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
 
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)

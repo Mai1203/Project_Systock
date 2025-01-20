@@ -1,13 +1,13 @@
-import tkinter as tk
-import locale
-from tkinter import filedialog
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from datetime import datetime
+import textwrap
+import locale
+from tkinter import filedialog
 
-locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")
-
+# Configurar la localización
+locale.setlocale(locale.LC_ALL, 'es_CO.UTF-8')  # Ajustar la localización a Colombia
 
 def generate_ticket(
     client_name,
@@ -24,65 +24,54 @@ def generate_ticket(
     pago,
     filename,
 ):
-    """
-    Genera un ticket en formato PDF con diseño mejorado y estructura definida.
-
-    :param client_name: Nombre del cliente.
-    :param client_id: Cédula del cliente.
-    :param client_address: Dirección del cliente.
-    :param client_phone: Teléfono del cliente.
-    :param items: Lista de tuples (cantidad, descripción, valor).
-    :param subtotal: Subtotal de los productos.
-    :param delivery_fee: Costo del domicilio.
-    :param total: Total a pagar.
-    :param payment_method: Forma de pago.
-    :param invoice_number: Número de la factura.
-    :param pan: PAN de la empresa.
-    :param filename: Ruta y nombre del archivo donde se guardará el PDF.
-    """
-
+    # Configuración inicial y ventana de diálogo para guardar archivo
     current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    default_filename = f"{client_name.replace(' ', '_')}_{current_datetime}.pdf"
-
-    # Ventana emergente para seleccionar la ruta donde guardar el archivo PDF
+    default_filename = f"{client_name.replace(' ', '')}{current_datetime}.pdf"
     filename = filedialog.asksaveasfilename(
         defaultextension=".pdf",
         filetypes=[("PDF files", "*.pdf")],
         initialfile=default_filename,
     )
 
-    # Configuración del tamaño dinámico del PDF
-    line_height = 15
-    header_height = 100
-    footer_height = 60
-    content_height = header_height + footer_height + (line_height * (len(items) + 7))
+    # Ajustar la dirección con salto de línea
+    max_length = 22
+    wrapped_address = textwrap.fill(client_address, width=max_length)
 
-    pdf_height = max(content_height, 400)  # Altura mínima del PDF
-    pdf = canvas.Canvas(filename, pagesize=(300, pdf_height))
+    # Definición de las medidas de la página y espacio entre líneas
+    pdf_width = 68 * 5
+    line_height = 20
+    header_height = 10
+    footer_height = 80
+    max_lines = len(items) + 10  # Añadir algunas líneas de margen para asegurar que el contenido no se corte
 
-    # Estilos generales
+    # Cálculo dinámico de la altura de la página en base al número de productos
+    content_height = header_height + footer_height + (line_height * max_lines)
+    min_height = 1000  # Altura mínima de la página
+    pdf_height = max(content_height, min_height)
+
+    # Crear el objeto PDF
+    pdf = canvas.Canvas(filename, pagesize=(pdf_width, pdf_height))
+
+    # Establecer el color de fuente y el tamaño
     pdf.setStrokeColor(colors.black)
     pdf.setFillColor(colors.black)
+    font_size = 18
+    pdf.setFont("Helvetica-Bold", font_size)
 
-    # Encabezado
-    pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawCentredString(150, pdf_height - 30, "Lady NailShop")
-    pdf.setFont("Helvetica", 10)
-    pdf.drawCentredString(150, pdf_height - 45, "Pasto, Colombia")
-    pdf.drawCentredString(150, pdf_height - 60, "Teléfono: +57 123 456 7890")
-    pdf.drawCentredString(
-        150, pdf_height - 75, f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-    )
-
-    # Línea divisoria
-    pdf.line(20, pdf_height - 85, 280, pdf_height - 85)
+    # Encabezado del ticket (solo se dibuja en la primera página)
+    pdf.drawCentredString(pdf_width / 2, pdf_height - 30, "Lady NailShop")
+    pdf.setFont("Helvetica-Bold", font_size - 2)
+    pdf.drawCentredString(pdf_width / 2, pdf_height - 60, "Pasto, Colombia")
+    pdf.drawCentredString(pdf_width / 2, pdf_height - 90, "Teléfono: +57 316 144 4474")
+    pdf.drawCentredString(pdf_width / 2, pdf_height - 120, f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    pdf.line(20, pdf_height - 130, pdf_width - 20, pdf_height - 130)  # Línea divisoria
 
     # Información de la factura
-    y = pdf_height - 100
-    pdf.setFont("Helvetica-Bold", 10)
+    y = pdf_height - 150
+    pdf.setFont("Helvetica-Bold", font_size)
     pdf.drawString(20, y, "Factura de Venta")
     y -= line_height
-    pdf.setFont("Helvetica", 10)
+    pdf.setFont("Helvetica-Bold", font_size)
     pdf.drawString(20, y, f"Número de Factura: {invoice_number}")
     y -= line_height
     pdf.drawString(20, y, f"PAN: {pan}")
@@ -91,65 +80,71 @@ def generate_ticket(
     y -= line_height
     pdf.drawString(20, y, f"Cédula: {client_id}")
     y -= line_height
-    pdf.drawString(20, y, f"Dirección: {client_address}")
-    y -= line_height
+    for line in wrapped_address.split('\n'):
+        pdf.drawString(20, y, f"Dirección: {line}")
+        y -= line_height
     pdf.drawString(20, y, f"Teléfono: {client_phone}")
 
     # Línea divisoria
     y -= line_height
-    pdf.line(20, y, 280, y)
+    pdf.line(20, y, pdf_width - 20, y)
     y -= line_height
 
-    # Descripción de la factura
-    pdf.setFont("Helvetica-Bold", 10)
+    # Descripción de los productos
+    pdf.setFont("Helvetica-Bold", 16)
     pdf.drawString(20, y, "Cantidad")
-    pdf.drawString(100, y, "Descripción")
+    pdf.drawString(105, y, "Descripción")
     pdf.drawString(240, y, "Valor")
     y -= line_height
-    pdf.setFont("Helvetica", 10)
+
+    # Imprimir los productos
     for quantity, description, value in items:
         pdf.drawString(20, y, str(quantity))
-        pdf.drawString(100, y, description[:20])  # Limitar a 20 caracteres
+        pdf.drawString(90, y, description[:15])  # Limitar descripción a 15 caracteres
         pdf.drawString(240, y, f"${value:.2f}")
         y -= line_height
 
+        # Verificar si se necesita nueva página
+        if y < 100:  # Si la página está a punto de llenarse
+            pdf.showPage()  # Añadir una nueva página
+            pdf.setFont("Helvetica-Bold", 16)  # Establecer fuente en negrita y tamaño 16
+            # Continuar con los productos en la nueva página
+            y = pdf_height - 50  # Reiniciar la posición Y en la nueva página
+            # Solo mostrar lo que falta (sin repetir encabezado)
+
+    # Subtotales y totales
     sub = locale.currency(subtotal, grouping=True)
     descu = locale.currency(delivery_fee, grouping=True)
     totalpagar = locale.currency(total, grouping=True)
     pago = locale.currency(pago, grouping=True)
 
-    # Subtotales y totales
-    pdf.setFont("Helvetica-Bold", 10)
+    # Detallar subtotales (se sigue escribiendo después de la continuación de la página)
+    pdf.setFont("Helvetica-Bold", font_size)
     y -= line_height
-    pdf.drawString(160, y, "Subtotal:")
-    pdf.drawString(240, y, f"{sub}")
+    pdf.drawString(140, y, "Subtotal:")
+    pdf.drawString(225, y, f"{sub}")
     y -= line_height
-    pdf.drawString(160, y, "Domicilio:")
-    pdf.drawString(240, y, f"{descu}")
+    pdf.drawString(140, y, "Domicilio:")
+    pdf.drawString(230, y, f"{descu}")
     y -= line_height
-    pdf.drawString(160, y, "Total:")
-    pdf.drawString(240, y, f"{totalpagar}")
+    pdf.drawString(140, y, "Total:")
+    pdf.drawString(220, y, f"{totalpagar}")
     y -= line_height
-    pdf.drawString(160, y, "Pago:")
-    pdf.drawString(240, y, f"{pago}")
+    pdf.drawString(140, y, "Pago:")
+    pdf.drawString(220, y, f"{pago}")
 
     # Forma de pago
     y -= line_height * 2
-    pdf.setFont("Helvetica", 10)
+    pdf.setFont("Helvetica-Bold", font_size)
     pdf.drawString(20, y, f"Forma de Pago: {payment_method}")
 
-    # Pie de página
+    # Pie de página (solo en la primera página)
     y -= line_height * 2
     pdf.setFillColor(colors.lightgrey)
-    pdf.rect(0, 0, 300, footer_height, fill=True, stroke=False)
+    pdf.rect(0, 0, pdf_width, footer_height, fill=True, stroke=False)
     pdf.setFillColor(colors.black)
-    pdf.setFont("Helvetica", 8)
-    pdf.drawCentredString(150, 30, "Gracias por tu compra")
+    pdf.setFont("Helvetica-Bold", font_size - 1)
+    pdf.drawCentredString(pdf_width / 2, 30, "¡Gracias por tu compra!")
 
     # Guardar el PDF
     pdf.save()
-
-
-# Crear la ventana principal
-root = tk.Tk()
-root.withdraw()  # Ocultar la ventana principal

@@ -936,13 +936,6 @@ QScrollBar::handle:horizontal:hover {
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <widget class="QLabel" name="label_13">
-                 <property name="text">
-                  <string>Max. Credito</string>
-                 </property>
-                </widget>
-               </item>
                <item row="3" column="2" alignment="Qt::AlignRight">
                 <widget class="QLabel" name="label_14">
                  <property name="text">
@@ -990,31 +983,6 @@ QPushButton:hover {
                  </property>
                  <property name="text">
                   <string>Generar Venta a Credito</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="InputMaxCredito">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>250</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>250</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
                  </property>
                 </widget>
                </item>

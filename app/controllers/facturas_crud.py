@@ -140,6 +140,7 @@ def obtener_facturas(db: Session):
             Facturas.Monto_TRANSACCION,
             Facturas.Estado,
             
+            Clientes.Nombre.label("cliente"),
             Usuarios.Usuario.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
             TipoFactura.Nombre.label("tipofactura"),
@@ -147,6 +148,7 @@ def obtener_facturas(db: Session):
         .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
         .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
         .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
+        .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
         .all()
     )
     
@@ -164,22 +166,27 @@ def buscar_facturas(db: Session, busqueda: str):
     
     facturas = (
         db.query(
-             Facturas.ID_Factura,
+            Facturas.ID_Factura,
             Facturas.Fecha_Factura,
             Facturas.Monto_efectivo,
             Facturas.Monto_TRANSACCION,
             Facturas.Estado,
             
+            Clientes.Nombre.label("cliente"),
+            Usuarios.Nombre.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
             TipoFactura.Nombre.label("tipofactura"),
         )
         .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
         .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
+        .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
+        .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
         .filter(
             or_(
                 Facturas.ID_Factura.like(f"%{busqueda}%"),
                 Facturas.Fecha_Factura.like(f"%{busqueda}%"),
                 TipoFactura.Nombre.like(f"%{busqueda}%"),
+                Clientes.Nombre.like(f"%{busqueda}%"),
                 MetodoPago.Nombre.like(f"%{busqueda}%"),
                 Facturas.Estado.like(f"%{busqueda}%"),
             )

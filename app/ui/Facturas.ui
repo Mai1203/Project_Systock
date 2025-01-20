@@ -587,6 +587,14 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
+                 <string>Cliente</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
                  <string>TipoFac</string>
                 </property>
                 <property name="textAlignment">

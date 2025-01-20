@@ -17,6 +17,18 @@ class Productos_View(QWidget, Ui_Productos):
         super(Productos_View, self).__init__(parent)
         self.setupUi(self)
         
+        # Cambiar el orden de navegación con Tab
+        self.setTabOrder(self.InputCodigo, self.InputNombre) 
+        self.setTabOrder(self.InputNombre, self.InputMarca) 
+        self.setTabOrder(self.InputMarca, self.InputCategoria) 
+        self.setTabOrder(self.InputCategoria, self.InputCantidad) 
+        self.setTabOrder(self.InputCantidad, self.InputCantidadMin) 
+        self.setTabOrder(self.InputCantidadMin, self.InputCantidadMax) 
+        self.setTabOrder(self.InputCantidadMax, self.InputPrecioCompra) 
+        self.setTabOrder(self.InputPrecioCompra, self.InputPrecioUnitario) 
+        self.setTabOrder(self.InputPrecioUnitario, self.InputPrecioMayor) 
+       
+        
         self.InputBuscador.setPlaceholderText(
             "Buscar por código, Nombre, Marca o Categoria"
         )
@@ -59,9 +71,7 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputCategoria.returnPressed.connect(self.editar_producto)
         self.InputPrecioUnitario.returnPressed.connect(self.editar_producto)
         self.InputPrecioMayor.returnPressed.connect(self.editar_producto)
-
-        # Enfocar automáticamente el campo de entrada al abrir
-        self.InputCodigo.setFocus()
+        
 
         # Conectar el evento de tecla Enter para procesar el código
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
@@ -72,6 +82,7 @@ class Productos_View(QWidget, Ui_Productos):
         
     def showEvent(self, event):
         super().showEvent(event)
+        self.InputCodigo.setFocus()
         self.limpiar_tabla_productos()
         self.mostrar_productos()
         

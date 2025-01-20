@@ -20,6 +20,7 @@ from ..controllers.metodo_pago_crud import obtener_metodo_pago_por_nombre
 from ..controllers.clientes_crud import *
 from ..ui import Ui_VentasA
 from ..utils.restructura_ticket import generate_ticket
+from ..utils.autocomplementado import configurar_autocompletado
 
 # Standard library imports
 import os
@@ -60,6 +61,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.MetodoPagoBox.addItems(self.metodo_pago())
 
         # Conexiones de señales - Entradas de texto
+        self.db = SessionLocal()
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         self.InputCodigo.textChanged.connect(self.iniciar_timer)
         self.InputDomicilio.returnPressed.connect(self.actualizar_datos)
@@ -73,6 +75,8 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.MetodoPagoBox.currentIndexChanged.connect(self.configuracion_pago)
         self.BtnFacturaB.clicked.connect(self.cambiar_a_ventanab)
         self.BtnGenerarVenta.clicked.connect(self.generar_venta)
+        configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db)
+        self.InputNombre.editingFinished.connect(self.procesar_codigo)
 
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
@@ -297,44 +301,86 @@ class VentasA_View(QWidget, Ui_VentasA):
             print("No se pudo configurar la localización de Colombia.")
                    
     def procesar_codigo(self):
+        # Obtener los valores de los inputs
         codigo = self.InputCodigo.text().strip()
+        nombre = self.InputNombre.text().strip()
 
-        if not codigo:
-            QMessageBox.warning(self, "Error", "Por favor, ingrese un código válido.")
-            return
+        # Conexión a la base de datos
+        db = SessionLocal()
 
         try:
-            # Conexión a la base de datos
-            db = SessionLocal()
-            productos = obtener_producto_por_id(db, int(codigo))
+            # Caso 1: Si se proporciona el código
+            if codigo:
+                if not codigo.isdigit():
+                    QMessageBox.warning(self, "Error", "El código debe ser un número válido.")
+                    return
 
-            if productos:
-                producto = productos[0]
+                # Convertir el código a entero
+                codigo = int(codigo)
 
-                self.InputCodigo.setText(codigo)
-                self.InputNombre.setText(producto.Nombre)
-                self.InputNombre.setEnabled(False)  # Deshabilitar el input
-                self.InputMarca.setText(str(producto.marcas))
-                self.InputMarca.setEnabled(False)  # Deshabilitar el input
-                self.InputPrecioUnitario.setText(str(producto.Precio_venta_normal))
-                self.InputPrecioUnitario.setEnabled(False)  # Deshabilitar el input
-                self.id_categoria = producto.categorias
-                # *** LIMPIAR InputCantidad e InputDomicilio ***
-                self.InputCantidad.clear()
-                self.InputDomicilio.clear()
+                # Buscar producto por código
+                productos = obtener_producto_por_id(db, codigo)
+
+                if productos:
+                    producto = productos[0]
+                    # Actualizar los campos con los datos del producto
+                    self.InputCodigo.setText(str(producto.ID_Producto))
+                    self.InputNombre.setText(producto.Nombre)
+                    self.InputMarca.setText(str(producto.marcas))
+                    self.InputMarca.setEnabled(False)
+                    self.InputPrecioUnitario.setText(str(producto.Precio_venta_normal))
+                    self.InputPrecioUnitario.setEnabled(False)
+                    self.id_categoria = producto.categorias
+                    self.InputCantidad.clear()  # Limpiar cantidad
+                else:
+                    QMessageBox.warning(
+                        self,
+                        "Producto no encontrado",
+                        "No existe un producto asociado a este código.",
+                    )
+                return  # Terminar el procesamiento si el código fue encontrado
+
+            # Caso 2: Si no se proporciona el código pero sí el nombre
+            elif nombre:
+                # Buscar producto por nombre
+                productos_nom = buscar_productos(db, nombre)
+
+                if productos_nom:
+                    producto = productos_nom[0]
+                    # Actualizar los campos con los datos del producto
+                    self.InputCodigo.setText(str(producto.ID_Producto))
+                    self.InputNombre.setText(producto.Nombre)
+                    self.InputMarca.setText(str(producto.marcas))
+                    self.InputMarca.setEnabled(False)
+                    self.InputPrecioUnitario.setText(str(producto.Precio_venta_normal))
+                    self.InputPrecioUnitario.setEnabled(False)
+                    self.id_categoria = producto.categorias
+                    self.InputCantidad.clear()  # Limpiar cantidad
+                else:
+                    QMessageBox.warning(
+                        self,
+                        "Producto no encontrado",
+                        "No existe un producto asociado a este nombre.",
+                    )
+                return  # Terminar el procesamiento si el nombre fue encontrado
+
+            # Caso 3: Si no se proporciona ni código ni nombre
             else:
                 QMessageBox.warning(
                     self,
-                    "Producto no encontrado",
-                    "No existe un producto asociado a este código.",
+                    "Error",
+                    "Por favor, ingrese un código o un nombre para buscar el producto.",
                 )
-
-            db.close()
 
         except Exception as e:
             QMessageBox.critical(
                 self, "Error", f"Error al buscar el producto: {str(e)}"
             )
+
+        finally:
+            # Asegurarse de cerrar la sesión de la base de datos
+            db.close()
+
 
     def limpiar_tabla(self):
 

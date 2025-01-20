@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QMessageBox,
 )
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui, QtCore
 from ..ui import Ui_ControlUsuario
 from ..database.database import SessionLocal
 from ..controllers.usuario_crud import *
@@ -13,6 +13,8 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         super(ControlUsuario_View, self).__init__(parent)
         self.setupUi(self)
         
+        self.BtnEliminar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.BtnRegistrarUser.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnRolUser.setText("ASESOR")
         self.limpiar_tabla_usuarios()
         self.mostrar_usuarios()
@@ -120,6 +122,19 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
                 "Advertencia", "No se seleccionaron usuarios para eliminar."
             )
             return
+        self.db = SessionLocal()
+        
+        try:
+            for id in ids:
+                usuario = obtener_usuario_por_id(self.db, id)
+                if usuario.rol == "ADMINISTRADOR":
+                    enviar_notificacion(
+                        "Advertencia", "No se puede eliminar un administrador."
+                    )
+                    return
+        except Exception as e:
+                enviar_notificacion("Error", f"Error al buscar usuarios: {e}")
+                print(e)
 
         respuesta = QtWidgets.QMessageBox.question(
             self,
@@ -130,8 +145,7 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
 
         if respuesta == QtWidgets.QMessageBox.Yes:
             try:
-                self.db = SessionLocal()
-
+     
                 # Eliminar los usuarios de la base de datos
                 for id_usuario in ids:
                     eliminar_usuario(self.db, id_usuario)

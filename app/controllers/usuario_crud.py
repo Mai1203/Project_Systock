@@ -37,7 +37,6 @@ def crear_usuario(
     db.refresh(nuevo_usuario)
     return nuevo_usuario
 
-
 # Obtener todos los usuarios
 def obtener_usuarios(db: Session):
     """

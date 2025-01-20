@@ -16,7 +16,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         super(Facturas_View, self).__init__(parent)
         self.setupUi(self)
 
-        self.InputBuscador.setPlaceholderText("Buscar por ID, (Usuario), Fecha, Metodo de pago o Tipo deFactura")
+        self.InputBuscador.setPlaceholderText("Buscar por ID, Cliente, Fecha, Metodo de pago o Tipo deFactura")
         self.InputBuscador.textChanged.connect(self.buscar_facturas)
 
         self.TablaFacturas.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -50,11 +50,12 @@ class Facturas_View(QWidget, Ui_Facturas):
 
         if rows:
             self.TablaFacturas.setRowCount(len(rows))
-            self.TablaFacturas.setColumnCount(10)
+            self.TablaFacturas.setColumnCount(11)
 
             for row_idx, row in enumerate(rows):
                 id_factura = str(row.ID_Factura)
                 fecha = str(row.Fecha_Factura)
+                cliente = str(row.cliente)
                 monto_efectivo = str(row.Monto_efectivo)
                 monto_transaccion = str(row.Monto_TRANSACCION)
                 estado = str(row.Estado)
@@ -63,9 +64,9 @@ class Facturas_View(QWidget, Ui_Facturas):
                 usuario = str(row.usuario)
 
                 if row.Estado:
-                    estado = "Activo"
+                    estado = "Pagado"
                 else:
-                    estado = "Inactivo"
+                    estado = "Pendiente"
 
                 id_item = QtWidgets.QTableWidgetItem(id_factura)
                 id_item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -78,36 +79,40 @@ class Facturas_View(QWidget, Ui_Facturas):
                 id_metodo_pago_item = QtWidgets.QTableWidgetItem(id_metodo_pago)
                 id_metodo_pago_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.TablaFacturas.setItem(row_idx, 2, id_metodo_pago_item)
+                
+                cliente_item = QtWidgets.QTableWidgetItem(cliente)
+                cliente_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaFacturas.setItem(row_idx, 3, cliente_item)
 
                 id_tipo_factura_item = QtWidgets.QTableWidgetItem(id_tipo_factura)
                 id_tipo_factura_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 3, id_tipo_factura_item)
+                self.TablaFacturas.setItem(row_idx, 4, id_tipo_factura_item)
 
                 fecha_item = QtWidgets.QTableWidgetItem(fecha)
                 fecha_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 4, fecha_item)
+                self.TablaFacturas.setItem(row_idx, 5, fecha_item)
 
                 id_categoria_item = QtWidgets.QTableWidgetItem("Actual")  #Fecha Modificación
                 id_categoria_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 5, id_categoria_item)
+                self.TablaFacturas.setItem(row_idx, 6, id_categoria_item)
 
                 monto_efectivo_item = QtWidgets.QTableWidgetItem(monto_efectivo)
                 monto_efectivo_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 6, monto_efectivo_item)
+                self.TablaFacturas.setItem(row_idx, 7, monto_efectivo_item)
 
                 monto_transaccion_item = QtWidgets.QTableWidgetItem(monto_transaccion)
                 monto_transaccion_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 7, monto_transaccion_item)
+                self.TablaFacturas.setItem(row_idx, 8, monto_transaccion_item)
 
                 total = row.Monto_efectivo + row.Monto_TRANSACCION
 
                 total_item = QtWidgets.QTableWidgetItem(str(total))
                 total_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 8, total_item)
+                self.TablaFacturas.setItem(row_idx, 9, total_item)
 
                 estado_item = QtWidgets.QTableWidgetItem(estado)
                 estado_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 9, estado_item)
+                self.TablaFacturas.setItem(row_idx, 10, estado_item)
 
     def obtener_ids_seleccionados(self):
         """

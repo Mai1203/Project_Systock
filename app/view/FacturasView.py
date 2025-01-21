@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5 import QtWidgets, QtCore
 from ..ui import Ui_Facturas
 from ..database.database import SessionLocal
-from ..controllers.facturas_crud import *
+from ..controllers.facturas_crud import obtener_facturas, obtener_factura_por_id, obtener_factura_completa
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import generate_ticket
 from ..view.VentasAView import VentasA_View
@@ -48,72 +48,64 @@ class Facturas_View(QWidget, Ui_Facturas):
         self.TablaFacturas.setRowCount(0)
 
     def actualizar_tabla_facturas(self, rows):
+        if not rows:
+            print("No hay filas para mostrar.")
+            self.TablaFacturas.setRowCount(0)
+            return
 
-        if rows:
-            self.TablaFacturas.setRowCount(len(rows))
-            self.TablaFacturas.setColumnCount(11)
+        # Establecer número de filas y columnas
+        self.TablaFacturas.setRowCount(len(rows))
+        self.TablaFacturas.setColumnCount(11)
+        print(f"Número de filas: {len(rows)}")
 
-            for row_idx, row in enumerate(rows):
-                id_factura = str(row.ID_Factura)
-                fecha = str(row.Fecha_Factura)
-                cliente = str(row.cliente)
-                monto_efectivo = str(row.Monto_efectivo)
-                monto_transaccion = str(row.Monto_TRANSACCION)
-                estado = str(row.Estado)
-                id_tipo_factura = str(row.tipofactura)
-                id_metodo_pago = str(row.metodopago)
-                usuario = str(row.usuario)
+        # Iterar sobre las filas
+        for row_idx, row in enumerate(rows):
+            # Datos de la fila
+            id_factura = str(row.ID_Factura)
+            fecha = str(row.Fecha_Factura)
+            cliente = str(row.cliente)
+            monto_efectivo = str(row.Monto_efectivo)
+            monto_transaccion = str(row.Monto_TRANSACCION)
+            estado = "Pagado" if row.Estado else "Pendiente"
+            id_tipo_factura = str(row.tipofactura)
+            id_metodo_pago = str(row.metodopago)
+            usuario = str(row.usuario)
+            total = row.Monto_efectivo + row.Monto_TRANSACCION
 
-                if row.Estado:
-                    estado = "Pagado"
-                else:
-                    estado = "Pendiente"
+            # Depuración: imprimir datos clave
+            print(f"\nFila {row_idx + 1}:")
+            print(f"  ID Factura: {id_factura}")
+            print(f"  Fecha: {fecha}")
+            print(f"  Cliente: {cliente}")
+            print(f"  Monto Efectivo: {monto_efectivo}")
+            print(f"  Monto Transacción: {monto_transaccion}")
+            print(f"  Estado: {estado}")
+            print(f"  Tipo Factura: {id_tipo_factura}")
+            print(f"  Método Pago: {id_metodo_pago}")
+            print(f"  Usuario: {usuario}")
+            print(f"  Total: {total}")
 
-                id_item = QtWidgets.QTableWidgetItem(id_factura)
-                id_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 0, id_item)
+            # Configurar items de la tabla
+            items = [
+                (id_factura, 0),
+                (usuario, 1),
+                (id_metodo_pago, 2),
+                (cliente, 3),
+                (id_tipo_factura, 4),
+                (fecha, 5),
+                ("Actual", 6),  # Texto fijo
+                (monto_efectivo, 7),
+                (monto_transaccion, 8),
+                (str(total), 9),
+                (estado, 10),
+            ]
 
-                id_cliente_item = QtWidgets.QTableWidgetItem(usuario)    #usuario
-                id_cliente_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 1, id_cliente_item)
-
-                id_metodo_pago_item = QtWidgets.QTableWidgetItem(id_metodo_pago)
-                id_metodo_pago_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 2, id_metodo_pago_item)
-                
-                cliente_item = QtWidgets.QTableWidgetItem(cliente)
-                cliente_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 3, cliente_item)
-
-                id_tipo_factura_item = QtWidgets.QTableWidgetItem(id_tipo_factura)
-                id_tipo_factura_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 4, id_tipo_factura_item)
-
-                fecha_item = QtWidgets.QTableWidgetItem(fecha)
-                fecha_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 5, fecha_item)
-
-                id_categoria_item = QtWidgets.QTableWidgetItem("Actual")  #Fecha Modificación
-                id_categoria_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 6, id_categoria_item)
-
-                monto_efectivo_item = QtWidgets.QTableWidgetItem(monto_efectivo)
-                monto_efectivo_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 7, monto_efectivo_item)
-
-                monto_transaccion_item = QtWidgets.QTableWidgetItem(monto_transaccion)
-                monto_transaccion_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 8, monto_transaccion_item)
-
-                total = row.Monto_efectivo + row.Monto_TRANSACCION
-
-                total_item = QtWidgets.QTableWidgetItem(str(total))
-                total_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 9, total_item)
-
-                estado_item = QtWidgets.QTableWidgetItem(estado)
-                estado_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, 10, estado_item)
+            # Añadir items a la tabla
+            for value, col_idx in items:
+                print(f"  Agregando columna {col_idx} con valor: {value}")
+                item = QtWidgets.QTableWidgetItem(value)
+                item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaFacturas.setItem(row_idx, col_idx, item)
 
     def obtener_ids_seleccionados(self):
         """

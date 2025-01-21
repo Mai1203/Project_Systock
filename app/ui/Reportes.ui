@@ -259,6 +259,53 @@ background-color: #f2f2f2;
                    <string notr="true"/>
                   </property>
                   <layout class="QGridLayout" name="gridLayout">
+                   <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignTop">
+                    <widget class="QLabel" name="label">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">
+    font-size: 28px; /* Tamaño de fuente */
+</string>
+                     </property>
+                     <property name="text">
+                      <string>Reporte de Caja</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0" alignment="Qt::AlignLeft">
+                    <widget class="QLabel" name="label_2">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Caja</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
+                    <widget class="QCalendarWidget" name="CalendarioCaja">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="8" column="0" alignment="Qt::AlignHCenter">
                     <widget class="QPushButton" name="BtnTicketCaja">
                      <property name="sizePolicy">
@@ -311,95 +358,6 @@ QPushButton:hover {
                      </property>
                     </widget>
                    </item>
-                   <item row="6" column="0">
-                    <widget class="QPushButton" name="BtnTiempoCaja">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>250</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="cursor">
-                      <cursorShape>IBeamCursor</cursorShape>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                     </property>
-                     <property name="text">
-                      <string>Diario / Intervalo</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignTop">
-                    <widget class="QLabel" name="label">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">
-    font-size: 28px; /* Tamaño de fuente */
-</string>
-                     </property>
-                     <property name="text">
-                      <string>Reporte de Caja</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0" alignment="Qt::AlignLeft">
-                    <widget class="QLabel" name="label_2">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>250</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Caja</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="0">
-                    <widget class="QPushButton" name="BtnReporteCaja">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>250</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="cursor">
-                      <cursorShape>IBeamCursor</cursorShape>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                     </property>
-                     <property name="text">
-                      <string>Ingreso / Egreso</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="5" column="0">
                     <widget class="QLabel" name="label_3">
                      <property name="sizePolicy">
@@ -419,13 +377,52 @@ color: rgb(0, 0, 0);</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="7" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
-                    <widget class="QCalendarWidget" name="CalendarioCaja">
+                   <item row="2" column="0">
+                    <widget class="QComboBox" name="TipoCajaComboBox">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QComboBox {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de fuente */
+    height: 40px; /* Altura del combo box */
+    
+}
+
+QComboBox::drop-down {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    width: 20px; /* Tamaño del botón */
+    /* No se define la flecha, por lo que se elimina */
+}
+
+QComboBox:hover {
+    cursor: pointer; /* Cursor de mano */
+}
+
+QComboBox QAbstractItemView {
+    background-color: white; /* Fondo del menú desplegable */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto en las opciones */
+    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */
+    selection-color: white; /* Texto blanco al seleccionar */
+    border-radius: 10px; /* Bordes redondeados */
+}
+</string>
                      </property>
                     </widget>
                    </item>
@@ -442,6 +439,55 @@ color: rgb(0, 0, 0);</string>
                      </property>
                     </spacer>
                    </item>
+                   <item row="6" column="0">
+                    <widget class="QComboBox" name="TiempoCajaComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QComboBox {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de fuente */
+    height: 40px; /* Altura del combo box */
+    
+}
+
+QComboBox::drop-down {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    width: 20px; /* Tamaño del botón */
+    /* No se define la flecha, por lo que se elimina */
+}
+
+QComboBox:hover {
+    cursor: pointer; /* Cursor de mano */
+}
+
+QComboBox QAbstractItemView {
+    background-color: white; /* Fondo del menú desplegable */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto en las opciones */
+    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */
+    selection-color: white; /* Texto blanco al seleccionar */
+    border-radius: 10px; /* Bordes redondeados */
+}
+</string>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -451,7 +497,7 @@ color: rgb(0, 0, 0);</string>
                    <string notr="true"/>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_3">
-                   <item row="0" column="0" alignment="Qt::AlignLeft">
+                   <item row="0" column="0" alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="label_5">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -466,26 +512,6 @@ color: rgb(0, 0, 0);</string>
                      </property>
                      <property name="text">
                       <string>Reporte de Productos</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QPushButton" name="BtnReporteProducto">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="cursor">
-                      <cursorShape>IBeamCursor</cursorShape>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                     </property>
-                     <property name="text">
-                      <string>Bajo Stock / Mas Vendidos / Inactivos</string>
                      </property>
                     </widget>
                    </item>
@@ -554,6 +580,55 @@ QPushButton:hover {
                      </property>
                     </spacer>
                    </item>
+                   <item row="1" column="0" alignment="Qt::AlignHCenter">
+                    <widget class="QComboBox" name="TipoProductosComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QComboBox {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de fuente */
+    height: 40px; /* Altura del combo box */
+    
+}
+
+QComboBox::drop-down {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    width: 20px; /* Tamaño del botón */
+    /* No se define la flecha, por lo que se elimina */
+}
+
+QComboBox:hover {
+    cursor: pointer; /* Cursor de mano */
+}
+
+QComboBox QAbstractItemView {
+    background-color: white; /* Fondo del menú desplegable */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto en las opciones */
+    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */
+    selection-color: white; /* Texto blanco al seleccionar */
+    border-radius: 10px; /* Bordes redondeados */
+}
+</string>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -563,51 +638,6 @@ QPushButton:hover {
                    <string notr="true"/>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_4">
-                   <item row="2" column="0">
-                    <widget class="QPushButton" name="BtnReporteAnalisis">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>250</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="cursor">
-                      <cursorShape>IBeamCursor</cursorShape>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                     </property>
-                     <property name="text">
-                      <string>Comparacion /  Analisis Credito </string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_7">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>250</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Ventas</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="6" column="0" alignment="Qt::AlignVCenter">
                     <widget class="QPushButton" name="BtnTicketAnalisis">
                      <property name="sizePolicy">
@@ -678,42 +708,6 @@ QPushButton:hover {
                      </property>
                     </widget>
                    </item>
-                   <item row="4" column="0">
-                    <widget class="QPushButton" name="BtnTiempoAnalisis">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>250</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="cursor">
-                      <cursorShape>IBeamCursor</cursorShape>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-                     </property>
-                     <property name="text">
-                      <string>Dias / Intervalo de Dias</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="5" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                    <widget class="QCalendarWidget" name="CalendarioAnalisis">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="3" column="0">
                     <widget class="QLabel" name="label_8">
                      <property name="sizePolicy">
@@ -733,6 +727,84 @@ color: rgb(0, 0, 0);</string>
                      </property>
                     </widget>
                    </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_7">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Ventas</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QComboBox" name="ReporteAnalisisComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QComboBox {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de fuente */
+    height: 40px; /* Altura del combo box */
+    
+}
+
+QComboBox::drop-down {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    width: 20px; /* Tamaño del botón */
+    /* No se define la flecha, por lo que se elimina */
+}
+
+QComboBox:hover {
+    cursor: pointer; /* Cursor de mano */
+}
+
+QComboBox QAbstractItemView {
+    background-color: white; /* Fondo del menú desplegable */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto en las opciones */
+    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */
+    selection-color: white; /* Texto blanco al seleccionar */
+    border-radius: 10px; /* Bordes redondeados */
+}
+</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                    <widget class="QCalendarWidget" name="CalendarioAnalisis">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="7" column="0">
                     <spacer name="verticalSpacer_5">
                      <property name="orientation">
@@ -745,6 +817,55 @@ color: rgb(0, 0, 0);</string>
                       </size>
                      </property>
                     </spacer>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QComboBox" name="TiempoAnalisisComboBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QComboBox {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de fuente */
+    height: 40px; /* Altura del combo box */
+    
+}
+
+QComboBox::drop-down {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    width: 20px; /* Tamaño del botón */
+    /* No se define la flecha, por lo que se elimina */
+}
+
+QComboBox:hover {
+    cursor: pointer; /* Cursor de mano */
+}
+
+QComboBox QAbstractItemView {
+    background-color: white; /* Fondo del menú desplegable */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto en las opciones */
+    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */
+    selection-color: white; /* Texto blanco al seleccionar */
+    border-radius: 10px; /* Bordes redondeados */
+}
+</string>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </widget>

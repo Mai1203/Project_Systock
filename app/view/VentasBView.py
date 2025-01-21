@@ -85,7 +85,14 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.usuario_actual_id = None
         # Timer
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
-        
+    
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.InputCodigo.setFocus()
+        self.limpiar_tabla()  
+        self.limpiar_campos()
+        self.limpiar_datos_cliente()
+    
     def generar_venta(self):
         
         if self.TablaVentaMayor.rowCount() == 0:

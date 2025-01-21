@@ -11,13 +11,20 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database.database import Base
+from datetime import datetime
+from pytz import timezone
 
+def get_local_time():
+    # Cambia 'America/Bogota' por tu zona horaria local
+    local_tz = timezone('America/Bogota')
+    now =datetime.now(local_tz)
+    return now.replace(microsecond=0)
 
 class Facturas(Base):
     __tablename__ = "FACTURA"
 
     ID_Factura = Column(Integer, primary_key=True, autoincrement=True)
-    Fecha_Factura = Column(DateTime, default=func.now())
+    Fecha_Factura = Column(DateTime(timezone=True), default=get_local_time)
     Monto_efectivo = Column(Float, nullable=False)
     Monto_TRANSACCION = Column(Float, nullable=False)
     Estado = Column(Boolean, nullable=False)

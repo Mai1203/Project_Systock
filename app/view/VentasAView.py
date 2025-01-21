@@ -86,7 +86,14 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.usuario_actual_id = None
         # Timer
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
-        
+    
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.InputCodigo.setFocus()
+        self.limpiar_tabla()  
+        self.limpiar_campos()
+        self.limpiar_datos_cliente()
+    
     def generar_venta(self):
         
         if self.tableWidget.rowCount() == 0:
@@ -138,12 +145,12 @@ class VentasA_View(QWidget, Ui_VentasA):
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
             
-            pago = float(self.InputPago.text().strip()) if payment_method == "Efectivo" else 0.0
+            pago = float(self.InputPago.text().strip()) if payment_method == "Efectivo" or payment_method == "Transferencia" else 0.0
 
-            self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+            id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
             
             # Datos adicionales
-            invoice_number = f"001"
+            invoice_number = f"0000{id_factura}"
             pan = "123456789"  # Cambiar por el PAN de tu empresa
             filename = ""  # El usuario seleccionará el nombre y ruta
 
@@ -273,8 +280,10 @@ class VentasA_View(QWidget, Ui_VentasA):
 
             # Confirmar cambios en la base de datos
             db.commit()
-            print("Factura guardada exitosamente.")
-
+            print("Factura guardada exitosamente.") 
+            
+            return id_factura
+            
         except Exception as e:
             db.rollback()
             print(f"Error al guardar la factura: {e}")

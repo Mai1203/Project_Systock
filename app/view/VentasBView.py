@@ -6,6 +6,8 @@ from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtGui
+from PyQt5.QtCore import Qt
+
 
 
 # Relative imports
@@ -34,9 +36,9 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.BtnFacturaA.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         
         # Configuración inicial
-        self.player = QMediaPlayer() 
-        self.InputCodigo.setFocus()
-        self.id_categoria = None
+        self.player = QMediaPlayer()
+        QTimer.singleShot(0, self.InputCodigo.setFocus)
+        
         self.valor_domicilio = 0.0
         self.fila_seleccionada = None
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas
@@ -296,11 +298,46 @@ class VentasB_View(QWidget, Ui_VentasB):
             print("No se encontró el archivo de sonido")
     
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Return and self.InputDomicilio.hasFocus():
-            self.actualizar_datos()
+        # Si presionas Enter en InputDomicilio, realiza una acción especial
+        if self.InputDomicilio.hasFocus() and event.key() == Qt.Key_Return:
+            self.actualizar_datos()  # Acción personalizada para InputDomicilio
+        elif event.key() == Qt.Key_Up:
+            
+            self.navegar_widgets()
+            
+        elif event.key() == Qt.Key_Down:
+            self.navegar_widgets_atras()
         # Llamar al método original para procesar otros eventos
         super().keyPressEvent(event)
-        
+
+    def navegar_widgets(self):
+        if self.focusWidget() == self.InputCodigo:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
+            self.InputCodigo.setFocus()# Volver al inicio
+            
+    def navegar_widgets_atras(self):
+        if self.focusWidget() == self.InputCodigo:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
+            self.InputCodigo.setFocus()  
+            
     def configurar_localizacion(self):
         try:
             locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")

@@ -287,6 +287,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             self.player.play()
         else:
             print("No se encontró el archivo de sonido")
+            
     def keyPressEvent(self, event):
         # Si presionas Enter en InputDomicilio, realiza una acción especial
         if self.InputDomicilio.hasFocus() and event.key() == Qt.Key_Return:
@@ -327,6 +328,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
             self.InputCodigo.setFocus()  
+            
     def configurar_localizacion(self):
         try:
             locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")
@@ -917,15 +919,23 @@ class VentasA_View(QWidget, Ui_VentasA):
 
     def completar_campos(self):
 
-        if self.InputCedula.text() == "111":
-            self.InputNombreCli.setText(
-                "Predeterminado predeterminado",
-            )  # Cambia por el nombre que desees
-            self.InputTelefonoCli.setText(
-                "1234567890"
-            )  # Cambia por el número que desees
-            self.InputDireccion.setText("Predeterminado")
-
+        # Obtener cliente
+        id_cliente = int(self.InputCedula.text().strip())
+        self.db = SessionLocal()
+        
+        try:
+            cliente = obtener_cliente_por_id(self.db, id_cliente)
+            if cliente:
+                self.InputNombreCli.setText(f"{cliente.Nombre} {cliente.Apellido}")
+                self.InputTelefonoCli.setText(cliente.Teléfono)
+                self.InputDireccion.setText(cliente.Direccion)
+            else:
+                QMessageBox.warning(self, "Error", f"Cliente con cédula {id_cliente} no encontrado.")
+        except Exception as e:
+            print(f"Error al obtener cliente: {e}")
+        finally:
+            self.db.close()
+            
     def metodo_pago(self):
         try:
             # Iniciar conexión con la base de datos
@@ -987,5 +997,4 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputPago.clear()
         self.LabelTotal.setText("$")
         self.LabelSubtotal.setText("$")
-         
-    
+            

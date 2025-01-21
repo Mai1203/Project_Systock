@@ -6,6 +6,7 @@ from app.controllers.marca_crud import *
 from app.controllers.categorias_crud import *
 from app.controllers.metodo_pago_crud import *
 from app.controllers.tipo_factura_crud import *
+from app.controllers.clientes_crud import *
 
 
 def conectar_base():
@@ -18,6 +19,13 @@ def conectar_base():
 def poblar_datos_prueba():
     db = SessionLocal()
     # Crear usuarios de prueba
+    try: 
+        print("creando cliente default")
+        crear_cliente(db, 111, "Predeterminado", "Predeterminado", "Predeterminado", "1234567890")
+        print("cliente default creado exitosamente.")
+    except Exception as e:
+        print(f"Error al poblar datos: {e}")
+    
     try: 
         print("creando Tipo Facturas")
         crear_tipo_factura(db, "Factura A")

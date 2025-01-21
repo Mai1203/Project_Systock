@@ -33,7 +33,6 @@ def crear_cliente(
     db.refresh(nuevo_cliente)
     return nuevo_cliente
 
-
 # Obtener todos los clientes
 def obtener_clientes(db: Session):
     """
@@ -42,7 +41,6 @@ def obtener_clientes(db: Session):
     :return: Lista de clientes.
     """
     return db.query(Clientes).all()
-
 
 # Obtener un cliente por ID
 def obtener_cliente_por_id(db: Session, id_cliente: int):

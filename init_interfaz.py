@@ -133,6 +133,7 @@ class MainWindow(QMainWindow):
         # Generar el token JWT
         self.usuario_actual_id = usuario_autenticado.ID_Usuario
         self.MainApp.ventasA.usuario_actual_id = usuario_autenticado.ID_Usuario
+        self.MainApp.ventasB.usuario_actual_id = usuario_autenticado.ID_Usuario
         token = self.generar_token(usuario_autenticado.ID_Usuario, rol)
 
         # Almacenar el token en el objeto MainWindow

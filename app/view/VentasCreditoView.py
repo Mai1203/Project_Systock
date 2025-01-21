@@ -89,31 +89,40 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         super().keyPressEvent(event)
 
     def navegar_widgets(self):
-        if self.focusWidget() == self.InputNombreCli:
-            self.InputApellidoCli.setFocus()
-        elif self.focusWidget() == self.InputApellidoCli:
-            self.InputDireccion.setFocus()
-        elif self.focusWidget() == self.InputDireccion:
-            self.InputTelefonoCli.setFocus()
-        elif self.focusWidget() == self.InputTelefonoCli:
+        if self.focusWidget() == self.InputCodigo:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
             self.InputCedula.setFocus()
         elif self.focusWidget() == self.InputCedula:
-            self.InputCodigo.setFocus()
-        elif self.focusWidget() == self.InputCodigo:
-            self.InputNombreCli.setFocus()  # Volver al inicio
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputApellidoCli.setFocus()
+        elif self.focusWidget() == self.InputApellidoCli:
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
+            self.InputCodigo.setFocus()  # Volver al inicio
+
     def navegar_widgets_atras(self):
-        if self.focusWidget() == self.InputNombreCli:
-            self.InputCodigo.setFocus()
-        elif self.focusWidget() == self.InputCodigo:
-            self.InputCedula.setFocus()
-        elif self.focusWidget() == self.InputCedula:
-            self.InputTelefonoCli.setFocus()
-        elif self.focusWidget() == self.InputTelefonoCli:
-            self.InputDireccion.setFocus()
-        elif self.focusWidget() == self.InputDireccion:
+        """
+        Navega hacia atrás entre los widgets en el siguiente orden:
+        Código <- Nombre <- Cédula <- Teléfono <- Dirección <- Apellido Cliente <- Nombre Cliente <- Código
+        """
+        if self.focusWidget() == self.InputCodigo:
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
             self.InputApellidoCli.setFocus()
         elif self.focusWidget() == self.InputApellidoCli:
-            self.InputNombreCli.setFocus()  # Volver al inicio
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
+            self.InputCodigo.setFocus()  # Volver al inicio
 
     def configurar_localizacion(self):
         try:

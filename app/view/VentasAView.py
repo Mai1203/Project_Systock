@@ -24,6 +24,7 @@ from ..utils.autocomplementado import configurar_autocompletado
 
 # Standard library imports
 import os
+from PyQt5.QtCore import Qt
 import locale
 
 class VentasA_View(QWidget, Ui_VentasA):
@@ -286,13 +287,46 @@ class VentasA_View(QWidget, Ui_VentasA):
             self.player.play()
         else:
             print("No se encontró el archivo de sonido")
-    
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Return and self.InputDomicilio.hasFocus():
-            self.actualizar_datos()
+        # Si presionas Enter en InputDomicilio, realiza una acción especial
+        if self.InputDomicilio.hasFocus() and event.key() == Qt.Key_Return:
+            self.actualizar_datos()  # Acción personalizada para InputDomicilio
+        elif event.key() == Qt.Key_Up:
+            
+            self.navegar_widgets()
+            
+        elif event.key() == Qt.Key_Down:
+            self.navegar_widgets_atras()
         # Llamar al método original para procesar otros eventos
         super().keyPressEvent(event)
-        
+
+    def navegar_widgets(self):
+        if self.focusWidget() == self.InputCodigo:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
+            self.InputCodigo.setFocus()# Volver al inicio
+            
+    def navegar_widgets_atras(self):
+        if self.focusWidget() == self.InputCodigo:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
+            self.InputCodigo.setFocus()  
     def configurar_localizacion(self):
         try:
             locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")
@@ -885,7 +919,7 @@ class VentasA_View(QWidget, Ui_VentasA):
 
         if self.InputCedula.text() == "111":
             self.InputNombreCli.setText(
-                "Predeterminado"
+                "Predeterminado predeterminado",
             )  # Cambia por el nombre que desees
             self.InputTelefonoCli.setText(
                 "1234567890"

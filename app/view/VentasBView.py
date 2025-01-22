@@ -90,7 +90,9 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.InputCodigo.setFocus()
         self.limpiar_tabla()  
         self.limpiar_campos()
+        self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
+        configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
     
     def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
         msg_box = QMessageBox(self)

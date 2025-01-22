@@ -163,12 +163,12 @@ class VentasB_View(QWidget, Ui_VentasB):
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
             
-            pago = float(self.InputPago.text().strip()) if payment_method == "Efectivo" else 0.0
+            pago = self.InputPago.text().strip()
 
-            self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+            id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
             
             # Datos adicionales
-            invoice_number = f"001"
+            invoice_number = f"0000{id_factura}"
             pan = "123456789"  # Cambiar por el PAN de tu empresa
             filename = ""  # El usuario seleccionará el nombre y ruta
 
@@ -207,13 +207,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         try: 
             # Verificar si el cliente ya existe 
             cliente_existente = obtener_cliente_por_id(db, cedula) 
-            if cliente_existente: 
-                QMessageBox.information( 
-                    self, 
-                    "Cliente existente", 
-                    f"El cliente con cédula {cedula} ya existe. Se utilizarán sus datos." 
-                ) 
-            else: 
+            if not cliente_existente:  
                 try:
                     nombres = nombre_completo.split(" ")
                     nombre = nombres[0]
@@ -299,6 +293,8 @@ class VentasB_View(QWidget, Ui_VentasB):
             # Confirmar cambios en la base de datos
             db.commit()
             print("Factura guardada exitosamente.")
+            
+            return id_factura
 
         except Exception as e:
             db.rollback()
@@ -931,7 +927,7 @@ class VentasB_View(QWidget, Ui_VentasB):
 
         elif metodo_seleccionado == "Mixto":
             # Si el método de pago es Mixto, mostramos el placeholder con la barra /
-            self.InputPago.setPlaceholderText("$ / $")
+            self.InputPago.setPlaceholderText("$Efectivo / $Transferencia")
             
             # Expresión regular para permitir el formato 50000 / 30000 (con espacio antes y después de la barra)
             rx_inpago = QRegularExpression(r"^\d+(\.\d{1,2})?\s*/\s*\d+(\.\d{1,2})?$")  # Formato: 50000.00 / 30000.00

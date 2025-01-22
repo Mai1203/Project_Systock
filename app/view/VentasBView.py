@@ -94,6 +94,14 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.limpiar_campos()
         self.limpiar_datos_cliente()
     
+    def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle(titulo)
+        msg_box.setText(mensaje)
+        msg_box.setIcon(QMessageBox.Warning)
+        QTimer.singleShot(duracion, msg_box.close)  # Cierra el mensaje después de 'duracion' milisegundos
+        msg_box.exec_()
+        
     def generar_venta(self):
         
         if self.TablaVentaMayor.rowCount() == 0:
@@ -336,6 +344,8 @@ class VentasB_View(QWidget, Ui_VentasB):
         if self.focusWidget() == self.InputCodigo:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
+            self.InputDomicilio.setFocus()
+        elif self.focusWidget() == self.InputDomicilio:
             self.InputCedula.setFocus()
         elif self.focusWidget() == self.InputCedula:
             self.InputNombreCli.setFocus()
@@ -356,6 +366,8 @@ class VentasB_View(QWidget, Ui_VentasB):
         elif self.focusWidget() == self.InputNombreCli:
             self.InputCedula.setFocus()
         elif self.focusWidget() == self.InputCedula:
+            self.InputDomicilio.setFocus()
+        elif self.focusWidget() == self.InputDomicilio:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
             self.InputCodigo.setFocus()  # Volv
@@ -398,8 +410,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                     self.id_categoria = producto.categorias
                     self.InputCantidad.clear()  # Limpiar cantidad
                 else:
-                    QMessageBox.warning(
-                        self,
+                    self.mostrar_mensaje_temporal(
                         "Producto no encontrado",
                         "No existe un producto asociado a este código.",
                     )
@@ -485,7 +496,8 @@ class VentasB_View(QWidget, Ui_VentasB):
         for row in range(self.TablaVentaMayor.rowCount()):
             item_codigo = self.TablaVentaMayor.item(row, 0)  # Obtener el código de la fila
             if item_codigo and item_codigo.text() == codigo:  # Si el código ya existe
-                QMessageBox.warning(self, "Error", "Este código de producto ya existe.")
+                self.mostrar_mensaje_temporal( "Error", "Este código de producto ya existe.")
+                self.limpiar_campos()
                 return  # No agregar el producto si ya existe el código
 
         # Conexión a la base de datos
@@ -510,8 +522,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                     return  # No proceder con la venta si no hay suficiente stock
 
             else:
-                QMessageBox.warning(
-                    self,
+                self.mostrar_mensaje_temporal(
                     "Producto no encontrado",
                     "No existe un producto asociado a este código.",
                 )

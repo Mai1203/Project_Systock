@@ -50,6 +50,12 @@ class Productos_View(QWidget, Ui_Productos):
         configurar_validador_texto(self.InputMarca)
         configurar_validador_texto(self.InputCategoria)
         
+        # placeholder
+        self.InputCantidadMin.setText("3")
+        self.InputCantidadMax.setText("99")
+        
+        
+        
         self.InputPrecioCompra.textChanged.connect(self.agregar_placeholder)
         
          
@@ -142,8 +148,6 @@ class Productos_View(QWidget, Ui_Productos):
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
             self.InputCodigo.setFocus()  # Volver al inicio
-
-
         
     def showEvent(self, event):
         super().showEvent(event)
@@ -449,6 +453,9 @@ class Productos_View(QWidget, Ui_Productos):
             self.limpiar_formulario()
             self.limpiar_tabla_productos()
             self.mostrar_productos()
+            self.InputCodigo.setFocus()
+            self.InputCantidadMin.setText("3")
+            self.InputCantidadMax.setText("99")
             configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
             configurar_autocompletado(
                 self.InputCategoria, obtener_categorias, "Nombre", self.db
@@ -567,6 +574,9 @@ class Productos_View(QWidget, Ui_Productos):
                     self.limpiar_formulario()
                     self.limpiar_tabla_productos()
                     self.mostrar_productos()
+                    self.InputCantidadMin.setText("3")
+                    self.InputCantidadMax.setText("99")
+                    self.InputCodigo.setFocus()
                 else:
                     enviar_notificacion(
                         "Error", "Hubo un problema al actualizar el producto"

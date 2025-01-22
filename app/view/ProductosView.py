@@ -428,6 +428,9 @@ class Productos_View(QWidget, Ui_Productos):
             self.db = SessionLocal()
             id_marca = obtener_o_crear_marca(self.db, marca)
             id_categoria = obtener_o_crear_categoria(self.db, categoria)
+            
+            configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
+            configurar_autocompletado(self.InputCategoria, obtener_categorias, "Nombre", self.db)
 
             producto_existente = obtener_producto_por_id(self.db, id)
             if producto_existente:

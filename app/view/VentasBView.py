@@ -40,6 +40,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         QTimer.singleShot(0, self.InputCodigo.setFocus)
         
         self.valor_domicilio = 0.0
+        self.id_categoria = None
         self.fila_seleccionada = None
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas
 
@@ -97,6 +98,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         
         if self.TablaVentaMayor.rowCount() == 0:
             QMessageBox.warning(self, "Error", "No hay productos en la venta.")
+            self.InputCodigo.setFocus()
             return
     
         try:
@@ -108,11 +110,28 @@ class VentasB_View(QWidget, Ui_VentasB):
             monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
             
-            # Verificar que los datos básicos estén completos
-            if not client_name or not client_id or not client_address or not client_phone:
-                QMessageBox.warning(self, "Datos incompletos", "Por favor, completa los datos del cliente.")
+            # Validar que los campos obligatorios no estén vacíos
+            if not client_name:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Nombre del Cliente' está vacío.")
+                self.InputNombreCli.setFocus()
                 return
-            
+            if not client_id:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Cédula' está vacío.")
+                self.InputCedula.setFocus()
+                return
+            if not client_address:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Dirección' está vacío.")
+                self.InputDireccion.setFocus()
+                return
+            if not client_phone:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Teléfono' está vacío.")
+                self.InputTelefonoCli.setFocus()
+                return
+            if not monto_pago:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Pago' está vacío.")
+                self.InputPago.setFocus()
+                return
+
             self.verificar_cliente(client_id, client_name, client_address, client_phone)
 
             db = SessionLocal()
@@ -388,6 +407,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                         "Producto no encontrado",
                         "No existe un producto asociado a este código.",
                     )
+                    self.limpiar_campos()
                 return  # Terminar el procesamiento si el código fue encontrado
 
             # Caso 2: Si no se proporciona el código pero sí el nombre
@@ -445,11 +465,11 @@ class VentasB_View(QWidget, Ui_VentasB):
             self.procesar_codigo()
             if self.id_categoria is not None:
                 self.InputCantidad.setText("1")
-                self.agregar_producto()
+                self.agregar_producto(mostrar_mensaje=False)
                 self.InputCodigo.clear()
                 self.InputCodigo.setFocus()
                 
-    def agregar_producto(self):
+    def agregar_producto(self, mostrar_mensaje=True):
         # Leer los datos de los campos de entrada
         codigo = self.InputCodigo.text().strip()
         nombre = self.InputNombre.text().strip()
@@ -462,11 +482,8 @@ class VentasB_View(QWidget, Ui_VentasB):
             cantidad = int(cantidad)  # Convertimos la cantidad a entero
             precio_mayor = float(precio_mayor)  # Convertimos el precio a flotante
         except ValueError:
-            QMessageBox.warning(
-                self,
-                "Error",
-                "Por favor, ingrese valores numéricos válidos para la cantidad y el precio.",
-            )
+            if mostrar_mensaje:
+                QMessageBox.warning(self, "Error", "Por favor, ingrese valores numéricos válidos para la cantidad y el precio.")
             return
         # Verificar si el código del producto ya existe en la tabla
         for row in range(self.TablaVentaMayor.rowCount()):

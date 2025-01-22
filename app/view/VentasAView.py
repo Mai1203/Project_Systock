@@ -145,7 +145,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
             
-            pago = float(self.InputPago.text().strip()) if payment_method == "Efectivo" or payment_method == "Transferencia" else 0.0
+            pago = self.InputPago.text().strip()
 
             id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
             
@@ -189,13 +189,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         try: 
             # Verificar si el cliente ya existe 
             cliente_existente = obtener_cliente_por_id(db, cedula) 
-            if cliente_existente: 
-                QMessageBox.information( 
-                    self, 
-                    "Cliente existente", 
-                    f"El cliente con cédula {cedula} ya existe. Se utilizarán sus datos." 
-                ) 
-            else: 
+            if not cliente_existente: 
                 try:
                     nombres = nombre_completo.split(" ")
                     nombre = nombres[0]

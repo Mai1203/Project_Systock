@@ -116,7 +116,15 @@ def generate_ticket(
     sub = locale.currency(subtotal, grouping=True)
     descu = locale.currency(delivery_fee, grouping=True)
     totalpagar = locale.currency(total, grouping=True)
-    pago = locale.currency(pago, grouping=True)
+    
+    if payment_method == "Efectivo" or payment_method == "Transferencia":
+        pago = locale.currency(float(pago), grouping=True)
+    else:
+        total = pago.split("/") 
+        efectivo = float(total[0])
+        tranferencia = float(total[1])
+        efectivo = locale.currency(efectivo, grouping=True)
+        tranferencia = locale.currency(tranferencia, grouping=True)
 
     # Detallar subtotales (se sigue escribiendo después de la continuación de la página)
     pdf.setFont("Helvetica-Bold", font_size)
@@ -130,8 +138,17 @@ def generate_ticket(
     pdf.drawString(140, y, "Total:")
     pdf.drawString(220, y, f"{totalpagar}")
     y -= line_height
-    pdf.drawString(140, y, "Pago:")
-    pdf.drawString(220, y, f"{pago}")
+    if payment_method == "Efectivo" or payment_method == "Transferencia":
+        pdf.drawString(140, y, "Pago:")
+        pdf.drawString(220, y, pago)
+    else:
+        pdf.drawString(140, y, "Efectivo:")
+        pdf.drawString(220, y, f"{efectivo}")
+        y -= line_height
+        pdf.drawString(140, y, "Transfer:")
+        pdf.drawString(220, y, f"{tranferencia}")
+        y -= line_height
+        
 
     # Forma de pago
     y -= line_height * 2

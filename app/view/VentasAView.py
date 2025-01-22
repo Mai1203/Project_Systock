@@ -317,11 +317,12 @@ class VentasA_View(QWidget, Ui_VentasA):
             self.navegar_widgets_atras()
         # Llamar al método original para procesar otros eventos
         super().keyPressEvent(event)
-
     def navegar_widgets(self):
         if self.focusWidget() == self.InputCodigo:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
+            self.InputDomicilio.setFocus()
+        elif self.focusWidget() == self.InputDomicilio:
             self.InputCedula.setFocus()
         elif self.focusWidget() == self.InputCedula:
             self.InputNombreCli.setFocus()
@@ -342,9 +343,12 @@ class VentasA_View(QWidget, Ui_VentasA):
         elif self.focusWidget() == self.InputNombreCli:
             self.InputCedula.setFocus()
         elif self.focusWidget() == self.InputCedula:
+            self.InputDomicilio.setFocus()
+        elif self.focusWidget() == self.InputDomicilio:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
-            self.InputCodigo.setFocus()  # Volver al inicio
+            self.InputCodigo.setFocus()  # Volv
+            
     def configurar_localizacion(self):
         try:
             locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")

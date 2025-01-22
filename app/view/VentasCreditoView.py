@@ -66,7 +66,15 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.TablaVentasCredito.itemChanged.connect(self.actualizar_total)
         
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
-        
+     
+    def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle(titulo)
+        msg_box.setText(mensaje)
+        msg_box.setIcon(QMessageBox.Warning)
+        QTimer.singleShot(duracion, msg_box.close)  # Cierra el mensaje después de 'duracion' milisegundos
+        msg_box.exec_()
+            
     def reproducir_sonido(self):
         sonido_path = "./assets/sound_scanner.wav"
         if os.path.exists(sonido_path):
@@ -91,6 +99,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         if self.focusWidget() == self.InputCodigo:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
+            self.InputDomicilio.setFocus()
+        elif self.focusWidget() == self.InputDomicilio:
             self.InputNombreCli.setFocus()
         elif self.focusWidget() == self.InputNombreCli:
             self.InputApellidoCli.setFocus()
@@ -119,6 +129,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         elif self.focusWidget() == self.InputApellidoCli:
             self.InputNombreCli.setFocus()
         elif self.focusWidget() == self.InputNombreCli:
+            self.InputDomicilio.setFocus()
+        elif self.focusWidget() == self.InputDomicilio:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
             self.InputCodigo.setFocus()  # Volver al inicio
@@ -154,11 +166,11 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 self.InputCantidad.clear()
                 self.InputDomicilio.clear()
             else:
-                QMessageBox.warning(
-                    self,
-                    "Producto no encontrado",
-                    "No existe un producto asociado a este código.",
-                )
+                self.mostrar_mensaje_temporal(
+                        "Producto no encontrado",
+                        "No existe un producto asociado a este código.",
+                    )
+                self.limpiar_campos()
 
             db.close()
 
@@ -181,11 +193,11 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             self.procesar_codigo()
             if self.id_categoria is not None:
                 self.InputCantidad.setText("1")
-                self.agregar_producto()
+                self.agregar_producto(mostrar_mensaje=false)
                 self.InputCodigo.clear()
                 self.InputCodigo.setFocus()
                 
-    def agregar_producto(self):
+    def agregar_producto(self, mostrar_mensaje=True):
         # Leer los datos de los campos de entrada
         codigo = self.InputCodigo.text().strip()
         nombre = self.InputNombre.text().strip()
@@ -198,19 +210,19 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             cantidad = int(cantidad)  # Convertimos la cantidad a entero
             precio_unitario = float(precio_unitario)  # Convertimos el precio a flotante
         except ValueError:
-            QMessageBox.warning(
-                self,
-                "Error",
-                "Por favor, ingrese valores numéricos válidos para la cantidad y el precio.",
-            )
+            if mostrar_mensaje:
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "Por favor, ingrese valores numéricos válidos para la cantidad y el precio.",
+                )
             return
-                
         # Calcular el total del producto
-       
         for row in range(self.TablaVentasCredito.rowCount()):
             item_codigo = self.TablaVentasCredito.item(row, 0)  # Obtener el código de la fila
             if item_codigo and item_codigo.text() == codigo:  # Si el código ya existe
-                QMessageBox.warning(self, "Error", "Este código de producto ya existe.")
+                self.mostrar_mensaje_temporal( "Error", "Este código de producto ya existe.")
+                self.limpiar_campos()
                 return  # No agregar el producto si ya existe el código
 
         # Conexión a la base de datos

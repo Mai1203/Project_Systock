@@ -93,6 +93,14 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.limpiar_datos_cliente()
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
     
+    def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle(titulo)
+        msg_box.setText(mensaje)
+        msg_box.setIcon(QMessageBox.Warning)
+        QTimer.singleShot(duracion, msg_box.close)  # Cierra el mensaje después de 'duracion' milisegundos
+        msg_box.exec_()
+        
     def generar_venta(self):
         
         if self.tableWidget.rowCount() == 0:
@@ -388,8 +396,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                     self.id_categoria = producto.categorias
                     self.InputCantidad.clear()  # Limpiar cantidad
                 else:
-                    QMessageBox.warning(
-                        self,
+                    self.mostrar_mensaje_temporal(
                         "Producto no encontrado",
                         "No existe un producto asociado a este código.",
                     )
@@ -483,7 +490,8 @@ class VentasA_View(QWidget, Ui_VentasA):
         for row in range(self.tableWidget.rowCount()):
             item_codigo = self.tableWidget.item(row, 0)  # Obtener el código de la fila
             if item_codigo and item_codigo.text() == codigo:  # Si el código ya existe
-                QMessageBox.warning(self, "Error", "Este código de producto ya existe.")
+                self.mostrar_mensaje_temporal( "Error", "Este código de producto ya existe.")
+                self.limpiar_campos()
                 return  # No agregar el producto si ya existe el código
 
         # Conexión a la base de datos

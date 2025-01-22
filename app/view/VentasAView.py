@@ -65,11 +65,9 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.db = SessionLocal()
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         self.InputCodigo.textChanged.connect(self.iniciar_timer)
-        self.InputDomicilio.returnPressed.connect(self.actualizar_datos)
         self.InputCantidad.returnPressed.connect(self.actualizar_datos)
         self.InputPrecioUnitario.returnPressed.connect(self.actualizar_datos)
-        self.InputDomicilio.editingFinished.connect(self.actualizar_total)
-        self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
+        self.InputDomicilio.textChanged.connect(self.actualizar_total)
         self.InputCedula.textChanged.connect(self.validar_campos)
         self.InputCedula.returnPressed.connect(self.completar_campos)
         self.InputDescuento.textChanged.connect(self.aplicar_descuento)
@@ -93,6 +91,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.limpiar_tabla()  
         self.limpiar_campos()
         self.limpiar_datos_cliente()
+        configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
     
     def generar_venta(self):
         
@@ -196,6 +195,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             
         self.limpiar_tabla()
         self.limpiar_campos()
+        self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
           
     def verificar_cliente(self, cedula, nombre_completo , direccion, telefono): 
@@ -308,10 +308,8 @@ class VentasA_View(QWidget, Ui_VentasA):
             print("No se encontró el archivo de sonido")
             
     def keyPressEvent(self, event):
-        # Si presionas Enter en InputDomicilio, realiza una acción especial
-        if self.InputDomicilio.hasFocus() and event.key() == Qt.Key_Return:
-            self.actualizar_datos()  # Acción personalizada para InputDomicilio
-        elif event.key() == Qt.Key_Up:
+        
+        if event.key() == Qt.Key_Up:
             
             self.navegar_widgets()
             
@@ -585,7 +583,6 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputMarca.clear()
         self.InputCantidad.clear()
         self.InputPrecioUnitario.clear()
-        self.InputDomicilio.clear()
         self.InputCodigo.setFocus()  # Establece el foco nuevamente en el campo InputCodigo
 
     def eliminar_fila(self):
@@ -656,7 +653,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.LabelSubtotal.setText(f"Subtotal: {subtotal_formateado}")
 
         domicilio = self.obtener_valor_domicilio()  # Obtener el valor del domicilio
-
+        
         total = subtotal + domicilio
 
         if total.is_integer():

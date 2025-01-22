@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5 import QtWidgets, QtCore
 from ..ui import Ui_Facturas
 from ..database.database import SessionLocal
-from ..controllers.facturas_crud import obtener_facturas, obtener_factura_por_id, obtener_factura_completa
+from ..controllers.facturas_crud import *
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import generate_ticket
 from ..view.VentasAView import VentasA_View

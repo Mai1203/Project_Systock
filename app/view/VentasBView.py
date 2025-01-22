@@ -54,11 +54,9 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.db = SessionLocal()
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         self.InputCodigo.textChanged.connect(self.iniciar_timer)
-        self.InputDomicilio.returnPressed.connect(self.actualizar_datos)
         self.InputCantidad.returnPressed.connect(self.actualizar_datos)
         self.InputPrecioMayor.returnPressed.connect(self.actualizar_datos)
-        self.InputDomicilio.editingFinished.connect(self.actualizar_total)
-        self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
+        self.InputDomicilio.textChanged.connect(self.actualizar_total)
         self.InputCedula.textChanged.connect(self.validar_campos)
         self.InputCedula.returnPressed.connect(self.completar_campos)
         self.MetodoPagoBox.currentIndexChanged.connect(self.configuracion_pago)
@@ -198,6 +196,7 @@ class VentasB_View(QWidget, Ui_VentasB):
             
         self.limpiar_tabla()
         self.limpiar_campos()
+        self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
           
     def verificar_cliente(self, cedula, nombre_completo , direccion, telefono): 
@@ -320,10 +319,8 @@ class VentasB_View(QWidget, Ui_VentasB):
             print("No se encontró el archivo de sonido")
     
     def keyPressEvent(self, event):
-        # Si presionas Enter en InputDomicilio, realiza una acción especial
-        if self.InputDomicilio.hasFocus() and event.key() == Qt.Key_Return:
-            self.actualizar_datos()  # Acción personalizada para InputDomicilio
-        elif event.key() == Qt.Key_Up:
+         
+        if event.key() == Qt.Key_Up:
             
             self.navegar_widgets()
             
@@ -585,8 +582,8 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.InputMarca.clear()
         self.InputCantidad.clear()
         self.InputPrecioMayor.clear()
-        self.InputDomicilio.clear()
         self.InputCodigo.setFocus()  # Establece el foco nuevamente en el campo InputCodigo
+        
     def eliminar_fila(self):
         # Obtener la fila seleccionada
         fila_seleccionada = self.TablaVentaMayor.currentRow()

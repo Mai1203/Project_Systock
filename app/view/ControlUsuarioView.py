@@ -7,11 +7,17 @@ from ..ui import Ui_ControlUsuario
 from ..database.database import SessionLocal
 from ..controllers.usuario_crud import *
 from ..utils import *
+from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QTimer
+
+
 
 class ControlUsuario_View(QWidget, Ui_ControlUsuario):
     def __init__(self, parent=None):
         super(ControlUsuario_View, self).__init__(parent)
         self.setupUi(self)
+        QTimer.singleShot(0, self.InputIdUser.setFocus)
+
         
         self.BtnEliminar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnRegistrarUser.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -33,8 +39,38 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         self.TablaUser.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.TablaUser.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.TablaUser.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        
         self.TablaUser.cellClicked.connect(self.cargar_datos_fila)
         
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Up:
+            self.navegar_widgets()  # Continúa con la navegación normal
+        elif event.key() == Qt.Key_Down:
+            self.navegar_widgets_atras()
+
+        # Llamar al método original para procesar otros eventos
+        super().keyPressEvent(event)
+
+    def navegar_widgets(self):
+        if self.focusWidget() == self.InputIdUser:
+            self.InputNombreUser.setFocus()
+        elif self.focusWidget() == self.InputNombreUser:
+            self.InputUser.setFocus()
+        elif self.focusWidget() == self.InputUser:
+            self.InputPasswordUser.setFocus()
+        elif self.focusWidget() == self.InputPasswordUser:
+            self.InputIdUser.setFocus()  
+
+    def navegar_widgets_atras(self):
+        if self.focusWidget() == self.InputPasswordUser:
+            self.InputUser.setFocus()
+        elif self.focusWidget() == self.InputUser:
+            self.InputNombreUser.setFocus()
+        elif self.focusWidget() == self.InputNombreUser:
+            self.InputIdUser.setFocus()  # Volver al inicio
+        elif self.focusWidget() == self.InputIdUser:
+            self.InputPasswordUser.setFocus()
+
         
     def ingresar_usuario(self):
         

@@ -308,30 +308,29 @@ class VentasA_View(QWidget, Ui_VentasA):
         if self.focusWidget() == self.InputCodigo:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
-            self.InputDireccion.setFocus()
-        elif self.focusWidget() == self.InputDireccion:
-            self.InputTelefonoCli.setFocus()
-        elif self.focusWidget() == self.InputTelefonoCli:
-            self.InputNombreCli.setFocus()
-        elif self.focusWidget() == self.InputNombreCli:
             self.InputCedula.setFocus()
         elif self.focusWidget() == self.InputCedula:
-            self.InputCodigo.setFocus()# Volver al inicio
-            
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputCodigo.setFocus()  # Volver al inicio
+
     def navegar_widgets_atras(self):
         if self.focusWidget() == self.InputCodigo:
-            self.InputCedula.setFocus()
-        elif self.focusWidget() == self.InputCedula:
-            self.InputNombreCli.setFocus()
-        elif self.focusWidget() == self.InputNombreCli:
-            self.InputTelefonoCli.setFocus()
-        elif self.focusWidget() == self.InputTelefonoCli:
             self.InputDireccion.setFocus()
         elif self.focusWidget() == self.InputDireccion:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputNombreCli.setFocus()
+        elif self.focusWidget() == self.InputNombreCli:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
-            self.InputCodigo.setFocus()  
-            
+            self.InputCodigo.setFocus()  # Volver al inicio
     def configurar_localizacion(self):
         try:
             locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")

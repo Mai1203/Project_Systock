@@ -10,6 +10,8 @@ from ..controllers.producto_crud import *
 from ..controllers.marca_crud import *
 from ..controllers.categorias_crud import *
 from ..ui import Ui_Productos
+from PyQt5.QtCore import Qt
+
 
 
 class Productos_View(QWidget, Ui_Productos):
@@ -79,6 +81,69 @@ class Productos_View(QWidget, Ui_Productos):
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
         self.BtnEliminar.clicked.connect(self.eliminar_productos)
         
+        
+    def keyPressEvent(self, event):
+        # Si presionas Enter en InputDomicilio, realiza una acción especial
+        if event.key() == Qt.Key_Up:
+            
+            self.navegar_widgets()
+            
+        elif event.key() == Qt.Key_Down:
+            self.navegar_widgets_atras()
+        # Llamar al método original para procesar otros eventos
+        super().keyPressEvent(event)
+
+    def navegar_widgets(self):
+        """
+        Navega entre los widgets hacia adelante según el orden definido.
+        """
+        if self.focusWidget() == self.InputCodigo:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
+            self.InputMarca.setFocus()
+        elif self.focusWidget() == self.InputMarca:
+            self.InputCategoria.setFocus()
+        elif self.focusWidget() == self.InputCategoria:
+            self.InputCantidad.setFocus()
+        elif self.focusWidget() == self.InputCantidad:
+            self.InputCantidadMin.setFocus()
+        elif self.focusWidget() == self.InputCantidadMin:
+            self.InputCantidadMax.setFocus()
+        elif self.focusWidget() == self.InputCantidadMax:
+            self.InputPrecioCompra.setFocus()
+        elif self.focusWidget() == self.InputPrecioCompra:
+            self.InputPrecioUnitario.setFocus()
+        elif self.focusWidget() == self.InputPrecioUnitario:
+            self.InputPrecioMayor.setFocus()
+        elif self.focusWidget() == self.InputPrecioMayor:
+            self.InputCodigo.setFocus()  # Volver al inicio
+
+    def navegar_widgets_atras(self):
+        """
+        Navega entre los widgets hacia atrás según el orden definido.
+        """
+        if self.focusWidget() == self.InputCodigo:
+            self.InputPrecioMayor.setFocus()
+        elif self.focusWidget() == self.InputPrecioMayor:
+            self.InputPrecioUnitario.setFocus()
+        elif self.focusWidget() == self.InputPrecioUnitario:
+            self.InputPrecioCompra.setFocus()
+        elif self.focusWidget() == self.InputPrecioCompra:
+            self.InputCantidadMax.setFocus()
+        elif self.focusWidget() == self.InputCantidadMax:
+            self.InputCantidadMin.setFocus()
+        elif self.focusWidget() == self.InputCantidadMin:
+            self.InputCantidad.setFocus()
+        elif self.focusWidget() == self.InputCantidad:
+            self.InputCategoria.setFocus()
+        elif self.focusWidget() == self.InputCategoria:
+            self.InputMarca.setFocus()
+        elif self.focusWidget() == self.InputMarca:
+            self.InputNombre.setFocus()
+        elif self.focusWidget() == self.InputNombre:
+            self.InputCodigo.setFocus()  # Volver al inicio
+
+
         
     def showEvent(self, event):
         super().showEvent(event)

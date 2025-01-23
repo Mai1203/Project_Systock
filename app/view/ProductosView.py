@@ -50,14 +50,7 @@ class Productos_View(QWidget, Ui_Productos):
         configurar_validador_texto(self.InputMarca)
         configurar_validador_texto(self.InputCategoria)
         
-        # placeholder
-        self.InputCantidadMin.setText("3")
-        self.InputCantidadMax.setText("99")
-        
-        
-        
         self.InputPrecioCompra.textChanged.connect(self.agregar_placeholder)
-        
          
         configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
 
@@ -324,6 +317,10 @@ class Productos_View(QWidget, Ui_Productos):
         """
         self.limpiar_formulario_codigo()
         codigo = self.InputCodigo.text().strip()
+        self.InputCantidadMin.setText("3")
+        self.InputCantidadMax.setText("99")
+        self.InputMarca.setText("Predeterminado")
+        self.InputCategoria.setText("Predeterminado")
 
     def obtener_id_producto(self):
         """
@@ -456,9 +453,11 @@ class Productos_View(QWidget, Ui_Productos):
             self.limpiar_formulario()
             self.limpiar_tabla_productos()
             self.mostrar_productos()
-            self.InputCodigo.setFocus()
             self.InputCantidadMin.setText("3")
             self.InputCantidadMax.setText("99")
+            self.InputMarca.setText("Predeterminado")
+            self.InputCategoria.setText("Predeterminado")
+            self.InputCodigo.setFocus()
             configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
             configurar_autocompletado(
                 self.InputCategoria, obtener_categorias, "Nombre", self.db
@@ -578,7 +577,9 @@ class Productos_View(QWidget, Ui_Productos):
                     self.limpiar_tabla_productos()
                     self.mostrar_productos()
                     self.InputCantidadMin.setText("3")
-                    self.InputCantidadMax.setText("99")
+                    self.InputCantidadMax.setText("99")            
+                    self.InputMarca.setText("Predeterminado")
+                    self.InputCategoria.setText("Predeterminado")
                     self.InputCodigo.setFocus()
                 else:
                     enviar_notificacion(

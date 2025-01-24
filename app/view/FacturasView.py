@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import (
     QMessageBox,
 )
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import pyqtSignal
+
 from ..ui import Ui_Facturas
 from ..database.database import SessionLocal
 from ..controllers.facturas_crud import *
@@ -12,6 +14,7 @@ from ..view.VentasAView import VentasA_View
 
 
 class Facturas_View(QWidget, Ui_Facturas):
+    enviar_facturas = pyqtSignal(dict) 
     def __init__(self, parent=None):
         super(Facturas_View, self).__init__(parent)
         self.setupUi(self)
@@ -131,7 +134,7 @@ class Facturas_View(QWidget, Ui_Facturas):
 
         if not ids:
             enviar_notificacion(
-                "Advertencia", "No se seleccionaron productos para eliminar."
+                "Advertencia", "No se seleccionaron facturas para eliminar."
             )
             return
 
@@ -151,14 +154,14 @@ class Facturas_View(QWidget, Ui_Facturas):
                     eliminar_factura(self.db, id_factura)
 
                 self.db.commit()
-                enviar_notificacion("Éxito", "Producto(s) eliminado(s) correctamente.")
+                enviar_notificacion("Éxito", "Factura(s) eliminada(s) correctamente.")
 
                 # Actualizar la tabla
                 self.limpiar_tabla_facturas()
                 self.mostrar_facturas()
 
             except Exception as e:
-                enviar_notificacion("Error", f"Error al eliminar productos: {e}")
+                enviar_notificacion("Error", f"Error al eliminar facturas: {e}")
             finally:
                 self.db.close()
 
@@ -228,7 +231,6 @@ class Facturas_View(QWidget, Ui_Facturas):
             value = float(item["unit_price"])
 
             items2.append((quantity, description, value))
-            print(f"Debug: quantity={quantity}, description={description}, value={value}")
 
         # Calcular el total
         total = subtotal + delivery_fee
@@ -236,6 +238,14 @@ class Facturas_View(QWidget, Ui_Facturas):
         # Extraer información adicional de la factura
         payment_method = factura["MetodoPago"]
         invoice_number = factura["ID_Factura"]
+        
+        if payment_method == "Efectivo":
+            pago = f"{factura["Monto_efectivo"]}"
+        elif payment_method == "Transferencia":
+            pago = f"{factura["Monto_TRANSACCION"]}"
+        else:
+            pago = f"{factura['Monto_efectivo']}/{factura['Monto_TRANSACCION']}" 
+            
         pan = "123456789"  # Número fijo de ejemplo, cámbialo si es necesario
 
         # Llamar a la función generate_ticket
@@ -251,6 +261,7 @@ class Facturas_View(QWidget, Ui_Facturas):
             payment_method=payment_method,
             invoice_number=invoice_number,
             pan=pan,
+            pago=pago,
             filename=None,  # Puedes cambiar esto según tu necesidad
         )
         
@@ -289,25 +300,24 @@ class Facturas_View(QWidget, Ui_Facturas):
     def editar_factura(self):
         """Abrir ventana de ventas con los datos de la factura seleccionada."""
         try:
-            seleccion = self.lista_facturas.curselection()
-            if not seleccion:
-                QMessageBox.showwarning("Advertencia", "Seleccione una factura para editar.")
+            ids = self.obtener_ids_seleccionados()
+
+            if not ids:
+                enviar_notificacion(
+                    "Advertencia", "No se seleccionaron facturas para editar."
+                )
                 return
 
-            # Obtener ID de la factura seleccionada
-            factura_id = int(self.lista_facturas.get(seleccion[0]).split()[1])
-
             # Llamar a la función para obtener todos los datos de la factura
-            factura_completa = obtener_factura_completa(self.db, factura_id)
+            factura_completa = obtener_factura_completa(self.db, ids[0])
 
             if not factura_completa:
-                QMessageBox.showerror("Error", f"No se encontró la factura con ID {factura_id}.")
+                QMessageBox.showerror("Error", f"No se encontró la factura con ID {ids[0]}.")
                 return
 
             # Abrir la ventana de ventas y pasar los datos de la factura
-            VentasA_View(self.root, self.db, factura_completa)
-            self.frame.destroy()  # Cierra la ventana actual
+            self.enviar_facturas.emit(factura_completa)
 
         except Exception as e:
-            QMessageBox.showerror("Error", str(e))
+            print(f"Error al abrir ventana de ventas: {e}")
     

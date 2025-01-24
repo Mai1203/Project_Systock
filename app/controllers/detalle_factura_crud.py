@@ -112,7 +112,7 @@ def actualizar_detalle_factura(
 
 
 # Eliminar un detalle de factura
-def eliminar_detalle_factura(db: Session, id_detalle_factura: int):
+def eliminar_detalle_factura(db: Session, id_producto: int, id_factura: int):
     """
     Elimina un registro de detalle de factura por su ID.
     :param db: Sesión de base de datos.
@@ -121,7 +121,9 @@ def eliminar_detalle_factura(db: Session, id_detalle_factura: int):
     """
     detalle_existente = (
         db.query(DetalleFacturas)
-        .filter(DetalleFacturas.ID_Detalle_Factura == id_detalle_factura)
+        .filter(
+                DetalleFacturas.ID_Factura == id_factura,
+                DetalleFacturas.ID_Producto == id_producto)
         .first()
     )
     if not detalle_existente:

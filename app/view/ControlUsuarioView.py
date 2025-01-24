@@ -41,7 +41,13 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         self.TablaUser.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         
         self.TablaUser.cellClicked.connect(self.cargar_datos_fila)
-        
+    
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.limpiar_formulario()
+        self.limpiar_tabla_usuarios()
+        self.mostrar_usuarios()
+    
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Up:
             self.navegar_widgets()  # Continúa con la navegación normal

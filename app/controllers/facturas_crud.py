@@ -3,8 +3,9 @@ from sqlalchemy import or_
 from app.models.facturas import Facturas, MetodoPago, TipoFactura
 from app.models.detalle_facturas import DetalleFacturas
 from app.models.clientes import Clientes
-from app.models.productos import Productos
+from app.models.productos import Productos, Marcas, Categorias
 from app.models.usuarios import Usuarios
+
 
 
 # Crear una factura
@@ -81,13 +82,18 @@ def obtener_factura_completa(db: Session, id_factura: int):
     detalles = (
         db.query(
             DetalleFacturas.ID_Detalle_Factura,
+            DetalleFacturas.ID_Producto,
             DetalleFacturas.Cantidad,
             DetalleFacturas.Precio_unitario,
             DetalleFacturas.Subtotal,
             DetalleFacturas.Descuento,
             Productos.Nombre.label("producto"),
+            Marcas.Nombre.label("marca"),
+            Categorias.Nombre.label("categoria"),
         )
         .join(Productos, DetalleFacturas.ID_Producto == Productos.ID_Producto)
+        .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
+        .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
         .filter(DetalleFacturas.ID_Factura == id_factura)
         .all()
     )
@@ -113,7 +119,10 @@ def obtener_factura_completa(db: Session, id_factura: int):
         "Detalles": [
             {
                 "ID_Detalle": detalle.ID_Detalle_Factura,
+                "ID_Producto": detalle.ID_Producto,
                 "Cantidad": detalle.Cantidad,
+                "Marca": detalle.marca,
+                "Categoria": detalle.categoria,
                 "Precio_Unitario": detalle.Precio_unitario,
                 "Subtotal": detalle.Subtotal,
                 "Descuento": detalle.Descuento,

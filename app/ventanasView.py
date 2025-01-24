@@ -99,10 +99,20 @@ class MainApp(QWidget):
         self.navbar.BtnControlUsuario.clicked.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.control_usuario_view)
         )
+        
+        
         self.ventasA.cambiar_a_ventanab.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.ventasB)
         )
-        
         self.ventasB.cambiar_a_ventanaA.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.ventasA)
         )
+        self.facturas.enviar_facturas.connect(self.cambiar_a_ventasA)
+        
+    def cambiar_a_ventasA(self, factura_completa):
+        try:
+            self.stacked_widget.setCurrentWidget(self.ventasA)
+            self.ventasA.cargar_información(factura_completa)
+            
+        except Exception as e:
+            print(f"Error al cargar datos: {e}")

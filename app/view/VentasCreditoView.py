@@ -67,6 +67,12 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
      
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.InputCodigo.setFocus()
+        self.limpiar_tabla()
+        self.limpiar_campos() 
+     
     def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle(titulo)

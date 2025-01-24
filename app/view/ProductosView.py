@@ -46,7 +46,7 @@ class Productos_View(QWidget, Ui_Productos):
         configurar_validador_numerico(self.InputPrecioMayor)
         configurar_validador_numerico(self.InputPrecioCompra)
 
-        configurar_validador_texto(self.InputNombre)
+        configurar_validador_texto_y_numeros(self.InputNombre)
         configurar_validador_texto(self.InputMarca)
         configurar_validador_texto(self.InputCategoria)
         

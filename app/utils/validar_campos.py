@@ -24,7 +24,13 @@ def configurar_validador_texto(input_widget):
     Configura un validador para aceptar solo texto (letras y espacios).
     """
     configurar_validador(input_widget, r"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$")
-
+    
+def configurar_validador_texto_y_numeros(input_widget):
+    """
+    Configura un validador para aceptar solo texto (letras, números y espacios).
+    """
+    configurar_validador(input_widget, r"^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s]+$")
+    
 def configurar_validador_decimal(input_widget):
     """
     Configura un validador para aceptar números decimales.

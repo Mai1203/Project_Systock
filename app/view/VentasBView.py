@@ -7,7 +7,6 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
-from sqlalchemy.sql import func
 
 
 
@@ -235,7 +234,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                 codigo = self.TablaVentaMayor.item(row, 0).text()
                 quantity = int(self.TablaVentaMayor.item(row, 4).text())
                 description = self.TablaVentaMayor.item(row, 1).text()
-                value = float(self.TablaVentaMayor.item(row, 6).text())
+                value = float(self.TablaVentaMayor.item(row, 5).text())
 
                 producto = obtener_producto_por_id(db, int(codigo))
 
@@ -384,7 +383,6 @@ class VentasB_View(QWidget, Ui_VentasB):
         factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
         factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
         factura.ID_Usuario = usuario_actual_id
-        factura.Fecha_Factura = func.now()
 
         # Confirmar los cambios
         db.commit()

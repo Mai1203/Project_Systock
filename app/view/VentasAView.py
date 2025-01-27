@@ -5,7 +5,6 @@ from PyQt5.QtGui import QRegularExpressionValidator
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal
-from sqlalchemy.sql import func
 
 
 # Relative imports
@@ -87,6 +86,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
     
     def cargar_información(self, factura_completa):
+        print(factura_completa)
         factura = factura_completa["Factura"]
         cliente = factura_completa["Cliente"]  # Acceder al primer elemento de la lista
         detalles = factura_completa["Detalles"]
@@ -234,7 +234,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 codigo = self.tableWidget.item(row, 0).text()
                 quantity = int(self.tableWidget.item(row, 4).text())
                 description = self.tableWidget.item(row, 1).text()
-                value = float(self.tableWidget.item(row, 6).text())
+                value = float(self.tableWidget.item(row, 5).text())
 
                 producto = obtener_producto_por_id(db, int(codigo))
 
@@ -384,7 +384,6 @@ class VentasA_View(QWidget, Ui_VentasA):
         factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
         factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
         factura.ID_Usuario = usuario_actual_id
-        factura.Fecha_Factura = func.now()
 
         # Confirmar los cambios
         db.commit()

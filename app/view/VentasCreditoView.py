@@ -110,19 +110,19 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         if self.focusWidget() == self.InputCodigo:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
-            self.InputDomicilio.setFocus()
-        elif self.focusWidget() == self.InputDomicilio:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
             self.InputNombreCli.setFocus()
         elif self.focusWidget() == self.InputNombreCli:
             self.InputApellidoCli.setFocus()
         elif self.focusWidget() == self.InputApellidoCli:
-            self.InputDireccion.setFocus()
-        elif self.focusWidget() == self.InputDireccion:
             self.InputTelefonoCli.setFocus()
         elif self.focusWidget() == self.InputTelefonoCli:
-            self.InputCedula.setFocus()
-        elif self.focusWidget() == self.InputCedula:
-            self.InputCodigo.setFocus()  # Volver al inicio
+            self.InputDireccion.setFocus()
+        elif self.focusWidget() == self.InputDireccion:
+            self.InputDomicilio.setFocus()  # Volver al inicio Volver al inicio
+        elif self.focusWidget() == self.InputDomicilio:
+            self.InputCodigo.setFocus()
 
     def navegar_widgets_atras(self):
         """
@@ -130,21 +130,22 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         Código <- Nombre <- Nombre Cliente <- Apellido Cliente <- Dirección <- Teléfono <- Cédula <- Nombre <- Código
         """
         if self.focusWidget() == self.InputCodigo:
-            self.InputCedula.setFocus()
-        elif self.focusWidget() == self.InputCedula:
-            self.InputTelefonoCli.setFocus()
-        elif self.focusWidget() == self.InputTelefonoCli:
+            self.InputDomicilio.setFocus()  # Volver al final
+        elif self.focusWidget() == self.InputDomicilio:
             self.InputDireccion.setFocus()
         elif self.focusWidget() == self.InputDireccion:
+            self.InputTelefonoCli.setFocus()
+        elif self.focusWidget() == self.InputTelefonoCli:
             self.InputApellidoCli.setFocus()
         elif self.focusWidget() == self.InputApellidoCli:
             self.InputNombreCli.setFocus()
         elif self.focusWidget() == self.InputNombreCli:
-            self.InputDomicilio.setFocus()
-        elif self.focusWidget() == self.InputDomicilio:
+            self.InputCedula.setFocus()
+        elif self.focusWidget() == self.InputCedula:
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
             self.InputCodigo.setFocus()  # Volver al inicio
+
 
     def configurar_localizacion(self):
         try:
@@ -503,10 +504,10 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
 
                     self.fila_seleccionada = row
                     self.InputDomicilio.setEnabled(True)
-                    
 
                     # *** MOSTRAR el valor de self.valor_domicilio en InputDomicilio ***
                     self.InputDomicilio.setText(str(self.valor_domicilio))
+                    self.InputCantidad.setFocus()
 
                 else:
                     QMessageBox.warning(
@@ -528,8 +529,11 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             QMessageBox.critical(
                 self, "Error", f"Ocurrió un error al cargar los datos: {e}"
             )
+            self.InputCodigo.setFocus()
             
     def actualizar_datos(self):
+        self.InputCodigo.setFocus()
+        
         if self.fila_seleccionada is not None:
             try:
                 cantidad_str = self.InputCantidad.text().strip()

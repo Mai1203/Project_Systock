@@ -759,7 +759,7 @@ QScrollBar::handle:horizontal:hover {
              <item row="0" column="0">
               <layout class="QGridLayout" name="gridLayout_4">
                <item row="2" column="0">
-                <widget class="QLineEdit" name="InputNombreCli">
+                <widget class="QLineEdit" name="InputCedula">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -817,19 +817,19 @@ QScrollBar::handle:horizontal:hover {
                <item row="1" column="1">
                 <widget class="QLabel" name="label_10">
                  <property name="text">
-                  <string>Apellido:</string>
+                  <string>Nombre:</string>
                  </property>
                 </widget>
                </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="text">
-                  <string>Nombre:</string>
+                  <string>Cédula:</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="5">
-                <widget class="QLineEdit" name="InputCedula">
+                <widget class="QLineEdit" name="InputDireccion">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -861,7 +861,7 @@ QScrollBar::handle:horizontal:hover {
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QLineEdit" name="InputApellidoCli">
+                <widget class="QLineEdit" name="InputNombreCli">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -973,12 +973,12 @@ QPushButton:hover {
                <item row="1" column="5">
                 <widget class="QLabel" name="label_2">
                  <property name="text">
-                  <string>Cedula De Ciudadania</string>
+                  <string>Dirección:</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="2">
-                <widget class="QLineEdit" name="InputDireccion">
+                <widget class="QLineEdit" name="InputApellidoCli">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1030,7 +1030,7 @@ QPushButton:hover {
                <item row="1" column="2">
                 <widget class="QLabel" name="label_9">
                  <property name="text">
-                  <string>Dirección:</string>
+                  <string>Apellido:</string>
                  </property>
                 </widget>
                </item>

@@ -32,7 +32,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.valor_domicilio = 0.0
         self.fila_seleccionada = None
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas     
-    
         
         # Inicialización y configuración
         self.limpiar_tabla()
@@ -58,6 +57,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputTelefonoCli.setPlaceholderText("Ej: 3170065430")
         self.InputDireccion.setPlaceholderText("Ej: Calle 1, 123 - Piso 1")
         self.LimitePagoBox.addItems(["7 días","15 dias"])
+        self.comboBoxPrecio.addItems(["PU","PAM"])
         
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)

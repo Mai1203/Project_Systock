@@ -950,6 +950,7 @@ class VentasA_View(QWidget, Ui_VentasA):
 
                     # *** MOSTRAR el valor de self.valor_domicilio en InputDomicilio ***
                     self.InputDomicilio.setText(str(self.valor_domicilio))
+                    self.InputCantidad.setFocus()
 
                 else:
                     QMessageBox.warning(

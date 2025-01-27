@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_VentasCredito(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1422, 1073)
+        Form.resize(1418, 1064)
         Form.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
@@ -204,37 +204,6 @@ class Ui_VentasCredito(object):
         self.gridLayout.setObjectName("gridLayout")
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.label_3 = QtWidgets.QLabel(self.widget_3)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout_2.addWidget(self.label_3, 2, 0, 1, 1)
-        self.InputMarca = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputMarca.sizePolicy().hasHeightForWidth())
-        self.InputMarca.setSizePolicy(sizePolicy)
-        self.InputMarca.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputMarca.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputMarca.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputMarca.setObjectName("InputMarca")
-        self.gridLayout_2.addWidget(self.InputMarca, 3, 3, 1, 1)
-        self.label_8 = QtWidgets.QLabel(self.widget_3)
-        self.label_8.setObjectName("label_8")
-        self.gridLayout_2.addWidget(self.label_8, 4, 0, 1, 1)
-        self.label_30 = QtWidgets.QLabel(self.widget_3)
-        self.label_30.setObjectName("label_30")
-        self.gridLayout_2.addWidget(self.label_30, 1, 0, 1, 1)
-        self.LabelVentasA = QtWidgets.QLabel(self.widget_3)
-        self.LabelVentasA.setStyleSheet("#LabelVentasA {\n"
-"    font-weight: bold; /* Negrita */\n"
-"    font-size: 34px; /* Tamaño de fuente */\n"
-"}\n"
-"")
-        self.LabelVentasA.setObjectName("LabelVentasA")
-        self.gridLayout_2.addWidget(self.LabelVentasA, 0, 0, 1, 1, QtCore.Qt.AlignLeft)
-        self.label_6 = QtWidgets.QLabel(self.widget_3)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout_2.addWidget(self.label_6, 2, 3, 1, 1)
         self.BtnEliminar = QtWidgets.QPushButton(self.widget_3)
         self.BtnEliminar.setStyleSheet("\n"
 "QPushButton {\n"
@@ -259,46 +228,70 @@ class Ui_VentasCredito(object):
         self.BtnEliminar.setIcon(icon)
         self.BtnEliminar.setIconSize(QtCore.QSize(30, 30))
         self.BtnEliminar.setObjectName("BtnEliminar")
-        self.gridLayout_2.addWidget(self.BtnEliminar, 5, 6, 1, 1)
-        self.InputDomicilio = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputDomicilio.sizePolicy().hasHeightForWidth())
-        self.InputDomicilio.setSizePolicy(sizePolicy)
-        self.InputDomicilio.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputDomicilio.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputDomicilio.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputDomicilio.setObjectName("InputDomicilio")
-        self.gridLayout_2.addWidget(self.InputDomicilio, 5, 0, 1, 1)
-        self.label_7 = QtWidgets.QLabel(self.widget_3)
-        self.label_7.setObjectName("label_7")
-        self.gridLayout_2.addWidget(self.label_7, 2, 4, 1, 1)
-        self.InputNombre = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputNombre.sizePolicy().hasHeightForWidth())
-        self.InputNombre.setSizePolicy(sizePolicy)
-        self.InputNombre.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputNombre.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputNombre.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputNombre.setObjectName("InputNombre")
-        self.gridLayout_2.addWidget(self.InputNombre, 3, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.BtnEliminar, 6, 6, 1, 1)
         self.label = QtWidgets.QLabel(self.widget_3)
         self.label.setObjectName("label")
         self.gridLayout_2.addWidget(self.label, 2, 6, 1, 1)
-        self.InputCantidad = QtWidgets.QLineEdit(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputCantidad.sizePolicy().hasHeightForWidth())
-        self.InputCantidad.setSizePolicy(sizePolicy)
-        self.InputCantidad.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputCantidad.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputCantidad.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputCantidad.setObjectName("InputCantidad")
-        self.gridLayout_2.addWidget(self.InputCantidad, 3, 4, 1, 1)
+        self.label_6 = QtWidgets.QLabel(self.widget_3)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout_2.addWidget(self.label_6, 2, 3, 1, 1)
+        self.label_7 = QtWidgets.QLabel(self.widget_3)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout_2.addWidget(self.label_7, 2, 4, 1, 1)
+        self.LabelVentasA = QtWidgets.QLabel(self.widget_3)
+        self.LabelVentasA.setStyleSheet("#LabelVentasA {\n"
+"    font-weight: bold; /* Negrita */\n"
+"    font-size: 34px; /* Tamaño de fuente */\n"
+"}\n"
+"")
+        self.LabelVentasA.setObjectName("LabelVentasA")
+        self.gridLayout_2.addWidget(self.LabelVentasA, 0, 0, 1, 1, QtCore.Qt.AlignLeft)
+        self.label_30 = QtWidgets.QLabel(self.widget_3)
+        self.label_30.setObjectName("label_30")
+        self.gridLayout_2.addWidget(self.label_30, 1, 0, 1, 1)
+        self.label_5 = QtWidgets.QLabel(self.widget_3)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_2.addWidget(self.label_5, 2, 2, 1, 1)
+        self.label_16 = QtWidgets.QLabel(self.widget_3)
+        self.label_16.setObjectName("label_16")
+        self.gridLayout_2.addWidget(self.label_16, 2, 0, 1, 1)
+        self.comboBoxPrecio = QtWidgets.QComboBox(self.widget_3)
+        self.comboBoxPrecio.setStyleSheet("QComboBox {\n"
+"    background-color: white; /* Fondo blanco */\n"
+"    border: none; /* Sin borde */\n"
+"    color: black; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes redondeados */\n"
+"    padding: 5px 10px; /* Espaciado interno */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    height: 40px; /* Altura del combo box */\n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    background-color: transparent; /* Fondo transparente */\n"
+"    border: none; /* Sin borde */\n"
+"    width: 20px; /* Tamaño del botón */\n"
+"    /* No se define la flecha, por lo que se elimina */\n"
+"}\n"
+"\n"
+"QComboBox:hover {\n"
+"    cursor: pointer; /* Cursor de mano */\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    background-color: white; /* Fondo del menú desplegable */\n"
+"    border: none; /* Sin borde */\n"
+"    color: black; /* Color del texto en las opciones */\n"
+"    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */\n"
+"    selection-color: white; /* Texto blanco al seleccionar */\n"
+"    border-radius: 10px; /* Bordes redondeados */\n"
+"}\n"
+"\n"
+"")
+        self.comboBoxPrecio.setObjectName("comboBoxPrecio")
+        self.gridLayout_2.addWidget(self.comboBoxPrecio, 3, 0, 1, 1)
+        self.label_13 = QtWidgets.QLabel(self.widget_3)
+        self.label_13.setObjectName("label_13")
+        self.gridLayout_2.addWidget(self.label_13, 4, 0, 1, 1)
         self.InputPrecioUnitario = QtWidgets.QLineEdit(self.widget_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -309,7 +302,40 @@ class Ui_VentasCredito(object):
         self.InputPrecioUnitario.setMaximumSize(QtCore.QSize(250, 50))
         self.InputPrecioUnitario.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputPrecioUnitario.setObjectName("InputPrecioUnitario")
-        self.gridLayout_2.addWidget(self.InputPrecioUnitario, 3, 6, 1, 1)
+        self.gridLayout_2.addWidget(self.InputPrecioUnitario, 6, 0, 1, 1)
+        self.InputCantidad = QtWidgets.QLineEdit(self.widget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.InputCantidad.sizePolicy().hasHeightForWidth())
+        self.InputCantidad.setSizePolicy(sizePolicy)
+        self.InputCantidad.setMinimumSize(QtCore.QSize(250, 50))
+        self.InputCantidad.setMaximumSize(QtCore.QSize(250, 50))
+        self.InputCantidad.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputCantidad.setObjectName("InputCantidad")
+        self.gridLayout_2.addWidget(self.InputCantidad, 3, 6, 1, 1)
+        self.InputMarca = QtWidgets.QLineEdit(self.widget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.InputMarca.sizePolicy().hasHeightForWidth())
+        self.InputMarca.setSizePolicy(sizePolicy)
+        self.InputMarca.setMinimumSize(QtCore.QSize(250, 50))
+        self.InputMarca.setMaximumSize(QtCore.QSize(250, 50))
+        self.InputMarca.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputMarca.setObjectName("InputMarca")
+        self.gridLayout_2.addWidget(self.InputMarca, 3, 4, 1, 1)
+        self.InputNombre = QtWidgets.QLineEdit(self.widget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.InputNombre.sizePolicy().hasHeightForWidth())
+        self.InputNombre.setSizePolicy(sizePolicy)
+        self.InputNombre.setMinimumSize(QtCore.QSize(250, 50))
+        self.InputNombre.setMaximumSize(QtCore.QSize(250, 50))
+        self.InputNombre.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputNombre.setObjectName("InputNombre")
+        self.gridLayout_2.addWidget(self.InputNombre, 3, 3, 1, 1)
         self.InputCodigo = QtWidgets.QLineEdit(self.widget_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -320,10 +346,7 @@ class Ui_VentasCredito(object):
         self.InputCodigo.setMaximumSize(QtCore.QSize(250, 50))
         self.InputCodigo.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputCodigo.setObjectName("InputCodigo")
-        self.gridLayout_2.addWidget(self.InputCodigo, 3, 0, 1, 1)
-        self.label_5 = QtWidgets.QLabel(self.widget_3)
-        self.label_5.setObjectName("label_5")
-        self.gridLayout_2.addWidget(self.label_5, 2, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.InputCodigo, 3, 2, 1, 1)
         self.gridLayout.addLayout(self.gridLayout_2, 0, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.widget_3)
         self.widget = QtWidgets.QWidget(self.ContenidoPage1)
@@ -514,40 +537,17 @@ class Ui_VentasCredito(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setObjectName("gridLayout_4")
-        self.InputTelefonoCli = QtWidgets.QLineEdit(self.widget_4)
+        self.InputNombreCli = QtWidgets.QLineEdit(self.widget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputTelefonoCli.sizePolicy().hasHeightForWidth())
-        self.InputTelefonoCli.setSizePolicy(sizePolicy)
-        self.InputTelefonoCli.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputTelefonoCli.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputTelefonoCli.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputTelefonoCli.setObjectName("InputTelefonoCli")
-        self.gridLayout_4.addWidget(self.InputTelefonoCli, 2, 3, 1, 1)
-        self.InputDireccion = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputDireccion.sizePolicy().hasHeightForWidth())
-        self.InputDireccion.setSizePolicy(sizePolicy)
-        self.InputDireccion.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputDireccion.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputDireccion.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputDireccion.setObjectName("InputDireccion")
-        self.gridLayout_4.addWidget(self.InputDireccion, 2, 2, 1, 1)
-        self.LabelTotal = QtWidgets.QLabel(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.LabelTotal.sizePolicy().hasHeightForWidth())
-        self.LabelTotal.setSizePolicy(sizePolicy)
-        self.LabelTotal.setMinimumSize(QtCore.QSize(250, 50))
-        self.LabelTotal.setMaximumSize(QtCore.QSize(250, 50))
-        self.LabelTotal.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
-        self.LabelTotal.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.LabelTotal.setObjectName("LabelTotal")
-        self.gridLayout_4.addWidget(self.LabelTotal, 4, 3, 1, 1)
+        sizePolicy.setHeightForWidth(self.InputNombreCli.sizePolicy().hasHeightForWidth())
+        self.InputNombreCli.setSizePolicy(sizePolicy)
+        self.InputNombreCli.setMinimumSize(QtCore.QSize(250, 50))
+        self.InputNombreCli.setMaximumSize(QtCore.QSize(250, 50))
+        self.InputNombreCli.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputNombreCli.setObjectName("InputNombreCli")
+        self.gridLayout_4.addWidget(self.InputNombreCli, 2, 0, 1, 1)
         self.LabelSubtotal = QtWidgets.QLabel(self.widget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -560,16 +560,12 @@ class Ui_VentasCredito(object):
         self.LabelSubtotal.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.LabelSubtotal.setObjectName("LabelSubtotal")
         self.gridLayout_4.addWidget(self.LabelSubtotal, 3, 3, 1, 1)
+        self.label_10 = QtWidgets.QLabel(self.widget_4)
+        self.label_10.setObjectName("label_10")
+        self.gridLayout_4.addWidget(self.label_10, 1, 1, 1, 1)
         self.label_4 = QtWidgets.QLabel(self.widget_4)
         self.label_4.setObjectName("label_4")
         self.gridLayout_4.addWidget(self.label_4, 1, 0, 1, 1)
-        self.label_15 = QtWidgets.QLabel(self.widget_4)
-        self.label_15.setObjectName("label_15")
-        self.gridLayout_4.addWidget(self.label_15, 4, 2, 1, 1, QtCore.Qt.AlignRight)
-        self.label_31 = QtWidgets.QLabel(self.widget_4)
-        self.label_31.setText("")
-        self.label_31.setObjectName("label_31")
-        self.gridLayout_4.addWidget(self.label_31, 0, 0, 1, 1)
         self.InputCedula = QtWidgets.QLineEdit(self.widget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -581,50 +577,6 @@ class Ui_VentasCredito(object):
         self.InputCedula.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputCedula.setObjectName("InputCedula")
         self.gridLayout_4.addWidget(self.InputCedula, 2, 5, 1, 1)
-        self.InputNombreCli = QtWidgets.QLineEdit(self.widget_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputNombreCli.sizePolicy().hasHeightForWidth())
-        self.InputNombreCli.setSizePolicy(sizePolicy)
-        self.InputNombreCli.setMinimumSize(QtCore.QSize(250, 50))
-        self.InputNombreCli.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputNombreCli.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.InputNombreCli.setObjectName("InputNombreCli")
-        self.gridLayout_4.addWidget(self.InputNombreCli, 2, 0, 1, 1)
-        self.label_2 = QtWidgets.QLabel(self.widget_4)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout_4.addWidget(self.label_2, 1, 5, 1, 1)
-        self.label_14 = QtWidgets.QLabel(self.widget_4)
-        self.label_14.setObjectName("label_14")
-        self.gridLayout_4.addWidget(self.label_14, 3, 2, 1, 1, QtCore.Qt.AlignRight)
-        self.label_12 = QtWidgets.QLabel(self.widget_4)
-        self.label_12.setObjectName("label_12")
-        self.gridLayout_4.addWidget(self.label_12, 3, 0, 1, 1)
-        self.label_10 = QtWidgets.QLabel(self.widget_4)
-        self.label_10.setObjectName("label_10")
-        self.gridLayout_4.addWidget(self.label_10, 1, 1, 1, 1)
-        self.BtnGenerarVentaCredito = QtWidgets.QPushButton(self.widget_4)
-        self.BtnGenerarVentaCredito.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnGenerarVentaCredito.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}")
-        self.BtnGenerarVentaCredito.setObjectName("BtnGenerarVentaCredito")
-        self.gridLayout_4.addWidget(self.BtnGenerarVentaCredito, 4, 5, 1, 1)
         self.label_11 = QtWidgets.QLabel(self.widget_4)
         self.label_11.setObjectName("label_11")
         self.gridLayout_4.addWidget(self.label_11, 1, 3, 1, 1)
@@ -639,9 +591,6 @@ class Ui_VentasCredito(object):
         self.InputApellidoCli.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputApellidoCli.setObjectName("InputApellidoCli")
         self.gridLayout_4.addWidget(self.InputApellidoCli, 2, 1, 1, 1)
-        self.label_9 = QtWidgets.QLabel(self.widget_4)
-        self.label_9.setObjectName("label_9")
-        self.gridLayout_4.addWidget(self.label_9, 1, 2, 1, 1)
         self.LimitePagoBox = QtWidgets.QComboBox(self.widget_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -657,7 +606,6 @@ class Ui_VentasCredito(object):
 "    padding: 5px 10px; /* Espaciado interno */\n"
 "    font-size: 18px; /* Tamaño de fuente */\n"
 "    height: 40px; /* Altura del combo box */\n"
-"    margin-top: 20px; /* Espaciado superior */\n"
 "}\n"
 "\n"
 "QComboBox::drop-down {\n"
@@ -683,6 +631,94 @@ class Ui_VentasCredito(object):
 "")
         self.LimitePagoBox.setObjectName("LimitePagoBox")
         self.gridLayout_4.addWidget(self.LimitePagoBox, 4, 0, 1, 1)
+        self.label_15 = QtWidgets.QLabel(self.widget_4)
+        self.label_15.setObjectName("label_15")
+        self.gridLayout_4.addWidget(self.label_15, 4, 2, 1, 1, QtCore.Qt.AlignRight)
+        self.BtnGenerarVentaCredito = QtWidgets.QPushButton(self.widget_4)
+        self.BtnGenerarVentaCredito.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.BtnGenerarVentaCredito.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: black; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    margin-top:20px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+"}")
+        self.BtnGenerarVentaCredito.setObjectName("BtnGenerarVentaCredito")
+        self.gridLayout_4.addWidget(self.BtnGenerarVentaCredito, 4, 5, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.widget_4)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_4.addWidget(self.label_2, 1, 5, 1, 1)
+        self.InputDireccion = QtWidgets.QLineEdit(self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.InputDireccion.sizePolicy().hasHeightForWidth())
+        self.InputDireccion.setSizePolicy(sizePolicy)
+        self.InputDireccion.setMinimumSize(QtCore.QSize(250, 50))
+        self.InputDireccion.setMaximumSize(QtCore.QSize(250, 50))
+        self.InputDireccion.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputDireccion.setObjectName("InputDireccion")
+        self.gridLayout_4.addWidget(self.InputDireccion, 2, 2, 1, 1)
+        self.InputTelefonoCli = QtWidgets.QLineEdit(self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.InputTelefonoCli.sizePolicy().hasHeightForWidth())
+        self.InputTelefonoCli.setSizePolicy(sizePolicy)
+        self.InputTelefonoCli.setMinimumSize(QtCore.QSize(250, 50))
+        self.InputTelefonoCli.setMaximumSize(QtCore.QSize(250, 50))
+        self.InputTelefonoCli.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputTelefonoCli.setObjectName("InputTelefonoCli")
+        self.gridLayout_4.addWidget(self.InputTelefonoCli, 2, 3, 1, 1)
+        self.label_9 = QtWidgets.QLabel(self.widget_4)
+        self.label_9.setObjectName("label_9")
+        self.gridLayout_4.addWidget(self.label_9, 1, 2, 1, 1)
+        self.label_14 = QtWidgets.QLabel(self.widget_4)
+        self.label_14.setObjectName("label_14")
+        self.gridLayout_4.addWidget(self.label_14, 3, 2, 1, 1, QtCore.Qt.AlignRight)
+        self.label_12 = QtWidgets.QLabel(self.widget_4)
+        self.label_12.setObjectName("label_12")
+        self.gridLayout_4.addWidget(self.label_12, 3, 0, 1, 1)
+        self.label_31 = QtWidgets.QLabel(self.widget_4)
+        self.label_31.setText("")
+        self.label_31.setObjectName("label_31")
+        self.gridLayout_4.addWidget(self.label_31, 0, 0, 1, 1)
+        self.LabelTotal = QtWidgets.QLabel(self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.LabelTotal.sizePolicy().hasHeightForWidth())
+        self.LabelTotal.setSizePolicy(sizePolicy)
+        self.LabelTotal.setMinimumSize(QtCore.QSize(250, 50))
+        self.LabelTotal.setMaximumSize(QtCore.QSize(250, 50))
+        self.LabelTotal.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
+        self.LabelTotal.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.LabelTotal.setObjectName("LabelTotal")
+        self.gridLayout_4.addWidget(self.LabelTotal, 4, 3, 1, 1)
+        self.InputDomicilio = QtWidgets.QLineEdit(self.widget_4)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.InputDomicilio.sizePolicy().hasHeightForWidth())
+        self.InputDomicilio.setSizePolicy(sizePolicy)
+        self.InputDomicilio.setMinimumSize(QtCore.QSize(250, 50))
+        self.InputDomicilio.setMaximumSize(QtCore.QSize(250, 50))
+        self.InputDomicilio.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputDomicilio.setObjectName("InputDomicilio")
+        self.gridLayout_4.addWidget(self.InputDomicilio, 4, 1, 1, 1)
+        self.label_8 = QtWidgets.QLabel(self.widget_4)
+        self.label_8.setObjectName("label_8")
+        self.gridLayout_4.addWidget(self.label_8, 3, 1, 1, 1)
         self.gridLayout_3.addLayout(self.gridLayout_4, 0, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.widget_4, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.Contenido.addWidget(self.ContenidoPage1)
@@ -695,15 +731,15 @@ class Ui_VentasCredito(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label_3.setText(_translate("Form", "Codigo"))
-        self.label_8.setText(_translate("Form", "Valor Domicilio"))
-        self.label_30.setText(_translate("Form", "Productos"))
-        self.LabelVentasA.setText(_translate("Form", "Vta Crédito"))
-        self.label_6.setText(_translate("Form", "Marca"))
         self.BtnEliminar.setText(_translate("Form", "   Eliminar"))
-        self.label_7.setText(_translate("Form", "Cantidad"))
-        self.label.setText(_translate("Form", "Precio Unitario"))
-        self.label_5.setText(_translate("Form", "Producto"))
+        self.label.setText(_translate("Form", "Cantidad"))
+        self.label_6.setText(_translate("Form", "Nombre"))
+        self.label_7.setText(_translate("Form", "Marca"))
+        self.LabelVentasA.setText(_translate("Form", "Vta Crédito"))
+        self.label_30.setText(_translate("Form", "Productos"))
+        self.label_5.setText(_translate("Form", "Codigo"))
+        self.label_16.setText(_translate("Form", "Elige el Precio"))
+        self.label_13.setText(_translate("Form", "Precio"))
         item = self.TablaVentasCredito.verticalHeaderItem(0)
         item.setText(_translate("Form", "Nueva fila"))
         item = self.TablaVentasCredito.verticalHeaderItem(1)
@@ -750,14 +786,15 @@ class Ui_VentasCredito(object):
         item.setText(_translate("Form", "Precio"))
         item = self.TablaVentasCredito.horizontalHeaderItem(6)
         item.setText(_translate("Form", "Total"))
-        self.LabelTotal.setText(_translate("Form", "$"))
         self.LabelSubtotal.setText(_translate("Form", "$"))
+        self.label_10.setText(_translate("Form", "Apellido:"))
         self.label_4.setText(_translate("Form", "Nombre:"))
+        self.label_11.setText(_translate("Form", "Teléfono:"))
         self.label_15.setText(_translate("Form", "Total"))
+        self.BtnGenerarVentaCredito.setText(_translate("Form", "Generar Venta a Credito"))
         self.label_2.setText(_translate("Form", "Cedula De Ciudadania"))
+        self.label_9.setText(_translate("Form", "Dirección:"))
         self.label_14.setText(_translate("Form", "Subtotal"))
         self.label_12.setText(_translate("Form", "Fecha limite de Pago"))
-        self.label_10.setText(_translate("Form", "Apellido:"))
-        self.BtnGenerarVentaCredito.setText(_translate("Form", "Generar Venta a Credito"))
-        self.label_11.setText(_translate("Form", "Teléfono:"))
-        self.label_9.setText(_translate("Form", "Dirección:"))
+        self.LabelTotal.setText(_translate("Form", "$"))
+        self.label_8.setText(_translate("Form", "Valor Domicilio"))

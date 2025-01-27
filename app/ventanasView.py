@@ -107,7 +107,8 @@ class MainApp(QWidget):
         self.ventasB.cambiar_a_ventanaA.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.ventasA)
         )
-        self.facturas.enviar_facturas.connect(self.cambiar_a_ventasA)
+        self.facturas.enviar_facturas_A.connect(self.cambiar_a_ventasA)
+        self.facturas.enviar_facturas_B.connect(self.cambiar_a_ventasB)
         
     def cambiar_a_ventasA(self, factura_completa):
         try:
@@ -116,3 +117,12 @@ class MainApp(QWidget):
             
         except Exception as e:
             print(f"Error al cargar datos: {e}")
+            
+    def cambiar_a_ventasB(self, factura_completa):
+        try:
+            self.stacked_widget.setCurrentWidget(self.ventasB)
+            self.ventasB.cargar_información(factura_completa)
+            
+        except Exception as e:
+            print(f"Error al cargar datos: {e}")
+        

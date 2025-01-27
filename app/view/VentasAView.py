@@ -8,7 +8,6 @@ from PyQt5.QtCore import pyqtSignal
 from sqlalchemy.sql import func
 
 
-
 # Relative imports
 from ..database.database import SessionLocal
 from ..controllers.producto_crud import *
@@ -261,7 +260,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             
             
             if self.invoice_number and self.invoice_number != "":
-                self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee)
+                self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
                 mensaje = "Factura actualizada exitosamente."
             else:
                 for codigo, quantity, _ in produc_datos:
@@ -310,7 +309,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.limpiar_datos_cliente()
         self.invoice_number = None
           
-    def actualizar_factura(self, db, id_factura, payment_method, produc_datos, monto_pago, delivery_fee):
+    def actualizar_factura(self, db, id_factura, payment_method, produc_datos, monto_pago, delivery_fee, usuario_actual_id):
         # Obtener los detalles actuales de la factura
         detalles_actuales = db.query(DetalleFacturas).filter(DetalleFacturas.ID_Factura == id_factura).all()
 
@@ -368,17 +367,28 @@ class VentasA_View(QWidget, Ui_VentasA):
                 producto = db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
                 producto.Stock_actual -= nueva_cantidad
 
+        id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
+                
+        if '/' in monto_pago:
+            total = monto_pago.split("/") 
+            efectivo = float(total[0])
+            tranferencia = float(total[1])
+        else:
+            efectivo = float(monto_pago)
+            tranferencia = float(monto_pago)
+        
+        print(payment_method)
         # Actualizar información general de la factura
         factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
-        factura.Monto_TRANSACCION = monto_pago
-        factura.Estado = True  # Cambiar según lo que requiera tu lógica
-        factura.ID_Metodo_Pago = payment_method
+        factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" else 0.0
+        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
+        factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
+        factura.ID_Usuario = usuario_actual_id
         factura.Fecha_Factura = func.now()
 
         # Confirmar los cambios
         db.commit()
-
-          
+     
     def verificar_cliente(self, cedula, nombre_completo , direccion, telefono): 
 
         # Crear una sesión de base de datos 
@@ -881,7 +891,6 @@ class VentasA_View(QWidget, Ui_VentasA):
 
         # Obtener el valor del domicilio
         domicilio = self.obtener_valor_domicilio()
-        print (domicilio)
 
         # Calcular el total final considerando el domicilio
         total = nuevo_subtotal + domicilio

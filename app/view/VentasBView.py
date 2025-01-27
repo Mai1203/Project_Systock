@@ -7,6 +7,7 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
+from sqlalchemy.sql import func
 
 
 
@@ -42,6 +43,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.valor_domicilio = 0.0
         self.id_categoria = None
         self.fila_seleccionada = None
+        self.invoice_number = None
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas
 
         # Inicialización y configuración
@@ -94,6 +96,90 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.limpiar_datos_cliente()
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
     
+    def cargar_información(self, factura_completa):
+        factura = factura_completa["Factura"]
+        cliente = factura_completa["Cliente"]  # Acceder al primer elemento de la lista
+        detalles = factura_completa["Detalles"]
+
+        # Calcular subtotal y descuento
+        subtotal = sum(detalle["Subtotal"] for detalle in detalles)
+        delivery_fee = sum(detalle["Descuento"] for detalle in detalles)
+
+        # Extraer información necesaria para el ticket
+        client_name = f"{cliente['Nombre']} {cliente['Apellido']}"
+        client_id = cliente["ID_Cliente"]
+        client_address = cliente["Direccion"]
+        client_phone = cliente["Teléfono"]
+        
+        total = subtotal + delivery_fee
+
+        # Extraer información adicional de la factura
+        payment_method = factura["MetodoPago"]
+        self.invoice_number = factura["ID_Factura"]
+        
+        if payment_method == "Efectivo":
+            pago = f"{factura["Monto_efectivo"]}"
+        elif payment_method == "Transferencia":
+            pago = f"{factura["Monto_TRANSACCION"]}"
+        else:
+            pago = f"{factura['Monto_efectivo']}/{factura['Monto_TRANSACCION']}" 
+            
+        self.TablaVentaMayor.setRowCount(len(detalles))
+        
+        for row, detalles in enumerate(detalles):
+            
+            id_producto = detalles["ID_Producto"]
+            producto = detalles["Producto"]
+            marca = detalles["Marca"]
+            categoria = detalles["Categoria"]
+            cantidad = detalles["Cantidad"]
+            precio_unitario = detalles["Precio_Unitario"]
+            subtotal_producto = detalles["Subtotal"]
+            
+            self.TablaVentaMayor.setItem(row, 0, QTableWidgetItem(str(id_producto)))
+            
+            item_nombre = QtWidgets.QTableWidgetItem(producto)
+            item_nombre.setFlags(item_nombre.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_nombre.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.TablaVentaMayor.setItem(row, 1, item_nombre)
+            
+            item_marca = QtWidgets.QTableWidgetItem(marca)
+            item_marca.setFlags(item_marca.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_marca.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.TablaVentaMayor.setItem(row, 2, item_marca)
+            
+            item_categoria = QtWidgets.QTableWidgetItem(categoria)
+            item_categoria.setFlags(item_categoria.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_categoria.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.TablaVentaMayor.setItem(row, 3, item_categoria)
+            
+            item_cantidad = QtWidgets.QTableWidgetItem(str(cantidad))
+            item_cantidad.setFlags(item_cantidad.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_cantidad.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.TablaVentaMayor.setItem(row, 4, item_cantidad)
+            
+            item_precio = QtWidgets.QTableWidgetItem(str(precio_unitario))
+            item_precio.setFlags(item_precio.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_precio.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.TablaVentaMayor.setItem(row, 5, item_precio)
+            
+            item_subtotal = QtWidgets.QTableWidgetItem(str(subtotal_producto))
+            item_subtotal.setFlags(item_subtotal.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_subtotal.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.TablaVentaMayor.setItem(row, 6, item_subtotal)
+            
+            
+        self.TablaVentaMayor.resizeColumnsToContents()
+            
+        self.InputCedula.setText(str(client_id))
+        self.InputNombreCli.setText(str(client_name))
+        self.InputTelefonoCli.setText(str(client_phone))
+        self.InputDireccion.setText(str(client_address))
+        self.InputPago.setText(str(pago))
+        self.LabelSubtotal.setText(f"Subtotal: {subtotal:,.2f}")
+        self.LabelTotal.setText(f"Total: {total:,.2f}")
+        self.MetodoPagoBox.setCurrentText(payment_method)
+    
     def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle(titulo)
@@ -108,7 +194,6 @@ class VentasB_View(QWidget, Ui_VentasB):
             QMessageBox.warning(self, "Error", "No hay productos en la venta.")
             self.InputCodigo.setFocus()
             return
-    
         try:
             # Obtener datos del cliente
             client_name = self.InputNombreCli.text().strip()
@@ -117,8 +202,7 @@ class VentasB_View(QWidget, Ui_VentasB):
             client_phone = self.InputTelefonoCli.text().strip()
             monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
-            
-            # Validar que los campos obligatorios no estén vacíos
+            # validaciones
             if not client_name:
                 QMessageBox.warning(self, "Datos incompletos", "El campo 'Nombre del Cliente' está vacío.")
                 self.InputNombreCli.setFocus()
@@ -152,17 +236,20 @@ class VentasB_View(QWidget, Ui_VentasB):
                 quantity = int(self.TablaVentaMayor.item(row, 4).text())
                 description = self.TablaVentaMayor.item(row, 1).text()
                 value = float(self.TablaVentaMayor.item(row, 6).text())
-                
+
                 producto = obtener_producto_por_id(db, int(codigo))
-                
+
                 if not producto:
                     QMessageBox.warning(self, "Error", f"Producto con código {codigo} no encontrado.")
                     return
+
                 producto = producto[0]
-                
-                stock_actual = producto.Stock_actual - quantity
-                
-                actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
+
+                # Validar si hay stock suficiente antes de continuar
+                if producto.Stock_actual < quantity:
+                    QMessageBox.warning(self, "Error", f"Stock insuficiente para el producto: {description}")
+                    return
+
                 items.append((quantity, description, value))
                 produc_datos.append((codigo, quantity, value))
 
@@ -170,13 +257,25 @@ class VentasB_View(QWidget, Ui_VentasB):
             subtotal = sum(item[2] for item in items)
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = subtotal + delivery_fee
-            
             pago = self.InputPago.text().strip()
+            
+            
+            if self.invoice_number and self.invoice_number != "":
+                self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                mensaje = "Factura actualizada exitosamente."
+            else:
+                for codigo, quantity, _ in produc_datos:
+                    producto = obtener_producto_por_id(db, codigo)
+                    producto = producto[0]
+                    stock_actual = producto.Stock_actual - quantity
+                    actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
 
-            id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                self.invoice_number = f"0000{id_factura}"
+                mensaje = "Factura generada exitosamente."
+            
             
             # Datos adicionales
-            invoice_number = f"0000{id_factura}"
             pan = "123456789"  # Cambiar por el PAN de tu empresa
             filename = ""  # El usuario seleccionará el nombre y ruta
 
@@ -191,24 +290,105 @@ class VentasB_View(QWidget, Ui_VentasB):
                 delivery_fee=delivery_fee,
                 total=total,
                 payment_method=payment_method,
-                invoice_number=invoice_number,
+                invoice_number=self.invoice_number,
                 pan=pan,
                 pago = pago,
                 filename=filename,
             )
             db.close()
 
-            QMessageBox.information(self, "Éxito", "Factura generada exitosamente.")
+            QMessageBox.information(self, "Éxito", mensaje)
             self.limpiar_campos()  # Opcional: limpiar campos después de generar la venta
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")
+            print(e)
             
         self.limpiar_tabla()
         self.limpiar_campos()
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
+        self.invoice_number = None
           
+    def actualizar_factura(self, db, id_factura, payment_method, produc_datos, monto_pago, delivery_fee, usuario_actual_id):
+        # Obtener los detalles actuales de la factura
+        detalles_actuales = db.query(DetalleFacturas).filter(DetalleFacturas.ID_Factura == id_factura).all()
+
+        # Convertir los detalles actuales en un diccionario para comparar
+        productos_actuales = {detalle.ID_Producto: detalle.Cantidad for detalle in detalles_actuales}
+
+        # Productos enviados desde la interfaz (nuevos o editados)
+        productos_nuevos = {int(codigo): cantidad for codigo, cantidad, _ in produc_datos}
+
+        # Productos eliminados (presentes en la factura actual, pero no en la nueva lista)
+        productos_eliminados = set(productos_actuales.keys()) - set(productos_nuevos.keys())
+
+        # Restaurar stock de productos eliminados
+        for id_producto in productos_eliminados:
+            cantidad_vendida = productos_actuales[id_producto]
+            producto = db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
+            producto.Stock_actual += cantidad_vendida  # Restaurar el stock
+            db.delete(db.query(DetalleFacturas).filter(
+                DetalleFacturas.ID_Factura == id_factura,
+                DetalleFacturas.ID_Producto == id_producto
+            ).first())  # Eliminar el detalle de la factura
+
+        # Actualizar cantidades de productos existentes y agregar nuevos
+        for id_producto, nueva_cantidad in productos_nuevos.items():
+            if id_producto in productos_actuales:
+                # Producto ya existe, verificar cambios en la cantidad
+                detalle = db.query(DetalleFacturas).filter(
+                    DetalleFacturas.ID_Factura == id_factura,
+                    DetalleFacturas.ID_Producto == id_producto
+                ).first()
+
+                diferencia_cantidad = nueva_cantidad - productos_actuales[id_producto]
+                detalle.Cantidad = nueva_cantidad
+                detalle.Subtotal = nueva_cantidad * detalle.Precio_unitario
+
+                # Ajustar el stock del producto
+                producto = db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
+                producto.Stock_actual -= diferencia_cantidad
+            else:
+                # Producto nuevo, agregarlo a la factura y ajustar el stock
+                precio_unitario = db.query(Productos).filter(Productos.ID_Producto == id_producto).first().Precio_venta_normal
+                subtotal = nueva_cantidad * precio_unitario
+
+                nuevo_detalle = DetalleFacturas(
+                    ID_Factura=id_factura,
+                    ID_Producto=id_producto,
+                    Cantidad=nueva_cantidad,
+                    Precio_unitario=precio_unitario,
+                    Subtotal=subtotal,
+                    Descuento=delivery_fee
+                )
+                db.add(nuevo_detalle)
+
+                # Ajustar el stock
+                producto = db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
+                producto.Stock_actual -= nueva_cantidad
+                
+        id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
+                
+        if '/' in monto_pago:
+            total = monto_pago.split("/") 
+            efectivo = float(total[0])
+            tranferencia = float(total[1])
+        else:
+            efectivo = float(monto_pago)
+            tranferencia = float(monto_pago)
+    
+        # Actualizar información general de la factura
+        factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
+        factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" else 0.0
+        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
+        factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
+        factura.ID_Usuario = usuario_actual_id
+        factura.Fecha_Factura = func.now()
+
+        # Confirmar los cambios
+        db.commit()
+    
     def verificar_cliente(self, cedula, nombre_completo , direccion, telefono): 
 
         # Crear una sesión de base de datos 

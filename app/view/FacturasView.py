@@ -14,7 +14,9 @@ from ..view.VentasAView import VentasA_View
 
 
 class Facturas_View(QWidget, Ui_Facturas):
-    enviar_facturas = pyqtSignal(dict) 
+    enviar_facturas_A = pyqtSignal(dict) 
+    enviar_facturas_B = pyqtSignal(dict)
+    
     def __init__(self, parent=None):
         super(Facturas_View, self).__init__(parent)
         self.setupUi(self)
@@ -315,8 +317,10 @@ class Facturas_View(QWidget, Ui_Facturas):
                 QMessageBox.showerror("Error", f"No se encontró la factura con ID {ids[0]}.")
                 return
 
-            # Abrir la ventana de ventas y pasar los datos de la factura
-            self.enviar_facturas.emit(factura_completa)
+            if factura_completa["Factura"]["TipoFactura"] == "Factura A":
+                self.enviar_facturas_A.emit(factura_completa)
+            else:
+                self.enviar_facturas_B.emit(factura_completa)
 
         except Exception as e:
             print(f"Error al abrir ventana de ventas: {e}")

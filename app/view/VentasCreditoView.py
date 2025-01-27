@@ -14,6 +14,7 @@ from ..controllers.detalle_factura_crud import *
 from ..controllers.clientes_crud import *
 from ..controllers.facturas_crud import *
 from ..ui import Ui_VentasCredito
+from ..utils.autocomplementado import configurar_autocompletado
 
 # Standard library imports
 import os
@@ -30,25 +31,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         QTimer.singleShot(0, self.InputCodigo.setFocus)
         self.id_categoria = None
         self.valor_domicilio = 0.0
+        self.invoice_number = None
         self.fila_seleccionada = None
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas     
-        
-        # Inicialización y configuración
-        self.limpiar_tabla()
-        self.configurar_localizacion()
-        self.validar_campos()
-        
-        # Conexiones de señales - Entradas de texto
-        self.InputCodigo.returnPressed.connect(self.procesar_codigo)
-        self.InputCodigo.textChanged.connect(self.iniciar_timer)
-        self.InputDomicilio.returnPressed.connect(self.actualizar_datos)
-        self.InputCantidad.returnPressed.connect(self.actualizar_datos)
-        self.InputPrecioUnitario.returnPressed.connect(self.actualizar_datos)
-        self.InputDomicilio.editingFinished.connect(self.actualizar_total)
-        self.InputDomicilio.textChanged.connect(self.calcular_subtotal)
-        self.InputCedula.textChanged.connect(self.validar_campos)    
-        
-
         
         #placeholder
         self.InputCedula.setPlaceholderText("Ej: 10004194608")
@@ -58,6 +43,24 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputDireccion.setPlaceholderText("Ej: Calle 1, 123 - Piso 1")
         self.LimitePagoBox.addItems(["7 días","15 dias"])
         self.comboBoxPrecio.addItems(["PU","PAM"])
+        
+        # Inicialización y configuración
+        self.limpiar_tabla()
+        self.configurar_localizacion()
+        self.validar_campos()
+        
+        # Conexiones de señales - Entradas de texto
+        self.db = SessionLocal()
+        self.InputCodigo.returnPressed.connect(self.procesar_codigo)
+        self.InputCodigo.textChanged.connect(self.iniciar_timer)
+        self.InputDomicilio.returnPressed.connect(self.actualizar_datos)
+        self.InputCantidad.returnPressed.connect(self.actualizar_datos)
+        self.InputPrecioUnitario.returnPressed.connect(self.actualizar_datos)
+        self.InputCedula.returnPressed.connect(self.completar_campos)
+        self.InputDomicilio.textChanged.connect(self.actualizar_total)
+        self.InputCedula.textChanged.connect(self.validar_campos)    
+        self.comboBoxPrecio.currentIndexChanged.connect(self.cambiar_precio)
+        configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
         
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
@@ -72,6 +75,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputCodigo.setFocus()
         self.limpiar_tabla()
         self.limpiar_campos() 
+        self.invoice_number = None
+        configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
      
     def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
         msg_box = QMessageBox(self)
@@ -148,42 +153,96 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             print("No se pudo configurar la localización de Colombia.")
                    
     def procesar_codigo(self):
+        # Obtener los valores de los inputs
         codigo = self.InputCodigo.text().strip()
-        if not codigo:
-            QMessageBox.warning(self, "Error", "Por favor, ingrese un código válido.")
-            return
+        nombre = self.InputNombre.text().strip()
+        tipo_precio = self.comboBoxPrecio.currentText().strip()
+
+        # Conexión a la base de datos
+        db = SessionLocal()
+
         try:
-            # Conexión a la base de datos
-            db = SessionLocal()
-            productos = obtener_producto_por_id(db, int(codigo))
+            # Caso 1: Si se proporciona el código
+            if codigo:
+                if not codigo.isdigit():
+                    QMessageBox.warning(self, "Error", "El código debe ser un número válido.")
+                    return
 
-            if productos:
-                producto = productos[0]
+                # Convertir el código a entero
+                codigo = int(codigo)
 
-                self.InputCodigo.setText(codigo)
-                self.InputNombre.setText(producto.Nombre)
-                self.InputNombre.setEnabled(False)  # Deshabilitar el input
-                self.InputMarca.setText(str(producto.marcas))
-                self.InputMarca.setEnabled(False)  # Deshabilitar el input
-                self.InputPrecioUnitario.setText(str(producto.Precio_venta_normal))
-                self.InputPrecioUnitario.setEnabled(False)  # Deshabilitar el input
-                self.id_categoria = producto.categorias
-                # *** LIMPIAR InputCantidad e InputDomicilio ***
-                self.InputCantidad.clear()
-                self.InputDomicilio.clear()
-            else:
-                self.mostrar_mensaje_temporal(
+                # Buscar producto por código
+                productos = obtener_producto_por_id(db, codigo)
+
+                if productos:
+                    producto = productos[0]
+                    # Actualizar los campos con los datos del producto
+                    self.InputCodigo.setText(str(producto.ID_Producto))
+                    self.InputNombre.setText(producto.Nombre)
+                    self.InputMarca.setText(str(producto.marcas))
+                    self.InputMarca.setEnabled(False)
+                    self.id_categoria = producto.categorias
+                    self.InputCantidad.clear() 
+                    
+                    if tipo_precio == "PU":
+                        self.InputPrecioUnitario.setText(str(producto.Precio_venta_normal))
+                    else:
+                        self.InputPrecioUnitario.setText(str(producto.Precio_venta_mayor))
+                        
+                    self.InputPrecioUnitario.setEnabled(False)
+                else:
+                    self.mostrar_mensaje_temporal(
                         "Producto no encontrado",
                         "No existe un producto asociado a este código.",
                     )
-                self.limpiar_campos()
+                    self.limpiar_campos()
+                return  # Terminar el procesamiento si el código fue encontrado
 
-            db.close()
+            # Caso 2: Si no se proporciona el código pero sí el nombre
+            elif nombre:
+                # Buscar producto por nombre
+                productos_nom = buscar_productos(db, nombre)
+
+                if productos_nom:
+                    producto = productos_nom[0]
+                    # Actualizar los campos con los datos del producto
+                    self.InputCodigo.setText(str(producto.ID_Producto))
+                    self.InputNombre.setText(producto.Nombre)
+                    self.InputMarca.setText(str(producto.marcas))
+                    self.InputMarca.setEnabled(False)
+                    self.id_categoria = producto.categorias
+                    self.InputCantidad.clear()  # Limpiar cantidad
+                    
+                    if tipo_precio == "PU":
+                        self.InputPrecioUnitario.setText(str(producto.Precio_venta_normal))
+                    else:
+                        self.InputPrecioUnitario.setText(str(producto.Precio_venta_mayor))
+                        
+                    self.InputPrecioUnitario.setEnabled(False)
+                else:
+                    QMessageBox.warning(
+                        self,
+                        "Producto no encontrado",
+                        "No existe un producto asociado a este nombre.",
+                    )
+                return  # Terminar el procesamiento si el nombre fue encontrado
+
+            # Caso 3: Si no se proporciona ni código ni nombre
+            else:
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "Por favor, ingrese un código o un nombre para buscar el producto.",
+                )
 
         except Exception as e:
             QMessageBox.critical(
                 self, "Error", f"Error al buscar el producto: {str(e)}"
             )
+
+        finally:
+            # Asegurarse de cerrar la sesión de la base de datos
+            db.close()
             
     def limpiar_tabla(self):
         self.TablaVentasCredito.setRowCount(0)
@@ -199,7 +258,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             self.procesar_codigo()
             if self.id_categoria is not None:
                 self.InputCantidad.setText("1")
-                self.agregar_producto(mostrar_mensaje=false)
+                self.agregar_producto(mostrar_mensaje=False)
                 self.InputCodigo.clear()
                 self.InputCodigo.setFocus()
                 
@@ -327,7 +386,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputMarca.clear()
         self.InputCantidad.clear()
         self.InputPrecioUnitario.clear()
-        self.InputDomicilio.clear()
         
     def eliminar_fila(self):
         # Obtener la fila seleccionada
@@ -407,8 +465,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.LabelTotal.setText(f"Total: {total_formateado}")
         
         return subtotal
-    
-    
         
     def cargar_datos(self, row, column):
         try:
@@ -621,8 +677,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         validator_telefono = QRegularExpressionValidator(rx_telefono)
         self.InputTelefonoCli.setValidator(validator_telefono)
         
-        
-        
     def verificar_cliente(self):
         cedula = self.InputCedula.text().strip()
         nombre = self.InputNombreCli.text().strip()
@@ -654,19 +708,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         try:
             # Verificar si el cliente ya existe
             cliente_existente = obtener_cliente_por_id(db, cedula)
-            if cliente_existente:
-                QMessageBox.information(
-                    self,
-                    "Cliente existente",
-                    f"El cliente con cédula {cedula} ya existe. Se utilizarán sus datos."
-                )
-                print(f"Cliente encontrado: {cliente_existente.Nombre} {cliente_existente.Apellido}")
-                clientes_db = db.query(Clientes).all()
-                print("Clientes en la base de datos:")
-                for cliente in clientes_db:
-                    print(f"ID: {cliente.ID_Cliente}, Nombre: {cliente.Nombre}, Apellido: {cliente.Apellido}, Dirección: {cliente.Direccion}, Teléfono: {cliente.Teléfono}")
-
-            else:
+            if not cliente_existente:
                 # Crear un nuevo cliente si no existe
                 nuevo_cliente = crear_cliente(
                     db=db,
@@ -677,12 +719,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     telefono=telefono,
                 )
                 QMessageBox.information(self, "Cliente creado", "El cliente ha sido creado exitosamente")
-
-                # Opcional: Mostrar todos los clientes en la base de datos
-                clientes_db = db.query(Clientes).all()
-                print("Clientes en la base de datos:")
-                for cliente in clientes_db:
-                    print(f"ID: {cliente.ID_Cliente}, Nombre: {cliente.Nombre}, Apellido: {cliente.Apellido}, Dirección: {cliente.Direccion}, Teléfono: {cliente.Teléfono}")
 
             # Limpiar los campos del formulario
             self.InputCedula.clear()
@@ -697,6 +733,58 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         finally:
             # Cerrar la sesión para liberar recursos
             db.close()
+                
+    def completar_campos(self):
+
+        # Obtener cliente
+        id_cliente = int(self.InputCedula.text().strip())
+        self.db = SessionLocal()
+        
+        try:
+            cliente = obtener_cliente_por_id(self.db, id_cliente)
+            if cliente:
+                self.InputNombreCli.setText(cliente.Nombre)
+                self.InputApellidoCli.setText(cliente.Apellido)
+                self.InputTelefonoCli.setText(cliente.Teléfono)
+                self.InputDireccion.setText(cliente.Direccion)
+            else:
+                QMessageBox.warning(self, "Error", f"Cliente con cédula {id_cliente} no encontrado.")
+        except Exception as e:
+            print(f"Error al obtener cliente: {e}")
+        finally:
+            self.db.close()
+       
+    def cambiar_precio(self):
+        metodo_seleccionado = self.comboBoxPrecio.currentText().strip()
+        
+        if metodo_seleccionado == "PU":
             
+            for row in range(self.TablaVentasCredito.rowCount()):
+                codigo = self.TablaVentasCredito.item(row, 0).text()
+                cantidad = int(self.TablaVentasCredito.item(row, 4).text())
+                
+                producto = obtener_producto_por_id(self.db, int(codigo))
+                
+                producto = producto[0]
+                if producto:
+                    precio = float(producto.Precio_venta_normal)
+                    self.TablaVentasCredito.item(row, 5).setText(str(precio))
+                    total = cantidad * precio
+                    self.TablaVentasCredito.item(row, 6).setText(str(total))
+                    
+        elif metodo_seleccionado == "PAM":
             
-            
+            for row in range(self.TablaVentasCredito.rowCount()):
+                codigo = self.TablaVentasCredito.item(row, 0).text()
+                cantidad = int(self.TablaVentasCredito.item(row, 4).text())
+                
+                producto = obtener_producto_por_id(self.db, int(codigo))
+                
+                producto = producto[0]
+                if producto:
+                    precio = float(producto.Precio_venta_mayor)
+                    self.TablaVentasCredito.item(row, 5).setText(str(precio))
+                    total = cantidad * precio
+                    self.TablaVentasCredito.item(row, 6).setText(str(total))
+                    
+        self.actualizar_total()

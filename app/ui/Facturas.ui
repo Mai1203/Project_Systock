@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1282</width>
+    <width>1580</width>
     <height>982</height>
    </rect>
   </property>
@@ -651,101 +651,112 @@ QScrollBar::handle:horizontal:hover {
                </column>
               </widget>
              </item>
-             <item alignment="Qt::AlignRight">
+             <item alignment="Qt::AlignHCenter">
               <widget class="QWidget" name="widget_2" native="true">
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
                <layout class="QGridLayout" name="gridLayout">
-                <item row="0" column="0">
-                 <widget class="QToolButton" name="BtnFacturaPagada">
-                  <property name="minimumSize">
-                   <size>
-                    <width>200</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>50</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QToolButton {
-    background-color: black; /* Fondo blanco */
-    border: none; /* Sin borde ni decoración inicial */
-    color:  white;
-    border-radius: 15px; /* Bordes circulares */
-    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
-	height: 40px; /* Altura del botón */
-    text-align: left; /* Alinea el texto del botón a la izquierda */
-    font-size: 22px; /* Tamaño de fuente */
-    cursor: pointer;
-}
-
-QToolButton:hover {
-
-    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
-    cursor: pointer;
-}</string>
-                  </property>
-                  <property name="text">
-                   <string>Factura Pagada</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
-                 <widget class="QToolButton" name="BtnEditarFactura">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>200</width>
-                    <height>50</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>50</height>
-                   </size>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QToolButton {
-    background-color: black; /* Fondo blanco */
-    border: none; /* Sin borde ni decoración inicial */
-    color:  white;
-    border-radius: 15px; /* Bordes circulares */
-    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
-	height: 40px; /* Altura del botón */
-    text-align: left; /* Alinea el texto del botón a la izquierda */
-    font-size: 22px; /* Tamaño de fuente */
-    cursor: pointer;
-}
-
-QToolButton:hover {
-
-    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
-    cursor: pointer;
-}</string>
-                  </property>
-                  <property name="text">
-                   <string>Editar Factura</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="0" column="4">
+                 <widget class="QToolButton" name="BtnGenerarTicket">
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>250</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white;
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: left; /* Alinea el texto del botón a la izquierda */
+    font-size: 22px; /* Tamaño de fuente */
+    cursor: pointer;
+}
+
+QToolButton:hover {
+
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>   Generar Ticket</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/pdf.png</normaloff>../../assets/iconos/pdf.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QToolButton" name="BtnVerProductos">
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white;
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: left; /* Alinea el texto del botón a la izquierda */
+    font-size: 22px; /* Tamaño de fuente */
+    cursor: pointer;
+}
+
+QToolButton:hover {
+
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>   Ver Productos</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/proteccion.png</normaloff>../../assets/iconos/proteccion.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="7">
                  <widget class="QToolButton" name="BtnEliminarFactura">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -805,12 +816,12 @@ QToolButton:hover {
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="2">
-                 <widget class="QToolButton" name="BtnGenerarTicket">
+                <item row="0" column="1">
+                 <widget class="QToolButton" name="BtnFacturaPagada">
                   <property name="minimumSize">
                    <size>
-                    <width>250</width>
-                    <height>50</height>
+                    <width>200</width>
+                    <height>40</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -842,11 +853,116 @@ QToolButton:hover {
 }</string>
                   </property>
                   <property name="text">
-                   <string>   Generar Ticket</string>
+                   <string>   Factura Pagada</string>
                   </property>
                   <property name="icon">
                    <iconset>
-                    <normaloff>../../assets/iconos/pdf.png</normaloff>../../assets/iconos/pdf.png</iconset>
+                    <normaloff>../../assets/iconos/visto.png</normaloff>../../assets/iconos/visto.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="5">
+                 <widget class="QToolButton" name="BtnEditarFactura">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white;
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: left; /* Alinea el texto del botón a la izquierda */
+    font-size: 22px; /* Tamaño de fuente */
+    cursor: pointer;
+}
+
+QToolButton:hover {
+
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>   Editar Factura</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/editar.png</normaloff>../../assets/iconos/editar.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="6">
+                 <widget class="QToolButton" name="BtnVerCancelarVenta">
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {
+    background-color: black; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white;
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: left; /* Alinea el texto del botón a la izquierda */
+    font-size: 22px; /* Tamaño de fuente */
+    cursor: pointer;
+}
+
+QToolButton:hover {
+
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>   Cancelar Venta</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/cerrar.png</normaloff>../../assets/iconos/cerrar.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>

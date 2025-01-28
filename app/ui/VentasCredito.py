@@ -224,7 +224,7 @@ class Ui_VentasCredito(object):
 "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.BtnEliminar.setIcon(icon)
         self.BtnEliminar.setIconSize(QtCore.QSize(30, 30))
         self.BtnEliminar.setObjectName("BtnEliminar")

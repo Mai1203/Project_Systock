@@ -1,37 +1,35 @@
 from sqlalchemy.orm import Session
+from datetime import datetime
 from app.models.venta_credito import (
     VentaCredito,
 )
+from app.models.facturas import Facturas
+from app.models.usuarios import Usuarios
+from app.models.clientes import Clientes
 
 
 # Crear una venta a crédito
 def crear_venta_credito(
     db: Session,
-    max_credito: float,
     total_deuda: float,
     saldo_pendiente: float,
-    fecha_limite: str,
-    id_cliente: int,
-    id_detalle_factura: int,
+    fecha_limite: datetime,
+    id_factura: int,
 ):
     """
     Crea una nueva venta a crédito.
     :param db: Sesión de base de datos.
-    :param max_credito: El monto máximo de crédito disponible.
     :param total_deuda: El total de la deuda del cliente.
     :param saldo_pendiente: El saldo pendiente del cliente.
     :param fecha_limite: La fecha límite para el pago.
-    :param id_cliente: El ID del cliente relacionado.
-    :param id_detalle_factura: El ID del detalle de factura relacionado.
+    :param id_factura: El ID de la factura relacionada.
     :return: Objeto de venta a crédito creado.
     """
     nueva_venta = VentaCredito(
-        Max_Credito=max_credito,
         Total_Deuda=total_deuda,
         Saldo_Pendiente=saldo_pendiente,
         Fecha_Limite=fecha_limite,
-        ID_Cliente=id_cliente,
-        ID_Detalle_Factura=id_detalle_factura,
+        ID_Factura=id_factura,
     )
     db.add(nueva_venta)
     db.commit()
@@ -45,7 +43,26 @@ def obtener_ventas_credito(db: Session):
     :param db: Sesión de base de datos.
     :return: Lista de ventas a crédito.
     """
-    return db.query(VentaCredito).all()
+    ventas_credito = (
+        db.query(
+            VentaCredito.ID_Venta_Credito,
+            VentaCredito.Total_Deuda,
+            VentaCredito.Saldo_Pendiente,
+            VentaCredito.Fecha_Registro,
+            VentaCredito.Fecha_Limite,
+            Facturas.ID_Factura,
+            
+            Usuarios.Nombre.label("usuario"),
+            Clientes.Nombre.label("cliente"),
+            Facturas.Estado.label("estado"),
+        )
+        .join(Facturas, VentaCredito.ID_Factura == Facturas.ID_Factura)
+        .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
+        .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
+        .all()
+    )
+    
+    return ventas_credito
 
 
 # Obtener una venta a crédito por ID
@@ -67,7 +84,6 @@ def obtener_venta_credito_por_id(db: Session, id_venta_credito: int):
 def actualizar_venta_credito(
     db: Session,
     id_venta_credito: int,
-    max_credito: float = None,
     total_deuda: float = None,
     saldo_pendiente: float = None,
     fecha_limite: str = None,
@@ -76,7 +92,6 @@ def actualizar_venta_credito(
     Actualiza una venta a crédito existente.
     :param db: Sesión de base de datos.
     :param id_venta_credito: ID de la venta a crédito a actualizar.
-    :param max_credito: Nuevo monto máximo de crédito.
     :param total_deuda: Nueva deuda total.
     :param saldo_pendiente: Nuevo saldo pendiente.
     :param fecha_limite: Nueva fecha límite.
@@ -90,8 +105,6 @@ def actualizar_venta_credito(
     if not venta_existente:
         return None
 
-    if max_credito is not None:
-        venta_existente.Max_Credito = max_credito
     if total_deuda is not None:
         venta_existente.Total_Deuda = total_deuda
     if saldo_pendiente is not None:

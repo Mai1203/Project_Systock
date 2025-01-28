@@ -30,6 +30,7 @@ def poblar_datos_prueba():
         print("creando Tipo Facturas")
         crear_tipo_factura(db, "Factura A")
         crear_tipo_factura(db, "Factura B")
+        crear_tipo_factura(db, "Credito")
         print("Tipo Facturas creados exitosamente.")
     except Exception as e:
         print(f"Error al poblar datos: {e}")
@@ -146,8 +147,6 @@ def poblar_datos_prueba():
         print(f"Error al poblar datos: {e}")
     db.close()
     
-    
-
 if __name__ == "__main__":
     init_db()
     print("Base de datos inicializada exitosamente.")

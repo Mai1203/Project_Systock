@@ -5,6 +5,7 @@ from PyQt5.QtGui import QRegularExpressionValidator
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from decimal import Decimal  # Importar Decimal para manejar números con precisión
 from PyQt5 import QtCore, QtWidgets
+from datetime import datetime, timedelta
 
 
 # Relative imports
@@ -14,6 +15,7 @@ from ..controllers.detalle_factura_crud import *
 from ..controllers.clientes_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
+from ..controllers.venta_credito_crud import *
 from ..ui import Ui_VentasCredito
 from ..utils.autocomplementado import configurar_autocompletado
 from ..utils.restructura_ticket import *
@@ -81,6 +83,13 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.invoice_number = None
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
     
+    def calcular_fecha_futura(self, dias):
+        # Obtener la fecha y hora actual
+        fecha_actual = datetime.now()
+        # Sumar los días a la fecha actual
+        fecha_futura = fecha_actual + timedelta(days=dias)
+        return fecha_futura.replace(microsecond=0)
+    
     def generar_venta(self):
         
         if self.TablaVentasCredito.rowCount() == 0:
@@ -93,7 +102,14 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             client_id = self.InputCedula.text().strip()
             client_address = self.InputDireccion.text().strip()
             client_phone = self.InputTelefonoCli.text().strip()
+            limite_pago = self.LimitePagoBox.currentText().strip()
             
+            if limite_pago == "7 días":
+                limite_pago = self.calcular_fecha_futura(7)
+            elif limite_pago == "15 días":
+                limite_pago = self.calcular_fecha_futura(15)
+            
+            print(limite_pago)
             self.verificar_cliente()
 
             db = SessionLocal()
@@ -139,7 +155,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     stock_actual = producto.Stock_actual - quantity
                     actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
 
-                id_factura = self.guardar_factura(db, client_id, "Efectivo", produc_datos, "0.00", delivery_fee, self.usuario_actual_id)
+                id_factura = self.guardar_factura(db, client_id, "Efectivo", produc_datos, "0.00", delivery_fee, self.usuario_actual_id, total, limite_pago)
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
             
@@ -178,7 +194,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.limpiar_datos_cliente()
         self.invoice_number = None
     
-    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee, id_usuario):
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee, id_usuario, deuda, limite_pago):
     
         """
         Registra la factura y sus detalles en la base de datos.
@@ -186,14 +202,10 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         try:
             
             id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
+            print(id_metodo_pago)
             if not id_metodo_pago:
                 QMessageBox.warning(self, "Error", f"Método de pago {payment_method} no encontrado.")
                 return False
-            
-            if self.valor_domicilio == 0.0:
-                estado = True
-            else: 
-                estado = False
             
             if '/' in monto_pago:
                 total = monto_pago.split("/") 
@@ -208,9 +220,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 db=db,
                 monto_efectivo= efectivo if payment_method != "Transferencia" else 0.0,
                 monto_transaccion= tranferencia if payment_method != "Efectivo" else 0.0,
-                estado=estado,
+                estado=False,
                 id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
-                id_tipo_factura=1,
+                id_tipo_factura=3,
                 id_cliente=client_id,
                 id_usuario=id_usuario,
             )
@@ -234,6 +246,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     id_producto=codigo,
                     id_factura=id_factura
                 )
+
+            # Crear registro en la tabla ventasCredito
+            crear_venta_credito(db=db, total_deuda=deuda, saldo_pendiente=deuda, fecha_limite=limite_pago, id_factura=id_factura  )
 
             # Confirmar cambios en la base de datos
             db.commit()

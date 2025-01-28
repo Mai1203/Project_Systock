@@ -61,7 +61,6 @@ class Facturas_View(QWidget, Ui_Facturas):
         # Establecer número de filas y columnas
         self.TablaFacturas.setRowCount(len(rows))
         self.TablaFacturas.setColumnCount(11)
-        print(f"Número de filas: {len(rows)}")
 
         # Iterar sobre las filas
         for row_idx, row in enumerate(rows):
@@ -76,19 +75,6 @@ class Facturas_View(QWidget, Ui_Facturas):
             id_metodo_pago = str(row.metodopago)
             usuario = str(row.usuario)
             total = row.Monto_efectivo + row.Monto_TRANSACCION
-
-            # Depuración: imprimir datos clave
-            print(f"\nFila {row_idx + 1}:")
-            print(f"  ID Factura: {id_factura}")
-            print(f"  Fecha: {fecha}")
-            print(f"  Cliente: {cliente}")
-            print(f"  Monto Efectivo: {monto_efectivo}")
-            print(f"  Monto Transacción: {monto_transaccion}")
-            print(f"  Estado: {estado}")
-            print(f"  Tipo Factura: {id_tipo_factura}")
-            print(f"  Método Pago: {id_metodo_pago}")
-            print(f"  Usuario: {usuario}")
-            print(f"  Total: {total}")
 
             # Configurar items de la tabla
             items = [
@@ -107,7 +93,6 @@ class Facturas_View(QWidget, Ui_Facturas):
 
             # Añadir items a la tabla
             for value, col_idx in items:
-                print(f"  Agregando columna {col_idx} con valor: {value}")
                 item = QtWidgets.QTableWidgetItem(value)
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.TablaFacturas.setItem(row_idx, col_idx, item)

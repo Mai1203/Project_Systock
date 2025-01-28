@@ -68,7 +68,7 @@ class TipoFactura(Base):
     ID_Tipo_Factura = Column(Integer, primary_key=True, autoincrement=True)
     Nombre = Column(String, nullable=False)
 
-    __table_args__ = (CheckConstraint("Nombre IN ('Factura A', 'Factura B')"),)
+    __table_args__ = (CheckConstraint("Nombre IN ('Factura A', 'Factura B', 'Credito')"),)
 
     # Relación con Factura
     facturas = relationship("Facturas", back_populates="tipofactura")

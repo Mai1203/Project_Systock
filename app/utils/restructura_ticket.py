@@ -63,8 +63,8 @@ def generate_ticket(
         pdf.setFont("Helvetica-Bold", font_size)
 
         # Encabezado del ticket (solo se dibuja en la primera página)
+        pdf.setFont("Helvetica-Bold", 22)
         pdf.drawCentredString(pdf_width / 2, pdf_height - 30, "Lady NailShop")
-        pdf.setFont("Helvetica-Bold", font_size - 2)
         pdf.drawCentredString(pdf_width / 2, pdf_height - 60, "Pasto, Colombia")
         pdf.drawCentredString(pdf_width / 2, pdf_height - 90, "Teléfono: +57 316 144 4474")
         pdf.drawCentredString(pdf_width / 2, pdf_height - 120, f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -78,7 +78,7 @@ def generate_ticket(
         pdf.setFont("Helvetica-Bold", font_size)
         pdf.drawString(20, y, f"Número de Factura: {invoice_number}")
         y -= line_height
-        pdf.drawString(20, y, f"PAN: {pan}")
+        pdf.drawString(20, y, f"Nit: {pan}")
         y -= line_height
         pdf.drawString(20, y, f"Cliente: {client_name}")
         y -= line_height
@@ -131,7 +131,7 @@ def generate_ticket(
             tranferencia = locale.currency(tranferencia, grouping=True)
 
         # Detallar subtotales (se sigue escribiendo después de la continuación de la página)
-        pdf.setFont("Helvetica-Bold", font_size)
+        pdf.setFont("Helvetica-Bold", 18)
         y -= line_height
         pdf.drawString(140, y, "Subtotal:")
         pdf.drawString(225, y, f"{sub}")
@@ -164,8 +164,11 @@ def generate_ticket(
         pdf.setFillColor(colors.lightgrey)
         pdf.rect(0, 0, pdf_width, footer_height, fill=True, stroke=False)
         pdf.setFillColor(colors.black)
-        pdf.setFont("Helvetica-Bold", font_size - 1)
+        pdf.setFont("Helvetica-Bold", 24)
         pdf.drawCentredString(pdf_width / 2, 30, "¡Gracias por tu compra!")
+         
+        
+        
 
         # Guardar el PDF
         pdf.save()

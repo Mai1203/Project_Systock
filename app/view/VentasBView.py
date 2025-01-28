@@ -279,7 +279,7 @@ class VentasB_View(QWidget, Ui_VentasB):
             filename = ""  # El usuario seleccionará el nombre y ruta
 
             # Llamar a la función para generar el ticket
-            generate_ticket(
+            bandera = generate_ticket(
                 client_name=client_name,
                 client_id=client_id,
                 client_address=client_address,
@@ -296,8 +296,8 @@ class VentasB_View(QWidget, Ui_VentasB):
             )
             db.close()
 
-            QMessageBox.information(self, "Éxito", mensaje)
-            self.limpiar_campos()  # Opcional: limpiar campos después de generar la venta
+            if bandera:
+                QMessageBox.information(self, "Éxito", mensaje)
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")

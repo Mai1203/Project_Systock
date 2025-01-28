@@ -13,8 +13,10 @@ from ..controllers.producto_crud import *
 from ..controllers.detalle_factura_crud import *
 from ..controllers.clientes_crud import *
 from ..controllers.facturas_crud import *
+from ..controllers.metodo_pago_crud import *
 from ..ui import Ui_VentasCredito
 from ..utils.autocomplementado import configurar_autocompletado
+from ..utils.restructura_ticket import *
 
 # Standard library imports
 import os
@@ -26,6 +28,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         super(VentasCredito_View, self).__init__(parent)
         self.setupUi(self)
         # configuración inicial
+        self.usuario_actual_id = None
         self.productos = []  # Lista de productos para calcular el subtotal
         self.player = QMediaPlayer() 
         QTimer.singleShot(0, self.InputCodigo.setFocus)
@@ -64,7 +67,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
-        self.BtnGenerarVentaCredito.clicked.connect(self.verificar_cliente)
+        self.BtnGenerarVentaCredito.clicked.connect(self.generar_venta)
         self.TablaVentasCredito.cellClicked.connect(self.cargar_datos)
         self.TablaVentasCredito.itemChanged.connect(self.actualizar_total)
         
@@ -77,6 +80,180 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.limpiar_campos() 
         self.invoice_number = None
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
+    
+    def generar_venta(self):
+        
+        if self.TablaVentasCredito.rowCount() == 0:
+            QMessageBox.warning(self, "Error", "No hay productos en la venta.")
+            self.InputCodigo.setFocus()
+            return
+        try:
+            # Obtener datos del cliente
+            client_name = self.InputNombreCli.text().strip()
+            client_id = self.InputCedula.text().strip()
+            client_address = self.InputDireccion.text().strip()
+            client_phone = self.InputTelefonoCli.text().strip()
+            
+            self.verificar_cliente()
+
+            db = SessionLocal()
+            
+            # Obtener los artículos de la tabla
+            produc_datos = []
+            items = []
+            for row in range(self.TablaVentasCredito.rowCount()):
+                codigo = self.TablaVentasCredito.item(row, 0).text()
+                quantity = int(self.TablaVentasCredito.item(row, 4).text())
+                description = self.TablaVentasCredito.item(row, 1).text()
+                value = float(self.TablaVentasCredito.item(row, 5).text())
+
+                producto = obtener_producto_por_id(db, int(codigo))
+
+                if not producto:
+                    QMessageBox.warning(self, "Error", f"Producto con código {codigo} no encontrado.")
+                    return
+
+                producto = producto[0]
+
+                # Validar si hay stock suficiente antes de continuar
+                if producto.Stock_actual < quantity:
+                    QMessageBox.warning(self, "Error", f"Stock insuficiente para el producto: {description}")
+                    return
+
+                items.append((quantity, description, value))
+                produc_datos.append((codigo, quantity, value))
+
+            # Calcular totales
+            subtotal = sum(item[2] for item in items)
+            delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
+            total = subtotal + delivery_fee
+            
+            
+            if self.invoice_number and self.invoice_number != "":
+                # self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                mensaje = "Factura actualizada exitosamente."
+            else:
+                for codigo, quantity, _ in produc_datos:
+                    producto = obtener_producto_por_id(db, codigo)
+                    producto = producto[0]
+                    stock_actual = producto.Stock_actual - quantity
+                    actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
+
+                id_factura = self.guardar_factura(db, client_id, "Efectivo", produc_datos, "0.00", delivery_fee, self.usuario_actual_id)
+                self.invoice_number = f"0000{id_factura}"
+                mensaje = "Factura generada exitosamente."
+            
+            
+            # Datos adicionales
+            pan = "123456789"  # Cambiar por el PAN de tu empresa
+            filename = ""  # El usuario seleccionará el nombre y ruta
+
+            # Llamar a la función para generar el ticket
+            generate_ticket(
+                client_name=client_name,
+                client_id=client_id,
+                client_address=client_address,
+                client_phone=client_phone,
+                items=items,
+                subtotal=subtotal,
+                delivery_fee=delivery_fee,
+                total=total,
+                payment_method="Credito",
+                invoice_number=self.invoice_number,
+                pan=pan,
+                pago = 0.0,
+                filename=filename,
+            )
+            db.close()
+
+            QMessageBox.information(self, "Éxito", mensaje)
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")
+            print(e)
+            
+        self.limpiar_tabla()
+        self.limpiar_campos()
+        self.InputDomicilio.clear()
+        self.limpiar_datos_cliente()
+        self.invoice_number = None
+    
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee, id_usuario):
+    
+        """
+        Registra la factura y sus detalles en la base de datos.
+        """
+        try:
+            
+            id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
+            if not id_metodo_pago:
+                QMessageBox.warning(self, "Error", f"Método de pago {payment_method} no encontrado.")
+                return False
+            
+            if self.valor_domicilio == 0.0:
+                estado = True
+            else: 
+                estado = False
+            
+            if '/' in monto_pago:
+                total = monto_pago.split("/") 
+                efectivo = float(total[0])
+                tranferencia = float(total[1])
+            else:
+                efectivo = float(monto_pago)
+                tranferencia = float(monto_pago)
+            
+            # Crear registro en la tabla 'facturas'
+            factura = crear_factura(
+                db=db,
+                monto_efectivo= efectivo if payment_method != "Transferencia" else 0.0,
+                monto_transaccion= tranferencia if payment_method != "Efectivo" else 0.0,
+                estado=estado,
+                id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
+                id_tipo_factura=1,
+                id_cliente=client_id,
+                id_usuario=id_usuario,
+            )
+            
+            # Obtener el ID de la factura recién creada
+            id_factura = factura.ID_Factura
+
+            # Crear registros en la tabla 'detalle_factura' para cada producto
+            for item in items:
+                codigo, quantity, value = item
+                
+                total = quantity * value
+
+                # Crear detalle de factura
+                crear_detalle_factura(
+                    db=db,
+                    cantidad=quantity,
+                    precio_unitario=value,
+                    subtotal=total,
+                    descuento=delivery_fee,
+                    id_producto=codigo,
+                    id_factura=id_factura
+                )
+
+            # Confirmar cambios en la base de datos
+            db.commit()
+            print("Factura guardada exitosamente.") 
+            
+            return id_factura
+            
+        except Exception as e:
+            db.rollback()
+            print(f"Error al guardar la factura: {e}")
+            raise
+    
+    def limpiar_datos_cliente(self):
+        self.InputCedula.setText("")
+        self.InputNombreCli.setText("")
+        self.InputApellidoCli.setText("")
+        self.InputTelefonoCli.setText("")
+        self.InputDireccion.setText("")
+        self.LabelSubtotal.setText("$0")
+        self.LabelTotal.setText("$0")
      
     def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
         msg_box = QMessageBox(self)
@@ -106,6 +283,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             self.navegar_widgets_atras()
         # Llamar al método original para procesar otros eventos
         super().keyPressEvent(event)
+        
     def navegar_widgets(self):
         if self.focusWidget() == self.InputCodigo:
             self.InputNombre.setFocus()
@@ -145,7 +323,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
             self.InputCodigo.setFocus()  # Volver al inicio
-
 
     def configurar_localizacion(self):
         try:
@@ -444,6 +621,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 except ValueError:
                     continue  # Ignorar valores inválidos
         return subtotal
+    
     def actualizar_total(self):
         #traceback.print_stack()
         subtotal = self.calcular_subtotal()
@@ -636,6 +814,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             QMessageBox.warning(
                 self, "Error", "No se ha seleccionado ninguna fila para actualizar."
             )
+            
     def validar_campos(self):
         rx_codigo = QRegularExpression(r"^\d+$")  # Expresión para solo números
         validator_codigo = QRegularExpressionValidator(rx_codigo)
@@ -722,15 +901,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     direccion=direccion,
                     telefono=telefono,
                 )
-                QMessageBox.information(self, "Cliente creado", "El cliente ha sido creado exitosamente")
+                if nuevo_cliente:
+                    QMessageBox.information(self, "Cliente creado", "El cliente ha sido creado exitosamente")
 
-            # Limpiar los campos del formulario
-            self.InputCedula.clear()
-            self.InputNombreCli.clear()
-            self.InputApellidoCli.clear()
-            self.InputDireccion.clear()
-            self.InputTelefonoCli.clear()
-            self.limpiar_campos()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Error al procesar el cliente: {str(e)}")
             

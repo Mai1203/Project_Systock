@@ -250,24 +250,25 @@ class Facturas_View(QWidget, Ui_Facturas):
             
         pan = "123456789"  # Número fijo de ejemplo, cámbialo si es necesario
 
-        # Llamar a la función generate_ticket
-        generate_ticket(
+       
+        bandera = generate_ticket(
             client_name=client_name,
             client_id=client_id,
             client_address=client_address,
             client_phone=client_phone,
             items=items2,
             subtotal=subtotal,
-            delivery_fee=delivery_fee,
+            delivery_fee=delivery_fee,                
             total=total,
             payment_method=payment_method,
             invoice_number=invoice_number,
             pan=pan,
-            pago=pago,
+            pago=pago,                
             filename=None,  # Puedes cambiar esto según tu necesidad
         )
         
-        QMessageBox.warning(self, "Ticket", f"Factura generada exitosamente.")
+        if bandera:
+            QMessageBox.warning(self, "Ticket", f"Factura generada exitosamente.")
 
     def factura_pagada(self):
         """

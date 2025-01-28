@@ -35,6 +35,7 @@ class Facturas(Base):
     ID_Usuario = Column(Integer, ForeignKey("USUARIOS.ID_Usuario"))
 
     # Relaciones
+    ventacredito = relationship("VentaCredito", back_populates="facturas")
     metodopago = relationship("MetodoPago", back_populates="facturas")
     tipofactura = relationship("TipoFactura", back_populates="facturas")
     detallefacturas = relationship("DetalleFacturas", back_populates="facturas")

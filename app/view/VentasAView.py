@@ -35,6 +35,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         
         # Configuración inicial
         QTimer.singleShot(0, self.InputCodigo.setFocus)
+        self.usuario_actual_id = None
         self.player = QMediaPlayer()
         self.InputCodigo.setFocus()
         self.id_categoria = None
@@ -73,15 +74,14 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputDescuento.textChanged.connect(self.aplicar_descuento)
         self.MetodoPagoBox.currentIndexChanged.connect(self.configuracion_pago)
         self.BtnFacturaB.clicked.connect(self.cambiar_a_ventanab)
-        self.BtnGenerarVenta.clicked.connect(self.generar_venta)
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
 
         # Conexiones de señales - Botones y tabla
+        self.BtnGenerarVenta.clicked.connect(self.generar_venta)
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
         self.tableWidget.cellClicked.connect(self.cargar_datos)
         self.tableWidget.itemChanged.connect(self.actualizar_total)
         
-        self.usuario_actual_id = None
         # Timer
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
     
@@ -279,7 +279,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             filename = ""  # El usuario seleccionará el nombre y ruta
 
             # Llamar a la función para generar el ticket
-            generate_ticket(
+            bandera = generate_ticket(
                 client_name=client_name,
                 client_id=client_id,
                 client_address=client_address,
@@ -296,8 +296,8 @@ class VentasA_View(QWidget, Ui_VentasA):
             )
             db.close()
 
-            QMessageBox.information(self, "Éxito", mensaje)
-            self.limpiar_campos()  # Opcional: limpiar campos después de generar la venta
+            if bandera:
+                QMessageBox.information(self, "Éxito", mensaje)
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")

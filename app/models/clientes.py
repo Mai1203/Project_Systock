@@ -15,4 +15,3 @@ class Clientes(Base):
 
     # Relación con Producto
     facturas = relationship("Facturas", back_populates="clientes")
-    ventacredito = relationship("VentaCredito", back_populates="clientes")

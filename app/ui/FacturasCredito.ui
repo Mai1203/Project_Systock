@@ -651,7 +651,7 @@ QScrollBar::handle:horizontal:hover {
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>200</width>
+                    <width>250</width>
                     <height>50</height>
                    </size>
                   </property>
@@ -684,7 +684,20 @@ QToolButton:hover {
 }</string>
                   </property>
                   <property name="text">
-                   <string>Editar Factura</string>
+                   <string>   Editar Factura</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/editar.png</normaloff>../../assets/iconos/editar.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
                   </property>
                  </widget>
                 </item>
@@ -758,7 +771,7 @@ QToolButton:hover {
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>200</width>
+                    <width>250</width>
                     <height>50</height>
                    </size>
                   </property>
@@ -785,7 +798,20 @@ QToolButton:hover {
 }</string>
                   </property>
                   <property name="text">
-                   <string>Agregar Abono</string>
+                   <string>   Agregar Abono</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../assets/iconos/visto.png</normaloff>../../assets/iconos/visto.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextBesideIcon</enum>
                   </property>
                  </widget>
                 </item>

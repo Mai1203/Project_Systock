@@ -275,7 +275,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             
             
             # Datos adicionales
-            pan = "123456789"  # Cambiar por el PAN de tu empresa
+            Nit = "123.654.000"  # Cambiar por el PAN de tu empresa
             filename = ""  # El usuario seleccionará el nombre y ruta
 
             # Llamar a la función para generar el ticket
@@ -290,8 +290,8 @@ class VentasA_View(QWidget, Ui_VentasA):
                 total=total,
                 payment_method=payment_method,
                 invoice_number=self.invoice_number,
-                pan=pan,
-                pago = pago,
+                pan=Nit,
+                pago=pago,
                 filename=filename,
             )
             db.close()

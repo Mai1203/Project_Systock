@@ -471,7 +471,7 @@ class Ui_FacturasCredito(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.BtnEditarFactura.sizePolicy().hasHeightForWidth())
         self.BtnEditarFactura.setSizePolicy(sizePolicy)
-        self.BtnEditarFactura.setMinimumSize(QtCore.QSize(200, 50))
+        self.BtnEditarFactura.setMinimumSize(QtCore.QSize(250, 50))
         self.BtnEditarFactura.setMaximumSize(QtCore.QSize(200, 50))
         self.BtnEditarFactura.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnEditarFactura.setStyleSheet("QToolButton {\n"
@@ -491,6 +491,11 @@ class Ui_FacturasCredito(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/editar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnEditarFactura.setIcon(icon)
+        self.BtnEditarFactura.setIconSize(QtCore.QSize(30, 30))
+        self.BtnEditarFactura.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnEditarFactura.setObjectName("BtnEditarFactura")
         self.gridLayout.addWidget(self.BtnEditarFactura, 0, 3, 1, 1)
         self.BtnEliminarFactura = QtWidgets.QToolButton(self.widget_2)
@@ -519,16 +524,16 @@ class Ui_FacturasCredito(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.BtnEliminarFactura.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnEliminarFactura.setIcon(icon1)
         self.BtnEliminarFactura.setIconSize(QtCore.QSize(30, 30))
         self.BtnEliminarFactura.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnEliminarFactura.setObjectName("BtnEliminarFactura")
         self.gridLayout.addWidget(self.BtnEliminarFactura, 0, 5, 1, 1)
         self.BtnAgregarAbono = QtWidgets.QToolButton(self.widget_2)
         self.BtnAgregarAbono.setMinimumSize(QtCore.QSize(200, 40))
-        self.BtnAgregarAbono.setMaximumSize(QtCore.QSize(200, 50))
+        self.BtnAgregarAbono.setMaximumSize(QtCore.QSize(250, 50))
         self.BtnAgregarAbono.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnAgregarAbono.setStyleSheet("QToolButton {\n"
 "    background-color: black; /* Fondo blanco */\n"
@@ -547,6 +552,11 @@ class Ui_FacturasCredito(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("assets/iconos/visto.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnAgregarAbono.setIcon(icon2)
+        self.BtnAgregarAbono.setIconSize(QtCore.QSize(30, 30))
+        self.BtnAgregarAbono.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnAgregarAbono.setObjectName("BtnAgregarAbono")
         self.gridLayout.addWidget(self.BtnAgregarAbono, 0, 0, 1, 1)
         self.BtnGenerarTicket = QtWidgets.QToolButton(self.widget_2)
@@ -570,9 +580,9 @@ class Ui_FacturasCredito(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../../assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.BtnGenerarTicket.setIcon(icon1)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnGenerarTicket.setIcon(icon3)
         self.BtnGenerarTicket.setIconSize(QtCore.QSize(30, 30))
         self.BtnGenerarTicket.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnGenerarTicket.setObjectName("BtnGenerarTicket")
@@ -660,7 +670,7 @@ class Ui_FacturasCredito(object):
         item.setText(_translate("Form", "Pendiente"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(8)
         item.setText(_translate("Form", "Estado"))
-        self.BtnEditarFactura.setText(_translate("Form", "Editar Factura"))
+        self.BtnEditarFactura.setText(_translate("Form", "   Editar Factura"))
         self.BtnEliminarFactura.setText(_translate("Form", "   Eliminar Factura"))
-        self.BtnAgregarAbono.setText(_translate("Form", "Agregar Abono"))
+        self.BtnAgregarAbono.setText(_translate("Form", "   Agregar Abono"))
         self.BtnGenerarTicket.setText(_translate("Form", "   Generar Ticket"))

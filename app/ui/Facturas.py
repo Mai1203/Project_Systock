@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\Facturas.ui'
+# Form implementation generated from reading ui file 'Facturas.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Facturas(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1282, 982)
+        Form.resize(1580, 982)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -471,11 +471,11 @@ class Ui_Facturas(object):
         self.widget_2.setObjectName("widget_2")
         self.gridLayout = QtWidgets.QGridLayout(self.widget_2)
         self.gridLayout.setObjectName("gridLayout")
-        self.BtnFacturaPagada = QtWidgets.QToolButton(self.widget_2)
-        self.BtnFacturaPagada.setMinimumSize(QtCore.QSize(200, 40))
-        self.BtnFacturaPagada.setMaximumSize(QtCore.QSize(200, 50))
-        self.BtnFacturaPagada.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnFacturaPagada.setStyleSheet("QToolButton {\n"
+        self.BtnGenerarTicket = QtWidgets.QToolButton(self.widget_2)
+        self.BtnGenerarTicket.setMinimumSize(QtCore.QSize(250, 50))
+        self.BtnGenerarTicket.setMaximumSize(QtCore.QSize(250, 50))
+        self.BtnGenerarTicket.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.BtnGenerarTicket.setStyleSheet("QToolButton {\n"
 "    background-color: black; /* Fondo blanco */\n"
 "    border: none; /* Sin borde ni decoración inicial */\n"
 "    color:  white;\n"
@@ -492,18 +492,16 @@ class Ui_Facturas(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        self.BtnFacturaPagada.setObjectName("BtnFacturaPagada")
-        self.gridLayout.addWidget(self.BtnFacturaPagada, 0, 0, 1, 1)
-        self.BtnEditarFactura = QtWidgets.QToolButton(self.widget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BtnEditarFactura.sizePolicy().hasHeightForWidth())
-        self.BtnEditarFactura.setSizePolicy(sizePolicy)
-        self.BtnEditarFactura.setMinimumSize(QtCore.QSize(200, 50))
-        self.BtnEditarFactura.setMaximumSize(QtCore.QSize(200, 50))
-        self.BtnEditarFactura.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnEditarFactura.setStyleSheet("QToolButton {\n"
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnGenerarTicket.setIcon(icon)
+        self.BtnGenerarTicket.setIconSize(QtCore.QSize(30, 30))
+        self.BtnGenerarTicket.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.BtnGenerarTicket.setObjectName("BtnGenerarTicket")
+        self.gridLayout.addWidget(self.BtnGenerarTicket, 0, 4, 1, 1)
+        self.BtnVerProductos = QtWidgets.QToolButton(self.widget_2)
+        self.BtnVerProductos.setMinimumSize(QtCore.QSize(250, 0))
+        self.BtnVerProductos.setStyleSheet("QToolButton {\n"
 "    background-color: black; /* Fondo blanco */\n"
 "    border: none; /* Sin borde ni decoración inicial */\n"
 "    color:  white;\n"
@@ -520,8 +518,13 @@ class Ui_Facturas(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        self.BtnEditarFactura.setObjectName("BtnEditarFactura")
-        self.gridLayout.addWidget(self.BtnEditarFactura, 0, 3, 1, 1)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("assets/iconos/proteccion.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnVerProductos.setIcon(icon1)
+        self.BtnVerProductos.setIconSize(QtCore.QSize(30, 30))
+        self.BtnVerProductos.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.BtnVerProductos.setObjectName("BtnVerProductos")
+        self.gridLayout.addWidget(self.BtnVerProductos, 0, 2, 1, 1)
         self.BtnEliminarFactura = QtWidgets.QToolButton(self.widget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -548,18 +551,18 @@ class Ui_Facturas(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.BtnEliminarFactura.setIcon(icon)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnEliminarFactura.setIcon(icon2)
         self.BtnEliminarFactura.setIconSize(QtCore.QSize(30, 30))
         self.BtnEliminarFactura.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnEliminarFactura.setObjectName("BtnEliminarFactura")
-        self.gridLayout.addWidget(self.BtnEliminarFactura, 0, 4, 1, 1)
-        self.BtnGenerarTicket = QtWidgets.QToolButton(self.widget_2)
-        self.BtnGenerarTicket.setMinimumSize(QtCore.QSize(250, 50))
-        self.BtnGenerarTicket.setMaximumSize(QtCore.QSize(250, 50))
-        self.BtnGenerarTicket.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnGenerarTicket.setStyleSheet("QToolButton {\n"
+        self.gridLayout.addWidget(self.BtnEliminarFactura, 0, 7, 1, 1)
+        self.BtnFacturaPagada = QtWidgets.QToolButton(self.widget_2)
+        self.BtnFacturaPagada.setMinimumSize(QtCore.QSize(200, 40))
+        self.BtnFacturaPagada.setMaximumSize(QtCore.QSize(250, 50))
+        self.BtnFacturaPagada.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.BtnFacturaPagada.setStyleSheet("QToolButton {\n"
 "    background-color: black; /* Fondo blanco */\n"
 "    border: none; /* Sin borde ni decoración inicial */\n"
 "    color:  white;\n"
@@ -576,14 +579,73 @@ class Ui_Facturas(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.BtnGenerarTicket.setIcon(icon1)
-        self.BtnGenerarTicket.setIconSize(QtCore.QSize(30, 30))
-        self.BtnGenerarTicket.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
-        self.BtnGenerarTicket.setObjectName("BtnGenerarTicket")
-        self.gridLayout.addWidget(self.BtnGenerarTicket, 0, 2, 1, 1)
-        self.verticalLayout_3.addWidget(self.widget_2, 0, QtCore.Qt.AlignRight)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("assets/iconos/visto.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnFacturaPagada.setIcon(icon3)
+        self.BtnFacturaPagada.setIconSize(QtCore.QSize(30, 30))
+        self.BtnFacturaPagada.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.BtnFacturaPagada.setObjectName("BtnFacturaPagada")
+        self.gridLayout.addWidget(self.BtnFacturaPagada, 0, 1, 1, 1)
+        self.BtnEditarFactura = QtWidgets.QToolButton(self.widget_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.BtnEditarFactura.sizePolicy().hasHeightForWidth())
+        self.BtnEditarFactura.setSizePolicy(sizePolicy)
+        self.BtnEditarFactura.setMinimumSize(QtCore.QSize(250, 50))
+        self.BtnEditarFactura.setMaximumSize(QtCore.QSize(200, 50))
+        self.BtnEditarFactura.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.BtnEditarFactura.setStyleSheet("QToolButton {\n"
+"    background-color: black; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white;\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 22px; /* Tamaño de fuente */\n"
+"    cursor: pointer;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer;\n"
+"}")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("assets/iconos/editar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnEditarFactura.setIcon(icon4)
+        self.BtnEditarFactura.setIconSize(QtCore.QSize(30, 30))
+        self.BtnEditarFactura.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.BtnEditarFactura.setObjectName("BtnEditarFactura")
+        self.gridLayout.addWidget(self.BtnEditarFactura, 0, 5, 1, 1)
+        self.BtnVerCancelarVenta = QtWidgets.QToolButton(self.widget_2)
+        self.BtnVerCancelarVenta.setMinimumSize(QtCore.QSize(250, 0))
+        self.BtnVerCancelarVenta.setStyleSheet("QToolButton {\n"
+"    background-color: black; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white;\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 22px; /* Tamaño de fuente */\n"
+"    cursor: pointer;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer;\n"
+"}")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("assets/iconos/cerrar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnVerCancelarVenta.setIcon(icon5)
+        self.BtnVerCancelarVenta.setIconSize(QtCore.QSize(30, 30))
+        self.BtnVerCancelarVenta.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.BtnVerCancelarVenta.setObjectName("BtnVerCancelarVenta")
+        self.gridLayout.addWidget(self.BtnVerCancelarVenta, 0, 6, 1, 1)
+        self.verticalLayout_3.addWidget(self.widget_2, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_2.addWidget(self.widget)
         self.Contenido.addWidget(self.ContenidoPage1)
         self.horizontalLayout_2.addWidget(self.Contenido)
@@ -670,7 +732,9 @@ class Ui_Facturas(object):
         item.setText(_translate("Form", "M.Total"))
         item = self.TablaFacturas.horizontalHeaderItem(10)
         item.setText(_translate("Form", "Estado"))
-        self.BtnFacturaPagada.setText(_translate("Form", "Factura Pagada"))
-        self.BtnEditarFactura.setText(_translate("Form", "Editar Factura"))
-        self.BtnEliminarFactura.setText(_translate("Form", "   Eliminar Factura"))
         self.BtnGenerarTicket.setText(_translate("Form", "   Generar Ticket"))
+        self.BtnVerProductos.setText(_translate("Form", "   Ver Productos"))
+        self.BtnEliminarFactura.setText(_translate("Form", "   Eliminar Factura"))
+        self.BtnFacturaPagada.setText(_translate("Form", "   Factura Pagada"))
+        self.BtnEditarFactura.setText(_translate("Form", "   Editar Factura"))
+        self.BtnVerCancelarVenta.setText(_translate("Form", "   Cancelar Venta"))

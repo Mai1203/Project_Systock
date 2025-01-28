@@ -845,7 +845,7 @@ class Ui_Caja(object):
 "    cursor: pointer;\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.BtnCajaImprimir.setIcon(icon)
         self.BtnCajaImprimir.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaImprimir.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)

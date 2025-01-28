@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\FacturasCredito.ui'
+# Form implementation generated from reading ui file 'FacturasCredito.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -265,7 +265,7 @@ class Ui_FacturasCredito(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.TablaFacturasCredito.sizePolicy().hasHeightForWidth())
         self.TablaFacturasCredito.setSizePolicy(sizePolicy)
-        self.TablaFacturasCredito.setMinimumSize(QtCore.QSize(950, 600))
+        self.TablaFacturasCredito.setMinimumSize(QtCore.QSize(1050, 600))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         font.setPointSize(11)
@@ -375,7 +375,7 @@ class Ui_FacturasCredito(object):
 "}\n"
 "")
         self.TablaFacturasCredito.setObjectName("TablaFacturasCredito")
-        self.TablaFacturasCredito.setColumnCount(8)
+        self.TablaFacturasCredito.setColumnCount(9)
         self.TablaFacturasCredito.setRowCount(26)
         item = QtWidgets.QTableWidgetItem()
         self.TablaFacturasCredito.setVerticalHeaderItem(0, item)
@@ -456,6 +456,9 @@ class Ui_FacturasCredito(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.TablaFacturasCredito.setHorizontalHeaderItem(7, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.TablaFacturasCredito.setHorizontalHeaderItem(8, item)
         self.verticalLayout_3.addWidget(self.TablaFacturasCredito, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.widget_2 = QtWidgets.QWidget(self.widget)
         self.widget_2.setStyleSheet("")
@@ -517,7 +520,7 @@ class Ui_FacturasCredito(object):
 "    cursor: pointer;\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../assets/iconos/eliminar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.BtnEliminarFactura.setIcon(icon)
         self.BtnEliminarFactura.setIconSize(QtCore.QSize(30, 30))
         self.BtnEliminarFactura.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
@@ -568,7 +571,7 @@ class Ui_FacturasCredito(object):
 "    cursor: pointer;\n"
 "}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../../assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.BtnGenerarTicket.setIcon(icon1)
         self.BtnGenerarTicket.setIconSize(QtCore.QSize(30, 30))
         self.BtnGenerarTicket.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
@@ -642,18 +645,20 @@ class Ui_FacturasCredito(object):
         item = self.TablaFacturasCredito.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Id"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "Nombre"))
+        item.setText(_translate("Form", "Usuario"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "Max. Cre"))
+        item.setText(_translate("Form", "Id Factura"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(3)
-        item.setText(_translate("Form", "F.Registro"))
+        item.setText(_translate("Form", "Cliente"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(4)
-        item.setText(_translate("Form", "F.Limite"))
+        item.setText(_translate("Form", "F.Registro"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(5)
-        item.setText(_translate("Form", "T.Deuda"))
+        item.setText(_translate("Form", "F.Limite"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(6)
-        item.setText(_translate("Form", "Pendiente"))
+        item.setText(_translate("Form", "T.Deuda"))
         item = self.TablaFacturasCredito.horizontalHeaderItem(7)
+        item.setText(_translate("Form", "Pendiente"))
+        item = self.TablaFacturasCredito.horizontalHeaderItem(8)
         item.setText(_translate("Form", "Estado"))
         self.BtnEditarFactura.setText(_translate("Form", "Editar Factura"))
         self.BtnEliminarFactura.setText(_translate("Form", "   Eliminar Factura"))

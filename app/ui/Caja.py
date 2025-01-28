@@ -355,7 +355,7 @@ class Ui_Caja(object):
         self.label_11.setSizePolicy(sizePolicy)
         self.label_11.setMaximumSize(QtCore.QSize(50, 35))
         self.label_11.setText("")
-        self.label_11.setPixmap(QtGui.QPixmap("../../assets/iconos/buscar.png"))
+        self.label_11.setPixmap(QtGui.QPixmap("assets/iconos/buscar.png"))
         self.label_11.setScaledContents(True)
         self.label_11.setObjectName("label_11")
         self.gridLayout_4.addWidget(self.label_11, 2, 1, 1, 1)

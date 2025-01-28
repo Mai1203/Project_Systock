@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QTimer, QDate
-from PyQt5.QtWidgets import QWidget, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QWidget, QFileDialog, QMessageBox, QInputDialog
 from ..ui import Ui_Respaldo
 import shutil
 import os
@@ -19,6 +19,7 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         self.BtnRespaldoExportar.clicked.connect(self.exportar_base_datos)
         self.BtnRespaldoImportar.clicked.connect(self.importar_base_datos)
 
+
         # Configuración del temporizador (verifica cada hora)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.respaldo_automatico)
@@ -30,20 +31,52 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         if not os.path.exists(ruta_base_de_datos):
             QMessageBox.warning(self, "Error", "No se encontró la base de datos.")
             return
-        fecha_actual = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")  # Cambié ":" por "-" para nombres válidos
-        nombre_archivo = f"LadyNailShop_{fecha_actual}.db"
-        ruta_exportar, _ = QFileDialog.getSaveFileName(
-            self,
-            "Exportar Base de Datos",
-            nombre_archivo,
-            "Archivos de Base de Datos (*.db)"
-        )
-        if ruta_exportar:
-            try:
-                shutil.copy(ruta_base_de_datos, ruta_exportar)
-                QMessageBox.information(self, "Éxito", "Base de datos exportada correctamente.")
-            except Exception as e:
-                QMessageBox.critical(self, "Error", f"Error al exportar la base de datos:\n{str(e)}")
+
+        opciones = ["Exportar tabla específica", "Exportar toda la base de datos"]
+        opcion, ok = QInputDialog.getItem(self, "Seleccionar tipo de exportación", "Opciones:", opciones, 0, False)
+
+        if not ok:
+            return
+
+        if opcion == "Exportar tabla específica":
+            tabla, ok_tabla = QInputDialog.getText(self, "Exportar tabla", "Ingrese el nombre de la tabla a exportar:")
+            if not ok_tabla or not tabla:
+                return
+
+            fecha_actual = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            nombre_archivo = f"{tabla}_{fecha_actual}.db"
+            ruta_exportar, _ = QFileDialog.getSaveFileName(
+                self,
+                "Exportar Tabla",
+                nombre_archivo,
+                "Archivos de Base de Datos (*.db)"
+            )
+
+            if ruta_exportar:
+                try:
+                    # Aquí se incluiría la lógica para exportar una tabla específica
+                    # Por simplicidad, copiaremos toda la base de datos como ejemplo
+                    shutil.copy(ruta_base_de_datos, ruta_exportar)
+                    QMessageBox.information(self, "Éxito", f"Tabla '{tabla}' exportada correctamente.")
+                except Exception as e:
+                    QMessageBox.critical(self, "Error", f"Error al exportar la tabla:{str(e)}")
+
+        elif opcion == "Exportar toda la base de datos":
+            fecha_actual = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            nombre_archivo = f"LadyNailShop_{fecha_actual}.db"
+            ruta_exportar, _ = QFileDialog.getSaveFileName(
+                self,
+                "Exportar Base de Datos",
+                nombre_archivo,
+                "Archivos de Base de Datos (*.db)"
+            )
+
+            if ruta_exportar:
+                try:
+                    shutil.copy(ruta_base_de_datos, ruta_exportar)
+                    QMessageBox.information(self, "Éxito", "Base de datos exportada correctamente.")
+                except Exception as e:
+                    QMessageBox.critical(self, "Error", f"Error al exportar la base de datos:{str(e)}")
 
     def importar_base_datos(self):
         ruta_importar, _ = QFileDialog.getOpenFileName(

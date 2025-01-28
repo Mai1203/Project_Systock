@@ -310,7 +310,7 @@ QLineEdit:focus {
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>950</width>
+                 <width>1050</width>
                  <height>600</height>
                 </size>
                </property>
@@ -571,7 +571,7 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>Nombre</string>
+                 <string>Usuario</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -579,7 +579,15 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>Max. Cre</string>
+                 <string>Id Factura</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Cliente</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>

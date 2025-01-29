@@ -523,14 +523,6 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>Max. Cre</string>
-                </property>
-                <property name="textAlignment">
-                 <set>AlignCenter</set>
-                </property>
-               </column>
-               <column>
-                <property name="text">
                  <string>F.Registro</string>
                 </property>
                 <property name="textAlignment">
@@ -592,45 +584,6 @@ QScrollBar::handle:horizontal:hover {
              <string notr="true"/>
             </property>
             <layout class="QGridLayout" name="gridLayout">
-             <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
-              <widget class="QLabel" name="label">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Metodo de Pago</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" alignment="Qt::AlignLeft|Qt::AlignTop">
-              <widget class="QPushButton" name="BtnMetodoPago">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>250</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>IBeamCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
-               </property>
-               <property name="text">
-                <string>Metodo de pago</string>
-               </property>
-              </widget>
-             </item>
              <item row="3" column="0">
               <widget class="QLineEdit" name="InputPago">
                <property name="sizePolicy">
@@ -650,6 +603,19 @@ color: rgb(0, 0, 0);</string>
                </property>
               </widget>
              </item>
+             <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
+              <widget class="QLabel" name="label">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Metodo de Pago</string>
+               </property>
+              </widget>
+             </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_2">
                <property name="sizePolicy">
@@ -660,6 +626,54 @@ color: rgb(0, 0, 0);</string>
                </property>
                <property name="text">
                 <string>Monto:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QComboBox" name="MetodoPagoBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>250</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+    background-color: white; /* Fondo blanco */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 18px; /* Tamaño de fuente */
+    height: 40px; /* Altura del combo box */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+QComboBox::drop-down {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    width: 20px; /* Tamaño del botón */
+    /* No se define la flecha, por lo que se elimina */
+}
+
+QComboBox:hover {
+    cursor: pointer; /* Cursor de mano */
+}
+
+QComboBox QAbstractItemView {
+    background-color: white; /* Fondo del menú desplegable */
+    border: none; /* Sin borde */
+    color: black; /* Color del texto en las opciones */
+    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */
+    selection-color: white; /* Texto blanco al seleccionar */
+    border-radius: 10px; /* Bordes redondeados */
+}</string>
                </property>
               </widget>
              </item>
@@ -721,7 +735,17 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Abonar!</string>
+                <string> Abonar!</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../../assets/iconos/signo_dinero.png</normaloff>../../assets/iconos/signo_dinero.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>32</height>
+                </size>
                </property>
               </widget>
              </item>

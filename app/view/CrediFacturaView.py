@@ -15,6 +15,7 @@ from ..utils.enviar_notifi import enviar_notificacion
 
 class CrediFactura_View(QWidget, Ui_FacturasCredito):
     enviar_facturas_Credito = pyqtSignal(dict, int)
+    enviar_ventaCredito = pyqtSignal()
     def __init__(self, parent=None):
         super(CrediFactura_View, self).__init__(parent)
         self.setupUi(self)
@@ -28,6 +29,7 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
         
         self.BtnEliminarFactura.clicked.connect(self.eliminar_factura)
         self.BtnEditarFactura.clicked.connect(self.editar_ventaCredito)
+        self.BtnAgregarAbono.clicked.connect(self.agregar_abono)
     
     def showEvent(self, event):
         super().showEvent(event)
@@ -189,4 +191,17 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
 
         except Exception as e:
             print(f"Error al abrir ventana de ventas: {e}")
+    
+    def agregar_abono(self):
+        try:
+            ids = self.obtener_ids_seleccionados()
+            
+            if not ids:
+                QMessageBox.warning(self, "Advertencia", "No se seleccionaron facturas para agregar abono.")
+                return
+            
+            self.enviar_ventaCredito.emit()
+            
+        except Exception as e:
+            print(f"Error al agregar abono: {e}")
                 

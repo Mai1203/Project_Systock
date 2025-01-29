@@ -343,7 +343,7 @@ class Ui_PagoCredito(object):
 "}\n"
 "")
         self.TablaPagoCredito.setObjectName("TablaPagoCredito")
-        self.TablaPagoCredito.setColumnCount(8)
+        self.TablaPagoCredito.setColumnCount(7)
         self.TablaPagoCredito.setRowCount(26)
         item = QtWidgets.QTableWidgetItem()
         self.TablaPagoCredito.setVerticalHeaderItem(0, item)
@@ -421,9 +421,6 @@ class Ui_PagoCredito(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.TablaPagoCredito.setHorizontalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignCenter)
-        self.TablaPagoCredito.setHorizontalHeaderItem(7, item)
         self.verticalLayout_3.addWidget(self.TablaPagoCredito, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.verticalLayout_2.addWidget(self.widget)
         self.widget_3 = QtWidgets.QWidget(self.ContenidoPage1)
@@ -437,26 +434,6 @@ class Ui_PagoCredito(object):
         self.widget_3.setObjectName("widget_3")
         self.gridLayout = QtWidgets.QGridLayout(self.widget_3)
         self.gridLayout.setObjectName("gridLayout")
-        self.label = QtWidgets.QLabel(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-        self.label.setSizePolicy(sizePolicy)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignBottom)
-        self.BtnMetodoPago = QtWidgets.QPushButton(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BtnMetodoPago.sizePolicy().hasHeightForWidth())
-        self.BtnMetodoPago.setSizePolicy(sizePolicy)
-        self.BtnMetodoPago.setMinimumSize(QtCore.QSize(250, 0))
-        self.BtnMetodoPago.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
-        self.BtnMetodoPago.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"color: rgb(0, 0, 0);")
-        self.BtnMetodoPago.setObjectName("BtnMetodoPago")
-        self.gridLayout.addWidget(self.BtnMetodoPago, 1, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.InputPago = QtWidgets.QLineEdit(self.widget_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -467,6 +444,14 @@ class Ui_PagoCredito(object):
         self.InputPago.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.InputPago.setObjectName("InputPago")
         self.gridLayout.addWidget(self.InputPago, 3, 0, 1, 1)
+        self.label = QtWidgets.QLabel(self.widget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1, QtCore.Qt.AlignLeft|QtCore.Qt.AlignBottom)
         self.label_2 = QtWidgets.QLabel(self.widget_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -475,6 +460,45 @@ class Ui_PagoCredito(object):
         self.label_2.setSizePolicy(sizePolicy)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
+        self.MetodoPagoBox = QtWidgets.QComboBox(self.widget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.MetodoPagoBox.sizePolicy().hasHeightForWidth())
+        self.MetodoPagoBox.setSizePolicy(sizePolicy)
+        self.MetodoPagoBox.setMinimumSize(QtCore.QSize(250, 50))
+        self.MetodoPagoBox.setStyleSheet("QComboBox {\n"
+"    background-color: white; /* Fondo blanco */\n"
+"    border: none; /* Sin borde */\n"
+"    color: black; /* Color del texto */\n"
+"    border-radius: 15px; /* Bordes redondeados */\n"
+"    padding: 5px 10px; /* Espaciado interno */\n"
+"    font-size: 18px; /* Tamaño de fuente */\n"
+"    height: 40px; /* Altura del combo box */\n"
+"    margin-top: 20px; /* Espaciado superior */\n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    background-color: transparent; /* Fondo transparente */\n"
+"    border: none; /* Sin borde */\n"
+"    width: 20px; /* Tamaño del botón */\n"
+"    /* No se define la flecha, por lo que se elimina */\n"
+"}\n"
+"\n"
+"QComboBox:hover {\n"
+"    cursor: pointer; /* Cursor de mano */\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    background-color: white; /* Fondo del menú desplegable */\n"
+"    border: none; /* Sin borde */\n"
+"    color: black; /* Color del texto en las opciones */\n"
+"    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */\n"
+"    selection-color: white; /* Texto blanco al seleccionar */\n"
+"    border-radius: 10px; /* Bordes redondeados */\n"
+"}")
+        self.MetodoPagoBox.setObjectName("MetodoPagoBox")
+        self.gridLayout.addWidget(self.MetodoPagoBox, 1, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.widget_3, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.widget_4 = QtWidgets.QWidget(self.ContenidoPage1)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
@@ -512,6 +536,10 @@ class Ui_PagoCredito(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
 "}")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/signo_dinero.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnAbonar.setIcon(icon)
+        self.BtnAbonar.setIconSize(QtCore.QSize(32, 32))
         self.BtnAbonar.setObjectName("BtnAbonar")
         self.horizontalLayout.addWidget(self.BtnAbonar, 0, QtCore.Qt.AlignRight|QtCore.Qt.AlignBottom)
         self.verticalLayout_2.addWidget(self.widget_4, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
@@ -583,18 +611,15 @@ class Ui_PagoCredito(object):
         item = self.TablaPagoCredito.horizontalHeaderItem(1)
         item.setText(_translate("Form", "Nombre"))
         item = self.TablaPagoCredito.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "Max. Cre"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(3)
         item.setText(_translate("Form", "F.Registro"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(4)
+        item = self.TablaPagoCredito.horizontalHeaderItem(3)
         item.setText(_translate("Form", "F.Limite"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(5)
+        item = self.TablaPagoCredito.horizontalHeaderItem(4)
         item.setText(_translate("Form", "T.Deuda"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(6)
+        item = self.TablaPagoCredito.horizontalHeaderItem(5)
         item.setText(_translate("Form", "Pendiente"))
-        item = self.TablaPagoCredito.horizontalHeaderItem(7)
+        item = self.TablaPagoCredito.horizontalHeaderItem(6)
         item.setText(_translate("Form", "Estado"))
         self.label.setText(_translate("Form", "Metodo de Pago"))
-        self.BtnMetodoPago.setText(_translate("Form", "Metodo de pago"))
         self.label_2.setText(_translate("Form", "Monto:"))
-        self.BtnAbonar.setText(_translate("Form", "Abonar!"))
+        self.BtnAbonar.setText(_translate("Form", " Abonar!"))

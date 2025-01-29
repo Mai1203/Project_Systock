@@ -17,6 +17,7 @@ from app.view import (
     Egreso_View,
     Productos_View,
     Reportes_View,
+    PagoCredito_View,
 )
 
 class MainApp(QWidget):
@@ -55,6 +56,7 @@ class MainApp(QWidget):
         self.control_usuario_view = ControlUsuario_View()
         self.reportes = Reportes_View()
         self.crediFactura = CrediFactura_View()
+        self.pagoCredito = PagoCredito_View()
 
         self.stacked_widget.addWidget(self.ventasA)       # Índice 0
         self.stacked_widget.addWidget(self.ventasB)       # Índice 1
@@ -67,6 +69,7 @@ class MainApp(QWidget):
         self.stacked_widget.addWidget(self.respaldo_view)       # Índice 7
         self.stacked_widget.addWidget(self.control_usuario_view) # Índice 8
         self.stacked_widget.addWidget(self.reportes)       # Índice 9
+        self.stacked_widget.addWidget(self.pagoCredito)       # Índice 9
 
         # Conectar los botones del Navbar para cambiar las vistas del contenido
         self.navbar.BtnVentas.clicked.connect(
@@ -111,6 +114,7 @@ class MainApp(QWidget):
         self.facturas.enviar_facturas_B.connect(self.cambiar_a_ventasB)
         self.facturas.enviar_facturas_Credito.connect(self.cambiar_a_ventasCredito)
         self.crediFactura.enviar_facturas_Credito.connect(self.cambiar_a_ventasCredito)
+        self.crediFactura.enviar_ventaCredito.connect(self.cambiar_a_pagoCredito)
         
     def cambiar_a_ventasA(self, factura_completa):
         try:
@@ -135,4 +139,10 @@ class MainApp(QWidget):
             
         except Exception as e:
             print(f"Error al cargar datos VentasCredito: {e}")
-        
+    
+    def cambiar_a_pagoCredito(self):
+        try:
+            self.stacked_widget.setCurrentWidget(self.pagoCredito)
+            
+        except Exception as e:
+            print(f"Error al cargar datos PagoCredito: {e}")

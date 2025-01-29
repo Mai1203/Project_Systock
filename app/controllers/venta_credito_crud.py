@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from datetime import datetime
 from app.models.venta_credito import (
     VentaCredito,
@@ -116,6 +117,44 @@ def actualizar_venta_credito(
     db.refresh(venta_existente)
     return venta_existente
 
+def buscar_ventas_credito(db: Session, busqueda: str):
+    """
+    Busca facturas en la base de datos.
+    :param db: Sesión de base de datos.
+    :param busqueda: Texto a buscar.
+    :return: Lista de facturas.
+    """
+    if not busqueda:
+        return None
+
+    ventas_credito = (
+        db.query(
+            VentaCredito.ID_Venta_Credito,
+            VentaCredito.Total_Deuda,
+            VentaCredito.Saldo_Pendiente,
+            VentaCredito.Fecha_Registro,
+            VentaCredito.Fecha_Limite,
+            Facturas.ID_Factura,
+            
+            Usuarios.Nombre.label("usuario"),
+            Clientes.Nombre.label("cliente"),
+            Facturas.Estado.label("estado"),
+        )
+        .join(Facturas, VentaCredito.ID_Factura == Facturas.ID_Factura)
+        .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
+        .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
+        .filter(
+            or_(
+                VentaCredito.ID_Venta_Credito.like(f"%{busqueda}%"),
+                VentaCredito.Fecha_Registro.like(f"%{busqueda}%"),
+                Clientes.Nombre.like(f"%{busqueda}%"),
+            )
+        )
+        .all()
+    )
+    
+    return ventas_credito
+   
 
 # Eliminar una venta a crédito
 def eliminar_venta_credito(db: Session, id_venta_credito: int):

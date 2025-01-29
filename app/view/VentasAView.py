@@ -73,10 +73,10 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputCedula.returnPressed.connect(self.completar_campos)
         self.InputDescuento.textChanged.connect(self.aplicar_descuento)
         self.MetodoPagoBox.currentIndexChanged.connect(self.configuracion_pago)
-        self.BtnFacturaB.clicked.connect(self.cambiar_a_ventanab)
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
 
         # Conexiones de señales - Botones y tabla
+        self.BtnFacturaB.clicked.connect(self.cambiar_a_ventanab)
         self.BtnGenerarVenta.clicked.connect(self.generar_venta)
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
         self.tableWidget.cellClicked.connect(self.cargar_datos)
@@ -86,14 +86,13 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
     
     def cargar_información(self, factura_completa):
-        print(factura_completa)
         factura = factura_completa["Factura"]
         cliente = factura_completa["Cliente"]  # Acceder al primer elemento de la lista
         detalles = factura_completa["Detalles"]
 
         # Calcular subtotal y descuento
         subtotal = sum(detalle["Subtotal"] for detalle in detalles)
-        delivery_fee = sum(detalle["Descuento"] for detalle in detalles)
+        delivery_fee = factura["Descuento"]
 
         # Extraer información necesaria para el ticket
         client_name = f"{cliente['Nombre']} {cliente['Apellido']}"
@@ -101,7 +100,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         client_address = cliente["Direccion"]
         client_phone = cliente["Teléfono"]
         
-        total = subtotal + delivery_fee
+        total = subtotal - delivery_fee
 
         # Extraer información adicional de la factura
         payment_method = factura["MetodoPago"]
@@ -166,6 +165,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputTelefonoCli.setText(str(client_phone))
         self.InputDireccion.setText(str(client_address))
         self.InputPago.setText(str(pago))
+        self.InputDescuento.setText(str(delivery_fee))
         self.LabelSubtotal.setText(f"Subtotal: {subtotal:,.2f}")
         self.LabelTotal.setText(f"Total: {total:,.2f}")
         self.MetodoPagoBox.setCurrentText(payment_method)
@@ -201,6 +201,8 @@ class VentasA_View(QWidget, Ui_VentasA):
             client_phone = self.InputTelefonoCli.text().strip()
             monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
+            descuento = float(self.InputDescuento.text().strip()) if self.InputDescuento.text() else 0.0
+            
             # validaciones
             if not client_name:
                 QMessageBox.warning(self, "Datos incompletos", "El campo 'Nombre del Cliente' está vacío.")
@@ -234,7 +236,8 @@ class VentasA_View(QWidget, Ui_VentasA):
                 codigo = self.tableWidget.item(row, 0).text()
                 quantity = int(self.tableWidget.item(row, 4).text())
                 description = self.tableWidget.item(row, 1).text()
-                value = float(self.tableWidget.item(row, 5).text())
+                precio_unitario = float(self.tableWidget.item(row, 5).text())
+                value = float(self.tableWidget.item(row, 6).text())
 
                 producto = obtener_producto_por_id(db, int(codigo))
 
@@ -250,12 +253,12 @@ class VentasA_View(QWidget, Ui_VentasA):
                     return
 
                 items.append((quantity, description, value))
-                produc_datos.append((codigo, quantity, value))
+                produc_datos.append((codigo, quantity, precio_unitario))
 
             # Calcular totales
             subtotal = sum(item[2] for item in items)
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
-            total = subtotal + delivery_fee
+            total = (subtotal + delivery_fee) - descuento
             pago = self.InputPago.text().strip()
             
             
@@ -269,7 +272,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                     stock_actual = producto.Stock_actual - quantity
                     actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
 
-                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, descuento, self.usuario_actual_id)
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
             
@@ -377,7 +380,6 @@ class VentasA_View(QWidget, Ui_VentasA):
             efectivo = float(monto_pago)
             tranferencia = float(monto_pago)
         
-        print(payment_method)
         # Actualizar información general de la factura
         factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
         factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" else 0.0
@@ -421,7 +423,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             # Cerrar la sesión para liberar recursos 
             db.close()    
         
-    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee, id_usuario):
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, descuento, id_usuario):
     
         """
         Registra la factura y sus detalles en la base de datos.
@@ -451,6 +453,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 db=db,
                 monto_efectivo= efectivo if payment_method != "Transferencia" else 0.0,
                 monto_transaccion= tranferencia if payment_method != "Efectivo" else 0.0,
+                descuento=descuento,
                 estado=estado,
                 id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
                 id_tipo_factura=1,
@@ -463,17 +466,16 @@ class VentasA_View(QWidget, Ui_VentasA):
 
             # Crear registros en la tabla 'detalle_factura' para cada producto
             for item in items:
-                codigo, quantity, value = item
+                codigo, quantity, precio_unitario = item
                 
-                total = quantity * value
+                total = quantity * precio_unitario
 
                 # Crear detalle de factura
                 crear_detalle_factura(
                     db=db,
                     cantidad=quantity,
-                    precio_unitario=value,
+                    precio_unitario=precio_unitario,
                     subtotal=total,
-                    descuento=delivery_fee,
                     id_producto=codigo,
                     id_factura=id_factura
                 )

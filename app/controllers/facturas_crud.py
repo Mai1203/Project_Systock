@@ -13,6 +13,7 @@ def crear_factura(
     db: Session,
     monto_efectivo: float,
     monto_transaccion: float,
+    descuento: float,
     estado: bool,
     id_metodo_pago: int,
     id_tipo_factura: int,
@@ -24,6 +25,7 @@ def crear_factura(
     :param db: Sesión de base de datos.
     :param monto_efectivo: Monto pagado en efectivo.
     :param monto_transaccion: Monto pagado mediante transacción.
+    :param descuento: Descuento aplicado.
     :param estado: Estado de la factura (True: Activa, False: Cancelada).
     :param id_metodo_pago: ID del método de pago.
     :param id_tipo_factura: ID del tipo de factura.
@@ -34,6 +36,7 @@ def crear_factura(
     nueva_factura = Facturas(
         Monto_efectivo=monto_efectivo,
         Monto_TRANSACCION=monto_transaccion,
+        Descuento=descuento,
         Estado=estado,
         ID_Metodo_Pago=id_metodo_pago,
         ID_Tipo_Factura=id_tipo_factura,
@@ -59,6 +62,7 @@ def obtener_factura_completa(db: Session, id_factura: int):
             Facturas.Fecha_Factura,
             Facturas.Monto_efectivo,
             Facturas.Monto_TRANSACCION,
+            Facturas.Descuento,
             Facturas.Estado,
             Facturas.ID_Cliente,
             Clientes.Nombre.label("cliente"),
@@ -86,7 +90,6 @@ def obtener_factura_completa(db: Session, id_factura: int):
             DetalleFacturas.Cantidad,
             DetalleFacturas.Precio_unitario,
             DetalleFacturas.Subtotal,
-            DetalleFacturas.Descuento,
             Productos.Nombre.label("producto"),
             Marcas.Nombre.label("marca"),
             Categorias.Nombre.label("categoria"),
@@ -105,6 +108,7 @@ def obtener_factura_completa(db: Session, id_factura: int):
             "Fecha_Factura": factura.Fecha_Factura,
             "Monto_efectivo": factura.Monto_efectivo,
             "Monto_TRANSACCION": factura.Monto_TRANSACCION,
+            "Descuento": factura.Descuento,
             "Estado": factura.Estado,
             "MetodoPago": factura.metodo_pago,
             "TipoFactura": factura.tipo_factura,
@@ -125,7 +129,6 @@ def obtener_factura_completa(db: Session, id_factura: int):
                 "Categoria": detalle.categoria,
                 "Precio_Unitario": detalle.Precio_unitario,
                 "Subtotal": detalle.Subtotal,
-                "Descuento": detalle.Descuento,
                 "Producto": detalle.producto,
             }
             for detalle in detalles
@@ -221,6 +224,7 @@ def actualizar_factura(
     id_factura: int,
     monto_efectivo: float = None,
     monto_transaccion: float = None,
+    descuento: float = None,
     estado: bool = None,
     id_metodo_pago: int = None,
     id_tipo_factura: int = None,
@@ -246,6 +250,8 @@ def actualizar_factura(
         factura_existente.Monto_efectivo = monto_efectivo
     if monto_transaccion is not None:
         factura_existente.Monto_TRANSACCION = monto_transaccion
+    if descuento is not None:
+        factura_existente.Descuento = descuento
     if estado is not None:
         factura_existente.Estado = estado
     if id_metodo_pago:

@@ -10,12 +10,12 @@ from ..database.database import SessionLocal
 from ..controllers.facturas_crud import *
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import generate_ticket
-from ..view.VentasAView import VentasA_View
 
 
 class Facturas_View(QWidget, Ui_Facturas):
     enviar_facturas_A = pyqtSignal(dict) 
     enviar_facturas_B = pyqtSignal(dict)
+    enviar_facturas_Credito = pyqtSignal(dict)
     
     def __init__(self, parent=None):
         super(Facturas_View, self).__init__(parent)
@@ -298,15 +298,19 @@ class Facturas_View(QWidget, Ui_Facturas):
 
             # Llamar a la función para obtener todos los datos de la factura
             factura_completa = obtener_factura_completa(self.db, ids[0])
-
+        
             if not factura_completa:
                 QMessageBox.showerror("Error", f"No se encontró la factura con ID {ids[0]}.")
                 return
 
             if factura_completa["Factura"]["TipoFactura"] == "Factura A":
                 self.enviar_facturas_A.emit(factura_completa)
-            else:
+                
+            elif factura_completa["Factura"]["TipoFactura"] == "Factura B":
                 self.enviar_facturas_B.emit(factura_completa)
+                
+            elif factura_completa["Factura"]["TipoFactura"] == "Credito":
+                self.enviar_facturas_Credito.emit(factura_completa)
 
         except Exception as e:
             print(f"Error al abrir ventana de ventas: {e}")

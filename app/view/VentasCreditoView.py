@@ -37,6 +37,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.id_categoria = None
         self.valor_domicilio = 0.0
         self.invoice_number = None
+        self.id_venta_credito = None
         self.fila_seleccionada = None
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas     
         
@@ -46,7 +47,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputApellidoCli.setPlaceholderText("Ej: Perez")
         self.InputTelefonoCli.setPlaceholderText("Ej: 3170065430")
         self.InputDireccion.setPlaceholderText("Ej: Calle 1, 123 - Piso 1")
-        self.LimitePagoBox.addItems(["7 días","15 dias"])
+        self.LimitePagoBox.addItems(["7 días","15 días"])
         self.comboBoxPrecio.addItems(["PU","PAM"])
         
         # Inicialización y configuración
@@ -74,6 +75,160 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.TablaVentasCredito.itemChanged.connect(self.actualizar_total)
         
         self.timer.timeout.connect(self.procesar_codigo_y_agregar)
+    
+    def cargar_información(self, factura_completa, id_venta_credito=None):
+        
+        self.id_venta_credito = id_venta_credito
+        
+        factura = factura_completa["Factura"]
+        cliente = factura_completa["Cliente"]  
+        detalles = factura_completa["Detalles"]
+
+        # Calcular subtotal y descuento
+        subtotal = sum(detalle["Subtotal"] for detalle in detalles)
+
+        # Extraer información necesaria para el ticket
+        client_name = cliente['Nombre']
+        client_apellido = cliente["Apellido"]
+        client_id = cliente["ID_Cliente"]
+        client_address = cliente["Direccion"]
+        client_phone = cliente["Teléfono"]
+        
+        total = subtotal
+
+        self.invoice_number = factura["ID_Factura"]
+        
+        try:
+            self.TablaVentasCredito.setRowCount(len(detalles))
+            # Iterar sobre las filas
+            for row_idx, row in enumerate(detalles):
+                # Datos de la fila
+                id_producto = str(row["ID_Producto"])
+                producto = str(row["Producto"])
+                marca = str(row["Marca"])
+                categoria = str(row["Categoria"])
+                cantidad = str(row["Cantidad"])
+                precio_unitario = str(row["Precio_Unitario"])
+                subtotal_producto = str(row["Subtotal"])
+
+                # Configurar items de la tabla
+                items = [
+                    (id_producto, 0),
+                    (producto, 1),
+                    (marca, 2),
+                    (categoria, 3),
+                    (cantidad, 4),
+                    (precio_unitario, 5),
+                    (subtotal_producto, 6),
+                ]
+
+                # Añadir items a la tabla
+                for value, col_idx in items:
+                    item = QtWidgets.QTableWidgetItem(value)
+                    item.setTextAlignment(QtCore.Qt.AlignCenter)
+                    self.TablaVentasCredito.setItem(row_idx, col_idx, item)
+                
+            self.TablaVentasCredito.resizeColumnsToContents()
+    
+        except Exception as e:
+            print(f"Error al cargar datos en la tablaVentasCredito: {e}")   
+            
+            
+        self.InputCedula.setText(str(client_id))
+        self.InputNombreCli.setText(str(client_name))
+        self.InputApellidoCli.setText(str(client_apellido))
+        self.InputTelefonoCli.setText(str(client_phone))
+        self.InputDireccion.setText(str(client_address))
+        self.LabelSubtotal.setText(f"Subtotal: {subtotal:,.2f}")
+        self.LabelTotal.setText(f"Total: {total:,.2f}")
+    
+    def actualizar_factura(self, db, id_factura, payment_method, produc_datos, monto_pago, delivery_fee, usuario_actual_id, deuda, limite_pago):
+        
+        #Actualizar venta a crédito
+        print(self.id_venta_credito)
+        print(deuda)
+        print(limite_pago)
+        actualizar_venta_credito(db=db, id_venta_credito=self.id_venta_credito, total_deuda=deuda, saldo_pendiente=deuda, fecha_limite=limite_pago)
+        
+        # Obtener los detalles actuales de la factura
+        detalles_actuales = db.query(DetalleFacturas).filter(DetalleFacturas.ID_Factura == id_factura).all()
+
+        # Convertir los detalles actuales en un diccionario para comparar
+        productos_actuales = {detalle.ID_Producto: detalle.Cantidad for detalle in detalles_actuales}
+
+        # Productos enviados desde la interfaz (nuevos o editados)
+        productos_nuevos = {int(codigo): cantidad for codigo, cantidad, _ in produc_datos}
+
+        # Productos eliminados (presentes en la factura actual, pero no en la nueva lista)
+        productos_eliminados = set(productos_actuales.keys()) - set(productos_nuevos.keys())
+
+        # Restaurar stock de productos eliminados
+        for id_producto in productos_eliminados:
+            cantidad_vendida = productos_actuales[id_producto]
+            producto = db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
+            producto.Stock_actual += cantidad_vendida  # Restaurar el stock
+            db.delete(db.query(DetalleFacturas).filter(
+                DetalleFacturas.ID_Factura == id_factura,
+                DetalleFacturas.ID_Producto == id_producto
+            ).first())  # Eliminar el detalle de la factura
+
+        # Actualizar cantidades de productos existentes y agregar nuevos
+        for id_producto, nueva_cantidad in productos_nuevos.items():
+            if id_producto in productos_actuales:
+                # Producto ya existe, verificar cambios en la cantidad
+                detalle = db.query(DetalleFacturas).filter(
+                    DetalleFacturas.ID_Factura == id_factura,
+                    DetalleFacturas.ID_Producto == id_producto
+                ).first()
+
+                diferencia_cantidad = nueva_cantidad - productos_actuales[id_producto]
+                detalle.Cantidad = nueva_cantidad
+                detalle.Subtotal = nueva_cantidad * detalle.Precio_unitario
+
+                # Ajustar el stock del producto
+                producto = db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
+                producto.Stock_actual -= diferencia_cantidad
+            else:
+                # Producto nuevo, agregarlo a la factura y ajustar el stock
+                precio_unitario = db.query(Productos).filter(Productos.ID_Producto == id_producto).first().Precio_venta_normal
+                subtotal = nueva_cantidad * precio_unitario
+
+                nuevo_detalle = DetalleFacturas(
+                    ID_Factura=id_factura,
+                    ID_Producto=id_producto,
+                    Cantidad=nueva_cantidad,
+                    Precio_unitario=precio_unitario,
+                    Subtotal=subtotal,
+                    Descuento=delivery_fee
+                )
+                db.add(nuevo_detalle)
+
+                # Ajustar el stock
+                producto = db.query(Productos).filter(Productos.ID_Producto == id_producto).first()
+                producto.Stock_actual -= nueva_cantidad
+
+        id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
+                
+        if '/' in monto_pago:
+            total = monto_pago.split("/") 
+            efectivo = float(total[0])
+            tranferencia = float(total[1])
+        else:
+            efectivo = float(monto_pago)
+            tranferencia = float(monto_pago)
+        
+        # Actualizar información general de la factura
+        factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
+        factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" else 0.0
+        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
+        factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
+        factura.ID_Usuario = usuario_actual_id
+
+        # Confirmar los cambios
+        db.commit()
+        
+        self.invoice_number = None
+        self.id_venta_credito = None
      
     def showEvent(self, event):
         super().showEvent(event)
@@ -99,17 +254,19 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         try:
             # Obtener datos del cliente
             client_name = self.InputNombreCli.text().strip()
+            client_apellido = self.InputApellidoCli.text().strip()
             client_id = self.InputCedula.text().strip()
             client_address = self.InputDireccion.text().strip()
             client_phone = self.InputTelefonoCli.text().strip()
             limite_pago = self.LimitePagoBox.currentText().strip()
+            
+            client_name = f"{client_name} {client_apellido}"
             
             if limite_pago == "7 días":
                 limite_pago = self.calcular_fecha_futura(7)
             elif limite_pago == "15 días":
                 limite_pago = self.calcular_fecha_futura(15)
             
-            print(limite_pago)
             self.verificar_cliente()
 
             db = SessionLocal()
@@ -121,7 +278,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 codigo = self.TablaVentasCredito.item(row, 0).text()
                 quantity = int(self.TablaVentasCredito.item(row, 4).text())
                 description = self.TablaVentasCredito.item(row, 1).text()
-                value = float(self.TablaVentasCredito.item(row, 5).text())
+                precio_unitairo = float(self.TablaVentasCredito.item(row, 5).text())
+                value = float(self.TablaVentasCredito.item(row, 6).text())
 
                 producto = obtener_producto_por_id(db, int(codigo))
 
@@ -137,7 +295,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     return
 
                 items.append((quantity, description, value))
-                produc_datos.append((codigo, quantity, value))
+                produc_datos.append((codigo, quantity, precio_unitairo))
 
             # Calcular totales
             subtotal = sum(item[2] for item in items)
@@ -146,7 +304,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             
             
             if self.invoice_number and self.invoice_number != "":
-                # self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                self.actualizar_factura(db, self.invoice_number, "Efectivo", produc_datos, "0.00", 0.0, self.usuario_actual_id, total, limite_pago)
                 mensaje = "Factura actualizada exitosamente."
             else:
                 for codigo, quantity, _ in produc_datos:
@@ -155,7 +313,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     stock_actual = producto.Stock_actual - quantity
                     actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
 
-                id_factura = self.guardar_factura(db, client_id, "Efectivo", produc_datos, "0.00", delivery_fee, self.usuario_actual_id, total, limite_pago)
+                id_factura = self.guardar_factura(db, client_id, "Efectivo", produc_datos, "0.00", 0.0, self.usuario_actual_id, total, limite_pago)
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
             
@@ -194,7 +352,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.limpiar_datos_cliente()
         self.invoice_number = None
     
-    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee, id_usuario, deuda, limite_pago):
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, descuento, id_usuario, deuda, limite_pago):
     
         """
         Registra la factura y sus detalles en la base de datos.
@@ -220,6 +378,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 db=db,
                 monto_efectivo= efectivo if payment_method != "Transferencia" else 0.0,
                 monto_transaccion= tranferencia if payment_method != "Efectivo" else 0.0,
+                descuento=descuento,
                 estado=False,
                 id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
                 id_tipo_factura=3,
@@ -232,17 +391,16 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
 
             # Crear registros en la tabla 'detalle_factura' para cada producto
             for item in items:
-                codigo, quantity, value = item
+                codigo, quantity, precio_unitario = item
                 
-                total = quantity * value
+                total = quantity * precio_unitario
 
                 # Crear detalle de factura
                 crear_detalle_factura(
                     db=db,
                     cantidad=quantity,
-                    precio_unitario=value,
+                    precio_unitario=precio_unitario,
                     subtotal=total,
-                    descuento=delivery_fee,
                     id_producto=codigo,
                     id_factura=id_factura
                 )

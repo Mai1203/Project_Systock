@@ -10,7 +10,6 @@ class DetalleFacturas(Base):
     Cantidad = Column(Integer, nullable=False)
     Precio_unitario = Column(Float, nullable=False)
     Subtotal = Column(Float, nullable=False)
-    Descuento = Column(Float, nullable=False)
 
     ID_Producto = Column(Integer, ForeignKey("PRODUCTOS.ID_Producto"))
     ID_Factura = Column(Integer, ForeignKey("FACTURA.ID_Factura"))

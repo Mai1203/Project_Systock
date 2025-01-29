@@ -293,7 +293,7 @@ class Ui_Reportes(object):
 "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\SYS-Systock\\app\\ui\\../../assets/iconos/pdf.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.BtnTicketCaja.setIcon(icon)
         self.BtnTicketCaja.setIconSize(QtCore.QSize(30, 30))
         self.BtnTicketCaja.setObjectName("BtnTicketCaja")

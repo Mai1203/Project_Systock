@@ -8,7 +8,6 @@ def crear_detalle_factura(
     cantidad: int,
     precio_unitario: float,
     subtotal: float,
-    descuento: float,
     id_producto: int,
     id_factura: int
 ):
@@ -18,7 +17,6 @@ def crear_detalle_factura(
     :param cantidad: Cantidad de productos.
     :param precio_unitario: Precio unitario del producto.
     :param subtotal: Subtotal del detalle.
-    :param descuento: Descuento aplicado.
     :param id_producto: ID del producto relacionado.
     :param id_factura: ID de la factura relacionada.
     :return: Objeto del detalle de factura creado.
@@ -27,7 +25,6 @@ def crear_detalle_factura(
         Cantidad=cantidad,
         Precio_unitario=precio_unitario,
         Subtotal=subtotal,
-        Descuento=descuento,
         ID_Producto=id_producto,
         ID_Factura=id_factura
     )
@@ -69,7 +66,6 @@ def actualizar_detalle_factura(
     cantidad: int = None,
     precio_unitario: float = None,
     subtotal: float = None,
-    descuento: float = None,
     id_producto: int = None,
     id_factura: int = None
 ):
@@ -80,7 +76,6 @@ def actualizar_detalle_factura(
     :param cantidad: Nueva cantidad de productos.
     :param precio_unitario: Nuevo precio unitario.
     :param subtotal: Nuevo subtotal.
-    :param descuento: Nuevo descuento.
     :param id_producto: Nuevo ID de producto relacionado.
     :param id_factura: Nuevo ID de factura relacionada.
     :return: Objeto del detalle de factura actualizado o None si no existe.
@@ -99,8 +94,6 @@ def actualizar_detalle_factura(
         detalle_existente.Precio_unitario = precio_unitario
     if subtotal is not None:
         detalle_existente.Subtotal = subtotal
-    if descuento is not None:
-        detalle_existente.Descuento = descuento
     if id_producto is not None:
         detalle_existente.ID_Producto = id_producto
     if id_factura is not None:

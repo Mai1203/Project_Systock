@@ -27,6 +27,7 @@ class Facturas(Base):
     Fecha_Factura = Column(DateTime(timezone=True), default=get_local_time)
     Monto_efectivo = Column(Float, nullable=False)
     Monto_TRANSACCION = Column(Float, nullable=False)
+    Descuento = Column(Float, nullable=False)
     Estado = Column(Boolean, nullable=False)
     
     ID_Metodo_Pago = Column(Integer, ForeignKey("METODO_PAGO.ID_Metodo_Pago"))

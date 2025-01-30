@@ -7,7 +7,6 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
-from escpos.printer import Usb
 
 
 
@@ -112,7 +111,7 @@ class VentasB_View(QWidget, Ui_VentasB):
 
         # Calcular subtotal y descuento
         subtotal = sum(detalle["Subtotal"] for detalle in detalles)
-        delivery_fee = sum(detalle["Descuento"] for detalle in detalles)
+        delivery_fee = factura["Descuento"]
 
         # Extraer información necesaria para el ticket
         client_name = f"{cliente['Nombre']} {cliente['Apellido']}"
@@ -120,7 +119,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         client_address = cliente["Direccion"]
         client_phone = cliente["Teléfono"]
         
-        total = subtotal + delivery_fee
+        total = subtotal - delivery_fee
 
         # Extraer información adicional de la factura
         payment_method = factura["MetodoPago"]
@@ -197,127 +196,6 @@ class VentasB_View(QWidget, Ui_VentasB):
         QTimer.singleShot(duracion, msg_box.close)  # Cierra el mensaje después de 'duracion' milisegundos
         msg_box.exec_()
         
-    """def generar_venta(self):
-        
-        if self.TablaVentaMayor.rowCount() == 0:
-            QMessageBox.warning(self, "Error", "No hay productos en la venta.")
-            self.InputCodigo.setFocus()
-            return
-        try:
-            # Obtener datos del cliente
-            client_name = self.InputNombreCli.text().strip()
-            client_id = self.InputCedula.text().strip()
-            client_address = self.InputDireccion.text().strip()
-            client_phone = self.InputTelefonoCli.text().strip()
-            monto_pago = self.InputPago.text().strip()
-            payment_method = self.MetodoPagoBox.currentText().strip()
-            # validaciones
-            if not client_name:
-                QMessageBox.warning(self, "Datos incompletos", "El campo 'Nombre del Cliente' está vacío.")
-                self.InputNombreCli.setFocus()
-                return
-            if not client_id:
-                QMessageBox.warning(self, "Datos incompletos", "El campo 'Cédula' está vacío.")
-                self.InputCedula.setFocus()
-                return
-            if not client_address:
-                QMessageBox.warning(self, "Datos incompletos", "El campo 'Dirección' está vacío.")
-                self.InputDireccion.setFocus()
-                return
-            if not client_phone:
-                QMessageBox.warning(self, "Datos incompletos", "El campo 'Teléfono' está vacío.")
-                self.InputTelefonoCli.setFocus()
-                return
-            if not monto_pago:
-                QMessageBox.warning(self, "Datos incompletos", "El campo 'Pago' está vacío.")
-                self.InputPago.setFocus()
-                return
-
-            self.verificar_cliente(client_id, client_name, client_address, client_phone)
-
-            db = SessionLocal()
-            
-            # Obtener los artículos de la tabla
-            produc_datos = []
-            items = []
-            for row in range(self.TablaVentaMayor.rowCount()):
-                codigo = self.TablaVentaMayor.item(row, 0).text()
-                quantity = int(self.TablaVentaMayor.item(row, 4).text())
-                description = self.TablaVentaMayor.item(row, 1).text()
-                value = float(self.TablaVentaMayor.item(row, 5).text())
-
-                producto = obtener_producto_por_id(db, int(codigo))
-
-                if not producto:
-                    QMessageBox.warning(self, "Error", f"Producto con código {codigo} no encontrado.")
-                    return
-
-                producto = producto[0]
-
-                # Validar si hay stock suficiente antes de continuar
-                if producto.Stock_actual < quantity:
-                    QMessageBox.warning(self, "Error", f"Stock insuficiente para el producto: {description}")
-                    return
-
-                items.append((quantity, description, value))
-                produc_datos.append((codigo, quantity, value))
-
-            # Calcular totales
-            subtotal = sum(item[2] for item in items)
-            delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
-            total = subtotal + delivery_fee
-            pago = self.InputPago.text().strip()
-            
-            
-            if self.invoice_number and self.invoice_number != "":
-                self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
-                mensaje = "Factura actualizada exitosamente."
-            else:
-                for codigo, quantity, _ in produc_datos:
-                    producto = obtener_producto_por_id(db, codigo)
-                    producto = producto[0]
-                    stock_actual = producto.Stock_actual - quantity
-                    actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
-
-                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
-                self.invoice_number = f"0000{id_factura}"
-                mensaje = "Factura generada exitosamente."
-            
-            
-            # Datos adicionales
-            pan = "123456789"  # Cambiar por el PAN de tu empresa
-            filename = ""  # El usuario seleccionará el nombre y ruta
-
-            # Llamar a la función para generar el ticket
-            bandera = generate_ticket(
-                client_name=client_name,
-                client_id=client_id,
-                client_address=client_address,
-                client_phone=client_phone,
-                items=items,
-                subtotal=subtotal,
-                delivery_fee=delivery_fee,
-                total=total,
-                payment_method=payment_method,
-                invoice_number=self.invoice_number,
-                pan=pan,
-                pago = pago,
-                filename=filename,
-            )
-            db.close()
-
-            if bandera:
-                QMessageBox.information(self, "Éxito", mensaje)
-
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")
-            print(e)
-            
-        self.limpiar_tabla()
-        self.limpiar_campos()
-        self.InputDomicilio.clear()
-        self.limpiar_datos_cliente()
-        self.invoice_number = None"""
     def generar_venta(self):
         if self.TablaVentaMayor.rowCount() == 0:
             QMessageBox.warning(self, "Error", "No hay productos en la venta.")
@@ -332,6 +210,7 @@ class VentasB_View(QWidget, Ui_VentasB):
             client_phone = self.InputTelefonoCli.text().strip()
             monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
+            descuento = 0.0
 
             # Validaciones
             if not client_name:
@@ -366,6 +245,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                 codigo = self.TablaVentaMayor.item(row, 0).text()
                 quantity = int(self.TablaVentaMayor.item(row, 4).text())
                 description = self.TablaVentaMayor.item(row, 1).text()
+                precio_unitario = float(self.TablaVentaMayor.item(row, 5).text())
                 value = float(self.TablaVentaMayor.item(row, 5).text())
 
                 producto = obtener_producto_por_id(db, int(codigo))
@@ -382,12 +262,12 @@ class VentasB_View(QWidget, Ui_VentasB):
                     return
 
                 items.append((quantity, description, value))
-                produc_datos.append((codigo, quantity, value))
+                produc_datos.append((codigo, quantity, precio_unitario))
 
             # Calcular totales
             subtotal = sum(item[2] for item in items)
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
-            total = subtotal + delivery_fee
+            total = (subtotal + delivery_fee) - descuento
             pago = self.InputPago.text().strip()
 
             if self.invoice_number and self.invoice_number != "":
@@ -400,7 +280,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                     stock_actual = producto.Stock_actual - quantity
                     actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
 
-                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, descuento, self.usuario_actual_id)
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
 
@@ -665,7 +545,7 @@ class VentasB_View(QWidget, Ui_VentasB):
             # Cerrar la sesión para liberar recursos 
             db.close()    
         
-    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, delivery_fee, id_usuario):
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, descuento, id_usuario):
     
         """
         Registra la factura y sus detalles en la base de datos.
@@ -695,6 +575,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                 db=db,
                 monto_efectivo= efectivo if payment_method != "Transferencia" else 0.0,
                 monto_transaccion= tranferencia if payment_method != "Efectivo" else 0.0,
+                descuento=descuento,
                 estado=estado,
                 id_metodo_pago=id_metodo_pago.ID_Metodo_Pago,
                 id_tipo_factura=2,
@@ -717,7 +598,6 @@ class VentasB_View(QWidget, Ui_VentasB):
                     cantidad=quantity,
                     precio_unitario=value,
                     subtotal=total,
-                    descuento=delivery_fee,
                     id_producto=codigo,
                     id_factura=id_factura
                 )

@@ -142,12 +142,11 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
                 self.db = SessionLocal()
 
                 for id_ventaCredito in ids:
-                    ventaCredito = obtener_venta_credito_por_id(
-                        self.db, id_ventaCredito
-                    )
-                    if ventaCredito:
-                        id_factura = ventaCredito.ID_Factura
-                        eliminar_venta_credito(self.db, id_ventaCredito)
+                    venta_credito = obtener_ventaCredito_id(self.db, id_ventaCredito)
+                    if venta_credito:
+                        venta = venta_credito[0]
+                        id_factura = venta.ID_Factura
+                    eliminar_venta_credito(self.db, id_ventaCredito)
                     eliminar_factura(self.db, id_factura)
 
                 self.db.commit()
@@ -190,13 +189,18 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
                 return
 
             # Llamar a la función para obtener todos los datos de la factura
-            id_factura = obtener_venta_credito_por_id(self.db, ids[0]).ID_Factura
+            venta_credito = obtener_ventaCredito_id(self.db, ids[0])
+            venta = venta_credito[0]
+            
+            if venta.estado == True:
+                QMessageBox.warning(self, "Error", "La venta a crédito ya está pagada.")
+                return
 
-            factura_completa = obtener_factura_completa(self.db, id_factura)
+            factura_completa = obtener_factura_completa(self.db, venta.ID_Factura)
 
             if not factura_completa:
                 QMessageBox.showerror(
-                    "Error", f"No se encontró la factura con ID {id_factura}."
+                    "Error", f"No se encontró la factura con ID {venta.ID_Factura}."
                 )
                 return
 
@@ -236,9 +240,11 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
 
         db = SessionLocal()
 
-        id_factura = obtener_venta_credito_por_id(self.db, ids[0]).ID_Factura
+        venta_credito = obtener_ventaCredito_id(self.db, ids[0])
+        
+        venta = venta_credito[0]
         # Obtener la factura completa
-        factura_completa = obtener_factura_completa(db, id_factura)
+        factura_completa = obtener_factura_completa(db, venta.ID_Factura)
 
         if not factura_completa:
             print(f"No se encontró la factura con ID {ids[0]}")

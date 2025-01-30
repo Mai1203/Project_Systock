@@ -247,7 +247,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     Cantidad=nueva_cantidad,
                     Precio_unitario=precio_unitario,
                     Subtotal=subtotal,
-                    Descuento=delivery_fee,
                 )
                 db.add(nuevo_detalle)
 

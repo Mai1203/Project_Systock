@@ -90,27 +90,10 @@ def obtener_ventaCredito_id(db: Session, id_venta_credito: int):
         .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
         .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
         .filter(VentaCredito.ID_Venta_Credito == id_venta_credito)
-        .first()
+        .all()
     )
 
-    if ventas_credito:
-        return dict(
-            zip(
-                [
-                    "ID_Venta_Credito",
-                    "Total_Deuda",
-                    "Saldo_Pendiente",
-                    "Fecha_Registro",
-                    "Fecha_Limite",
-                    "ID_Factura",
-                    "usuario",
-                    "cliente",
-                    "estado",
-                ],
-                ventas_credito,
-            )
-        )
-    return None  # Si no hay datos, retornar None
+    return ventas_credito 
 
 
 # Actualizar una venta a crédito
@@ -119,7 +102,7 @@ def actualizar_venta_credito(
     id_venta_credito: int,
     total_deuda: float = None,
     saldo_pendiente: float = None,
-    fecha_limite: str = None,
+    fecha_limite: datetime = None,
 ):
     """
     Actualiza una venta a crédito existente.

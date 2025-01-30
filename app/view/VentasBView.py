@@ -7,6 +7,8 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
+from escpos.printer import Usb
+
 
 
 
@@ -24,6 +26,12 @@ from ..controllers.clientes_crud import *
 # Standard library imports
 import os
 import locale
+import win32print
+import win32ui
+import win32con
+import datetime  # Asegúrate de importar el módulo 'time'
+
+
 
 class VentasB_View(QWidget, Ui_VentasB):
     
@@ -95,6 +103,8 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.limpiar_datos_cliente()
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
     
+
+
     def cargar_información(self, factura_completa):
         factura = factura_completa["Factura"]
         cliente = factura_completa["Cliente"]  # Acceder al primer elemento de la lista
@@ -187,7 +197,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         QTimer.singleShot(duracion, msg_box.close)  # Cierra el mensaje después de 'duracion' milisegundos
         msg_box.exec_()
         
-    def generar_venta(self):
+    """def generar_venta(self):
         
         if self.TablaVentaMayor.rowCount() == 0:
             QMessageBox.warning(self, "Error", "No hay productos en la venta.")
@@ -307,8 +317,243 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.limpiar_campos()
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
+        self.invoice_number = None"""
+    def generar_venta(self):
+        if self.TablaVentaMayor.rowCount() == 0:
+            QMessageBox.warning(self, "Error", "No hay productos en la venta.")
+            self.InputCodigo.setFocus()
+            return
+
+        try:
+            # Obtener datos del cliente
+            client_name = self.InputNombreCli.text().strip()
+            client_id = self.InputCedula.text().strip()
+            client_address = self.InputDireccion.text().strip()
+            client_phone = self.InputTelefonoCli.text().strip()
+            monto_pago = self.InputPago.text().strip()
+            payment_method = self.MetodoPagoBox.currentText().strip()
+
+            # Validaciones
+            if not client_name:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Nombre del Cliente' está vacío.")
+                self.InputNombreCli.setFocus()
+                return
+            if not client_id:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Cédula' está vacío.")
+                self.InputCedula.setFocus()
+                return
+            if not client_address:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Dirección' está vacío.")
+                self.InputDireccion.setFocus()
+                return
+            if not client_phone:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Teléfono' está vacío.")
+                self.InputTelefonoCli.setFocus()
+                return
+            if not monto_pago:
+                QMessageBox.warning(self, "Datos incompletos", "El campo 'Pago' está vacío.")
+                self.InputPago.setFocus()
+                return
+
+            self.verificar_cliente(client_id, client_name, client_address, client_phone)
+
+            db = SessionLocal()
+
+            # Obtener los artículos de la tabla
+            produc_datos = []
+            items = []
+            for row in range(self.TablaVentaMayor.rowCount()):
+                codigo = self.TablaVentaMayor.item(row, 0).text()
+                quantity = int(self.TablaVentaMayor.item(row, 4).text())
+                description = self.TablaVentaMayor.item(row, 1).text()
+                value = float(self.TablaVentaMayor.item(row, 5).text())
+
+                producto = obtener_producto_por_id(db, int(codigo))
+
+                if not producto:
+                    QMessageBox.warning(self, "Error", f"Producto con código {codigo} no encontrado.")
+                    return
+
+                producto = producto[0]
+
+                # Validar si hay stock suficiente antes de continuar
+                if producto.Stock_actual < quantity:
+                    QMessageBox.warning(self, "Error", f"Stock insuficiente para el producto: {description}")
+                    return
+
+                items.append((quantity, description, value))
+                produc_datos.append((codigo, quantity, value))
+
+            # Calcular totales
+            subtotal = sum(item[2] for item in items)
+            delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
+            total = subtotal + delivery_fee
+            pago = self.InputPago.text().strip()
+
+            if self.invoice_number and self.invoice_number != "":
+                self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                mensaje = "Factura actualizada exitosamente."
+            else:
+                for codigo, quantity, _ in produc_datos:
+                    producto = obtener_producto_por_id(db, codigo)
+                    producto = producto[0]
+                    stock_actual = producto.Stock_actual - quantity
+                    actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
+
+                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
+                self.invoice_number = f"0000{id_factura}"
+                mensaje = "Factura generada exitosamente."
+
+            # Generar el contenido del ticket
+            # Configuración inicial
+            max_lines_per_page = 30  # Límite de líneas por página
+            current_line = 0  # Contador de líneas
+            empresa_nombre = "LadyNailShop"
+            empresa_direccion = "Pasto, Colombia"
+            empresa_telefono = "+57 316-144-44-74"
+
+            # Obtener la fecha actual
+            fecha_actual = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+            # Formatear valores monetarios
+            subtotal_formateado = f"${subtotal:,.2f}"
+            total_formateado = f"${total:,.2f}"
+            pago = float(pago)
+            pago_formateado = f"${pago:,.2f}"
+
+            # Formatear el costo de envío
+            delivery_fee = float(delivery_fee)
+            if delivery_fee.is_integer():
+                delivery_fee_formateado = f"${int(delivery_fee):,.0f}"
+            else:
+                delivery_fee_formateado = f"${delivery_fee:,.2f}"
+
+            # Limitar la dirección del cliente a 25 caracteres por línea
+            direccion = client_address
+            direccion_linea1 = direccion[:25]
+            direccion_linea2 = direccion[25:] if len(direccion) > 25 else ""
+
+            # Generar el contenido del ticket
+            ticket_content = f"""
+            Factura No. {self.invoice_number}
+            Cliente: {client_name}
+            Cédula: {client_id}
+            Teléfono: {client_phone}
+            Dirección: {direccion_linea1}
+            {direccion_linea2}
+            -----------------------------------------------------------------------------------------------------
+            Productos:
+            """
+
+            # Obtener la impresora predeterminada
+            impresora = win32print.GetDefaultPrinter()
+            hDC = win32ui.CreateDC()
+            hDC.CreatePrinterDC(impresora)
+
+            # Crear un documento de impresión
+            hDC.StartDoc("Ticket de Venta")
+            hDC.StartPage()
+
+            # Configurar la fuente
+            font_size = 26
+            line_height = font_size + 10
+            font = win32ui.CreateFont({
+                "name": "Helvetica-Bold",
+                "height": font_size,
+                "weight": win32con.FW_BOLD
+            })
+            hDC.SelectObject(font)
+
+            # Obtener el tamaño del papel para centrar el texto
+            printer_width = hDC.GetDeviceCaps(win32con.HORZRES)
+            center_x = printer_width // 2  # Punto central
+
+            # Imprimir los datos de la empresa
+            hDC.TextOut(center_x - (len(empresa_nombre) * 6), 50, empresa_nombre)
+            hDC.TextOut(center_x - (len(empresa_direccion) * 6), 50 + line_height, empresa_direccion)
+            hDC.TextOut(center_x - (len(empresa_telefono) * 6), 50 + 2 * line_height, empresa_telefono)
+
+            # Imprimir la fecha actual
+            hDC.TextOut(center_x - (len(fecha_actual) * 6), 50 + 3 * line_height, fecha_actual)
+
+            # Línea separadora
+            hDC.TextOut(50, 50 + 4 * line_height, "----------------------------------------")
+            
+            # Ajuste de coordenadas iniciales para el contenido del ticket
+            x, y = 2, 2 + 5 * line_height  # Espacio después de la información de la empresa, la línea y la fecha
+            # Imprimir la información del cliente
+            y += line_height
+
+            hDC.TextOut(x, y, "Factura de venta")  # Imprime el título "Productos:"
+            y += line_height
+            hDC.TextOut(x, y, f"Factura No. {self.invoice_number}")# Aquí se agrega el número de factura
+            y += line_height
+            hDC.TextOut(x, y, f"Cliente: {client_name}")
+            y += line_height
+            hDC.TextOut(x, y, f"Cédula: {client_id}")
+            y += line_height
+            hDC.TextOut(x, y, f"Teléfono: {client_phone}")
+            y += line_height
+            hDC.TextOut(x, y, f"Dirección: {direccion_linea1}")
+            y += line_height
+            if direccion_linea2:  # Si hay una segunda línea de dirección, imprimirla
+                hDC.TextOut(x, y, direccion_linea2)
+                y += line_height
+
+            # 🔹 Imprimir "Productos:" y la línea separadora
+            
+            hDC.TextOut(x, y, "-----------------------------------------------------------------------------------------------------------------")  # Imprime la línea separadora
+            y += line_height  # Mueve la posición para empezar a imprimir los productos
+            # Imprimir los productos
+            hDC.TextOut(x, y, "Productos:")  # Imprime el título "Productos:"
+            y += line_height  # Mueve la posición de la siguiente línea hacia abajo
+
+            for item in items:
+                producto_linea = f"{item[0]} x {item[1]} - {item[2]}"
+                hDC.TextOut(x, y, producto_linea)
+                y += line_height
+                current_line += 1
+
+                # Si se alcanza el límite de líneas, crear una nueva página
+                if current_line >= max_lines_per_page:
+                    hDC.EndPage()  # Finalizar la página actual
+                    hDC.StartPage()  # Iniciar una nueva página
+                    y = 2  # Reiniciar la posición Y
+                    current_line = 0  # Reiniciar el contador de líneas
+
+            # Imprimir los totales y el mensaje final
+            totales = f"""
+            -----------------------------------------------------------------------------------------------------
+            Subtotal: {subtotal_formateado}
+            Envío: {delivery_fee_formateado}
+            Total: {total_formateado}
+            Método de Pago: {payment_method}
+            Pago: {pago_formateado}
+            -----------------------------------------------------------------------------------------------------
+            ¡Gracias por tu compra!
+            """
+            for line in totales.split("\n"):
+                hDC.TextOut(x, y, line.strip())
+                y += line_height
+
+            # Finalizar la impresión
+            hDC.EndPage()
+            hDC.EndDoc()
+            hDC.DeleteDC()
+
+            # Cerrar la base de datos y mostrar mensaje de éxito
+            db.close()
+            QMessageBox.information(self, "Éxito", mensaje)
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")
+            print(e)
+
+        self.limpiar_tabla()
+        self.limpiar_campos()
+        self.InputDomicilio.clear()
+        self.limpiar_datos_cliente()
         self.invoice_number = None
-          
+
     def actualizar_factura(self, db, id_factura, payment_method, produc_datos, monto_pago, delivery_fee, usuario_actual_id):
         # Obtener los detalles actuales de la factura
         detalles_actuales = db.query(DetalleFacturas).filter(DetalleFacturas.ID_Factura == id_factura).all()

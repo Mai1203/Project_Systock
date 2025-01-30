@@ -20,11 +20,17 @@ from ..controllers.clientes_crud import *
 from ..ui import Ui_VentasA
 from ..utils.restructura_ticket import generate_ticket
 from ..utils.autocomplementado import configurar_autocompletado
+from PyQt5.QtCore import Qt
+
 
 # Standard library imports
+
 import os
-from PyQt5.QtCore import Qt
 import locale
+import win32print
+import win32ui
+import win32con
+import datetime
 
 class VentasA_View(QWidget, Ui_VentasA):
     cambiar_a_ventanab = pyqtSignal()
@@ -275,42 +281,158 @@ class VentasA_View(QWidget, Ui_VentasA):
                 id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, descuento, self.usuario_actual_id)
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
-            
-            
-            # Datos adicionales
-            Nit = "123.654.000"  # Cambiar por el PAN de tu empresa
-            filename = ""  # El usuario seleccionará el nombre y ruta
+            # Generar el contenido del ticket
+            # Configuración inicial
+            max_lines_per_page = 30  # Límite de líneas por página
+            current_line = 0  # Contador de líneas
+            empresa_nombre = "LadyNailShop"
+            empresa_direccion = "Pasto, Colombia"
+            empresa_telefono = "+57 316-144-44-74"
 
-            # Llamar a la función para generar el ticket
-            bandera = generate_ticket(
-                client_name=client_name,
-                client_id=client_id,
-                client_address=client_address,
-                client_phone=client_phone,
-                items=items,
-                subtotal=subtotal,
-                delivery_fee=delivery_fee,
-                total=total,
-                payment_method=payment_method,
-                invoice_number=self.invoice_number,
-                pan=Nit,
-                pago=pago,
-                filename=filename,
-            )
+            # Obtener la fecha actual
+            fecha_actual = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+            # Formatear valores monetarios
+            subtotal_formateado = f"${subtotal:,.2f}"
+            total_formateado = f"${total:,.2f}"
+            
+            if isinstance(pago, str) and "/" in pago:  # Si el pago es una cadena con "/"
+                pagos = [float(p.replace(".", "").replace(",", ".")) for p in pago.split("/")]
+            else:  # Si el pago es un solo número
+                pagos = [float(pago.replace(".", "").replace(",", "."))]
+            # Formatear según el número de valores
+            if len(pagos) == 1:
+                pago_formateado = f" ${pagos[0]:,.2f}"
+            elif len(pagos) == 2:
+                pago_formateado = f"Efectivo: ${pagos[0]:,.2f}\nTransferencia: ${pagos[1]:,.2f}"
+           
+            descuento_formateado = f"${descuento:,.2f}"
+
+            # Formatear el costo de envío
+            delivery_fee = float(delivery_fee)
+            if delivery_fee.is_integer():
+                delivery_fee_formateado = f"${int(delivery_fee):,.0f}"
+            else:
+                delivery_fee_formateado = f"${delivery_fee:,.2f}"
+
+            # Limitar la dirección del cliente a 25 caracteres por línea
+            direccion = client_address
+            direccion_linea1 = direccion[:25]
+            direccion_linea2 = direccion[25:] if len(direccion) > 25 else ""
+
+            # Obtener la impresora predeterminada
+            impresora = win32print.GetDefaultPrinter()
+            hDC = win32ui.CreateDC()
+            hDC.CreatePrinterDC(impresora)
+
+            # Crear un documento de impresión
+            hDC.StartDoc("Ticket de Venta")
+            hDC.StartPage()
+
+            # Configurar la fuente
+            font_size = 26
+            line_height = font_size + 10
+            font = win32ui.CreateFont({
+                "name": "Helvetica-Bold",
+                "height": font_size,
+                "weight": win32con.FW_BOLD
+            })
+            hDC.SelectObject(font)
+
+            # Obtener el tamaño del papel para centrar el texto
+            printer_width = hDC.GetDeviceCaps(win32con.HORZRES)
+            center_x = printer_width // 2  # Punto central
+
+            # Imprimir los datos de la empresa
+            hDC.TextOut(center_x - (len(empresa_nombre) * 6), 50, empresa_nombre)
+            hDC.TextOut(center_x - (len(empresa_direccion) * 6), 50 + line_height, empresa_direccion)
+            hDC.TextOut(center_x - (len(empresa_telefono) * 6), 50 + 2 * line_height, empresa_telefono)
+
+            # Imprimir la fecha actual
+            hDC.TextOut(center_x - (len(fecha_actual) * 6), 50 + 3 * line_height, fecha_actual)
+
+            # Línea separadora
+            hDC.TextOut(50, 50 + 4 * line_height, "----------------------------------------")
+            
+            # Ajuste de coordenadas iniciales para el contenido del ticket
+            x, y = 2, 2 + 5 * line_height  # Espacio después de la información de la empresa, la línea y la fecha
+            # Imprimir la información del cliente
+            y += line_height
+
+            hDC.TextOut(x, y, "Ticket de venta")  # Imprime el título "Productos:"
+            y += line_height
+            hDC.TextOut(x, y, f"Ticket No. {self.invoice_number}")# Aquí se agrega el número de factura
+            y += line_height
+            hDC.TextOut(x, y, f"Cliente: {client_name}")
+            y += line_height
+            hDC.TextOut(x, y, f"Cédula: {client_id}")
+            y += line_height
+            hDC.TextOut(x, y, f"Teléfono: {client_phone}")
+            y += line_height
+            hDC.TextOut(x, y, f"Dirección: {direccion_linea1}")
+            y += line_height
+            if direccion_linea2:  # Si hay una segunda línea de dirección, imprimirla
+                hDC.TextOut(x, y, direccion_linea2)
+                y += line_height
+
+            # 🔹 Imprimir "Productos:" y la línea separadora
+            
+            hDC.TextOut(x, y, "-----------------------------------------------------------------------------------------------------------------")  # Imprime la línea separadora
+            y += line_height  # Mueve la posición para empezar a imprimir los productos
+            # Imprimir los productos
+            hDC.TextOut(x, y, "Productos:")  # Imprime el título "Productos:"
+            y += line_height  # Mueve la posición de la siguiente línea hacia abajo
+
+            for item in items:
+                producto_linea = f"{item[0]} x {item[1]} - {item[2]}"
+                hDC.TextOut(x, y, producto_linea)
+                y += line_height
+                current_line += 1
+
+                # Si se alcanza el límite de líneas, crear una nueva página
+                if current_line >= max_lines_per_page:
+                    hDC.EndPage()  # Finalizar la página actual
+                    hDC.StartPage()  # Iniciar una nueva página
+                    y = 2  # Reiniciar la posición Y
+                    current_line = 0  # Reiniciar el contador de líneas
+
+            # Imprimir los totales y el mensaje final
+            totales = f"""
+            -----------------------------------------------------------------------------------------------------
+            Subtotal: {subtotal_formateado}
+            Envío: {delivery_fee_formateado}
+            Descuento: {descuento_formateado}
+            Total: {total_formateado}
+            Método de Pago: {payment_method}
+            Pago: {pago_formateado}
+            -----------------------------------------------------------------------------------------------------
+            ¡Gracias por tu compra!
+            -----------------------------------------------------------------------------------------------------
+            """
+            for line in totales.split("\n"):
+                hDC.TextOut(x, y, line.strip())
+                y += line_height
+
+            # Finalizar la impresión
+            hDC.EndPage()
+            hDC.EndDoc()
+            hDC.DeleteDC()
+
+            # Cerrar la base de datos y mostrar mensaje de éxito
             db.close()
-
-            if bandera:
-                QMessageBox.information(self, "Éxito", mensaje)
-
+            QMessageBox.information(self, "Éxito", mensaje)
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Error al generar la factura: {str(e)}")
             print(e)
-            
+
         self.limpiar_tabla()
         self.limpiar_campos()
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
         self.invoice_number = None
+            
+            
+            
           
     def actualizar_factura(self, db, id_factura, payment_method, produc_datos, monto_pago, delivery_fee, usuario_actual_id):
         # Obtener los detalles actuales de la factura
@@ -362,7 +484,6 @@ class VentasA_View(QWidget, Ui_VentasA):
                     Cantidad=nueva_cantidad,
                     Precio_unitario=precio_unitario,
                     Subtotal=subtotal,
-                    Descuento=delivery_fee
                 )
                 db.add(nuevo_detalle)
 

@@ -18,7 +18,7 @@ def redondear_a_cientos(numero):
 
     if numero % 100 == 0:
         return numero  # Ya es múltiplo de 100
-    
+
     return ((numero // 100) + 1) * 100
 
 
@@ -29,11 +29,13 @@ def calcular_ganancia(precio_venta, precio_costo):
 def calcular_precio(precio_costo, porcentaje):
     return redondear_a_cientos(precio_costo + (precio_costo * porcentaje))
 
+
 def cambiar_estado(stock_actual):
     if stock_actual > 0:
         return True
     else:
         return False
+
 
 # Crear un producto
 def crear_producto(
@@ -77,6 +79,7 @@ def crear_producto(
     db.refresh(nuevo_producto)
     return nuevo_producto
 
+
 # Obtener todos los productos
 def obtener_productos(db: Session):
     """
@@ -95,15 +98,15 @@ def obtener_productos(db: Session):
             Productos.Stock_min,
             Productos.Stock_max,
             Productos.Estado,
-            
-            Marcas.Nombre.label('marcas'),
-            Categorias.Nombre.label('categorias')
+            Marcas.Nombre.label("marcas"),
+            Categorias.Nombre.label("categorias"),
         )
         .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
         .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
         .all()
     )
     return productos
+
 
 # Obtener un producto por ID
 def obtener_producto_por_id(db: Session, id_producto: int):
@@ -129,13 +132,14 @@ def obtener_producto_por_id(db: Session, id_producto: int):
     )
     return productos
 
+
 def buscar_productos(db: Session, busqueda: str):
     """
     Busca productos por código, nombre, marca o categoría.
     """
     if not busqueda:
         return None
-    
+
     productos = (
         db.query(
             Productos.ID_Producto,
@@ -149,9 +153,8 @@ def buscar_productos(db: Session, busqueda: str):
             Productos.Stock_min,
             Productos.Stock_max,
             Productos.Estado,
-            
-            Marcas.Nombre.label('marcas'),
-            Categorias.Nombre.label('categorias')
+            Marcas.Nombre.label("marcas"),
+            Categorias.Nombre.label("categorias"),
         )
         .join(Marcas, Productos.ID_Marca == Marcas.ID_Marca)
         .join(Categorias, Productos.ID_Categoria == Categorias.ID_Categoria)
@@ -160,12 +163,13 @@ def buscar_productos(db: Session, busqueda: str):
                 Productos.Nombre.like(f"%{busqueda}%"),
                 Productos.ID_Producto.like(f"%{busqueda}%"),
                 Marcas.Nombre.like(f"%{busqueda}%"),
-                Categorias.Nombre.like(f"%{busqueda}%")
+                Categorias.Nombre.like(f"%{busqueda}%"),
             )
         )
         .all()
     )
     return productos
+
 
 # Actualizar un producto
 def actualizar_producto(
@@ -195,7 +199,7 @@ def actualizar_producto(
         producto_existente.Nombre = nombre
     if precio_costo:
         producto_existente.Precio_costo = precio_costo
-        
+
     if precio_costo and not precio_venta_normal:
         producto_existente.Precio_venta_normal = calcular_precio(precio_costo, 0.5)
     if precio_costo and not precio_venta_mayor:
@@ -205,7 +209,7 @@ def actualizar_producto(
         producto_existente.Precio_venta_mayor = precio_venta_mayor
     if precio_venta_normal:
         producto_existente.Precio_venta_normal = precio_venta_normal
-    
+
     # Recalcular ganancias si precio_costo o precios de venta fueron actualizados
     if precio_costo or precio_venta_normal:
         producto_existente.Ganancia_Producto_normal = calcular_ganancia(
@@ -215,7 +219,7 @@ def actualizar_producto(
         producto_existente.Ganancia_Producto_mayor = calcular_ganancia(
             producto_existente.Precio_venta_mayor, producto_existente.Precio_costo
         )
-    
+
     if stock_actual is not None:
         producto_existente.Stock_actual = stock_actual
         # Actualizar estado según el nuevo stock_actual
@@ -224,7 +228,7 @@ def actualizar_producto(
         producto_existente.Stock_min = stock_min
     if stock_max is not None:
         producto_existente.Stock_max = stock_max
-        
+
     if id_marca:
         producto_existente.ID_Marca = id_marca
     if id_categoria:
@@ -233,6 +237,7 @@ def actualizar_producto(
     db.commit()
     db.refresh(producto_existente)
     return producto_existente
+
 
 # Eliminar un producto
 def eliminar_producto(db: Session, id_producto: int):
@@ -248,6 +253,7 @@ def eliminar_producto(db: Session, id_producto: int):
     db.delete(producto_existente)
     db.commit()
     return True
+
 
 # Verificar el stock de un producto
 def verificar_stock(db: Session, id_producto: int):

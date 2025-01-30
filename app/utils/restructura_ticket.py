@@ -7,7 +7,8 @@ import locale
 from tkinter import filedialog
 
 # Configurar la localización
-locale.setlocale(locale.LC_ALL, 'es_CO.UTF-8')  # Ajustar la localización a Colombia
+locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")  # Ajustar la localización a Colombia
+
 
 def generate_ticket(
     client_name,
@@ -26,7 +27,7 @@ def generate_ticket(
 ):
     # Configuración inicial y ventana de diálogo para guardar archivo
     try:
-        
+
         current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         default_filename = f"{client_name.replace(' ', '')}{current_datetime}.pdf"
         filename = filedialog.asksaveasfilename(
@@ -46,7 +47,9 @@ def generate_ticket(
         line_height = 20
         header_height = 10
         footer_height = 80
-        max_lines = len(items) + 10  # Añadir algunas líneas de margen para asegurar que el contenido no se corte
+        max_lines = (
+            len(items) + 10
+        )  # Añadir algunas líneas de margen para asegurar que el contenido no se corte
 
         # Cálculo dinámico de la altura de la página en base al número de productos
         content_height = header_height + footer_height + (line_height * max_lines)
@@ -66,9 +69,17 @@ def generate_ticket(
         pdf.setFont("Helvetica-Bold", 22)
         pdf.drawCentredString(pdf_width / 2, pdf_height - 30, "Lady NailShop")
         pdf.drawCentredString(pdf_width / 2, pdf_height - 60, "Pasto, Colombia")
-        pdf.drawCentredString(pdf_width / 2, pdf_height - 90, "Teléfono: +57 316 144 4474")
-        pdf.drawCentredString(pdf_width / 2, pdf_height - 120, f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        pdf.line(20, pdf_height - 130, pdf_width - 20, pdf_height - 130)  # Línea divisoria
+        pdf.drawCentredString(
+            pdf_width / 2, pdf_height - 90, "Teléfono: +57 316 144 4474"
+        )
+        pdf.drawCentredString(
+            pdf_width / 2,
+            pdf_height - 120,
+            f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        )
+        pdf.line(
+            20, pdf_height - 130, pdf_width - 20, pdf_height - 130
+        )  # Línea divisoria
 
         # Información de la factura
         y = pdf_height - 150
@@ -78,13 +89,13 @@ def generate_ticket(
         pdf.setFont("Helvetica-Bold", font_size)
         pdf.drawString(20, y, f"Número de Factura: {invoice_number}")
         y -= line_height
-        #pdf.drawString(20, y, f"Nit: {pan}")
-        #y -= line_height
+        # pdf.drawString(20, y, f"Nit: {pan}")
+        # y -= line_height
         pdf.drawString(20, y, f"Cliente: {client_name}")
         y -= line_height
         pdf.drawString(20, y, f"Cédula: {client_id}")
         y -= line_height
-        for line in wrapped_address.split('\n'):
+        for line in wrapped_address.split("\n"):
             pdf.drawString(20, y, f"Dirección: {line}")
             y -= line_height
         pdf.drawString(20, y, f"Teléfono: {client_phone}")
@@ -104,14 +115,18 @@ def generate_ticket(
         # Imprimir los productos
         for quantity, description, value in items:
             pdf.drawString(20, y, str(quantity))
-            pdf.drawString(90, y, description[:15])  # Limitar descripción a 15 caracteres
+            pdf.drawString(
+                90, y, description[:15]
+            )  # Limitar descripción a 15 caracteres
             pdf.drawString(240, y, f"${value:.2f}")
             y -= line_height
 
             # Verificar si se necesita nueva página
             if y < 100:  # Si la página está a punto de llenarse
                 pdf.showPage()  # Añadir una nueva página
-                pdf.setFont("Helvetica-Bold", 16)  # Establecer fuente en negrita y tamaño 16
+                pdf.setFont(
+                    "Helvetica-Bold", 16
+                )  # Establecer fuente en negrita y tamaño 16
                 # Continuar con los productos en la nueva página
                 y = pdf_height - 50  # Reiniciar la posición Y en la nueva página
                 # Solo mostrar lo que falta (sin repetir encabezado)
@@ -120,11 +135,15 @@ def generate_ticket(
         sub = locale.currency(subtotal, grouping=True)
         descu = locale.currency(delivery_fee, grouping=True)
         totalpagar = locale.currency(total, grouping=True)
-        
-        if payment_method == "Efectivo" or payment_method == "Transferencia" or payment_method == "Credito":
+
+        if (
+            payment_method == "Efectivo"
+            or payment_method == "Transferencia"
+            or payment_method == "Credito"
+        ):
             pago = locale.currency(float(pago), grouping=True)
         else:
-            total = pago.split("/") 
+            total = pago.split("/")
             efectivo = float(total[0])
             tranferencia = float(total[1])
             efectivo = locale.currency(efectivo, grouping=True)
@@ -142,7 +161,11 @@ def generate_ticket(
         pdf.drawString(140, y, "Total:")
         pdf.drawString(220, y, f"{totalpagar}")
         y -= line_height
-        if payment_method == "Efectivo" or payment_method == "Transferencia" or payment_method == "Credito":
+        if (
+            payment_method == "Efectivo"
+            or payment_method == "Transferencia"
+            or payment_method == "Credito"
+        ):
             pdf.drawString(140, y, "Pago:")
             pdf.drawString(220, y, pago)
         else:
@@ -152,7 +175,6 @@ def generate_ticket(
             pdf.drawString(140, y, "Transfer:")
             pdf.drawString(220, y, f"{tranferencia}")
             y -= line_height
-            
 
         # Forma de pago
         y -= line_height * 2
@@ -169,7 +191,8 @@ def generate_ticket(
 
         # Guardar el PDF
         pdf.save()
-    
+
+        return True
+
     except Exception as e:
         print(f"Error al generar el ticket: {e}")
-        

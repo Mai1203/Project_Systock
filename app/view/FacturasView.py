@@ -13,15 +13,17 @@ from ..utils.restructura_ticket import generate_ticket
 
 
 class Facturas_View(QWidget, Ui_Facturas):
-    enviar_facturas_A = pyqtSignal(dict) 
+    enviar_facturas_A = pyqtSignal(dict)
     enviar_facturas_B = pyqtSignal(dict)
     enviar_facturas_Credito = pyqtSignal(dict)
-    
+
     def __init__(self, parent=None):
         super(Facturas_View, self).__init__(parent)
         self.setupUi(self)
 
-        self.InputBuscador.setPlaceholderText("Buscar por ID, Cliente, Fecha, Metodo de pago o Tipo deFactura")
+        self.InputBuscador.setPlaceholderText(
+            "Buscar por ID, Cliente, Fecha, Metodo de pago o Tipo deFactura"
+        )
         self.InputBuscador.textChanged.connect(self.buscar_facturas)
 
         self.TablaFacturas.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -136,7 +138,6 @@ class Facturas_View(QWidget, Ui_Facturas):
             try:
                 self.db = SessionLocal()
 
-
                 for id_factura in ids:
                     eliminar_factura(self.db, id_factura)
 
@@ -195,7 +196,7 @@ class Facturas_View(QWidget, Ui_Facturas):
 
         # Calcular subtotal y descuento
         subtotal = sum(detalle["Subtotal"] for detalle in detalles)
-        delivery_fee = sum(detalle["Descuento"] for detalle in detalles)
+        delivery_fee = factura["Descuento"]
 
         # Extraer información necesaria para el ticket
         client_name = f"{cliente['Nombre']} {cliente['Apellido']}"
@@ -205,12 +206,18 @@ class Facturas_View(QWidget, Ui_Facturas):
         items = [
             {
                 "quantity": detalle["Cantidad"],
-                "name": detalle.get("Producto", "Producto sin nombre"),  # Asegúrate de incluir el nombre del producto en la consulta
-                "unit_price": float(detalle["Precio_Unitario"]) if isinstance(detalle["Precio_Unitario"], (int, float)) else 0.0,
+                "name": detalle.get(
+                    "Producto", "Producto sin nombre"
+                ),  # Asegúrate de incluir el nombre del producto en la consulta
+                "unit_price": (
+                    float(detalle["Precio_Unitario"])
+                    if isinstance(detalle["Precio_Unitario"], (int, float))
+                    else 0.0
+                ),
             }
             for detalle in detalles
         ]
-        
+
         items2 = []
         for item in items:
             quantity = item["quantity"]
@@ -220,22 +227,21 @@ class Facturas_View(QWidget, Ui_Facturas):
             items2.append((quantity, description, value))
 
         # Calcular el total
-        total = subtotal + delivery_fee
+        total = subtotal - delivery_fee
 
         # Extraer información adicional de la factura
         payment_method = factura["MetodoPago"]
         invoice_number = factura["ID_Factura"]
-        
+
         if payment_method == "Efectivo":
             pago = f"{factura["Monto_efectivo"]}"
         elif payment_method == "Transferencia":
             pago = f"{factura["Monto_TRANSACCION"]}"
         else:
-            pago = f"{factura['Monto_efectivo']}/{factura['Monto_TRANSACCION']}" 
-            
+            pago = f"{factura['Monto_efectivo']}/{factura['Monto_TRANSACCION']}"
+
         pan = "123456789"  # Número fijo de ejemplo, cámbialo si es necesario
 
-       
         bandera = generate_ticket(
             client_name=client_name,
             client_id=client_id,
@@ -243,15 +249,15 @@ class Facturas_View(QWidget, Ui_Facturas):
             client_phone=client_phone,
             items=items2,
             subtotal=subtotal,
-            delivery_fee=delivery_fee,                
+            delivery_fee=delivery_fee,
             total=total,
             payment_method=payment_method,
             invoice_number=invoice_number,
             pan=pan,
-            pago=pago,                
+            pago=pago,
             filename=None,  # Puedes cambiar esto según tu necesidad
         )
-        
+
         if bandera:
             QMessageBox.warning(self, "Ticket", f"Factura generada exitosamente.")
 
@@ -269,22 +275,28 @@ class Facturas_View(QWidget, Ui_Facturas):
 
         try:
             db = SessionLocal()
-            
+
             for id_factura in ids:
                 factura = obtener_factura_por_id(db=db, id_factura=id_factura)
                 if factura.Estado == True:
-                    QMessageBox.warning(self, "Factura", f"La factura {id_factura} ya está pagada.")
+                    QMessageBox.warning(
+                        self, "Factura", f"La factura {id_factura} ya está pagada."
+                    )
                 else:
                     actualizar_factura(db=db, id_factura=id_factura, estado=True)
             db.commit()
-            enviar_notificacion("Éxito", "Factura(s) marcada(s) como pagada(s) correctamente.")
+            enviar_notificacion(
+                "Éxito", "Factura(s) marcada(s) como pagada(s) correctamente."
+            )
             self.limpiar_tabla_facturas()
             self.mostrar_facturas()
         except Exception as e:
-            enviar_notificacion("Error", f"Error al marcar factura(s) como pagada(s): {e}")
+            enviar_notificacion(
+                "Error", f"Error al marcar factura(s) como pagada(s): {e}"
+            )
         finally:
             db.close()
-    
+
     def editar_factura(self):
         """Abrir ventana de ventas con los datos de la factura seleccionada."""
         try:
@@ -298,20 +310,21 @@ class Facturas_View(QWidget, Ui_Facturas):
 
             # Llamar a la función para obtener todos los datos de la factura
             factura_completa = obtener_factura_completa(self.db, ids[0])
-        
+
             if not factura_completa:
-                QMessageBox.showerror("Error", f"No se encontró la factura con ID {ids[0]}.")
+                QMessageBox.showerror(
+                    "Error", f"No se encontró la factura con ID {ids[0]}."
+                )
                 return
 
             if factura_completa["Factura"]["TipoFactura"] == "Factura A":
                 self.enviar_facturas_A.emit(factura_completa)
-                
+
             elif factura_completa["Factura"]["TipoFactura"] == "Factura B":
                 self.enviar_facturas_B.emit(factura_completa)
-                
+
             elif factura_completa["Factura"]["TipoFactura"] == "Credito":
                 self.enviar_facturas_Credito.emit(factura_completa)
 
         except Exception as e:
             print(f"Error al abrir ventana de ventas: {e}")
-    

@@ -5,11 +5,13 @@ from app.database.database import Base
 from datetime import datetime
 from pytz import timezone
 
+
 def get_local_time():
     # Cambia 'America/Bogota' por tu zona horaria local
-    local_tz = timezone('America/Bogota')
-    now =datetime.now(local_tz)
+    local_tz = timezone("America/Bogota")
+    now = datetime.now(local_tz)
     return now.replace(microsecond=0)
+
 
 class VentaCredito(Base):
     __tablename__ = "VENTA_CREDITO"

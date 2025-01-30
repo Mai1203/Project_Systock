@@ -11,14 +11,17 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         super(Respaldo_View, self).__init__(parent)
         self.setupUi(self)
         # Configuración inicial
-        self.ruta_base_de_datos = "./systock.db"  # Definido correctamente como un atributo de instancia
-        self.ruta_carpeta_respaldos = os.path.join(os.path.expanduser("~"), "Desktop", "Respaldos")
+        self.ruta_base_de_datos = (
+            "./systock.db"  # Definido correctamente como un atributo de instancia
+        )
+        self.ruta_carpeta_respaldos = os.path.join(
+            os.path.expanduser("~"), "Desktop", "Respaldos"
+        )
         self.intentos_respaldo = 0  # Contador de intentos de respaldo en el día
         self.ultima_fecha_respaldo = None  # Última fecha de respaldo registrado
 
         self.BtnRespaldoExportar.clicked.connect(self.exportar_base_datos)
         self.BtnRespaldoImportar.clicked.connect(self.importar_base_datos)
-
 
         # Configuración del temporizador (verifica cada hora)
         self.timer = QTimer(self)
@@ -33,13 +36,17 @@ class Respaldo_View(QWidget, Ui_Respaldo):
             return
 
         opciones = ["Exportar tabla específica", "Exportar toda la base de datos"]
-        opcion, ok = QInputDialog.getItem(self, "Seleccionar tipo de exportación", "Opciones:", opciones, 0, False)
+        opcion, ok = QInputDialog.getItem(
+            self, "Seleccionar tipo de exportación", "Opciones:", opciones, 0, False
+        )
 
         if not ok:
             return
 
         if opcion == "Exportar tabla específica":
-            tabla, ok_tabla = QInputDialog.getText(self, "Exportar tabla", "Ingrese el nombre de la tabla a exportar:")
+            tabla, ok_tabla = QInputDialog.getText(
+                self, "Exportar tabla", "Ingrese el nombre de la tabla a exportar:"
+            )
             if not ok_tabla or not tabla:
                 return
 
@@ -49,7 +56,7 @@ class Respaldo_View(QWidget, Ui_Respaldo):
                 self,
                 "Exportar Tabla",
                 nombre_archivo,
-                "Archivos de Base de Datos (*.db)"
+                "Archivos de Base de Datos (*.db)",
             )
 
             if ruta_exportar:
@@ -57,9 +64,13 @@ class Respaldo_View(QWidget, Ui_Respaldo):
                     # Aquí se incluiría la lógica para exportar una tabla específica
                     # Por simplicidad, copiaremos toda la base de datos como ejemplo
                     shutil.copy(ruta_base_de_datos, ruta_exportar)
-                    QMessageBox.information(self, "Éxito", f"Tabla '{tabla}' exportada correctamente.")
+                    QMessageBox.information(
+                        self, "Éxito", f"Tabla '{tabla}' exportada correctamente."
+                    )
                 except Exception as e:
-                    QMessageBox.critical(self, "Error", f"Error al exportar la tabla:{str(e)}")
+                    QMessageBox.critical(
+                        self, "Error", f"Error al exportar la tabla:{str(e)}"
+                    )
 
         elif opcion == "Exportar toda la base de datos":
             fecha_actual = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -68,22 +79,23 @@ class Respaldo_View(QWidget, Ui_Respaldo):
                 self,
                 "Exportar Base de Datos",
                 nombre_archivo,
-                "Archivos de Base de Datos (*.db)"
+                "Archivos de Base de Datos (*.db)",
             )
 
             if ruta_exportar:
                 try:
                     shutil.copy(ruta_base_de_datos, ruta_exportar)
-                    QMessageBox.information(self, "Éxito", "Base de datos exportada correctamente.")
+                    QMessageBox.information(
+                        self, "Éxito", "Base de datos exportada correctamente."
+                    )
                 except Exception as e:
-                    QMessageBox.critical(self, "Error", f"Error al exportar la base de datos:{str(e)}")
+                    QMessageBox.critical(
+                        self, "Error", f"Error al exportar la base de datos:{str(e)}"
+                    )
 
     def importar_base_datos(self):
         ruta_importar, _ = QFileDialog.getOpenFileName(
-            self,
-            "Importar Base de Datos",
-            "",
-            "Archivos de Base de Datos (*.db)"
+            self, "Importar Base de Datos", "", "Archivos de Base de Datos (*.db)"
         )
         if not ruta_importar:
             return
@@ -93,9 +105,13 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         ruta_base_de_datos = os.path.abspath(os.path.join(".", "systock.db"))
         try:
             shutil.copy(ruta_importar, ruta_base_de_datos)
-            QMessageBox.information(self, "Éxito", "Base de datos importada correctamente.")
+            QMessageBox.information(
+                self, "Éxito", "Base de datos importada correctamente."
+            )
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Error al importar la base de datos:\n{str(e)}")
+            QMessageBox.critical(
+                self, "Error", f"Error al importar la base de datos:\n{str(e)}"
+            )
 
     def respaldo_automatico(self):
         """Verifica si ya se realizó un respaldo hoy y lo realiza si no existe. Máximo 2 intentos por día."""
@@ -109,8 +125,8 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         # Verificar si ya se hizo el respaldo para hoy
         if self.ultima_fecha_respaldo == fecha_actual:
             print("Ya existe un respaldo para hoy. No se hará otro respaldo.")
-            self.timer.stop() 
-            
+            self.timer.stop()
+
             return
 
         # Límite de intentos de respaldo
@@ -122,10 +138,14 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         for _ in range(2):  # Solo permite ejecutar una iteración
             # Verificar si ya hay un archivo de respaldo con la fecha actual
             nombre_respaldo_hoy = f"Backup_{fecha_actual}.db"
-            ruta_respaldo_hoy = os.path.join(self.ruta_carpeta_respaldos, nombre_respaldo_hoy)
+            ruta_respaldo_hoy = os.path.join(
+                self.ruta_carpeta_respaldos, nombre_respaldo_hoy
+            )
             if os.path.exists(ruta_respaldo_hoy):
                 print(f"Ya existe un respaldo para hoy en: {ruta_respaldo_hoy}")
-                self.ultima_fecha_respaldo = fecha_actual  # Actualizar para evitar bucles
+                self.ultima_fecha_respaldo = (
+                    fecha_actual  # Actualizar para evitar bucles
+                )
                 return
 
             # Crear carpeta de respaldos si no existe

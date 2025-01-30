@@ -7,7 +7,6 @@ from app.models.productos import Productos, Marcas, Categorias
 from app.models.usuarios import Usuarios
 
 
-
 # Crear una factura
 def crear_factura(
     db: Session,
@@ -46,8 +45,9 @@ def crear_factura(
     db.add(nueva_factura)
     db.commit()
     db.refresh(nueva_factura)
-    return nueva_factura  
-    
+    return nueva_factura
+
+
 def obtener_factura_completa(db: Session, id_factura: int):
     """
     Obtiene todos los datos de una factura, sus detalles y el cliente asociado.
@@ -137,6 +137,7 @@ def obtener_factura_completa(db: Session, id_factura: int):
 
     return resultado
 
+
 # Obtener todas las facturas
 def obtener_facturas(db: Session):
     """
@@ -151,7 +152,6 @@ def obtener_facturas(db: Session):
             Facturas.Monto_efectivo,
             Facturas.Monto_TRANSACCION,
             Facturas.Estado,
-            
             Clientes.Nombre.label("cliente"),
             Usuarios.Usuario.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
@@ -163,8 +163,9 @@ def obtener_facturas(db: Session):
         .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
         .all()
     )
-    
+
     return facturas
+
 
 def buscar_facturas(db: Session, busqueda: str):
     """
@@ -175,7 +176,7 @@ def buscar_facturas(db: Session, busqueda: str):
     """
     if not busqueda:
         return None
-    
+
     facturas = (
         db.query(
             Facturas.ID_Factura,
@@ -183,7 +184,6 @@ def buscar_facturas(db: Session, busqueda: str):
             Facturas.Monto_efectivo,
             Facturas.Monto_TRANSACCION,
             Facturas.Estado,
-            
             Clientes.Nombre.label("cliente"),
             Usuarios.Nombre.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
@@ -206,6 +206,7 @@ def buscar_facturas(db: Session, busqueda: str):
         .all()
     )
     return facturas
+
 
 # Obtener una factura por ID
 def obtener_factura_por_id(db: Session, id_factura: int):

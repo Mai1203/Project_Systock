@@ -37,6 +37,7 @@ def crear_venta_credito(
     db.refresh(nueva_venta)
     return nueva_venta
 
+
 # Obtener todas las ventas a crédito
 def obtener_ventas_credito(db: Session):
     """
@@ -52,7 +53,6 @@ def obtener_ventas_credito(db: Session):
             VentaCredito.Fecha_Registro,
             VentaCredito.Fecha_Limite,
             Facturas.ID_Factura,
-            
             Usuarios.Nombre.label("usuario"),
             Clientes.Nombre.label("cliente"),
             Facturas.Estado.label("estado"),
@@ -62,23 +62,55 @@ def obtener_ventas_credito(db: Session):
         .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
         .all()
     )
-    
+
     return ventas_credito
 
 
 # Obtener una venta a crédito por ID
-def obtener_venta_credito_por_id(db: Session, id_venta_credito: int):
+def obtener_ventaCredito_id(db: Session, id_venta_credito: int):
     """
     Obtiene una venta a crédito por su ID.
     :param db: Sesión de base de datos.
     :param id_venta_credito: ID de la venta a crédito.
     :return: Objeto de venta a crédito o None si no existe.
     """
-    return (
-        db.query(VentaCredito)
+    ventas_credito = (
+        db.query(
+            VentaCredito.ID_Venta_Credito,
+            VentaCredito.Total_Deuda,
+            VentaCredito.Saldo_Pendiente,
+            VentaCredito.Fecha_Registro,
+            VentaCredito.Fecha_Limite,
+            VentaCredito.ID_Factura,
+            Usuarios.Nombre.label("usuario"),
+            Clientes.Nombre.label("cliente"),
+            Facturas.Estado.label("estado"),
+        )
+        .join(Facturas, VentaCredito.ID_Factura == Facturas.ID_Factura)
+        .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
+        .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
         .filter(VentaCredito.ID_Venta_Credito == id_venta_credito)
         .first()
     )
+
+    if ventas_credito:
+        return dict(
+            zip(
+                [
+                    "ID_Venta_Credito",
+                    "Total_Deuda",
+                    "Saldo_Pendiente",
+                    "Fecha_Registro",
+                    "Fecha_Limite",
+                    "ID_Factura",
+                    "usuario",
+                    "cliente",
+                    "estado",
+                ],
+                ventas_credito,
+            )
+        )
+    return None  # Si no hay datos, retornar None
 
 
 # Actualizar una venta a crédito
@@ -117,6 +149,7 @@ def actualizar_venta_credito(
     db.refresh(venta_existente)
     return venta_existente
 
+
 def buscar_ventas_credito(db: Session, busqueda: str):
     """
     Busca facturas en la base de datos.
@@ -135,7 +168,6 @@ def buscar_ventas_credito(db: Session, busqueda: str):
             VentaCredito.Fecha_Registro,
             VentaCredito.Fecha_Limite,
             Facturas.ID_Factura,
-            
             Usuarios.Nombre.label("usuario"),
             Clientes.Nombre.label("cliente"),
             Facturas.Estado.label("estado"),
@@ -152,9 +184,9 @@ def buscar_ventas_credito(db: Session, busqueda: str):
         )
         .all()
     )
-    
+
     return ventas_credito
-   
+
 
 # Eliminar una venta a crédito
 def eliminar_venta_credito(db: Session, id_venta_credito: int):

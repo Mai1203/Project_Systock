@@ -20,6 +20,7 @@ from app.view import (
     PagoCredito_View,
 )
 
+
 class MainApp(QWidget):
     def __init__(self, parent=None):
         super(MainApp, self).__init__(parent)
@@ -28,9 +29,9 @@ class MainApp(QWidget):
         self.setWindowTitle("Systock")
         self.setWindowIcon(QIcon("assets/logo.ico"))
         self.resize(800, 600)
-        
+
         self.setStyleSheet("background-color: white;")
-        
+
         # Widget central que contiene el diseño principal
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)  # Sin márgenes
@@ -42,7 +43,9 @@ class MainApp(QWidget):
 
         # Crear el QStackedWidget para el contenido
         self.stacked_widget = QStackedWidget()
-        layout.addWidget(self.stacked_widget)  # Agregar el QStackedWidget al lado derecho
+        layout.addWidget(
+            self.stacked_widget
+        )  # Agregar el QStackedWidget al lado derecho
 
         # Crear y agregar vistas al QStackedWidget
         self.ventasA = VentasA_View()
@@ -58,18 +61,18 @@ class MainApp(QWidget):
         self.crediFactura = CrediFactura_View()
         self.pagoCredito = PagoCredito_View()
 
-        self.stacked_widget.addWidget(self.ventasA)       # Índice 0
-        self.stacked_widget.addWidget(self.ventasB)       # Índice 1
-        self.stacked_widget.addWidget(self.ventasCredito) # Índice 1
-        self.stacked_widget.addWidget(self.facturas)      # Índice 2
-        self.stacked_widget.addWidget(self.crediFactura)   # Índice 3
-        self.stacked_widget.addWidget(self.caja)          # Índice 4
-        self.stacked_widget.addWidget(self.egreso)        # Índice 5
-        self.stacked_widget.addWidget(self.productos)     # Índice 6
-        self.stacked_widget.addWidget(self.respaldo_view)       # Índice 7
-        self.stacked_widget.addWidget(self.control_usuario_view) # Índice 8
-        self.stacked_widget.addWidget(self.reportes)       # Índice 9
-        self.stacked_widget.addWidget(self.pagoCredito)       # Índice 9
+        self.stacked_widget.addWidget(self.ventasA)  # Índice 0
+        self.stacked_widget.addWidget(self.ventasB)  # Índice 1
+        self.stacked_widget.addWidget(self.ventasCredito)  # Índice 1
+        self.stacked_widget.addWidget(self.facturas)  # Índice 2
+        self.stacked_widget.addWidget(self.crediFactura)  # Índice 3
+        self.stacked_widget.addWidget(self.caja)  # Índice 4
+        self.stacked_widget.addWidget(self.egreso)  # Índice 5
+        self.stacked_widget.addWidget(self.productos)  # Índice 6
+        self.stacked_widget.addWidget(self.respaldo_view)  # Índice 7
+        self.stacked_widget.addWidget(self.control_usuario_view)  # Índice 8
+        self.stacked_widget.addWidget(self.reportes)  # Índice 9
+        self.stacked_widget.addWidget(self.pagoCredito)  # Índice 9
 
         # Conectar los botones del Navbar para cambiar las vistas del contenido
         self.navbar.BtnVentas.clicked.connect(
@@ -102,8 +105,7 @@ class MainApp(QWidget):
         self.navbar.BtnControlUsuario.clicked.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.control_usuario_view)
         )
-        
-        
+
         self.ventasA.cambiar_a_ventanab.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.ventasB)
         )
@@ -115,34 +117,35 @@ class MainApp(QWidget):
         self.facturas.enviar_facturas_Credito.connect(self.cambiar_a_ventasCredito)
         self.crediFactura.enviar_facturas_Credito.connect(self.cambiar_a_ventasCredito)
         self.crediFactura.enviar_ventaCredito.connect(self.cambiar_a_pagoCredito)
-        
+
     def cambiar_a_ventasA(self, factura_completa):
         try:
             self.stacked_widget.setCurrentWidget(self.ventasA)
             self.ventasA.cargar_información(factura_completa)
-            
+
         except Exception as e:
             print(f"Error al cargar datos VentasA: {e}")
-            
+
     def cambiar_a_ventasB(self, factura_completa):
         try:
             self.stacked_widget.setCurrentWidget(self.ventasB)
             self.ventasB.cargar_información(factura_completa)
-            
+
         except Exception as e:
             print(f"Error al cargar datos VentasB: {e}")
-            
+
     def cambiar_a_ventasCredito(self, factura_completa, id_venta_credito=None):
         try:
             self.stacked_widget.setCurrentWidget(self.ventasCredito)
             self.ventasCredito.cargar_información(factura_completa, id_venta_credito)
-            
+
         except Exception as e:
             print(f"Error al cargar datos VentasCredito: {e}")
-    
-    def cambiar_a_pagoCredito(self):
+
+    def cambiar_a_pagoCredito(self, id_ventaCredito):
         try:
             self.stacked_widget.setCurrentWidget(self.pagoCredito)
-            
+            self.pagoCredito.cargar_información(id_ventaCredito)
+
         except Exception as e:
             print(f"Error al cargar datos PagoCredito: {e}")

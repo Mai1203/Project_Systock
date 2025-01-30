@@ -9,7 +9,7 @@ def crear_detalle_factura(
     precio_unitario: float,
     subtotal: float,
     id_producto: int,
-    id_factura: int
+    id_factura: int,
 ):
     """
     Crea un nuevo registro de detalle de factura.
@@ -26,7 +26,7 @@ def crear_detalle_factura(
         Precio_unitario=precio_unitario,
         Subtotal=subtotal,
         ID_Producto=id_producto,
-        ID_Factura=id_factura
+        ID_Factura=id_factura,
     )
     db.add(nuevo_detalle)
     db.commit()
@@ -67,7 +67,7 @@ def actualizar_detalle_factura(
     precio_unitario: float = None,
     subtotal: float = None,
     id_producto: int = None,
-    id_factura: int = None
+    id_factura: int = None,
 ):
     """
     Actualiza un registro de detalle de factura existente.
@@ -115,8 +115,9 @@ def eliminar_detalle_factura(db: Session, id_producto: int, id_factura: int):
     detalle_existente = (
         db.query(DetalleFacturas)
         .filter(
-                DetalleFacturas.ID_Factura == id_factura,
-                DetalleFacturas.ID_Producto == id_producto)
+            DetalleFacturas.ID_Factura == id_factura,
+            DetalleFacturas.ID_Producto == id_producto,
+        )
         .first()
     )
     if not detalle_existente:

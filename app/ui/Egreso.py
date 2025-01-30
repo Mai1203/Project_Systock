@@ -13,183 +13,186 @@ class Ui_Egreso(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1127, 982)
-        Form.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"")
+        Form.setStyleSheet("background-color: rgb(255, 255, 255);\n" "")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.Contenedor = QtWidgets.QWidget(parent=Form)
-        self.Contenedor.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}\n"
-"\n"
-"QToolButton {\n"
-"    background-color: white; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  rgb(50, 50, 50); /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    cursor: pointer;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer;\n"
-"}\n"
-"QLineEdit {\n"
-"    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
-"    border: none; /* Sin bordes visibles */\n"
-"    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
-"    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
-"    border-radius: 10px; /* Bordes redondeados */\n"
-"    color: black; /* Texto negro */\n"
-"    text-align: left; /* Texto alineado a la izquierda */\n"
-"    font-size: 18px; /* Tamaño del texto */\n"
-"}\n"
-"\n"
-"/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
-"QLineEdit:focus {\n"
-"    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
-"    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
-"}\n"
-"\n"
-"QLabel {\n"
-"    font-size: 20px; /* Tamaño de fuente */\n"
-"    color:  black; /* Color del texto */\n"
-"    margin-right: 10px; /* Espaciado a la derecha */\n"
-"    padding: 5px; /* Espaciado interno */\n"
-"    text-align: left; /* Alineación del texto a la izquierda */\n"
-"}\n"
-"QTableWidget {\n"
-"    border: none;\n"
-"    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
-"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-"    color: black; /* Texto negro para celdas seleccionadas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    border: none; \n"
-"    background-color: #f2f2f2; \n"
-"    font-weight: normal; /* No negritas */\n"
-"    text-align: center; /* Centrado del texto en los encabezados */\n"
-"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-"}\n"
-"\n"
-"QHeaderView::section:focus {\n"
-"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-"    border: none; /* Sin borde cuando está en foco */\n"
-"}\n"
-"\n"
-"QTableWidget::item:focus {\n"
-"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-"}\n"
-"\n"
-"QTableCornerButton::section {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"}\n"
-"\n"
-"QTableWidget::verticalHeader {\n"
-"    background-color: #f2f2f2;\n"
-"    border: none;\n"
-"    font-weight: normal; /* No negritas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"/* Personalización de la barra de desplazamiento */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    width: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-height: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    height: 0px; /* Sin altura para los botones */\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    height: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-width: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    width: 0px; /* Sin ancho para los botones */\n"
-"}\n"
-"\n"
-"\n"
-"")
+        self.Contenedor.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: black; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}\n"
+            "\n"
+            "QToolButton {\n"
+            "    background-color: white; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  rgb(50, 50, 50); /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    cursor: pointer;\n"
+            "}\n"
+            "\n"
+            "QToolButton:hover {\n"
+            "    background-color: #f2f2f2; /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer;\n"
+            "}\n"
+            "QLineEdit {\n"
+            "    background-color: rgb(255, 255, 255); /* Fondo blanco */\n"
+            "    border: none; /* Sin bordes visibles */\n"
+            "    padding: 4px; /* Espaciado interno entre el texto y los bordes */\n"
+            "    margin-right: 5px; /* Espaciado externo solo a la derecha */\n"
+            "    border-radius: 10px; /* Bordes redondeados */\n"
+            "    color: black; /* Texto negro */\n"
+            "    text-align: left; /* Texto alineado a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño del texto */\n"
+            "}\n"
+            "\n"
+            "/* Cuando el QLineEdit está enfocado (se está escribiendo) */\n"
+            "QLineEdit:focus {\n"
+            "    background-color: rgb(230, 230, 250); /* Color de fondo cuando el campo está activo */\n"
+            "    border: 1px solid rgb(0, 0, 0); /* Borde negro al estar activo */\n"
+            "}\n"
+            "\n"
+            "QLabel {\n"
+            "    font-size: 20px; /* Tamaño de fuente */\n"
+            "    color:  black; /* Color del texto */\n"
+            "    margin-right: 10px; /* Espaciado a la derecha */\n"
+            "    padding: 5px; /* Espaciado interno */\n"
+            "    text-align: left; /* Alineación del texto a la izquierda */\n"
+            "}\n"
+            "QTableWidget {\n"
+            "    border: none;\n"
+            "    background-color: #ffffff; /* Fondo blanco para la tabla */\n"
+            "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
+            "    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:selected {\n"
+            "    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
+            "    color: black; /* Texto negro para celdas seleccionadas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section {\n"
+            "    border: none; \n"
+            "    background-color: #f2f2f2; \n"
+            "    font-weight: normal; /* No negritas */\n"
+            "    text-align: center; /* Centrado del texto en los encabezados */\n"
+            "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section:focus {\n"
+            "    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
+            "    border: none; /* Sin borde cuando está en foco */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:focus {\n"
+            "    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
+            "    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
+            "}\n"
+            "\n"
+            "QTableCornerButton::section {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "}\n"
+            "\n"
+            "QTableWidget::verticalHeader {\n"
+            "    background-color: #f2f2f2;\n"
+            "    border: none;\n"
+            "    font-weight: normal; /* No negritas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "/* Personalización de la barra de desplazamiento */\n"
+            "QScrollBar:vertical {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    width: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-height: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    height: 0px; /* Sin altura para los botones */\n"
+            "}\n"
+            "\n"
+            "QScrollBar:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    height: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-width: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    width: 0px; /* Sin ancho para los botones */\n"
+            "}\n"
+            "\n"
+            "\n"
+            ""
+        )
         self.Contenedor.setObjectName("Contenedor")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.Contenedor)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.Contenido = QtWidgets.QStackedWidget(parent=self.Contenedor)
-        self.Contenido.setStyleSheet("margin-left:10px;\n"
-"border-radius:15px;\n"
-"background-color: #f2f2f2; \n"
-"")
+        self.Contenido.setStyleSheet(
+            "margin-left:10px;\n"
+            "border-radius:15px;\n"
+            "background-color: #f2f2f2; \n"
+            ""
+        )
         self.Contenido.setObjectName("Contenido")
         self.ContenidoPage1 = QtWidgets.QWidget()
         self.ContenidoPage1.setObjectName("ContenidoPage1")
@@ -203,22 +206,30 @@ class Ui_Egreso(object):
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.InputDescripcionEgreso = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputDescripcionEgreso.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputDescripcionEgreso.sizePolicy().hasHeightForWidth()
+        )
         self.InputDescripcionEgreso.setSizePolicy(sizePolicy)
         self.InputDescripcionEgreso.setMinimumSize(QtCore.QSize(250, 50))
         self.InputDescripcionEgreso.setMaximumSize(QtCore.QSize(250, 50))
-        self.InputDescripcionEgreso.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.InputDescripcionEgreso.setStyleSheet(
+            "background-color: rgb(255, 255, 255);"
+        )
         self.InputDescripcionEgreso.setObjectName("InputDescripcionEgreso")
         self.gridLayout_2.addWidget(self.InputDescripcionEgreso, 3, 1, 1, 1)
         self.LabelVentasA = QtWidgets.QLabel(parent=self.widget_3)
-        self.LabelVentasA.setStyleSheet("#LabelVentasA {\n"
-"    font-weight: bold; /* Negrita */\n"
-"    font-size: 34px; /* Tamaño de fuente */\n"
-"}\n"
-"")
+        self.LabelVentasA.setStyleSheet(
+            "#LabelVentasA {\n"
+            "    font-weight: bold; /* Negrita */\n"
+            "    font-size: 34px; /* Tamaño de fuente */\n"
+            "}\n"
+            ""
+        )
         self.LabelVentasA.setObjectName("LabelVentasA")
         self.gridLayout_2.addWidget(self.LabelVentasA, 0, 0, 1, 1)
         self.label_30 = QtWidgets.QLabel(parent=self.widget_3)
@@ -229,10 +240,14 @@ class Ui_Egreso(object):
         self.label_7.setObjectName("label_7")
         self.gridLayout_2.addWidget(self.label_7, 2, 2, 1, 1)
         self.InputFechaEgreso = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputFechaEgreso.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputFechaEgreso.sizePolicy().hasHeightForWidth()
+        )
         self.InputFechaEgreso.setSizePolicy(sizePolicy)
         self.InputFechaEgreso.setMinimumSize(QtCore.QSize(250, 50))
         self.InputFechaEgreso.setMaximumSize(QtCore.QSize(250, 50))
@@ -246,10 +261,14 @@ class Ui_Egreso(object):
         self.label.setObjectName("label")
         self.gridLayout_2.addWidget(self.label, 2, 3, 1, 1)
         self.InputTipoGasto = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputTipoGasto.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputTipoGasto.sizePolicy().hasHeightForWidth()
+        )
         self.InputTipoGasto.setSizePolicy(sizePolicy)
         self.InputTipoGasto.setMinimumSize(QtCore.QSize(250, 50))
         self.InputTipoGasto.setMaximumSize(QtCore.QSize(250, 50))
@@ -257,10 +276,14 @@ class Ui_Egreso(object):
         self.InputTipoGasto.setObjectName("InputTipoGasto")
         self.gridLayout_2.addWidget(self.InputTipoGasto, 3, 0, 1, 1)
         self.InputPagoEgreso = QtWidgets.QLineEdit(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.InputPagoEgreso.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.InputPagoEgreso.sizePolicy().hasHeightForWidth()
+        )
         self.InputPagoEgreso.setSizePolicy(sizePolicy)
         self.InputPagoEgreso.setMinimumSize(QtCore.QSize(250, 50))
         self.InputPagoEgreso.setMaximumSize(QtCore.QSize(250, 50))
@@ -274,101 +297,132 @@ class Ui_Egreso(object):
         self.label_3.setObjectName("label_3")
         self.gridLayout_2.addWidget(self.label_3, 2, 0, 1, 1)
         self.BtnRegistrarEgreso = QtWidgets.QPushButton(parent=self.widget_3)
-        self.BtnRegistrarEgreso.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.BtnRegistrarEgreso.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: black; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}")
+        self.BtnRegistrarEgreso.setCursor(
+            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
+        )
+        self.BtnRegistrarEgreso.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: black; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}"
+        )
         self.BtnRegistrarEgreso.setObjectName("BtnRegistrarEgreso")
         self.gridLayout_2.addWidget(self.BtnRegistrarEgreso, 5, 2, 1, 1)
         self.BtnEliminar = QtWidgets.QPushButton(parent=self.widget_3)
-        self.BtnEliminar.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.BtnEliminar.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: red; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    margin-top:20px;\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
-"}")
+        self.BtnEliminar.setCursor(
+            QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor)
+        )
+        self.BtnEliminar.setStyleSheet(
+            "\n"
+            "QPushButton {\n"
+            "    background-color: red; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde ni decoración inicial */\n"
+            "    color:  white; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes circulares */\n"
+            "    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+            "    height: 40px; /* Altura del botón */\n"
+            "    text-align: center; /* Alinea el texto del botón a la izquierda */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    margin-top:20px;\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+            "    cursor: pointer; /* Cursor de mano al pasar sobre el botón */\n"
+            "}"
+        )
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\SYS-Systock\\app\\ui\\../../assets/iconos/eliminar.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(
+            QtGui.QPixmap(
+                "d:\\SYSTOCK\\SYSTOCK\\DESARROLLO\\python\\SYS-Systock\\app\\ui\\../../assets/iconos/eliminar.png"
+            ),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.BtnEliminar.setIcon(icon)
         self.BtnEliminar.setIconSize(QtCore.QSize(30, 30))
         self.BtnEliminar.setObjectName("BtnEliminar")
         self.gridLayout_2.addWidget(self.BtnEliminar, 5, 3, 1, 1)
         self.MetodoPagoBox = QtWidgets.QComboBox(parent=self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.MetodoPagoBox.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.MetodoPagoBox.sizePolicy().hasHeightForWidth()
+        )
         self.MetodoPagoBox.setSizePolicy(sizePolicy)
         self.MetodoPagoBox.setMinimumSize(QtCore.QSize(250, 50))
-        self.MetodoPagoBox.setStyleSheet("QComboBox {\n"
-"    background-color: white; /* Fondo blanco */\n"
-"    border: none; /* Sin borde */\n"
-"    color: black; /* Color del texto */\n"
-"    border-radius: 15px; /* Bordes redondeados */\n"
-"    padding: 5px 10px; /* Espaciado interno */\n"
-"    font-size: 18px; /* Tamaño de fuente */\n"
-"    height: 40px; /* Altura del combo box */\n"
-"    margin-top: 20px; /* Espaciado superior */\n"
-"}\n"
-"\n"
-"QComboBox::drop-down {\n"
-"    background-color: transparent; /* Fondo transparente */\n"
-"    border: none; /* Sin borde */\n"
-"    width: 20px; /* Tamaño del botón */\n"
-"    /* No se define la flecha, por lo que se elimina */\n"
-"}\n"
-"\n"
-"QComboBox:hover {\n"
-"    cursor: pointer; /* Cursor de mano */\n"
-"}\n"
-"\n"
-"QComboBox QAbstractItemView {\n"
-"    background-color: white; /* Fondo del menú desplegable */\n"
-"    border: none; /* Sin borde */\n"
-"    color: black; /* Color del texto en las opciones */\n"
-"    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */\n"
-"    selection-color: white; /* Texto blanco al seleccionar */\n"
-"    border-radius: 10px; /* Bordes redondeados */\n"
-"}\n"
-"")
+        self.MetodoPagoBox.setStyleSheet(
+            "QComboBox {\n"
+            "    background-color: white; /* Fondo blanco */\n"
+            "    border: none; /* Sin borde */\n"
+            "    color: black; /* Color del texto */\n"
+            "    border-radius: 15px; /* Bordes redondeados */\n"
+            "    padding: 5px 10px; /* Espaciado interno */\n"
+            "    font-size: 18px; /* Tamaño de fuente */\n"
+            "    height: 40px; /* Altura del combo box */\n"
+            "    margin-top: 20px; /* Espaciado superior */\n"
+            "}\n"
+            "\n"
+            "QComboBox::drop-down {\n"
+            "    background-color: transparent; /* Fondo transparente */\n"
+            "    border: none; /* Sin borde */\n"
+            "    width: 20px; /* Tamaño del botón */\n"
+            "    /* No se define la flecha, por lo que se elimina */\n"
+            "}\n"
+            "\n"
+            "QComboBox:hover {\n"
+            "    cursor: pointer; /* Cursor de mano */\n"
+            "}\n"
+            "\n"
+            "QComboBox QAbstractItemView {\n"
+            "    background-color: white; /* Fondo del menú desplegable */\n"
+            "    border: none; /* Sin borde */\n"
+            "    color: black; /* Color del texto en las opciones */\n"
+            "    selection-background-color: rgb(106, 106, 106); /* Fondo gris claro al seleccionar */\n"
+            "    selection-color: white; /* Texto blanco al seleccionar */\n"
+            "    border-radius: 10px; /* Bordes redondeados */\n"
+            "}\n"
+            ""
+        )
         self.MetodoPagoBox.setObjectName("MetodoPagoBox")
-        self.gridLayout_2.addWidget(self.MetodoPagoBox, 5, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.gridLayout_2.addWidget(
+            self.MetodoPagoBox,
+            5,
+            0,
+            1,
+            1,
+            QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignTop,
+        )
         self.gridLayout.addLayout(self.gridLayout_2, 0, 0, 1, 1)
-        self.verticalLayout_2.addWidget(self.widget_3, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.verticalLayout_2.addWidget(
+            self.widget_3, 0, QtCore.Qt.AlignmentFlag.AlignHCenter
+        )
         self.widget = QtWidgets.QWidget(parent=self.ContenidoPage1)
         self.widget.setStyleSheet("")
         self.widget.setObjectName("widget")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.TablaEgreso = QtWidgets.QTableWidget(parent=self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.TablaEgreso.sizePolicy().hasHeightForWidth())
@@ -380,108 +434,110 @@ class Ui_Egreso(object):
         font.setBold(True)
         font.setWeight(75)
         self.TablaEgreso.setFont(font)
-        self.TablaEgreso.setStyleSheet("\n"
-"QTableWidget {\n"
-"    border: none;\n"
-"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-"    color: black; /* Texto negro para celdas seleccionadas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    border: none; \n"
-"    background-color: #f2f2f2; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    font-weight: normal; /* No negritas */\n"
-"    text-align: center; /* Centrado del texto en los encabezados */\n"
-"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-"}\n"
-"\n"
-"QHeaderView::section:focus {\n"
-"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-"    border: none; /* Sin borde cuando está en foco */\n"
-"}\n"
-"\n"
-"QTableWidget::item:focus {\n"
-"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-"}\n"
-"\n"
-"QTableCornerButton::section {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"}\n"
-"\n"
-"QTableWidget::verticalHeader {\n"
-"    background-color: #f2f2f2;\n"
-"    font-size: 23px;\n"
-"    border: none;\n"
-"    font-weight: normal; /* No negritas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"/* Personalización de la barra de desplazamiento */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    width: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-height: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    height: 0px; /* Sin altura para los botones */\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    height: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-width: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"")
+        self.TablaEgreso.setStyleSheet(
+            "\n"
+            "QTableWidget {\n"
+            "    border: none;\n"
+            "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "    font-size: 18px; /* Tamaño de letra */\n"
+            "    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
+            "    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:selected {\n"
+            "    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
+            "    color: black; /* Texto negro para celdas seleccionadas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section {\n"
+            "    border: none; \n"
+            "    background-color: #f2f2f2; \n"
+            "    font-size: 18px; /* Tamaño de letra */\n"
+            "    font-weight: normal; /* No negritas */\n"
+            "    text-align: center; /* Centrado del texto en los encabezados */\n"
+            "    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section:focus {\n"
+            "    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
+            "    border: none; /* Sin borde cuando está en foco */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:focus {\n"
+            "    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
+            "    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
+            "}\n"
+            "\n"
+            "QTableCornerButton::section {\n"
+            "    background-color: #f2f2f2; \n"
+            "    border: none; \n"
+            "}\n"
+            "\n"
+            "QTableWidget::verticalHeader {\n"
+            "    background-color: #f2f2f2;\n"
+            "    font-size: 23px;\n"
+            "    border: none;\n"
+            "    font-weight: normal; /* No negritas */\n"
+            "}\n"
+            "\n"
+            "QTableWidget::item:hover {\n"
+            "    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
+            "}\n"
+            "/* Personalización de la barra de desplazamiento */\n"
+            "QScrollBar:vertical {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    width: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-height: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:vertical:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+            "    border: none;\n"
+            "    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
+            "    height: 0px; /* Sin altura para los botones */\n"
+            "}\n"
+            "\n"
+            "QScrollBar:horizontal {\n"
+            "    border: none;\n"
+            "    background: #f7f7f7; /* Fondo de la barra */\n"
+            "    height: 8px; /* Barra más delgada */\n"
+            "    border-radius: 4px; /* Bordes más redondeados */\n"
+            "    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal {\n"
+            "    background: #bbb; /* Fondo del control deslizante */\n"
+            "    min-width: 20px; /* Control deslizante más delgado */\n"
+            "    border-radius: 4px; /* Bordes redondeados */\n"
+            "    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
+            "}\n"
+            "\n"
+            "QScrollBar::handle:horizontal:hover {\n"
+            "    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
+            "}\n"
+            ""
+        )
         self.TablaEgreso.setObjectName("TablaEgreso")
         self.TablaEgreso.setColumnCount(6)
         self.TablaEgreso.setRowCount(16)
@@ -538,14 +594,22 @@ class Ui_Egreso(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.TablaEgreso.setHorizontalHeaderItem(5, item)
-        self.verticalLayout_3.addWidget(self.TablaEgreso, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.verticalLayout_3.addWidget(
+            self.TablaEgreso,
+            0,
+            QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter,
+        )
         self.verticalLayout_2.addWidget(self.widget)
         self.widget_4 = QtWidgets.QWidget(parent=self.ContenidoPage1)
         self.widget_4.setStyleSheet("")
         self.widget_4.setObjectName("widget_4")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.widget_4)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.verticalLayout_2.addWidget(self.widget_4, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.verticalLayout_2.addWidget(
+            self.widget_4,
+            0,
+            QtCore.Qt.AlignmentFlag.AlignHCenter | QtCore.Qt.AlignmentFlag.AlignVCenter,
+        )
         self.Contenido.addWidget(self.ContenidoPage1)
         self.horizontalLayout_2.addWidget(self.Contenido)
         self.horizontalLayout.addWidget(self.Contenedor)

@@ -17,8 +17,6 @@ def crear_metodo_pago(db: Session, nombre: str):
     return nuevo_metodo
 
 
-
-
 # Obtener todos los métodos de pago
 def obtener_metodos_pago(db: Session):
     """
@@ -40,7 +38,8 @@ def obtener_metodo_pago_por_id(db: Session, id_metodo_pago: int):
     return (
         db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == id_metodo_pago).first()
     )
-    
+
+
 def obtener_metodo_pago_por_nombre(db: Session, nombre_metodo_pago: str):
     """
     Obtiene un método de pago por su nombre.

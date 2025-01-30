@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from ..ui import Ui_Login
 
+
 class Login_View(QWidget, Ui_Login):
     def __init__(self, parent=None):
         super(Login_View, self).__init__(parent)
@@ -16,17 +17,17 @@ class Login_View(QWidget, Ui_Login):
         self.BtnRol.clicked.connect(self.Cambiar_Rol)
         self.toolButton.clicked.connect(self.mostrar_contrasena)
         self.ojo_abierto = False
-            
+
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Up:
-        # Asegurarte de que el foco esté en InputNombreUsuario primero
+            # Asegurarte de que el foco esté en InputNombreUsuario primero
             if self.focusWidget() != self.InputNombreUsuario:
                 self.InputNombreUsuario.setFocus()
             else:
                 self.navegar_widgets()  # Continúa con la navegación normal
         elif event.key() == Qt.Key_Down:
             self.navegar_widgets_atras()
-        
+
         # Llamar al método original para procesar otros eventos
         super().keyPressEvent(event)
 
@@ -37,26 +38,25 @@ class Login_View(QWidget, Ui_Login):
             self.InputNombreUsuario.setFocus()
 
     def navegar_widgets_atras(self):
-  
+
         if self.focusWidget() == self.InputPassword:
             self.InputNombreUsuario.setFocus()
         elif self.focusWidget() == self.InputNombreUsuario:
             self.InputPassword.setFocus()
 
-        
     def Cambiar_Rol(self):
         if self.BtnRol.text() == "ADMINISTRADOR":
             self.BtnRol.setText("ASESOR")
         else:
             self.BtnRol.setText("ADMINISTRADOR")
-            
+
     def mostrar_contrasena(self):
         self.cambiar_icono()
         if self.InputPassword.echoMode() == QLineEdit.Password:
             self.InputPassword.setEchoMode(QLineEdit.Normal)
         else:
             self.InputPassword.setEchoMode(QLineEdit.Password)
-            
+
     def cambiar_icono(self):
         if not self.ojo_abierto:
             self.toolButton.setIcon(QIcon("assets/iconos/ojo_abierto.png"))

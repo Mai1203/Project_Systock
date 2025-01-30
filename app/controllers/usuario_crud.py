@@ -37,6 +37,7 @@ def crear_usuario(
     db.refresh(nuevo_usuario)
     return nuevo_usuario
 
+
 # Obtener todos los usuarios
 def obtener_usuarios(db: Session):
     """
@@ -51,13 +52,13 @@ def obtener_usuarios(db: Session):
             Usuarios.Usuario,
             Usuarios.Contrasena,
             Usuarios.Estado,
-            
-            Rol.Nombre.label('rol')
+            Rol.Nombre.label("rol"),
         )
         .join(Rol, Usuarios.ID_Rol == Rol.ID_Rol)
         .all()
     )
     return usuarios
+
 
 # Obtener un usuario por ID
 def obtener_usuario_por_id(db: Session, id_usuario: str):
@@ -74,14 +75,13 @@ def obtener_usuario_por_id(db: Session, id_usuario: str):
             Usuarios.Usuario,
             Usuarios.Contrasena,
             Usuarios.Estado,
-            
-            Rol.Nombre.label('rol')
+            Rol.Nombre.label("rol"),
         )
         .join(Rol, Usuarios.ID_Rol == Rol.ID_Rol)
         .filter(Usuarios.ID_Usuario == id_usuario)
         .first()
     )
-    
+
     return usuario
 
 
@@ -141,6 +141,7 @@ def eliminar_usuario(db: Session, id_usuario: str):
     db.delete(usuario_existente)
     db.commit()
     return True
+
 
 def verificar_credenciales(db: Session, usuario: str, contrasena: str):
     """

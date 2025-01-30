@@ -6,7 +6,7 @@ from app.database.database import Base
 class Clientes(Base):
     __tablename__ = "CLIENTES"
 
-   #ID_Cliente = Column(Integer, primary_key=True, index=True)
+    # ID_Cliente = Column(Integer, primary_key=True, index=True)
     ID_Cliente = Column(String(100), primary_key=True, index=True)
     Nombre = Column(String(100), nullable=False)
     Apellido = Column(String(100), nullable=False)

@@ -14,11 +14,13 @@ from app.database.database import Base
 from datetime import datetime
 from pytz import timezone
 
+
 def get_local_time():
     # Cambia 'America/Bogota' por tu zona horaria local
-    local_tz = timezone('America/Bogota')
-    now =datetime.now(local_tz)
+    local_tz = timezone("America/Bogota")
+    now = datetime.now(local_tz)
     return now.replace(microsecond=0)
+
 
 class Facturas(Base):
     __tablename__ = "FACTURA"
@@ -29,7 +31,7 @@ class Facturas(Base):
     Monto_TRANSACCION = Column(Float, nullable=False)
     Descuento = Column(Float, nullable=False)
     Estado = Column(Boolean, nullable=False)
-    
+
     ID_Metodo_Pago = Column(Integer, ForeignKey("METODO_PAGO.ID_Metodo_Pago"))
     ID_Tipo_Factura = Column(Integer, ForeignKey("TIPO_FACTURA.ID_Tipo_Factura"))
     ID_Cliente = Column(Integer, ForeignKey("CLIENTES.ID_Cliente"))
@@ -69,7 +71,9 @@ class TipoFactura(Base):
     ID_Tipo_Factura = Column(Integer, primary_key=True, autoincrement=True)
     Nombre = Column(String, nullable=False)
 
-    __table_args__ = (CheckConstraint("Nombre IN ('Factura A', 'Factura B', 'Credito')"),)
+    __table_args__ = (
+        CheckConstraint("Nombre IN ('Factura A', 'Factura B', 'Credito')"),
+    )
 
     # Relación con Factura
     facturas = relationship("Facturas", back_populates="tipofactura")

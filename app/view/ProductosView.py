@@ -13,24 +13,22 @@ from ..ui import Ui_Productos
 from PyQt5.QtCore import Qt
 
 
-
 class Productos_View(QWidget, Ui_Productos):
     def __init__(self, parent=None):
         super(Productos_View, self).__init__(parent)
         self.setupUi(self)
-        
+
         # Cambiar el orden de navegación con Tab
-        self.setTabOrder(self.InputCodigo, self.InputNombre) 
-        self.setTabOrder(self.InputNombre, self.InputMarca) 
-        self.setTabOrder(self.InputMarca, self.InputCategoria) 
-        self.setTabOrder(self.InputCategoria, self.InputCantidad) 
-        self.setTabOrder(self.InputCantidad, self.InputCantidadMin) 
-        self.setTabOrder(self.InputCantidadMin, self.InputCantidadMax) 
-        self.setTabOrder(self.InputCantidadMax, self.InputPrecioCompra) 
-        self.setTabOrder(self.InputPrecioCompra, self.InputPrecioUnitario) 
-        self.setTabOrder(self.InputPrecioUnitario, self.InputPrecioMayor) 
-       
-        
+        self.setTabOrder(self.InputCodigo, self.InputNombre)
+        self.setTabOrder(self.InputNombre, self.InputMarca)
+        self.setTabOrder(self.InputMarca, self.InputCategoria)
+        self.setTabOrder(self.InputCategoria, self.InputCantidad)
+        self.setTabOrder(self.InputCantidad, self.InputCantidadMin)
+        self.setTabOrder(self.InputCantidadMin, self.InputCantidadMax)
+        self.setTabOrder(self.InputCantidadMax, self.InputPrecioCompra)
+        self.setTabOrder(self.InputPrecioCompra, self.InputPrecioUnitario)
+        self.setTabOrder(self.InputPrecioUnitario, self.InputPrecioMayor)
+
         self.InputBuscador.setPlaceholderText(
             "Buscar por código, Nombre, Marca o Categoria"
         )
@@ -49,9 +47,9 @@ class Productos_View(QWidget, Ui_Productos):
         configurar_validador_texto_y_numeros(self.InputNombre)
         configurar_validador_texto(self.InputMarca)
         configurar_validador_texto(self.InputCategoria)
-        
+
         self.InputPrecioCompra.textChanged.connect(self.agregar_placeholder)
-         
+
         configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
 
         configurar_autocompletado(
@@ -72,21 +70,19 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputCategoria.returnPressed.connect(self.editar_producto)
         self.InputPrecioUnitario.returnPressed.connect(self.editar_producto)
         self.InputPrecioMayor.returnPressed.connect(self.editar_producto)
-        
 
         # Conectar el evento de tecla Enter para procesar el código
         self.InputCodigo.returnPressed.connect(self.procesar_codigo)
         self.TablaProductos.cellClicked.connect(self.cargar_datos_fila)
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
         self.BtnEliminar.clicked.connect(self.eliminar_productos)
-        
-        
+
     def keyPressEvent(self, event):
         # Si presionas Enter en InputDomicilio, realiza una acción especial
         if event.key() == Qt.Key_Up:
-            
+
             self.navegar_widgets()
-            
+
         elif event.key() == Qt.Key_Down:
             self.navegar_widgets_atras()
         # Llamar al método original para procesar otros eventos
@@ -141,35 +137,35 @@ class Productos_View(QWidget, Ui_Productos):
             self.InputNombre.setFocus()
         elif self.focusWidget() == self.InputNombre:
             self.InputCodigo.setFocus()  # Volver al inicio
-        
+
     def showEvent(self, event):
         super().showEvent(event)
         self.InputCodigo.setFocus()
         self.limpiar_tabla_productos()
         self.mostrar_productos()
-        
+
     def agregar_placeholder(self):
         """
         Agrega un placeholder con el precio de venta
         """
         precio_compra = self.InputPrecioCompra.text().strip()
-        
+
         if not precio_compra:
             self.InputPrecioUnitario.setPlaceholderText("")
             self.InputPrecioMayor.setPlaceholderText("")
             return
-        
+
         precio_compra = float(precio_compra)
-        
+
         precio_unitario = precio_compra + (precio_compra * 0.5)
         precio_mayor = precio_compra + (precio_compra * 0.35)
-        
+
         precio_unitario = redondear_a_cientos(precio_unitario)
         precio_mayor = redondear_a_cientos(precio_mayor)
-        
+
         self.InputPrecioUnitario.setPlaceholderText(f"{precio_unitario}")
         self.InputPrecioMayor.setPlaceholderText(f"{precio_mayor}")
-        
+
     def redondear_a_cientos(numero):
         """
         Redondea el número hacia el siguiente múltiplo de 100.
@@ -178,14 +174,16 @@ class Productos_View(QWidget, Ui_Productos):
         if numero is None:  # Comprobar si el número es None
             raise ValueError("El valor de 'numero' no puede ser None")
 
-        if not isinstance(numero, (int, float)):  # Verifica que el número sea int o float
+        if not isinstance(
+            numero, (int, float)
+        ):  # Verifica que el número sea int o float
             raise TypeError("El valor debe ser un número entero o flotante")
 
         if numero % 100 == 0:
             return numero  # Ya es múltiplo de 100
-        
+
         return ((numero // 100) + 1) * 100
-        
+
     def obtener_ids_seleccionados(self):
         """
         Obtiene los IDs de los productos seleccionados en la tabla.
@@ -301,16 +299,18 @@ class Productos_View(QWidget, Ui_Productos):
                 estado_item = QtWidgets.QTableWidgetItem(estado)
                 estado_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.TablaProductos.setItem(row_idx, 12, estado_item)
-                
+
                 if row.Stock_actual <= row.Stock_min:
                     for col in range(self.TablaProductos.columnCount()):
                         item = self.TablaProductos.item(row_idx, col)
                         if item:  # Verifica que el elemento no sea None
                             item.setForeground(QtGui.QColor(255, 0, 0))  # Texto blanco
                         else:
-                            print(f"No se encontró un elemento en la fila {row_idx}, columna {col}")
-                    self.TablaProductos.viewport().update() 
-                           
+                            print(
+                                f"No se encontró un elemento en la fila {row_idx}, columna {col}"
+                            )
+                    self.TablaProductos.viewport().update()
+
     def procesar_codigo(self):
         """
         Procesa el código ingresado en el campo InputCodigo.
@@ -392,10 +392,10 @@ class Productos_View(QWidget, Ui_Productos):
         categoria = self.InputCategoria.text()
         precio_unitario = self.InputPrecioUnitario.text()
         precio_mayor = self.InputPrecioMayor.text()
-        
+
         if not precio_unitario:
             precio_unitario = self.InputPrecioUnitario.placeholderText()
-            
+
         if not precio_mayor:
             precio_mayor = self.InputPrecioMayor.placeholderText()
 
@@ -425,9 +425,13 @@ class Productos_View(QWidget, Ui_Productos):
             self.db = SessionLocal()
             id_marca = obtener_o_crear_marca(self.db, marca)
             id_categoria = obtener_o_crear_categoria(self.db, categoria)
-            
-            configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
-            configurar_autocompletado(self.InputCategoria, obtener_categorias, "Nombre", self.db)
+
+            configurar_autocompletado(
+                self.InputMarca, obtener_marcas, "Nombre", self.db
+            )
+            configurar_autocompletado(
+                self.InputCategoria, obtener_categorias, "Nombre", self.db
+            )
 
             producto_existente = obtener_producto_por_id(self.db, id)
             if producto_existente:
@@ -458,7 +462,9 @@ class Productos_View(QWidget, Ui_Productos):
             self.InputMarca.setText("Predeterminado")
             self.InputCategoria.setText("Predeterminado")
             self.InputCodigo.setFocus()
-            configurar_autocompletado(self.InputMarca, obtener_marcas, "Nombre", self.db)
+            configurar_autocompletado(
+                self.InputMarca, obtener_marcas, "Nombre", self.db
+            )
             configurar_autocompletado(
                 self.InputCategoria, obtener_categorias, "Nombre", self.db
             )
@@ -577,7 +583,7 @@ class Productos_View(QWidget, Ui_Productos):
                     self.limpiar_tabla_productos()
                     self.mostrar_productos()
                     self.InputCantidadMin.setText("3")
-                    self.InputCantidadMax.setText("99")            
+                    self.InputCantidadMax.setText("99")
                     self.InputMarca.setText("Predeterminado")
                     self.InputCategoria.setText("Predeterminado")
                     self.InputCodigo.setFocus()

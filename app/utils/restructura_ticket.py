@@ -78,8 +78,8 @@ def generate_ticket(
         pdf.setFont("Helvetica-Bold", font_size)
         pdf.drawString(20, y, f"Número de Factura: {invoice_number}")
         y -= line_height
-        pdf.drawString(20, y, f"Nit: {pan}")
-        y -= line_height
+        #pdf.drawString(20, y, f"Nit: {pan}")
+        #y -= line_height
         pdf.drawString(20, y, f"Cliente: {client_name}")
         y -= line_height
         pdf.drawString(20, y, f"Cédula: {client_id}")
@@ -166,9 +166,6 @@ def generate_ticket(
         pdf.setFillColor(colors.black)
         pdf.setFont("Helvetica-Bold", 24)
         pdf.drawCentredString(pdf_width / 2, 30, "¡Gracias por tu compra!")
-         
-        
-        
 
         # Guardar el PDF
         pdf.save()

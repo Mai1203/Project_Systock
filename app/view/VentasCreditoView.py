@@ -50,6 +50,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputDireccion.setPlaceholderText("Ej: Calle 1, 123 - Piso 1")
         self.LimitePagoBox.addItems(["7 días", "15 días"])
         self.comboBoxPrecio.addItems(["PU", "PAM"])
+        self.InputCodigo.setPlaceholderText("Ej: 7709991003078")
+        self.InputNombre.setPlaceholderText("Ej: Esmalte")
+        self.InputDomicilio.setPlaceholderText("Ej: 5000")
 
         # Inicialización y configuración
         self.limpiar_tabla()

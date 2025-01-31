@@ -81,7 +81,9 @@ class VentasB_View(QWidget, Ui_VentasB):
                 background-color: red; 
             }
         """)
-      
+        self.InputCodigo.setPlaceholderText("Ej: 7709991003078")
+        self.InputNombre.setPlaceholderText("Ej: Esmalte")
+        self.InputDomicilio.setPlaceholderText("Ej: 5000")
         
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)

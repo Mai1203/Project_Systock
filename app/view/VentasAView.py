@@ -63,6 +63,10 @@ class VentasA_View(QWidget, Ui_VentasA):
                 background-color: red; 
             }
         """)
+        self.InputCodigo.setPlaceholderText("Ej: 7709991003078")
+        self.InputNombre.setPlaceholderText("Ej: Esmalte")
+        self.InputDomicilio.setPlaceholderText("Ej: 5000")
+        self.InputDescuento.setPlaceholderText("Ej: 500")
         # Inicialización y configuración
         self.limpiar_tabla()
         self.configurar_localizacion()

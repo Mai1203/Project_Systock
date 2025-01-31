@@ -195,7 +195,6 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
             if venta.estado == True:
                 QMessageBox.warning(self, "Error", "La venta a crédito ya está pagada.")
                 return
-
             factura_completa = obtener_factura_completa(self.db, venta.ID_Factura)
 
             if not factura_completa:

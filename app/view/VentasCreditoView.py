@@ -148,27 +148,16 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self,
         db,
         id_factura,
-        payment_method,
         produc_datos,
-        monto_pago,
-        delivery_fee,
         usuario_actual_id,
         deuda,
         limite_pago,
     ):
-
-        # Actualizar venta a crédito
-        print(self.id_venta_credito)
-        print(deuda)
-        print(limite_pago)
-        actualizar_venta_credito(
-            db=db,
-            id_venta_credito=self.id_venta_credito,
-            total_deuda=deuda,
-            saldo_pendiente=deuda,
-            fecha_limite=limite_pago,
-        )
-
+        
+        venta_credito = obtener_ventaCredito_id(db, self.id_venta_credito)
+        venta = venta_credito[0]
+        
+        pagado = venta.Total_Deuda - venta.Saldo_Pendiente 
         # Obtener los detalles actuales de la factura
         detalles_actuales = (
             db.query(DetalleFacturas)
@@ -257,24 +246,18 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     .first()
                 )
                 producto.Stock_actual -= nueva_cantidad
-
-        id_metodo_pago = obtener_metodo_pago_por_nombre(db, payment_method)
-
-        if "/" in monto_pago:
-            total = monto_pago.split("/")
-            efectivo = float(total[0])
-            tranferencia = float(total[1])
-        else:
-            efectivo = float(monto_pago)
-            tranferencia = float(monto_pago)
-
+        
+        saldo = deuda - pagado
+        actualizar_venta_credito(
+            db=db,
+            id_venta_credito=self.id_venta_credito,
+            total_deuda=deuda,
+            saldo_pendiente=saldo,
+            fecha_limite=limite_pago,
+        )
+        
         # Actualizar información general de la factura
         factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
-        factura.Monto_TRANSACCION = (
-            tranferencia if payment_method == "Transferencia" else 0.0
-        )
-        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
-        factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
         factura.ID_Usuario = usuario_actual_id
 
         # Confirmar los cambios
@@ -369,10 +352,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 self.actualizar_factura(
                     db,
                     self.invoice_number,
-                    "Efectivo",
                     produc_datos,
-                    "0.00",
-                    0.0,
                     self.usuario_actual_id,
                     total,
                     limite_pago,

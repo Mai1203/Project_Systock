@@ -47,6 +47,7 @@ class Facturas(Base):
     historialmodificacion = relationship(
         "HistorialModificacion", back_populates="facturas"
     )
+    tipoingreso = relationship("TipoIngreso", back_populates="facturas")
 
 
 class MetodoPago(Base):

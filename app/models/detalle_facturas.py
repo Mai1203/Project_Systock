@@ -17,4 +17,3 @@ class DetalleFacturas(Base):
     # Relaciones
     productos = relationship("Productos", back_populates="detallefacturas")
     facturas = relationship("Facturas", back_populates="detallefacturas")
-    tipoingreso = relationship("TipoIngreso", back_populates="detallefacturas")

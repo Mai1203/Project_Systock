@@ -7,6 +7,7 @@ from app.controllers.categorias_crud import *
 from app.controllers.metodo_pago_crud import *
 from app.controllers.tipo_factura_crud import *
 from app.controllers.clientes_crud import *
+from app.controllers.tipo_pago_crud import *
 
 
 def conectar_base():
@@ -27,7 +28,15 @@ def poblar_datos_prueba():
         )
         print("cliente default creado exitosamente.")
     except Exception as e:
-        print(f"Error al poblar datos: {e}")
+        print(f"Error al crear cliente: {e}")
+        
+    try:
+        print("Crear Tipo Pago")
+        crear_tipo_pago(db, "Abono")
+        crear_tipo_pago(db, "Pago Total")
+        print("Tipo Pago creado exitosamente.")
+    except Exception as e:
+        print(f"Error al crear Tipo Pago: {e}")
 
     try:
         print("creando Tipo Facturas")
@@ -36,7 +45,7 @@ def poblar_datos_prueba():
         crear_tipo_factura(db, "Credito")
         print("Tipo Facturas creados exitosamente.")
     except Exception as e:
-        print(f"Error al poblar datos: {e}")
+        print(f"Error al crear Tipo Facturas: {e}")
 
     try:
         print("Creando rols de prueba...")

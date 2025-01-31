@@ -3,6 +3,9 @@ from app.models.pago_credito import (
     PagoCredito,
 )
 
+from app.models.pago_credito import PagoCredito, TipoPago
+from app.models.facturas import MetodoPago
+
 
 # Crear un nuevo pago de crédito
 def crear_pago_credito(
@@ -34,14 +37,29 @@ def crear_pago_credito(
 
 
 # Obtener todos los pagos de crédito
-def obtener_pagos_credito(db: Session):
+def obtener_pagos_credito(db: Session, id_ventaCredito: int):
     """
     Obtiene la lista de todos los pagos de crédito.
     :param db: Sesión de base de datos.
     :return: Lista de pagos de crédito.
     """
-    return db.query(PagoCredito).all()
-
+    pago_credito = (
+        db.query(
+            PagoCredito.ID_Pago_Credito,
+            PagoCredito.Monto,
+            PagoCredito.Fecha_Registro,
+            PagoCredito.ID_Venta_Credito,
+            
+            MetodoPago.Nombre.label("metodopago"),
+            TipoPago.Nombre.label("tipopago"),
+        )
+        .join(MetodoPago, PagoCredito.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+        .join(TipoPago, PagoCredito.ID_Tipo_Pago == TipoPago.ID_Tipo_Pago)
+        .filter(PagoCredito.ID_Venta_Credito == id_ventaCredito)
+        .all()
+    )
+    
+    return pago_credito
 
 # Obtener un pago de crédito por ID
 def obtener_pago_credito_por_id(db: Session, id_pago_credito: int):

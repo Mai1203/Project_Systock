@@ -12,13 +12,11 @@ class TipoIngreso(Base):
     __table_args__ = (CheckConstraint("Tipo_Ingreso IN ('Venta', 'Abono')"),)
 
     ID_Pago_Credito = Column(Integer, ForeignKey("PAGO_CREDITO.ID_Pago_Credito"))
-    ID_Detalle_Factura = Column(
-        Integer, ForeignKey("DETALLE_FACTURAS.ID_Detalle_Factura")
-    )
+    ID_Factura = Column(Integer, ForeignKey("FACTURA.ID_Factura"))
 
     # Relaciones
     pagocredito = relationship("PagoCredito", back_populates="tipoingreso")
-    detallefacturas = relationship("DetalleFacturas", back_populates="tipoingreso")
+    facturas = relationship("Facturas", back_populates="tipoingreso")
     ingresos = relationship("Ingresos", back_populates="tipoingreso")
     analisisfinanciero = relationship(
         "AnalisisFinanciero", back_populates="tipoingreso"

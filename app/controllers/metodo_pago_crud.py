@@ -94,3 +94,34 @@ def eliminar_metodo_pago(db: Session, id_metodo_pago: int):
     db.delete(metodo_existente)
     db.commit()
     return True
+
+def obtener_metodos_pago_por_ids(db: Session, window):
+    """
+    Obtiene los métodos de pago con IDs 0 y 1 y muestra los resultados en un QMessageBox.
+    :param db: Sesión de base de datos.
+    :param window: Ventana principal de la aplicación (usada para mostrar el QMessageBox).
+    :return: None
+    """
+    # Buscar métodos de pago con ID 0 y 1
+    metodo_pago_0 = db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == 0).first()
+    metodo_pago_1 = db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == 1).first()
+    
+    # Crear el mensaje a mostrar
+    mensaje = "Métodos de Pago Encontrados:\n"
+    
+    if metodo_pago_0:
+        mensaje += f"ID 0: {metodo_pago_0.Nombre}\n"
+    else:
+        mensaje += "ID 0: No encontrado\n"
+        
+    if metodo_pago_1:
+        mensaje += f"ID 1: {metodo_pago_1.Nombre}\n"
+    else:
+        mensaje += "ID 1: No encontrado\n"
+    
+    # Mostrar el mensaje en un QMessageBox
+    msg_box = QMessageBox(window)
+    msg_box.setIcon(QMessageBox.Information)
+    msg_box.setWindowTitle("Resultado de Búsqueda de Métodos de Pago")
+    msg_box.setText(mensaje)
+    msg_box.exec_()

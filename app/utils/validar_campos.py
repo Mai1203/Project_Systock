@@ -48,3 +48,8 @@ def configurar_validador_codigo(input_widget):
     Configura un validador para códigos alfanuméricos.
     """
     configurar_validador(input_widget, r"^[a-zA-Z0-9]+$")
+def configurar_validador_fecha(input_widget):
+    """
+    Configura un validador para permitir solo fechas en formato dd/mm/yyyy.
+    """
+    configurar_validador(input_widget, r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$")

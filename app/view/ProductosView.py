@@ -94,8 +94,6 @@ class Productos_View(QWidget, Ui_Productos):
         if not self.InputCodigo.text().strip():
             self.limpiar_formulario()
         
-
-
     def keyPressEvent(self, event):
         # Si presionas Enter en InputDomicilio, realiza una acción especial
         if event.key() == Qt.Key_Up:
@@ -162,6 +160,7 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputCodigo.setFocus()
         self.limpiar_tabla_productos()
         self.mostrar_productos()
+        self.limpiar_formulario()
 
     def agregar_placeholder(self):
         """

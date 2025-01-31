@@ -52,6 +52,9 @@ class Egreso_View(QWidget, Ui_Egreso):
         self.BtnEliminar.clicked.connect(self.eliminar_egreso)
         self.TablaEgreso.selectionModel().currentRowChanged.connect(self.mostrar_datos_egreso)
         
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.limpiar_formulario()
         
     def fecha_egreso(self):
         fecha_hora = datetime.now()

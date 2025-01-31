@@ -20,8 +20,7 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         self.BtnEliminar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnRegistrarUser.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnRolUser.setText("ASESOR")
-        self.limpiar_tabla_usuarios()
-        self.mostrar_usuarios()
+        self.lineEdit.textChanged.connect(self.buscar_usuarios)
         
         # placeholder
         self.InputIdUser.setPlaceholderText("Ej: # Cedula")
@@ -296,3 +295,18 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         else:
             # Si el usuario cancela la edición
             print("Edición cancelada")
+
+    def buscar_usuarios(self):
+        buscar = self.lineEdit.text()
+        
+        if not buscar:
+            self.mostrar_usuarios()
+            return
+        
+        self.db = SessionLocal()
+        usuarios = buscar_usuarios(self.db, buscar)
+        
+        self.actualizar_tabla_usuarios(usuarios)
+        
+        self.db.close()
+        

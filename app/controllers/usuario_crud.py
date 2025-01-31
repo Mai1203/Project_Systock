@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from app.models.usuarios import Usuarios, Rol
 
 
@@ -123,6 +124,33 @@ def actualizar_usuario(
     db.refresh(usuario_existente)
     return usuario_existente
 
+def buscar_usuarios(db: Session, buscar: str):
+    """
+    Busca usuarios en la base de datos.
+    :param db: Sesión de base de datos.
+    :param buscar: Texto a buscar.
+    :return: Lista de usuarios.
+    """
+    usuario = (
+        db.query(
+            Usuarios.ID_Usuario,
+            Usuarios.Nombre,
+            Usuarios.Usuario,
+            Usuarios.Contrasena,
+            Usuarios.Estado,
+            Rol.Nombre.label("rol"),
+        )
+        .join(Rol, Usuarios.ID_Rol == Rol.ID_Rol)
+        .filter(
+            or_(
+                Usuarios.ID_Usuario.like(f"%{buscar}%"),
+                Usuarios.Nombre.like(f"%{buscar}%"),
+            )
+        )
+        .all()
+    )
+
+    return usuario
 
 # Eliminar un usuario
 def eliminar_usuario(db: Session, id_usuario: str):
@@ -133,7 +161,9 @@ def eliminar_usuario(db: Session, id_usuario: str):
     :return: True si se eliminó correctamente, False si no se encontró.
     """
     usuario_existente = (
-        db.query(Usuarios).filter(Usuarios.ID_Usuario == id_usuario).first()
+        db.query(
+            Usuarios     
+        ).filter(Usuarios.ID_Usuario == id_usuario).first()
     )
     if not usuario_existente:
         return False

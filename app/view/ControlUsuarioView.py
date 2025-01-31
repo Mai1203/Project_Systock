@@ -22,6 +22,13 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         self.BtnRolUser.setText("ASESOR")
         self.limpiar_tabla_usuarios()
         self.mostrar_usuarios()
+        
+        # placeholder
+        self.InputIdUser.setPlaceholderText("Ej: # Cedula")
+        self.InputNombreUser.setPlaceholderText("Ej: Pepito Perez")
+        self.InputUser.setPlaceholderText("Ej: pepito123")
+        self.InputPasswordUser.setPlaceholderText("Ej: pepito789")
+        self.InputIdUser.textChanged.connect(self.verififcarInput)
 
         configurar_validador_numerico(self.InputIdUser)
         configurar_validador_texto(self.InputNombreUser)
@@ -44,6 +51,12 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         self.limpiar_formulario()
         self.limpiar_tabla_usuarios()
         self.mostrar_usuarios()
+        
+    def verififcarInput(self):
+        """ Borra los demás campos si InputTipoGasto está vacío. """
+        if not self.InputIdUser.text().strip():
+            self.limpiar_formulario()
+        
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Up:
@@ -109,6 +122,8 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         finally:
             if hasattr(self, "db") and self.db:
                 self.db.close()
+                
+        self.InputIdUser.setFocus()
 
     def limpiar_formulario(self):
         self.InputIdUser.setText("")
@@ -198,6 +213,8 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
                 enviar_notificacion("Error", f"Error al eliminar usuarios: {e}")
             finally:
                 self.db.close()
+        self.InputIdUser.setFocus()
+
 
     def obtener_ids_seleccionados(self):
         """

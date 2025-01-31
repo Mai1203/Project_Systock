@@ -17,7 +17,19 @@ class Productos_View(QWidget, Ui_Productos):
     def __init__(self, parent=None):
         super(Productos_View, self).__init__(parent)
         self.setupUi(self)
-
+        
+        # palceholder
+        self.InputCodigo.setPlaceholderText("Ej: 1000")
+        self.InputNombre.setPlaceholderText("Ej: Producto 1")
+        self.InputMarca.setPlaceholderText("Ej: Predeterminado")
+        self.InputCategoria.setPlaceholderText("Ej: Predeterminado")
+        self.InputCantidad.setPlaceholderText("Ej: 10")
+        self.InputCantidadMin.setPlaceholderText("Ej: 3")
+        self.InputCantidadMax.setPlaceholderText("Ej: 99")
+        self.InputPrecioCompra.setPlaceholderText("Ej: 2500")
+        self.InputPrecioUnitario.setPlaceholderText("Ej: 50%")
+        self.InputPrecioMayor.setPlaceholderText("Ej: 35%")
+        self.InputCodigo.textChanged.connect(self.verififcarInput)
         # Cambiar el orden de navegación con Tab
         self.setTabOrder(self.InputCodigo, self.InputNombre)
         self.setTabOrder(self.InputNombre, self.InputMarca)
@@ -76,6 +88,13 @@ class Productos_View(QWidget, Ui_Productos):
         self.TablaProductos.cellClicked.connect(self.cargar_datos_fila)
         self.BtnIngresarProducto.clicked.connect(self.ingresar_producto)
         self.BtnEliminar.clicked.connect(self.eliminar_productos)
+        
+    def verififcarInput(self):
+        """ Borra los demás campos si InputTipoGasto está vacío. """
+        if not self.InputCodigo.text().strip():
+            self.limpiar_formulario()
+        
+
 
     def keyPressEvent(self, event):
         # Si presionas Enter en InputDomicilio, realiza una acción especial
@@ -666,3 +685,5 @@ class Productos_View(QWidget, Ui_Productos):
                 enviar_notificacion("Error", f"Error al eliminar productos: {e}")
             finally:
                 self.db.close()
+                
+            self.InputCodigo.setFocus()

@@ -109,6 +109,7 @@ class Egreso_View(QWidget, Ui_Egreso):
 
             # Opcional: Limpiar los inputs después de la eliminación
             self.limpiar_formulario()
+            self.fecha_egreso()
                 # Actualizar el subtotal y total después de eliminar la fila
     def obtener_nombres_metodos_pago(self, db, metodo_id):
         metodo = db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == metodo_id).first()  # Cambiado de 'ID' a 'ID_Metodo_Pago'

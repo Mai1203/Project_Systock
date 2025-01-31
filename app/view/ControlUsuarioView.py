@@ -21,6 +21,7 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
         self.BtnRegistrarUser.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnRolUser.setText("ASESOR")
         self.lineEdit.textChanged.connect(self.buscar_usuarios)
+        self.lineEdit.setPlaceholderText("Buscar por Nombre o ID")
         
         # placeholder
         self.InputIdUser.setPlaceholderText("Ej: # Cedula")
@@ -145,11 +146,17 @@ class ControlUsuario_View(QWidget, Ui_ControlUsuario):
 
             for row_idx, row in enumerate(usuarios):
                 id_item = QtWidgets.QTableWidgetItem(str(row.ID_Usuario))
+                id_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 nombre_item = QtWidgets.QTableWidgetItem(str(row.Nombre))
+                nombre_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 usuario_item = QtWidgets.QTableWidgetItem(str(row.Usuario))
+                usuario_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 contrasena_item = QtWidgets.QTableWidgetItem(str(row.Contrasena))
+                contrasena_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 rol_item = QtWidgets.QTableWidgetItem(str(row.rol))
+                rol_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 estado_item = QtWidgets.QTableWidgetItem(str(row.Estado))
+                estado_item.setTextAlignment(QtCore.Qt.AlignCenter)
 
                 self.TablaUser.setItem(row_idx, 0, id_item)
                 self.TablaUser.setItem(row_idx, 1, nombre_item)

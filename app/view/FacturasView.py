@@ -8,6 +8,7 @@ from PyQt5.QtCore import pyqtSignal
 from ..ui import Ui_Facturas
 from ..database.database import SessionLocal
 from ..controllers.facturas_crud import *
+from ..controllers.producto_crud import *
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import generate_ticket
 
@@ -34,12 +35,79 @@ class Facturas_View(QWidget, Ui_Facturas):
         self.BtnGenerarTicket.clicked.connect(self.generar_ticket)
         self.BtnFacturaPagada.clicked.connect(self.factura_pagada)
         self.BtnEditarFactura.clicked.connect(self.editar_factura)
+        self.BtnVerCancelarVenta.clicked.connect(self.cancelar_venta)
+        # self.BtnVerProductos.clicked.connect(self.ver_productos)
 
     def showEvent(self, event):
         super().showEvent(event)
         self.limpiar_tabla_facturas()
         self.mostrar_facturas()
 
+    def ver_productos(self):
+        ids = self.obtener_ids_seleccionados()
+
+        if not ids:
+            enviar_notificacion(
+                "Advertencia", "No se seleccionaron productos para ver."
+            )
+            return
+
+        for id_factura in ids:
+            factura_completa = obtener_factura_completa(self.db, id_factura)
+            
+            productos = factura_completa["Detalles"]
+            
+            # Construimos el mensaje con los productos
+            mensaje = f"Factura ID: {id_factura}\n\n"
+            for producto in productos:
+                id_producto = producto["ID_Producto"]
+                nombre = producto.get("Nombre", "Desconocido")  # Agregar el nombre si está disponible
+                cantidad = producto["Cantidad"]
+                precio = producto.get("Precio_unitario", 0)
+                subtotal = producto.get("Subtotal", 0)
+                
+                mensaje += f"ID: {id_producto} | {nombre} | Cantidad: {cantidad} | Precio: {precio} | Subtotal: {subtotal}\n"
+
+            # Mostrar los productos en un QMessageBox
+            QMessageBox.information(self, "Productos en la Factura", mensaje)
+                
+                
+    
+    def cancelar_venta(self):
+        ids = self.obtener_ids_seleccionados()
+
+        if not ids:
+            enviar_notificacion(
+                "Advertencia", "No se seleccionaron facturas para cancelar."
+            )
+            return
+        
+        for id_factura in ids:
+            facturas = obtener_factura_por_id(self.db, id_factura)
+            if facturas.Estado == True:
+                QMessageBox.warning(self, "Factura", f"La factura {id_factura} ya está pagada.")
+                return 
+
+            factura_completa = obtener_factura_completa(self.db, id_factura)
+            
+            productos = factura_completa["Detalles"]
+            
+            for producto in productos:
+                id_producto = producto["ID_Producto"]
+                cantidad = producto["Cantidad"]
+                
+                producto = obtener_producto_por_id(self.db, id_producto)
+                
+                stock = producto[0].Stock_actual
+                cantidad = cantidad + stock
+                actualizar_producto(db=self.db, id_producto=id_producto, stock_actual=cantidad)
+                
+            eliminar_factura(self.db, id_factura)
+            
+        self.limpiar_tabla_facturas()
+        self.mostrar_facturas()
+        enviar_notificacion("Éxito", "Factura(s) cancelada(s) correctamente.")
+        
     def mostrar_facturas(self):
         # Obtener datos de la tabla
         self.db = SessionLocal()

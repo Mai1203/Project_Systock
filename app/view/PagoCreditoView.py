@@ -11,6 +11,7 @@ from ..database.database import SessionLocal
 from ..controllers.venta_credito_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
+from ..controllers.pago_credito_crud import *
 
 
 class PagoCredito_View(QWidget, Ui_PagoCredito):
@@ -30,37 +31,50 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
         self.id_VentaCredito = id_ventaCredito
         self.db = SessionLocal()
         ventaCreditos = obtener_ventaCredito_id(self.db, id_ventaCredito)
-        
+        pago_credito = obtener_pagos_credito(self.db, id_ventaCredito)
         ventaCredito = ventaCreditos[0]
         
-        self.TablaPagoCredito.setRowCount(1)
+        self.LabelDeuda.setText(f"${ventaCredito.Total_Deuda:,}")
+        self.LabelPendiente.setText(f"${ventaCredito.Saldo_Pendiente:,}")
+        
+        estado = ventaCredito.estado
+        
+        if estado:
+            self.LabelEstado.setText("Pagada")
+            self.LabelEstado.setStyleSheet("color: green; font-weight: bold;")
+        else:
+            self.LabelEstado.setText("Pendiente")
+            self.LabelEstado.setStyleSheet("color: red; font-weight: bold;")  
+        
+        self.TablaPagoCredito.setRowCount(len(pago_credito))
         self.TablaPagoCredito.setColumnCount(7)
         
-        id_venta = str(ventaCredito.ID_Venta_Credito)
-        cliente = str(ventaCredito.cliente)
-        fecha_registro = str(ventaCredito.Fecha_Registro)
-        fecha_limite = str(ventaCredito.Fecha_Limite)
-        total_deuda = str(ventaCredito.Total_Deuda)
-        saldo_pendiente = str(ventaCredito.Saldo_Pendiente)
-        estado = "Pagado" if ventaCredito.estado else "Pendiente"
-        
-        # Configurar items de la tabla
-        items = [
-            (id_venta, 0),
-            (cliente, 1),
-            (fecha_registro, 2),
-            (fecha_limite, 3),
-            (total_deuda, 4),
-            (saldo_pendiente, 5),
-            (estado, 6),
-        ]
-        
-        for value, col_idx in items:
-            item = QtWidgets.QTableWidgetItem(value)
-            item.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.TablaPagoCredito.setItem(0, col_idx, item)
+        for row, pago in enumerate(pago_credito):
+            id_venta = str(pago.ID_Pago_Credito)
+            cliente = str(ventaCredito.cliente)
+            fecha_registro = str(pago.Fecha_Registro)
+            id_ventacredito = str(ventaCredito.ID_Venta_Credito)
+            metodo_pago = str(pago.metodopago)
+            tipo_pago = str(pago.tipopago)
+            monto = str(pago.Monto)
             
-        self.db.close()
+            # Configurar items de la tabla
+            items = [
+                (id_venta, 0),
+                (cliente, 1),
+                (fecha_registro, 2),
+                (id_ventacredito, 3),
+                (metodo_pago, 4),
+                (tipo_pago, 5),
+                (monto, 6),
+            ]
+            
+            for value, col_idx in items:
+                item = QtWidgets.QTableWidgetItem(value)
+                item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.TablaPagoCredito.setItem(row, col_idx, item)
+                
+            self.db.close()
             
     def metodo_pago(self):
         try:
@@ -163,15 +177,19 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             efectivo += monto_efectivo
             tranferencia += monto_transaccion
             
-            deuda_total = efectivo + tranferencia
+            total_abonar = efectivo + tranferencia
             
-            if deuda_total == venta.Total_Deuda:
+            if total_abonar == venta.Total_Deuda:
                 estado = True
+                tipo_pago = 2
             else:
                 estado = False
-                
+                tipo_pago = 1
+            
+            crear_pago_credito(db=self.db, id_venta_credito=self.id_VentaCredito, monto=abono_total, id_metodo_pago=id_metodo_pago, id_tipo_pago=tipo_pago)
             actualizar_venta = actualizar_venta_credito(db=self.db, id_venta_credito=self.id_VentaCredito, saldo_pendiente=saldo_pendiente)
             actualizar_factura(db=self.db, id_factura=id_factura, monto_efectivo=efectivo, monto_transaccion=tranferencia, id_metodo_pago=id_metodo_pago, estado=estado)
+            
             
             if actualizar_venta:
                 QMessageBox.information(self, "Venta a crédito", "La venta a crédito ha sido actualizada exitosamente.")

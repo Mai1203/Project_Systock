@@ -241,6 +241,64 @@ background-color: #f2f2f2;
                   </property>
                  </widget>
                 </item>
+                <item row="0" column="1">
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="0" column="4">
+                 <widget class="QLabel" name="label_3">
+                  <property name="text">
+                   <string>Estado:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_5">
+                  <property name="text">
+                   <string>Pendiente:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="Label1">
+                  <property name="text">
+                   <string>Total Deuda:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="4">
+                 <widget class="QLabel" name="LabelEstado">
+                  <property name="styleSheet">
+                   <string notr="true">color:red;</string>
+                  </property>
+                  <property name="text">
+                   <string>Pendiente</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="LabelPendiente">
+                  <property name="text">
+                   <string>$50,000</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QLabel" name="LabelDeuda">
+                  <property name="text">
+                   <string>$100,000</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </widget>
              </item>
@@ -372,11 +430,6 @@ QScrollBar::handle:horizontal:hover {
                </property>
                <row>
                 <property name="text">
-                 <string>1.</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
                  <string>Nueva fila</string>
                 </property>
                </row>
@@ -403,41 +456,6 @@ QScrollBar::handle:horizontal:hover {
                <row>
                 <property name="text">
                  <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>Nueva fila</string>
-                </property>
-               </row>
-               <row>
-                <property name="text">
-                 <string>New Row</string>
                 </property>
                </row>
                <row>
@@ -531,7 +549,7 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>F.Limite</string>
+                 <string>Venta Credito</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -539,7 +557,7 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>T.Deuda</string>
+                 <string>Metodo Pago</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -547,7 +565,7 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>Pendiente</string>
+                 <string>Tipo Pago</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -555,7 +573,7 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>Estado</string>
+                 <string>Monto</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>

@@ -13,12 +13,13 @@ from ..controllers.producto_crud import *
 from ..controllers.detalle_factura_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
+from ..controllers.ingresos_crud import *
+from ..controllers.tipo_ingreso_crud import *
 from ..controllers.facturas_crud import crear_factura
 from ..controllers.detalle_factura_crud import crear_detalle_factura
 from ..controllers.metodo_pago_crud import obtener_metodo_pago_por_nombre
 from ..controllers.clientes_crud import *
 from ..ui import Ui_VentasA
-from ..utils.restructura_ticket import generate_ticket
 from ..utils.autocomplementado import configurar_autocompletado
 from PyQt5.QtCore import Qt
 
@@ -430,10 +431,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
         self.invoice_number = None
-            
-            
-            
-          
+                  
     def actualizar_factura(self, db, id_factura, payment_method, produc_datos, monto_pago, delivery_fee, usuario_actual_id):
         # Obtener los detalles actuales de la factura
         detalles_actuales = db.query(DetalleFacturas).filter(DetalleFacturas.ID_Factura == id_factura).all()

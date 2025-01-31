@@ -395,7 +395,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     "0.00",
                     0.0,
                     self.usuario_actual_id,
-                    total,
+                    subtotal,
                     limite_pago,
                 )
                 self.invoice_number = f"0000{id_factura}"

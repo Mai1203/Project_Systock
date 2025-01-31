@@ -16,7 +16,6 @@ def crear_metodo_pago(db: Session, nombre: str):
     db.refresh(nuevo_metodo)
     return nuevo_metodo
 
-
 # Obtener todos los métodos de pago
 def obtener_metodos_pago(db: Session):
     """

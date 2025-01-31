@@ -11,6 +11,8 @@ from PyQt5.QtCore import Qt
 from datetime import datetime
 from ..controllers.metodo_pago_crud import *
 from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QMessageBox
+
 
 
 class Egreso_View(QWidget, Ui_Egreso):
@@ -20,10 +22,11 @@ class Egreso_View(QWidget, Ui_Egreso):
         QTimer.singleShot(0, self.InputTipoGasto.setFocus)
         fecha_hora = datetime.now()
         fecha_hora_formateada = fecha_hora.strftime("%d/%m/%Y %H:%M:%S")
-        
         #placeholder
         self.InputFechaEgreso.setText(fecha_hora_formateada)
-        
+        self.InputTipoGasto.setPlaceholderText("Ej: Compra")
+        self.InputDescripcionEgreso.setPlaceholderText("Ej: Compra de productos")
+        self.InputPagoEgreso.setPlaceholderText("Ej: 100000")
         
         configurar_validador_fecha(self.InputFechaEgreso)
         configurar_validador_texto(self.InputTipoGasto)
@@ -39,10 +42,64 @@ class Egreso_View(QWidget, Ui_Egreso):
 
           # Conectar el botón al método agrgar_egreso
         self.BtnRegistrarEgreso.clicked.connect(self.agregar_egreso)
+        self.BtnEliminar.clicked.connect(self.eliminar_egreso)
+        self.TablaEgreso.selectionModel().currentRowChanged.connect(self.mostrar_datos_egreso)
         
-    
+        
+    def mostrar_datos_egreso(self):
+        # Obtener la fila seleccionada
+        fila_seleccionada = self.TablaEgreso.currentRow()
+
+        # Verificar si se ha seleccionado una fila
+        if fila_seleccionada != -1:
+            # Obtener los datos de la fila seleccionada
+            tipo_gasto = self.TablaEgreso.item(fila_seleccionada, 1).text()
+            descripcion_egreso = self.TablaEgreso.item(fila_seleccionada, 2).text()
+            metodo_pago = self.TablaEgreso.item(fila_seleccionada, 3).text()
+            pago_egreso = self.TablaEgreso.item(fila_seleccionada, 4).text()
+            fecha_egreso = self.TablaEgreso.item(fila_seleccionada, 5).text()
+            
+
+            # Cargar los datos en los inputs correspondientes y hacerlos de solo lectura
+            self.InputTipoGasto.setText(tipo_gasto)
+            self.InputDescripcionEgreso.setText(descripcion_egreso)
+            self.InputPagoEgreso.setText(pago_egreso)
+            self.InputFechaEgreso.setText(fecha_egreso)
+
+            # Establecer los inputs como solo lectura
+            self.InputTipoGasto.setReadOnly(True)
+            self.InputDescripcionEgreso.setReadOnly(True)
+            self.InputPagoEgreso.setReadOnly(True)
+            self.InputFechaEgreso.setReadOnly(True)
+
+        
+    def eliminar_egreso(self):
+        # Obtener la fila seleccionada
+        fila_seleccionada = self.TablaEgreso.currentRow()
+
+        # Verificar si se ha seleccionado una fila
+        if fila_seleccionada != -1:
+            # Confirmar la eliminación con el usuario
+            reply = QMessageBox.question(
+                self,
+                "Confirmar eliminación",
+                "¿Estás seguro de que deseas eliminar este egreso?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
+
+            if reply == QMessageBox.Yes:
+                # Eliminar la fila seleccionada
+                self.TablaEgreso.removeRow(fila_seleccionada)
+                self.limpiar_formulario()
+
+                # Actualizar el subtotal y total después de eliminar la fila
+    def obtener_nombres_metodos_pago(self, db, metodo_id):
+        metodo = db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == metodo_id).first()  # Cambiado de 'ID' a 'ID_Metodo_Pago'
+        return metodo.Nombre if metodo else "Desconocido"
+
     def cargar_egresos(self):
-        # Obtener la lista de egresos desde la base de datos
+        # Obtener la lista de egresos desde la base de datos  
         db = SessionLocal()
         egresos = obtener_egresos(db)  # Asegúrate de que esto retorne una lista de egresos
         
@@ -52,6 +109,10 @@ class Egreso_View(QWidget, Ui_Egreso):
         for egreso in egresos:
             row_position = self.TablaEgreso.rowCount()  # Obtener la posición de la siguiente fila vacía
             self.TablaEgreso.insertRow(row_position)  # Insertar una nueva fila
+            
+            # Obtener nombre del método de pago
+            nombre_metodo_pago = self.obtener_nombres_metodos_pago(db, egreso.ID_Metodo_Pago)
+
 
             # Asignar los valores a las celdas de la nueva fila
             item_id_egreso = QTableWidgetItem(str(egreso.ID_Egreso))
@@ -66,7 +127,7 @@ class Egreso_View(QWidget, Ui_Egreso):
             item_descripcion.setTextAlignment(Qt.AlignCenter)
             self.TablaEgreso.setItem(row_position, 2, item_descripcion)  # Descripción
 
-            item_metodo_pago = QTableWidgetItem(str(egreso.ID_Metodo_Pago))
+            item_metodo_pago = QTableWidgetItem(str(nombre_metodo_pago))
             item_metodo_pago.setTextAlignment(Qt.AlignCenter)
             self.TablaEgreso.setItem(row_position, 3, item_metodo_pago)  # Método de Pago
 
@@ -88,13 +149,37 @@ class Egreso_View(QWidget, Ui_Egreso):
         descripcion_egreso = self.InputDescripcionEgreso.text()
         metodo_pago = self.MetodoPagoBox.currentText()  # Obtener el método de pago seleccionado
         monto_egreso = self.InputPagoEgreso.text()  # Suponiendo que el monto está en el campo "Pago Egreso"
-        
         # Validación de campos (puedes agregar más validaciones si lo deseas)
-        if not tipo_gasto or not fecha_egreso or not pago_egreso or not descripcion_egreso or not metodo_pago or not monto_egreso:
-            print("Por favor complete todos los campos.")
+        
+        fecha_hora = datetime.now()
+        fecha_hora_formateada = fecha_hora.strftime("%d/%m/%Y %H:%M:%S")
+        self.InputFechaEgreso.setText(fecha_hora_formateada)
+        # Verificar si hay campos vacíos
+        if not tipo_gasto:
+            self.InputTipoGasto.setFocus()  # Poner el foco en el campo vacío
             return
 
-        # Obtener el ID del método de pago
+        if not descripcion_egreso:
+            self.InputDescripcionEgreso.setFocus()  # Poner el foco en el campo vacío
+            return
+
+        if not pago_egreso:
+            self.InputPagoEgreso.setFocus()  # Poner el foco en el campo vacío
+            return
+
+        if not fecha_egreso:
+            self.InputFechaEgreso.setFocus()  # Poner el foco en el campo vacío
+            return
+
+        if not metodo_pago:
+            self.InputMetodoPago.setFocus()  # Poner el foco en el campo vacío
+            return
+
+        if not monto_egreso:
+            self.InputMontoEgreso.setFocus()  # Poner el foco en el campo vacío
+            return
+
+            # Obtener el ID del método de pago
         db = SessionLocal()
         metodos = obtener_metodos_pago(db)
         metodo_pago_id = None
@@ -156,7 +241,7 @@ class Egreso_View(QWidget, Ui_Egreso):
         # Limpiar el formulario después de agregar el egreso
         self.limpiar_formulario()
         db.close()
-        
+    
     def metodo_pago(self):
         try:
             # Iniciar conexión con la base de datos

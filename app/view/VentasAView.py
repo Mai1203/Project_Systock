@@ -406,10 +406,8 @@ class VentasA_View(QWidget, Ui_VentasA):
             -----------------------------------------------------------------------------------------------------
             Subtotal: {subtotal_formateado}
             Envío: {delivery_fee_formateado}
-            Descuento: {descuento_formateado}
             Total: {total_formateado}
             Método de Pago: {payment_method}
-            Pago: {pago_formateado}
             -----------------------------------------------------------------------------------------------------
             ¡Gracias por tu compra!
             -----------------------------------------------------------------------------------------------------

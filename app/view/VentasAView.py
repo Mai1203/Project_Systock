@@ -136,7 +136,10 @@ class VentasA_View(QWidget, Ui_VentasA):
             precio_unitario = detalles["Precio_Unitario"]
             subtotal_producto = detalles["Subtotal"]
             
-            self.tableWidget.setItem(row, 0, QTableWidgetItem(str(id_producto)))
+            item_id_producto = QtWidgets.QTableWidgetItem(str(id_producto))
+            item_id_producto.setFlags(item_id_producto.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_id_producto.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.tableWidget.setItem(row, 0, item_id_producto)
             
             item_nombre = QtWidgets.QTableWidgetItem(producto)
             item_nombre.setFlags(item_nombre.flags() & ~QtCore.Qt.ItemIsEditable)
@@ -503,8 +506,8 @@ class VentasA_View(QWidget, Ui_VentasA):
         
         # Actualizar información general de la factura
         factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
-        factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" else 0.0
-        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
+        factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" or payment_method == "Mixto" else 0.0
+        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" or payment_method == "Mixto" else 0.0
         factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
         factura.ID_Usuario = usuario_actual_id
 

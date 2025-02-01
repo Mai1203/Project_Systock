@@ -146,7 +146,10 @@ class VentasB_View(QWidget, Ui_VentasB):
             precio_unitario = detalles["Precio_Unitario"]
             subtotal_producto = detalles["Subtotal"]
             
-            self.TablaVentaMayor.setItem(row, 0, QTableWidgetItem(str(id_producto)))
+            item_id_producto = QtWidgets.QTableWidgetItem(str(id_producto))
+            item_id_producto.setFlags(item_id_producto.flags() & ~QtCore.Qt.ItemIsEditable)
+            item_id_producto.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.TablaVentaMayor.setItem(row, 0, item_id_producto)
             
             item_nombre = QtWidgets.QTableWidgetItem(producto)
             item_nombre.setFlags(item_nombre.flags() & ~QtCore.Qt.ItemIsEditable)
@@ -270,7 +273,6 @@ class VentasB_View(QWidget, Ui_VentasB):
             subtotal = sum(item[2] for item in items)
             delivery_fee = float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             total = (subtotal + delivery_fee) - descuento
-            pago = self.InputPago.text().strip()
 
             if self.invoice_number and self.invoice_number != "":
                 self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
@@ -300,8 +302,6 @@ class VentasB_View(QWidget, Ui_VentasB):
             # Formatear valores monetarios
             subtotal_formateado = f"${subtotal:,.2f}"
             total_formateado = f"${total:,.2f}"
-            pago = float(pago)
-            pago_formateado = f"${pago:,.2f}"
 
             # Formatear el costo de envío
             delivery_fee = float(delivery_fee)
@@ -504,8 +504,8 @@ class VentasB_View(QWidget, Ui_VentasB):
     
         # Actualizar información general de la factura
         factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
-        factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" else 0.0
-        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" else 0.0
+        factura.Monto_TRANSACCION = tranferencia if payment_method == "Transferencia" or payment_method == "Mixto" else 0.0
+        factura.Monto_efectivo = efectivo if payment_method == "Efectivo" or payment_method == "Mixto" else 0.0
         factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
         factura.ID_Usuario = usuario_actual_id
 

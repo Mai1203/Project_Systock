@@ -216,6 +216,12 @@ class VentasA_View(QWidget, Ui_VentasA):
             monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
             descuento = float(self.InputDescuento.text().strip()) if self.InputDescuento.text() else 0.0
+            subtotal = self.LabelSubtotal.text()
+            subtotal = float(subtotal.replace(",", ""))
+            
+            if float(monto_pago) > subtotal:
+                QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")
+                return 
             
             # validaciones
             if not client_name:
@@ -970,7 +976,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         else:
             subtotal_formateado = f"{subtotal:,.2f}"
 
-        self.LabelSubtotal.setText(f"Subtotal: {subtotal_formateado}")
+        self.LabelSubtotal.setText(f"{subtotal_formateado}")
 
         domicilio = self.obtener_valor_domicilio()  # Obtener el valor del domicilio
         
@@ -981,7 +987,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         else:
             total_formateado = f"{total:,.2f}"
 
-        self.LabelTotal.setText(f"Total: {total_formateado}")
+        self.LabelTotal.setText(f"{total_formateado}")
             
     def aplicar_descuento(self):
         try:

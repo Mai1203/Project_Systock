@@ -103,8 +103,6 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
-    
-
 
     def cargar_información(self, factura_completa):
         factura = factura_completa["Factura"]
@@ -216,6 +214,12 @@ class VentasB_View(QWidget, Ui_VentasB):
             monto_pago = self.InputPago.text().strip()
             payment_method = self.MetodoPagoBox.currentText().strip()
             descuento = 0.0
+            subtotal = self.LabelSubtotal.text()
+            subtotal = float(subtotal.replace(",", ""))
+            
+            if float(monto_pago) > subtotal:
+                QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")
+                return 
 
             # Validaciones
             if not client_name:
@@ -964,7 +968,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         else:
             subtotal_formateado = f"{subtotal:,.2f}"
 
-        self.LabelSubtotal.setText(f"Subtotal: {subtotal_formateado}")
+        self.LabelSubtotal.setText(f"{subtotal_formateado}")
 
         domicilio = self.obtener_valor_domicilio()  # Obtener el valor del domicilio
 
@@ -975,7 +979,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         else:
             total_formateado = f"{total:,.2f}"
 
-        self.LabelTotal.setText(f"Total: {total_formateado}")
+        self.LabelTotal.setText(f"{total_formateado}")
         
     def cargar_datos(self, row, column):
         try:

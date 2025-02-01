@@ -87,6 +87,10 @@ class Facturas_View(QWidget, Ui_Facturas):
             if facturas.Estado == True:
                 QMessageBox.warning(self, "Factura", f"La factura {id_factura} ya está pagada.")
                 return 
+            
+            if facturas.tipofactura == "Credito":
+                QMessageBox.warning(self, "Factura", f"La factura {id_factura} no es una factura de venta.")
+                return
 
             factura_completa = obtener_factura_completa(self.db, id_factura)
             

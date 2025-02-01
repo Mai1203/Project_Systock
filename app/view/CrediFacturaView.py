@@ -9,6 +9,7 @@ from ..ui import Ui_FacturasCredito
 from ..database.database import SessionLocal
 from ..controllers.venta_credito_crud import *
 from ..controllers.facturas_crud import *
+from ..controllers.pago_credito_crud import *
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import *
 
@@ -146,8 +147,10 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
                     if venta_credito:
                         venta = venta_credito[0]
                         id_factura = venta.ID_Factura
+                    eliminar_pagoCredito_VentaCredito(self.db, id_ventaCredito)
                     eliminar_venta_credito(self.db, id_ventaCredito)
                     eliminar_factura(self.db, id_factura)
+                    
 
                 self.db.commit()
                 enviar_notificacion("Éxito", "Factura(s) eliminada(s) correctamente.")

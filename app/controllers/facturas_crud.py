@@ -216,7 +216,27 @@ def obtener_factura_por_id(db: Session, id_factura: int):
     :param id_factura: ID de la factura.
     :return: Objeto de factura o None si no existe.
     """
-    return db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
+    facturas = (
+        db.query(
+            Facturas.ID_Factura,
+            Facturas.Fecha_Factura,
+            Facturas.Monto_efectivo,
+            Facturas.Monto_TRANSACCION,
+            Facturas.Estado,
+            Clientes.Nombre.label("cliente"),
+            Usuarios.Usuario.label("usuario"),
+            MetodoPago.Nombre.label("metodopago"),
+            TipoFactura.Nombre.label("tipofactura"),
+        )
+        .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
+        .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+        .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
+        .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
+        .filter(Facturas.ID_Factura == id_factura)
+        .first()
+    )
+
+    return facturas
 
 
 # Actualizar una factura

@@ -161,6 +161,7 @@ def buscar_ventas_credito(db: Session, busqueda: str):
         .filter(
             or_(
                 VentaCredito.ID_Venta_Credito.like(f"%{busqueda}%"),
+                Facturas.ID_Factura.like(f"%{busqueda}%"),
                 VentaCredito.Fecha_Registro.like(f"%{busqueda}%"),
                 Clientes.Nombre.like(f"%{busqueda}%"),
             )

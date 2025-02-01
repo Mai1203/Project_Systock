@@ -116,6 +116,27 @@ def actualizar_pago_credito(
     db.refresh(pago_credito_existente)
     return pago_credito_existente
 
+def eliminar_pagoCredito_VentaCredito(db: Session, id_venta_credito: int):
+    """
+    Elimina un pago de crédito por venta a crédito.
+    :param db: Sesión de base de datos.
+    :param id_pago_credito: ID del pago de crédito a eliminar.
+    :return: True si se eliminó correctamente, False si no se encontró.
+    """
+    pago_credito_existente = (
+        db.query(PagoCredito)
+        .filter(PagoCredito.ID_Venta_Credito == id_venta_credito)
+        .all()
+    )
+    if not pago_credito_existente:
+        return False
+
+    # Eliminar cada pago individualmente
+    for pago in pago_credito_existente:
+        db.delete(pago)
+
+    db.commit()
+    return True
 
 # Eliminar un pago de crédito
 def eliminar_pago_credito(db: Session, id_pago_credito: int):

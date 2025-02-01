@@ -410,7 +410,6 @@ class VentasB_View(QWidget, Ui_VentasB):
             Envío: {delivery_fee_formateado}
             Total: {total_formateado}
             Método de Pago: {payment_method}
-            Pago: {pago_formateado}
             -----------------------------------------------------------------------------------------------------
             ¡Gracias por tu compra!
             """

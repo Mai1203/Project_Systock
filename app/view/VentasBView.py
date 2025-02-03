@@ -795,6 +795,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                 self.agregar_producto(mostrar_mensaje=False)
                 self.InputCodigo.clear()
                 self.InputCodigo.setFocus()
+                self.InputPago.clear()
                 
     def agregar_producto(self, mostrar_mensaje=True):
         # Leer los datos de los campos de entrada
@@ -946,6 +947,7 @@ class VentasB_View(QWidget, Ui_VentasB):
             QMessageBox.warning(
                 self, "Error", "Por favor, selecciona un producto para eliminar."
             )
+        self.InputPago.clear()
             
     def obtener_valor_domicilio(self):
         if self.InputDomicilio.isEnabled():
@@ -1160,6 +1162,7 @@ class VentasB_View(QWidget, Ui_VentasB):
             QMessageBox.warning(
                 self, "Error", "No se ha seleccionado ninguna fila para actualizar."
             )
+        self.InputPago.clear()
             
     def validar_campos(self):
         rx_codigo = QRegularExpression(r"^\d+$")  # Expresión para solo números

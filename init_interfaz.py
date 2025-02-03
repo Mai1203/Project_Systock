@@ -139,6 +139,7 @@ class MainWindow(QMainWindow):
         self.MainApp.ventasA.usuario_actual_id = usuario_autenticado.ID_Usuario
         self.MainApp.ventasB.usuario_actual_id = usuario_autenticado.ID_Usuario
         self.MainApp.ventasCredito.usuario_actual_id = usuario_autenticado.ID_Usuario
+        self.MainApp.pagoCredito.usuario_actual_id = usuario_autenticado.ID_Usuario
         token = self.generar_token(usuario_autenticado.ID_Usuario, rol)
 
         # Almacenar el token en el objeto MainWindow

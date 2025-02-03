@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QMessageBox,
 )
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import pyqtSignal
 
 from ..ui import Ui_FacturasCredito
@@ -12,7 +12,7 @@ from ..controllers.facturas_crud import *
 from ..controllers.pago_credito_crud import *
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import *
-
+from datetime import datetime
 
 class CrediFactura_View(QWidget, Ui_FacturasCredito):
     enviar_facturas_Credito = pyqtSignal(dict, int)
@@ -21,6 +21,9 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
     def __init__(self, parent=None):
         super(CrediFactura_View, self).__init__(parent)
         self.setupUi(self)
+        
+        self.TablaFacturasCredito.setColumnWidth(4, 120)
+        self.TablaFacturasCredito.setColumnWidth(5, 120)
 
         self.InputBuscador.setPlaceholderText(
             "Buscar por ID, Cliente, o Fecha de Registro"
@@ -79,11 +82,14 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
             id_factura = str(row.ID_Factura)
             cliente = str(row.cliente)
             fecha_registro = str(row.Fecha_Registro)
-            fecha_limite = str(row.Fecha_Limite)
+            fecha_limite = row.Fecha_Limite
             total_deuda = str(row.Total_Deuda)
             saldo_pendiente = str(row.Saldo_Pendiente)
             estado = "Pagado" if row.estado else "Pendiente"
 
+            # Convertir la fecha límite a datetime
+            fecha_actual = datetime.now()
+            
             # Configurar items de la tabla
             items = [
                 (id_venta_credito, 0),
@@ -91,16 +97,20 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
                 (id_factura, 2),
                 (cliente, 3),
                 (fecha_registro, 4),
-                (fecha_limite, 5),
+                (str(fecha_limite), 5),
                 (total_deuda, 6),
                 (saldo_pendiente, 7),
                 (estado, 8),
             ]
 
+            # Determinar color de texto
+            color = QtGui.QColor("red") if fecha_actual > fecha_limite else QtGui.QColor("black")
+            
             # Añadir items a la tabla
             for value, col_idx in items:
                 item = QtWidgets.QTableWidgetItem(value)
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
+                item.setForeground(QtGui.QBrush(color))  # Aplicar color
                 self.TablaFacturasCredito.setItem(row_idx, col_idx, item)
 
     def obtener_ids_seleccionados(self):

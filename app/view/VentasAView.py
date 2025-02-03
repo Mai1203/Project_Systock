@@ -766,6 +766,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         finally:
             # Asegurarse de cerrar la sesión de la base de datos
             db.close()
+        
 
     def limpiar_tabla(self):
 
@@ -787,6 +788,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 self.agregar_producto(mostrar_mensaje=False)
                 self.InputCodigo.clear()
                 self.InputCodigo.setFocus()
+                self.InputPago.clear()
 
     def agregar_producto(self, mostrar_mensaje=True):
         # Leer los datos de los campos de entrada
@@ -944,6 +946,7 @@ class VentasA_View(QWidget, Ui_VentasA):
 
                 # Actualizar el subtotal y total después de eliminar la fila
                 self.actualizar_total()
+                self.InputPago.clear()
         else:
             QMessageBox.warning(
                 self, "Error", "Por favor, selecciona un producto para eliminar."
@@ -1220,6 +1223,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             QMessageBox.warning(
                 self, "Error", "No se ha seleccionado ninguna fila para actualizar."
             )
+        self.InputPago.clear()
 
     def validar_campos(self):
         # Cédula (solo números)

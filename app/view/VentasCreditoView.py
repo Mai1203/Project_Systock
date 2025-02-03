@@ -317,6 +317,30 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 limite_pago = self.calcular_fecha_futura(7)
             elif limite_pago == "15 días":
                 limite_pago = self.calcular_fecha_futura(15)
+                
+            # Validación de campos obligatorios
+            if not client_name or not client_apellido or not client_address or not client_phone or not client_id:
+                QMessageBox.information(
+                    self, "Campos obligatorios", "Todos los campos son obligatorios"
+                )
+                QTimer.singleShot(0, self.InputNombreCli.setFocus)
+                return
+            # Validación de cédula
+            if len(client_id) < 6 or len(client_id) > 11 or not client_id.isdigit():
+                QMessageBox.warning(
+                    self, "Cédula inválida", "La cédula debe tener entre 6 y 11 dígitos."
+                )
+                QTimer.singleShot(0, self.InputCedula.setFocus)
+                self.limpiar_datos_cliente()
+                return
+            # Validación de teléfono
+            if len(client_phone) != 10 or not client_phone.isdigit():
+                QMessageBox.warning(
+                    self, "Teléfono inválido", "El teléfono debe tener 10 dígitos."
+                )
+                QTimer.singleShot(0, self.InputTelefonoCli.setFocus)
+
+                return
 
             self.verificar_cliente()
 
@@ -1268,31 +1292,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         apellido = self.InputApellidoCli.text().strip()
         direccion = self.InputDireccion.text().strip()
         telefono = self.InputTelefonoCli.text().strip()
-
-        # Validación de campos obligatorios
-        if not nombre or not apellido or not direccion or not telefono or not cedula:
-            QMessageBox.information(
-                self, "Campos obligatorios", "Todos los campos son obligatorios"
-            )
-            QTimer.singleShot(0, self.InputNombreCli.setFocus)
-
-            return
-        # Validación de cédula
-        if len(cedula) < 6 or len(cedula) > 11 or not cedula.isdigit():
-            QMessageBox.warning(
-                self, "Cédula inválida", "La cédula debe tener entre 6 y 11 dígitos."
-            )
-            QTimer.singleShot(0, self.InputCedula.setFocus)
-
-            return
-        # Validación de teléfono
-        if len(telefono) != 10 or not telefono.isdigit():
-            QMessageBox.warning(
-                self, "Teléfono inválido", "El teléfono debe tener 10 dígitos."
-            )
-            QTimer.singleShot(0, self.InputTelefonoCli.setFocus)
-
-            return
 
         # Crear una sesión de base de datos
         db = (

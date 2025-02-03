@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QRegularExpression
 from PyQt5.QtGui import QRegularExpressionValidator
+from datetime import datetime, timedelta
 
 from ..ui import Ui_PagoCredito
 from ..database.database import SessionLocal
@@ -30,6 +31,13 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
         
         self.BtnAbonar.clicked.connect(self.abonar)
 
+    def calcular_fecha_futura(self, dias):
+        # Obtener la fecha y hora actual
+        fecha_actual = datetime.now()
+        # Sumar los días a la fecha actual
+        fecha_futura = fecha_actual + timedelta(days=dias)
+        return fecha_futura.replace(microsecond=0)
+    
     def cargar_información(self, id_ventaCredito):
 
         self.id_VentaCredito = id_ventaCredito
@@ -189,9 +197,17 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             else:
                 estado = False
                 tipo_pago = 1
+                
+            fecha_registro = venta.Fecha_Registro
+            fecha_limite = venta.Fecha_Limite
+            
+            dias = fecha_limite - fecha_registro
+            print(dias.days)
+                
+            limite_pago = self.calcular_fecha_futura(dias.days)
             
             pago_credito =crear_pago_credito(db=self.db, id_venta_credito=self.id_VentaCredito, monto=abono_total, id_metodo_pago=id_metodo_pago, id_tipo_pago=tipo_pago)
-            actualizar_venta = actualizar_venta_credito(db=self.db, id_venta_credito=self.id_VentaCredito, saldo_pendiente=saldo_pendiente)
+            actualizar_venta = actualizar_venta_credito(db=self.db, id_venta_credito=self.id_VentaCredito, saldo_pendiente=saldo_pendiente, fecha_limite=limite_pago)
             actualizar_factura(db=self.db, id_factura=id_factura, monto_efectivo=efectivo, monto_transaccion=tranferencia, id_metodo_pago=id_metodo_pago, estado=estado)
             
             tipo_ingreso = crear_tipo_ingreso(db=self.db, tipo_ingreso="Abono", id_pago_credito=pago_credito.ID_Pago_Credito)

@@ -10,6 +10,15 @@ from sqlalchemy import (
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from app.database.database import Base
+from datetime import datetime
+from pytz import timezone
+
+
+def get_local_time():
+    # Cambia 'America/Bogota' por tu zona horaria local
+    local_tz = timezone("America/Bogota")
+    now = datetime.now(local_tz)
+    return now.replace(microsecond=0)
 
 
 class PagoCredito(Base):
@@ -17,7 +26,7 @@ class PagoCredito(Base):
 
     ID_Pago_Credito = Column(Integer, primary_key=True, autoincrement=True)
     Monto = Column(Float, nullable=False)
-    Fecha_Registro = Column(DateTime, default=func.now())
+    Fecha_Registro = Column(DateTime, default=get_local_time)
 
     ID_Venta_Credito = Column(Integer, ForeignKey("VENTA_CREDITO.ID_Venta_Credito"))
     ID_Metodo_Pago = Column(Integer, ForeignKey("METODO_PAGO.ID_Metodo_Pago"))

@@ -202,7 +202,6 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             fecha_limite = venta.Fecha_Limite
             
             dias = fecha_limite - fecha_registro
-            print(dias.days)
                 
             limite_pago = self.calcular_fecha_futura(dias.days)
             

@@ -239,9 +239,20 @@ class VentasA_View(QWidget, Ui_VentasA):
                 QMessageBox.warning(self, "Datos incompletos", "El campo 'Pago' está vacío.")
                 self.InputPago.setFocus()
                 return
-            if float(monto_pago) > subtotal:
-                QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")
-                return 
+            if payment_method == "Efectivo" or payment_method == "Transferencia":
+                if float(monto_pago) > subtotal:
+                    QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")
+                    return 
+            elif payment_method == "Mixto":
+                if '/' in monto_pago:
+                    total = monto_pago.split("/") 
+                    efectivo = float(total[0])
+                    tranferencia = float(total[1])
+                    total = efectivo + tranferencia
+                
+                if total > subtotal:
+                    QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")
+                    return
 
             self.verificar_cliente(client_id, client_name, client_address, client_phone)
 

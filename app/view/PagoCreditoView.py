@@ -14,6 +14,7 @@ from ..controllers.metodo_pago_crud import *
 from ..controllers.pago_credito_crud import *
 from ..controllers.tipo_ingreso_crud import *
 from ..controllers.ingresos_crud import *
+from ..utils.validar_campos import *
 
 
 class PagoCredito_View(QWidget, Ui_PagoCredito):
@@ -21,6 +22,7 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
         super(PagoCredito_View, self).__init__(parent)
         self.setupUi(self)
         self.id_VentaCredito = None
+        configurar_validador_numerico(self.InputPago)
         
         self.InputPago.setPlaceholderText("$")
         self.MetodoPagoBox.addItems(self.metodo_pago())

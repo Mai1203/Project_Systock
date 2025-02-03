@@ -16,6 +16,7 @@ from ..controllers.clientes_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..controllers.venta_credito_crud import *
+from ..controllers.pago_credito_crud import *
 from ..ui import Ui_VentasCredito
 from ..utils.autocomplementado import configurar_autocompletado
 from ..utils.restructura_ticket import *
@@ -62,6 +63,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.limpiar_tabla()
         self.configurar_localizacion()
         self.validar_campos()
+   
 
         # Conexiones de señales - Entradas de texto
         self.db = SessionLocal()
@@ -290,6 +292,52 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         fecha_futura = fecha_actual + timedelta(days=dias)
         return fecha_futura.replace(microsecond=0)
 
+    def obtener_id_factura(self):
+        # Verificamos si el objeto 'venta' está disponible y tiene el atributo 'ID_Factura'
+        if hasattr(self, 'venta') and hasattr(self.venta, 'ID_Factura'):
+            return self.venta.ID_Factura  # Devuelve el ID de la factura asociada a la venta
+        else:
+            # Si no se encuentra la venta o el ID de factura, se maneja el error
+            return "⚠️ No se encontró el ID de la factura asociada a la venta."
+
+    def verificar_pagos_factura(self, id_factura=None):
+        # Si no se pasa id_factura, intentar obtenerlo automáticamente
+        if not id_factura:
+            id_factura = self.obtener_id_factura()  # Obtén el id_factura desde otro lugar
+
+        if not id_factura:
+            return "⚠️ El ID de la factura no es válido"
+        
+        db = SessionLocal()
+        try:
+            # Obtener los pagos asociados a la factura
+            pagos = db.query(PagoCredito).filter(PagoCredito.ID_Venta_Credito == id_factura).all()
+
+            # Si hay pagos asociados, se considera que la factura tiene pagos realizados
+            if pagos:
+                pagos_info = []
+                for pago in pagos:
+                    pago_info = {
+                        "Monto": pago.Monto,
+                        "Fecha_Registro": pago.Fecha_Registro,
+                        "Metodo_Pago": self.get_metodo_pago(pago.ID_Metodo_Pago),
+                        "Tipo_Pago": self.get_tipo_pago(pago.ID_Tipo_Pago)
+                    }
+                    pagos_info.append(pago_info)
+                return pagos_info
+            else:
+                return "⚠️ No se han realizado pagos para esta factura"
+        
+        except Exception as e:
+            print(f"Error al verificar los pagos de la factura: {e}")
+            return str(e)
+        
+        finally:
+            db.close()
+
+
+
+
     def generar_venta(self):
 
         if self.TablaVentasCredito.rowCount() == 0:
@@ -388,9 +436,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
 
-
-            # Llamar a la función para generar el ticket
-            # Generar el contenido del ticket
             # Configuración inicial
             max_lines_per_page = 30  # Límite de líneas por página
             current_line = 0  # Contador de líneas
@@ -430,6 +475,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             -----------------------------------------------------------------------------------------------------
             Productos:
             """
+            estado_pago_factura = self.verificar_pagos_factura(id_factura)
 
             # Obtener la impresora predeterminada
             impresora = win32print.GetDefaultPrinter()
@@ -515,8 +561,12 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             Total: {total_formateado}
             Fecha Limite: {limite_pago}
             -----------------------------------------------------------------------------------------------------
+
             ¡Gracias por tu compra!
             """
+            y += line_height
+            hDC.TextOut(x, y, estado_pago_factura)
+            y += line_height
             for line in totales.split("\n"):
                 hDC.TextOut(x, y, line.strip())
                 y += line_height
@@ -541,6 +591,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
         self.invoice_number = None
+        
+    
 
     def guardar_factura(
         self,

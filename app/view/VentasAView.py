@@ -15,10 +15,8 @@ from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..controllers.ingresos_crud import *
 from ..controllers.tipo_ingreso_crud import *
-from ..controllers.facturas_crud import crear_factura
-from ..controllers.detalle_factura_crud import crear_detalle_factura
-from ..controllers.metodo_pago_crud import obtener_metodo_pago_por_nombre
 from ..controllers.clientes_crud import *
+from ..controllers.ingresos_crud import *
 from ..ui import Ui_VentasA
 from ..utils.autocomplementado import configurar_autocompletado
 from PyQt5.QtCore import Qt
@@ -219,9 +217,6 @@ class VentasA_View(QWidget, Ui_VentasA):
             subtotal = self.LabelSubtotal.text()
             subtotal = float(subtotal.replace(",", ""))
             
-            if float(monto_pago) > subtotal:
-                QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")
-                return 
             
             # validaciones
             if not client_name:
@@ -244,6 +239,9 @@ class VentasA_View(QWidget, Ui_VentasA):
                 QMessageBox.warning(self, "Datos incompletos", "El campo 'Pago' está vacío.")
                 self.InputPago.setFocus()
                 return
+            if float(monto_pago) > subtotal:
+                QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")
+                return 
 
             self.verificar_cliente(client_id, client_name, client_address, client_phone)
 
@@ -612,8 +610,8 @@ class VentasA_View(QWidget, Ui_VentasA):
 
             # Confirmar cambios en la base de datos
             db.commit()
-            print("Factura guardada exitosamente.") 
-            
+            tipo_ingreso = crear_tipo_ingreso(db=db, tipo_ingreso="Venta", id_factura=id_factura)
+            crear_ingreso(db=db, id_tipo_ingreso=tipo_ingreso.ID_Tipo_Ingreso)
             return id_factura
             
         except Exception as e:

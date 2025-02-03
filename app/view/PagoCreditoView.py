@@ -12,6 +12,8 @@ from ..controllers.venta_credito_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..controllers.pago_credito_crud import *
+from ..controllers.tipo_ingreso_crud import *
+from ..controllers.ingresos_crud import *
 
 
 class PagoCredito_View(QWidget, Ui_PagoCredito):
@@ -186,9 +188,12 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
                 estado = False
                 tipo_pago = 1
             
-            crear_pago_credito(db=self.db, id_venta_credito=self.id_VentaCredito, monto=abono_total, id_metodo_pago=id_metodo_pago, id_tipo_pago=tipo_pago)
+            pago_credito =crear_pago_credito(db=self.db, id_venta_credito=self.id_VentaCredito, monto=abono_total, id_metodo_pago=id_metodo_pago, id_tipo_pago=tipo_pago)
             actualizar_venta = actualizar_venta_credito(db=self.db, id_venta_credito=self.id_VentaCredito, saldo_pendiente=saldo_pendiente)
             actualizar_factura(db=self.db, id_factura=id_factura, monto_efectivo=efectivo, monto_transaccion=tranferencia, id_metodo_pago=id_metodo_pago, estado=estado)
+            
+            tipo_ingreso = crear_tipo_ingreso(db=self.db, tipo_ingreso="Abono", id_pago_credito=pago_credito.ID_Pago_Credito)
+            crear_ingreso(db=self.db, id_tipo_ingreso=tipo_ingreso.ID_Tipo_Ingreso)
             
             
             if actualizar_venta:

@@ -618,7 +618,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
 
             # Confirmar cambios en la base de datos
             db.commit()
-            print("Factura guardada exitosamente.")
 
             return id_factura
 

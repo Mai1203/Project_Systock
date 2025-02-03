@@ -9,14 +9,14 @@ def crear_tipo_ingreso(
     db: Session,
     tipo_ingreso: str,
     id_pago_credito: int = None,
-    id_detalle_factura: int = None,
+    id_factura: int = None,
 ):
     """
     Crea un nuevo tipo de ingreso.
     :param db: Sesión de base de datos.
     :param tipo_ingreso: Tipo de ingreso ('Venta' o 'Abono').
     :param id_pago_credito: ID del pago de crédito asociado (opcional).
-    :param id_detalle_factura: ID del detalle de factura asociado (opcional).
+    :param id_factura: ID del detalle de factura asociado (opcional).
     :return: Objeto de tipo de ingreso creado.
     """
     if tipo_ingreso not in ["Venta", "Abono"]:
@@ -25,7 +25,7 @@ def crear_tipo_ingreso(
     nuevo_tipo_ingreso = TipoIngreso(
         Tipo_Ingreso=tipo_ingreso,
         ID_Pago_Credito=id_pago_credito,
-        ID_Detalle_Factura=id_detalle_factura,
+        ID_Factura=id_factura,
     )
     db.add(nuevo_tipo_ingreso)
     db.commit()
@@ -64,7 +64,7 @@ def actualizar_tipo_ingreso(
     id_tipo_ingreso: int,
     tipo_ingreso: str = None,
     id_pago_credito: int = None,
-    id_detalle_factura: int = None,
+    id_factura: int = None,
 ):
     """
     Actualiza un tipo de ingreso existente.
@@ -72,7 +72,7 @@ def actualizar_tipo_ingreso(
     :param id_tipo_ingreso: ID del tipo de ingreso a actualizar.
     :param tipo_ingreso: Nuevo tipo de ingreso ('Venta' o 'Abono').
     :param id_pago_credito: Nuevo ID de pago de crédito (opcional).
-    :param id_detalle_factura: Nuevo ID de detalle de factura (opcional).
+    :param id_factura: Nuevo ID de detalle de factura (opcional).
     :return: Objeto de tipo de ingreso actualizado o None si no existe.
     """
     tipo_ingreso_existente = (
@@ -89,8 +89,8 @@ def actualizar_tipo_ingreso(
         tipo_ingreso_existente.Tipo_Ingreso = tipo_ingreso
     if id_pago_credito is not None:
         tipo_ingreso_existente.ID_Pago_Credito = id_pago_credito
-    if id_detalle_factura is not None:
-        tipo_ingreso_existente.ID_Detalle_Factura = id_detalle_factura
+    if id_factura is not None:
+        tipo_ingreso_existente.ID_Factura = id_factura
 
     db.commit()
     db.refresh(tipo_ingreso_existente)

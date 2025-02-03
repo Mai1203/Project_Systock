@@ -21,6 +21,9 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
     def __init__(self, parent=None):
         super(CrediFactura_View, self).__init__(parent)
         self.setupUi(self)
+        
+        self.TablaFacturasCredito.setColumnWidth(4, 120)
+        self.TablaFacturasCredito.setColumnWidth(5, 120)
 
         self.InputBuscador.setPlaceholderText(
             "Buscar por ID, Cliente, o Fecha de Registro"

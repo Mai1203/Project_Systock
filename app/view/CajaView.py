@@ -25,10 +25,6 @@ class Caja_View(QWidget, Ui_Caja):
         configurar_validador_numerico(self.InputMontoCaja)
         self.limpiar_tabla()
         
-    def agregar_datos_caja(self):
-        try:
-            self.db = SessionLocal()
-            
     def limpiar_tabla(self):
 
         self.TablaCaja.setRowCount(

@@ -167,6 +167,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         venta = venta_credito[0]
         
         pagado = venta.Total_Deuda - venta.Saldo_Pendiente 
+        
         # Obtener los detalles actuales de la factura
         detalles_actuales = (
             db.query(DetalleFacturas)
@@ -292,50 +293,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         fecha_futura = fecha_actual + timedelta(days=dias)
         return fecha_futura.replace(microsecond=0)
 
-    def obtener_id_factura(self):
-        # Verificamos si el objeto 'venta' está disponible y tiene el atributo 'ID_Factura'
-        if hasattr(self, 'venta') and hasattr(self.venta, 'ID_Factura'):
-            return self.venta.ID_Factura  # Devuelve el ID de la factura asociada a la venta
-        else:
-            # Si no se encuentra la venta o el ID de factura, se maneja el error
-            return "⚠️ No se encontró el ID de la factura asociada a la venta."
-
-    def verificar_pagos_factura(self, id_factura=None):
-        # Si no se pasa id_factura, intentar obtenerlo automáticamente
-        if not id_factura:
-            id_factura = self.obtener_id_factura()  # Obtén el id_factura desde otro lugar
-
-        if not id_factura:
-            return "⚠️ El ID de la factura no es válido"
-        
-        db = SessionLocal()
-        try:
-            # Obtener los pagos asociados a la factura
-            pagos = db.query(PagoCredito).filter(PagoCredito.ID_Venta_Credito == id_factura).all()
-
-            # Si hay pagos asociados, se considera que la factura tiene pagos realizados
-            if pagos:
-                pagos_info = []
-                for pago in pagos:
-                    pago_info = {
-                        "Monto": pago.Monto,
-                        "Fecha_Registro": pago.Fecha_Registro,
-                        "Metodo_Pago": self.get_metodo_pago(pago.ID_Metodo_Pago),
-                        "Tipo_Pago": self.get_tipo_pago(pago.ID_Tipo_Pago)
-                    }
-                    pagos_info.append(pago_info)
-                return pagos_info
-            else:
-                return "⚠️ No se han realizado pagos para esta factura"
-        
-        except Exception as e:
-            print(f"Error al verificar los pagos de la factura: {e}")
-            return str(e)
-        
-        finally:
-            db.close()
-
-
+   
 
 
     def generar_venta(self):
@@ -564,13 +522,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
 
             ¡Gracias por tu compra!
             """
-            y += line_height
-            hDC.TextOut(x, y, estado_pago_factura)
-            y += line_height
-            for line in totales.split("\n"):
-                hDC.TextOut(x, y, line.strip())
-                y += line_height
-
             # Finalizar la impresión
             hDC.EndPage()
             hDC.EndDoc()

@@ -537,9 +537,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             # Imprimir los totales y el mensaje final
             totales = f"""
             -----------------------------------------------------------------------------------------------------
-            Subtotal: {subtotal_formateado}
+            Deuda Total: {subtotal_formateado}
             Envío: {delivery_fee_formateado}
-            Total: {total_formateado}
             Fecha Limite: {limite_pago}
             -----------------------------------------------------------------------------------------------------
 

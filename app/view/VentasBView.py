@@ -268,7 +268,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                 quantity = int(self.TablaVentaMayor.item(row, 4).text())
                 description = self.TablaVentaMayor.item(row, 1).text()
                 precio_unitario = float(self.TablaVentaMayor.item(row, 5).text())
-                value = float(self.TablaVentaMayor.item(row, 5).text())
+                value = float(self.TablaVentaMayor.item(row, 6).text())
 
                 producto = obtener_producto_por_id(db, int(codigo))
 

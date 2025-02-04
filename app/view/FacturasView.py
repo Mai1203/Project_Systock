@@ -36,7 +36,6 @@ class Facturas_View(QWidget, Ui_Facturas):
 
         self.TablaFacturas.setColumnWidth(0, 50)
         self.TablaFacturas.setColumnWidth(5, 120)
-        # self.TablaFacturas.setSortingEnabled(True)
 
 
         self.BtnEliminarFactura.clicked.connect(self.eliminar_factura)
@@ -49,7 +48,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         super().showEvent(event)
         self.limpiar_tabla_facturas()
         self.mostrar_facturas()
-        # self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
+        self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
                         
     
     def cancelar_venta(self):

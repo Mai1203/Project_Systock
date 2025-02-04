@@ -365,9 +365,7 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             # Imprimir los totales y el mensaje final
             totales = f"""
             -----------------------------------------------------------------------------------------------------
-            Subtotal: {subtotal_formateado}
-            Envío: {delivery_fee_formateado}
-            Total: {total_formateado}
+            Deuda Total: {subtotal_formateado}
             Fecha Limite: {limite_pago}
             -----------------------------------------------------------------------------------------------------
             """

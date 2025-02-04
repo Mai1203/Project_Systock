@@ -30,50 +30,27 @@ class Facturas_View(QWidget, Ui_Facturas):
         self.TablaFacturas.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.TablaFacturas.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.TablaFacturas.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
         self.TablaFacturas.setSortingEnabled(True)
         self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
+
+        self.TablaFacturas.setColumnWidth(0, 50)
+        self.TablaFacturas.setColumnWidth(5, 120)
+        self.TablaFacturas.setSortingEnabled(True)
+
 
         self.BtnEliminarFactura.clicked.connect(self.eliminar_factura)
         self.BtnGenerarTicket.clicked.connect(self.generar_ticket)
         self.BtnFacturaPagada.clicked.connect(self.factura_pagada)
         self.BtnEditarFactura.clicked.connect(self.editar_factura)
         self.BtnVerCancelarVenta.clicked.connect(self.cancelar_venta)
-        # self.BtnVerProductos.clicked.connect(self.ver_productos)
 
     def showEvent(self, event):
         super().showEvent(event)
         self.limpiar_tabla_facturas()
         self.mostrar_facturas()
-
-    def ver_productos(self):
-        ids = self.obtener_ids_seleccionados()
-
-        if not ids:
-            enviar_notificacion(
-                "Advertencia", "No se seleccionaron productos para ver."
-            )
-            return
-
-        for id_factura in ids:
-            factura_completa = obtener_factura_completa(self.db, id_factura)
-            
-            productos = factura_completa["Detalles"]
-            
-            # Construimos el mensaje con los productos
-            mensaje = f"Factura ID: {id_factura}\n\n"
-            for producto in productos:
-                id_producto = producto["ID_Producto"]
-                nombre = producto.get("Nombre", "Desconocido")  # Agregar el nombre si está disponible
-                cantidad = producto["Cantidad"]
-                precio = producto.get("Precio_unitario", 0)
-                subtotal = producto.get("Subtotal", 0)
-                
-                mensaje += f"ID: {id_producto} | {nombre} | Cantidad: {cantidad} | Precio: {precio} | Subtotal: {subtotal}\n"
-
-            # Mostrar los productos en un QMessageBox
-            QMessageBox.information(self, "Productos en la Factura", mensaje)
-                
-                
+        self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
+                        
     
     def cancelar_venta(self):
         ids = self.obtener_ids_seleccionados()
@@ -172,6 +149,7 @@ class Facturas_View(QWidget, Ui_Facturas):
                 item = QtWidgets.QTableWidgetItem(value)
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.TablaFacturas.setItem(row_idx, col_idx, item)
+                
 
     def obtener_ids_seleccionados(self):
         """

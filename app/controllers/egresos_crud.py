@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.egresos import Egresos
+from app.models.facturas import MetodoPago
 
 
 # Crear un egreso
@@ -38,7 +39,22 @@ def obtener_egresos(db: Session):
     :param db: Sesión de base de datos.
     :return: Lista de egresos.
     """
-    return db.query(Egresos).all()
+    egresos = (
+        db.query(
+            Egresos.ID_Egreso,
+            Egresos.Tipo_Egreso,
+            Egresos.Fecha_Egreso,
+            Egresos.Descripcion,
+            Egresos.Monto_Egreso,
+            Egresos.ID_Metodo_Pago,
+            
+            MetodoPago.Nombre.label("metodopago"),
+        )
+        .join(MetodoPago, Egresos.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+        .all()
+    )
+    
+    return egresos
 
 
 # Obtener un egreso por ID

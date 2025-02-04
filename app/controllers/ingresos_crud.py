@@ -1,8 +1,10 @@
 from sqlalchemy.orm import Session
-from app.models.ingresos import (
-    Ingresos,
-)  # Asegúrate de ajustar la importación de acuerdo a tu estructura de proyecto
 
+
+from app.models.ingresos import (Ingresos,) 
+from app.models.tipo_ingresos import (TipoIngreso)
+from app.models.facturas import Facturas, MetodoPago
+from app.models.pago_credito import PagoCredito
 
 # Crear un nuevo ingreso
 def crear_ingreso(db: Session, id_tipo_ingreso: int):
@@ -26,7 +28,25 @@ def obtener_ingresos(db: Session):
     :param db: Sesión de base de datos.
     :return: Lista de ingresos.
     """
-    return db.query(Ingresos).all()
+    ingresos = (
+        db.query(
+            Ingresos.ID_Ingreso,
+            Ingresos.ID_Tipo_Ingreso,
+            
+            TipoIngreso.Tipo_Ingreso.label("tipo_ingreso"),
+            Facturas.Monto_efectivo.label("monto_efectivo"),
+            Facturas.Monto_TRANSACCION.label("monto_transaccion"),
+            PagoCredito.Monto.label("monto"),
+            MetodoPago.Nombre.label("metodo_pago"),
+        )
+        .outerjoin(TipoIngreso, Ingresos.ID_Tipo_Ingreso == TipoIngreso.ID_Tipo_Ingreso)
+        .outerjoin(Facturas, TipoIngreso.ID_Factura == Facturas.ID_Factura)
+        .outerjoin(PagoCredito, TipoIngreso.ID_Pago_Credito == PagoCredito.ID_Pago_Credito)
+        .outerjoin(MetodoPago, PagoCredito.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+        .all()
+    )
+    
+    return ingresos
 
 
 # Obtener un ingreso por ID

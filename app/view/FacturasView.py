@@ -30,10 +30,6 @@ class Facturas_View(QWidget, Ui_Facturas):
         self.TablaFacturas.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.TablaFacturas.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.TablaFacturas.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-
-        self.TablaFacturas.setSortingEnabled(True)
-        self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
-
         self.TablaFacturas.setColumnWidth(0, 50)
         self.TablaFacturas.setColumnWidth(5, 120)
 

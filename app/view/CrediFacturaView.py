@@ -49,6 +49,7 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
         super().showEvent(event)
         self.limpiar_tabla()
         self.mostrar_ventasCredito()
+        self.TablaFacturasCredito.sortItems(2, QtCore.Qt.DescendingOrder)
 
     def mostrar_ventasCredito(self):
         """

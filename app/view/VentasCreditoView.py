@@ -391,7 +391,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     self.invoice_number,
                     produc_datos,
                     self.usuario_actual_id,
-                    total,
+                    subtotal,
                     limite_pago,
                 )
                 mensaje = "Factura actualizada exitosamente."

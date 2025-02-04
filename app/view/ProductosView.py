@@ -71,6 +71,9 @@ class Productos_View(QWidget, Ui_Productos):
         self.TablaProductos.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.TablaProductos.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.TablaProductos.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.TablaProductos.setColumnWidth(4, 80)
+        self.TablaProductos.setColumnWidth(5, 80)
+        self.TablaProductos.setColumnWidth(6, 80)
 
         # Conectar el evento de presionar Enter en los inputs
         self.InputNombre.returnPressed.connect(self.editar_producto)

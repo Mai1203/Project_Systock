@@ -178,8 +178,8 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputDireccion.setText(str(client_address))
         self.InputPago.setText(str(pago))
         self.InputDescuento.setText(str(delivery_fee))
-        self.LabelSubtotal.setText(f"Subtotal: {subtotal:,.2f}")
-        self.LabelTotal.setText(f"Total: {total:,.2f}")
+        self.LabelSubtotal.setText(f"{subtotal:,.2f}")
+        self.LabelTotal.setText(f"{total:,.2f}")
         self.MetodoPagoBox.setCurrentText(payment_method)
 
     def showEvent(self, event):

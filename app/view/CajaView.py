@@ -9,7 +9,10 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 
 from ..ui import Ui_Caja
+from ..database.database import *
 from ..controllers.caja_crud import *
+from ..controllers.egresos_crud import *
+from ..controllers.ingresos_crud import *
 from ..utils.validar_campos import *
 
 
@@ -36,5 +39,26 @@ class Caja_View(QWidget, Ui_Caja):
         self.TablaIngresos.setRowCount(
             0
         ) 
+        
+    def mostrar_tabla(self):
+        
+        self.db = SessionLocal()
+        
+        egresos = obtener_egresos(db=self.db)
+        ingresos = obtener_ingresos(db=self.db)
+        
+        
+    
+    def actualizar_tabla(self, egresos, ingresos):
+        
+        self.TablaEgresos.setRowCount(
+            len(egresos)
+        ) 
+        self.TablaIngresos.setRowCount(
+            len(ingresos)
+        )
+        
+        
+        
         
         

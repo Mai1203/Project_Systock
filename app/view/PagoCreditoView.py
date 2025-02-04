@@ -265,7 +265,6 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             empresa_telefono = "+57 316-144-44-74"
 
             # Obtener la fecha actual
-            
             fecha_actual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")  # ✅ Correcto
 
             # Formatear valores monetarios
@@ -285,20 +284,10 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             direccion_linea1 = direccion[:25]
             direccion_linea2 = direccion[25:] if len(direccion) > 25 else ""
 
-            # Generar el contenido del ticket
-            ticket_content = f"""
-            Ticket No. {self.invoice_number}
-            Cliente: {client_name}
-            Cédula: {client_id}
-            Teléfono: {client_phone}
-            Dirección: {direccion_linea1}
-            {direccion_linea2}
-            -----------------------------------------------------------------------------------------------------
-            Productos:
-            """
 
             # Obtener la impresora predeterminada
             impresora = win32print.GetDefaultPrinter()
+            print(f"Impresora predeterminada: {impresora}")
             hDC = win32ui.CreateDC()
             hDC.CreatePrinterDC(impresora)
 
@@ -381,24 +370,40 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             Total: {total_formateado}
             Fecha Limite: {limite_pago}
             -----------------------------------------------------------------------------------------------------
-
-            ¡Gracias por tu compra!
             """
+            for line in totales.split("\n"):
+                hDC.TextOut(x, y, line.strip())
+                y += line_height
+
             hDC.TextOut(x, y, "Abonos:")  # Imprime el título "Productos:"
             y += line_height  # Mueve la posición de la siguiente línea hacia abajo
             
             for abono in abonos:
                 abono_linea = f"{abono[0]} x {abono[1]} - {abono[2]}"
-                hDC.TextOut(x, y, abono_linea)
-                y += line_height
-                current_line += 1
-            
+                
+                # Dividir la línea en fragmentos de 25 caracteres
+                while len(abono_linea) > 0:
+                    abono_linea_parte = abono_linea[:35]  # Tomar los primeros 25 caracteres
+                    hDC.TextOut(x, y, abono_linea_parte)
+                    abono_linea = abono_linea[35:]  # Eliminar los primeros 25 caracteres ya impresos
+                    y += line_height  # Salto de línea
+                    current_line += 1
+            hDC.TextOut(x, y, "-----------------------------------------------------------------------------------------------------------------")  # Imprime la línea separadora
+            y += line_height  
+            hDC.TextOut(x, y, "!Gracias Por cumplir con tu pago!")  # Imprime la línea separadora
+            y += line_height  # Mueve la posición para empezar a imprimir los productos
+                
+            # Finalizar la impresión
+            hDC.EndPage()
+            hDC.EndDoc()
+            hDC.DeleteDC()
             
             # Fina
             
             if actualizar_venta:
                 QMessageBox.information(self, "Venta a crédito", "La venta a crédito ha sido actualizada exitosamente.")
                 self.InputPago.clear()
+                
                 self.limpiar_tabla()
                 self.cargar_información(self.id_VentaCredito)
                 

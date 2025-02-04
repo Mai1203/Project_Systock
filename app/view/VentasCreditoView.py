@@ -457,7 +457,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             -----------------------------------------------------------------------------------------------------
             Productos:
             """
-            estado_pago_factura = self.verificar_pagos_factura(id_factura)
 
             # Obtener la impresora predeterminada
             impresora = win32print.GetDefaultPrinter()
@@ -546,6 +545,10 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
 
             ¡Gracias por tu compra!
             """
+            for line in totales.split("\n"):
+                hDC.TextOut(x, y, line.strip())
+                y += line_height
+
             # Finalizar la impresión
             hDC.EndPage()
             hDC.EndDoc()

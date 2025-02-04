@@ -16,6 +16,7 @@ from ..controllers.clientes_crud import *
 from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..controllers.venta_credito_crud import *
+from ..controllers.pago_credito_crud import *
 from ..ui import Ui_VentasCredito
 from ..utils.autocomplementado import configurar_autocompletado
 from ..utils.restructura_ticket import *
@@ -62,6 +63,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.limpiar_tabla()
         self.configurar_localizacion()
         self.validar_campos()
+   
 
         # Conexiones de señales - Entradas de texto
         self.db = SessionLocal()
@@ -165,6 +167,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         venta = venta_credito[0]
         
         pagado = venta.Total_Deuda - venta.Saldo_Pendiente 
+        
         # Obtener los detalles actuales de la factura
         detalles_actuales = (
             db.query(DetalleFacturas)
@@ -290,6 +293,9 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         fecha_futura = fecha_actual + timedelta(days=dias)
         return fecha_futura.replace(microsecond=0)
 
+   
+
+
     def generar_venta(self):
 
         if self.TablaVentasCredito.rowCount() == 0:
@@ -412,9 +418,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
 
-
-            # Llamar a la función para generar el ticket
-            # Generar el contenido del ticket
             # Configuración inicial
             max_lines_per_page = 30  # Límite de líneas por página
             current_line = 0  # Contador de líneas
@@ -539,6 +542,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
             Total: {total_formateado}
             Fecha Limite: {limite_pago}
             -----------------------------------------------------------------------------------------------------
+
             ¡Gracias por tu compra!
             """
             for line in totales.split("\n"):
@@ -565,6 +569,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
         self.invoice_number = None
+        
+    
 
     def guardar_factura(
         self,

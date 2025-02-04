@@ -273,6 +273,10 @@ class Ui_Caja(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/cerrar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnCajaCierre.setIcon(icon)
+        self.BtnCajaCierre.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaCierre.setObjectName("BtnCajaCierre")
         self.gridLayout_3.addWidget(self.BtnCajaCierre, 2, 2, 1, 1)
         self.label_7 = QtWidgets.QLabel(self.widget_3)
@@ -332,6 +336,10 @@ class Ui_Caja(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("assets/iconos/signo_dinero.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnCajaApertura.setIcon(icon1)
+        self.BtnCajaApertura.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaApertura.setObjectName("BtnCajaApertura")
         self.gridLayout_3.addWidget(self.BtnCajaApertura, 2, 1, 1, 1)
         self.label_2 = QtWidgets.QLabel(self.widget_3)
@@ -559,7 +567,7 @@ class Ui_Caja(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.TablaIngresos.sizePolicy().hasHeightForWidth())
         self.TablaIngresos.setSizePolicy(sizePolicy)
-        self.TablaIngresos.setMinimumSize(QtCore.QSize(450, 250))
+        self.TablaIngresos.setMinimumSize(QtCore.QSize(490, 250))
         self.TablaIngresos.setStyleSheet("\n"
 "QTableWidget {\n"
 "    border: none;\n"
@@ -664,7 +672,7 @@ class Ui_Caja(object):
 "\n"
 "")
         self.TablaIngresos.setObjectName("TablaIngresos")
-        self.TablaIngresos.setColumnCount(3)
+        self.TablaIngresos.setColumnCount(4)
         self.TablaIngresos.setRowCount(20)
         item = QtWidgets.QTableWidgetItem()
         self.TablaIngresos.setVerticalHeaderItem(0, item)
@@ -715,6 +723,9 @@ class Ui_Caja(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.TablaIngresos.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        self.TablaIngresos.setHorizontalHeaderItem(3, item)
         self.verticalLayout.addWidget(self.TablaIngresos, 0, QtCore.Qt.AlignHCenter)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
@@ -826,9 +837,9 @@ class Ui_Caja(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.BtnCajaImprimir.setIcon(icon)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnCajaImprimir.setIcon(icon2)
         self.BtnCajaImprimir.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaImprimir.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.BtnCajaImprimir.setAutoRaise(False)
@@ -1015,9 +1026,9 @@ class Ui_Caja(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.BtnCajaCierre.setText(_translate("Form", "Confirmar Cierre"))
+        self.BtnCajaCierre.setText(_translate("Form", "   Confirmar Cierre"))
         self.LabelCaja.setText(_translate("Form", "Caja"))
-        self.BtnCajaApertura.setText(_translate("Form", "Confirmar Apertura"))
+        self.BtnCajaApertura.setText(_translate("Form", "  Confirmar Apertura"))
         self.label_2.setText(_translate("Form", "Abrir Caja"))
         item = self.TablaCaja.verticalHeaderItem(0)
         item.setText(_translate("Form", "1."))
@@ -1125,8 +1136,10 @@ class Ui_Caja(object):
         item = self.TablaIngresos.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Ingresos"))
         item = self.TablaIngresos.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "M.Efectivo"))
+        item.setText(_translate("Form", "T.Ingreso"))
         item = self.TablaIngresos.horizontalHeaderItem(2)
+        item.setText(_translate("Form", "M.Efectivo"))
+        item = self.TablaIngresos.horizontalHeaderItem(3)
         item.setText(_translate("Form", "M.Transf"))
         self.label_4.setText(_translate("Form", "M.Efectivo"))
         self.OutEfectivo.setText(_translate("Form", "$"))

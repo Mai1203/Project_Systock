@@ -307,7 +307,17 @@ QPushButton:hover {
 }</string>
                      </property>
                      <property name="text">
-                      <string>Confirmar Cierre</string>
+                      <string>   Confirmar Cierre</string>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <normaloff>../../assets/iconos/cerrar.png</normaloff>../../assets/iconos/cerrar.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>30</width>
+                       <height>30</height>
+                      </size>
                      </property>
                     </widget>
                    </item>
@@ -397,7 +407,17 @@ QPushButton:hover {
 }</string>
                      </property>
                      <property name="text">
-                      <string>Confirmar Apertura</string>
+                      <string>  Confirmar Apertura</string>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <normaloff>../../assets/iconos/signo_dinero.png</normaloff>../../assets/iconos/signo_dinero.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>30</width>
+                       <height>30</height>
+                      </size>
                      </property>
                     </widget>
                    </item>
@@ -771,7 +791,7 @@ QScrollBar::handle:horizontal:hover {
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>450</width>
+                     <width>490</width>
                      <height>250</height>
                     </size>
                    </property>
@@ -983,6 +1003,14 @@ QScrollBar::handle:horizontal:hover {
                    <column>
                     <property name="text">
                      <string>Ingresos</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>T.Ingreso</string>
                     </property>
                     <property name="textAlignment">
                      <set>AlignCenter</set>

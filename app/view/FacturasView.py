@@ -32,7 +32,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         self.TablaFacturas.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.TablaFacturas.setColumnWidth(0, 50)
         self.TablaFacturas.setColumnWidth(5, 120)
-        self.TablaFacturas.setSortingEnabled(True)
+        # self.TablaFacturas.setSortingEnabled(True)
 
         self.BtnEliminarFactura.clicked.connect(self.eliminar_factura)
         self.BtnGenerarTicket.clicked.connect(self.generar_ticket)
@@ -44,7 +44,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         super().showEvent(event)
         self.limpiar_tabla_facturas()
         self.mostrar_facturas()
-        self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
+        # self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
                         
     
     def cancelar_venta(self):
@@ -173,6 +173,14 @@ class Facturas_View(QWidget, Ui_Facturas):
                 "Advertencia", "No se seleccionaron facturas para eliminar."
             )
             return
+        
+        for id_factura in ids:
+            facturas = obtener_factura_por_id(self.db, id_factura)
+            
+            if facturas.tipofactura == "Credito":
+                QMessageBox.warning(self, "Factura", f"La factura {id_factura} no es una factura de venta.")
+                return
+            
 
         respuesta = QtWidgets.QMessageBox.question(
             self,
@@ -227,6 +235,12 @@ class Facturas_View(QWidget, Ui_Facturas):
                 "Advertencia", "No se seleccionaron facturas para generar ticket."
             )
             return
+        for id_factura in ids:
+            facturas = obtener_factura_por_id(self.db, id_factura)
+            
+            if facturas.tipofactura == "Credito":
+                QMessageBox.warning(self, "Factura", f"La factura {id_factura} no es una factura de venta.")
+                return
 
         db = SessionLocal()
 
@@ -320,6 +334,13 @@ class Facturas_View(QWidget, Ui_Facturas):
             )
             return
 
+        for id_factura in ids:
+            facturas = obtener_factura_por_id(self.db, id_factura)
+            
+            if facturas.tipofactura == "Credito":
+                QMessageBox.warning(self, "Factura", f"La factura {id_factura} no es una factura de venta.")
+                return
+        
         try:
             db = SessionLocal()
 
@@ -354,7 +375,14 @@ class Facturas_View(QWidget, Ui_Facturas):
                     "Advertencia", "No se seleccionaron facturas para editar."
                 )
                 return
-
+            
+            for id_factura in ids:
+                facturas = obtener_factura_por_id(self.db, id_factura)
+                
+                if facturas.tipofactura == "Credito":
+                    QMessageBox.warning(self, "Factura", f"La factura {id_factura} no es una factura de venta.")
+                    return
+            
             # Llamar a la función para obtener todos los datos de la factura
             factura_completa = obtener_factura_completa(self.db, ids[0])
 

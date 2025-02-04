@@ -150,8 +150,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         self.InputApellidoCli.setText(str(client_apellido))
         self.InputTelefonoCli.setText(str(client_phone))
         self.InputDireccion.setText(str(client_address))
-        self.LabelSubtotal.setText(f"Subtotal: {subtotal:,.2f}")
-        self.LabelTotal.setText(f"Total: {total:,.2f}")
+        self.LabelSubtotal.setText(f"{subtotal:,.2f}")
+        self.LabelTotal.setText(f"{total:,.2f}")
 
     def actualizar_factura(
         self,
@@ -1056,7 +1056,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         else:
             subtotal_formateado = f"{subtotal:,.2f}"
 
-        self.LabelSubtotal.setText(f"Subtotal: {subtotal_formateado}")
+        self.LabelSubtotal.setText(f"{subtotal_formateado}")
 
         domicilio = self.obtener_valor_domicilio()  # Obtener el valor del domicilio
 
@@ -1067,7 +1067,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         else:
             total_formateado = f"{total:,.2f}"
 
-        self.LabelTotal.setText(f"Total: {total_formateado}")
+        self.LabelTotal.setText(f"{total_formateado}")
 
         return subtotal
 

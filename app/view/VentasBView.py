@@ -189,8 +189,8 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.InputTelefonoCli.setText(str(client_phone))
         self.InputDireccion.setText(str(client_address))
         self.InputPago.setText(str(pago))
-        self.LabelSubtotal.setText(f"Subtotal: {subtotal:,.2f}")
-        self.LabelTotal.setText(f"Total: {total:,.2f}")
+        self.LabelSubtotal.setText(f"{subtotal:,.2f}")
+        self.LabelTotal.setText(f"{total:,.2f}")
         self.MetodoPagoBox.setCurrentText(payment_method)
     
     def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):

@@ -9,6 +9,7 @@ from app.controllers.tipo_factura_crud import *
 from app.controllers.clientes_crud import *
 from app.controllers.tipo_pago_crud import *
 from app.controllers.tipo_ingreso_crud import *
+from app.controllers.ingresos_crud import *
 
 
 def conectar_base():
@@ -263,21 +264,9 @@ def poblar_datos_prueba():
         print(f"Error al poblar datos: {e}")
     db.close()
 
-def borrar_datos():
-    db = SessionLocal()
-    try:
-        print("Eliminando Tipo de Ingresos ...")
-        eliminar_tipo_ingreso(db, 1)
-        eliminar_tipo_ingreso(db, 2)
-        eliminar_tipo_ingreso(db, 3)
-        eliminar_tipo_ingreso(db, 4)
-    except Exception as e:
-        print(f"Error al borrar datos: {e}")
-
 
 if __name__ == "__main__":
-    # init_db()
-    # print("Base de datos inicializada exitosamente.")
-    # poblar_datos_prueba()
-    borrar_datos()
+    init_db()
+    print("Base de datos inicializada exitosamente.")
+    poblar_datos_prueba()
     

@@ -21,10 +21,14 @@ class Caja_View(QWidget, Ui_Caja):
     def __init__(self, parent=None):
         super(Caja_View, self).__init__(parent)
         self.setupUi(self)
+        
+        self.usuario_actual_id = None
+        
         QTimer.singleShot(0, self.InputMontoCaja.setFocus)
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas
         self.InputMontoCaja.setPlaceholderText("Ej : 45000")
         
+        self.BtnCajaApertura.clicked.connect(self.crear_caja)
         
         #placeholder
         self.InputBuscador.setPlaceholderText("Buscar por Usuario  o Fecha de Apertura AAAA/MM/DD")
@@ -35,6 +39,8 @@ class Caja_View(QWidget, Ui_Caja):
         super().showEvent(event)
         self.limpiar_tabla()
         self.mostrar_tabla()
+        self.TablaIngresos.sortItems(0, QtCore.Qt.DescendingOrder)
+        self.sumar_total()
         
     def limpiar_tabla(self):
 
@@ -50,7 +56,6 @@ class Caja_View(QWidget, Ui_Caja):
         self.db = SessionLocal()
         
         try:
-            egresos = obtener_egresos(db=self.db)
             ingresos = obtener_ingresos(db=self.db)
             caja = obtener_cajas(db=self.db)
         except Exception as e:
@@ -59,40 +64,9 @@ class Caja_View(QWidget, Ui_Caja):
         finally:
             self.db.close()
             
-        self.actualizar_tabla(egresos, ingresos, caja)
+        self.actualizar_tabla(ingresos, caja)
         
-    def actualizar_tabla(self, egresos, ingresos, caja):
-        
-        try:
-            self.TablaEgresos.setRowCount(
-                len(egresos)
-            ) 
-            
-            for row, egreso in enumerate(egresos):
-                id_egreso = str(egreso.ID_Egreso)
-                metodo = str(egreso.metodopago)
-                monto = str(egreso.Monto_Egreso)
-                
-                if metodo == "Efectivo":
-                    efectivo = monto
-                    trasferencia = 0.0
-                elif metodo == "Transferencia":
-                    trasferencia = monto
-                    efectivo = 0.0
-                
-                items = [
-                    (id_egreso, 0),
-                    (str(efectivo), 1),
-                    (str(trasferencia), 2),
-                ]
-                
-                for value, col_idx in items:
-                    item = QtWidgets.QTableWidgetItem(str(value))
-                    item.setTextAlignment(QtCore.Qt.AlignCenter)
-                    self.TablaEgresos.setItem(row, col_idx, item)
-                    
-        except Exception as e:
-            print(f"Error en Tabla Egresos: {e}")
+    def actualizar_tabla(self, ingresos, caja):
         
         try:              
             self.TablaIngresos.setRowCount(
@@ -101,12 +75,20 @@ class Caja_View(QWidget, Ui_Caja):
             for row, ingreso in enumerate(ingresos):
                 id_ingreso = str(ingreso.ID_Ingreso)
                 tipo = str(ingreso.tipo_ingreso)
-                efectivo = str(ingreso.monto_efectivo)
-                trasferencia = str(ingreso.monto_transaccion)
+                if tipo == "Venta":
+                    efectivo = str(ingreso.monto_efectivo)
+                    trasferencia = str(ingreso.monto_transaccion)
+                else:
+                    if ingreso.metodo_pago == "Efectivo":
+                        efectivo = str(ingreso.monto)
+                        trasferencia = "0.0"
+                    else:
+                        trasferencia = str(ingreso.monto)
+                        efectivo = "0.0"
                 
                 items = [
                     (id_ingreso, 0),
-                    (tipo, 1)
+                    (tipo, 1),
                     (efectivo, 2),
                     (trasferencia, 3),
                 ]
@@ -122,29 +104,84 @@ class Caja_View(QWidget, Ui_Caja):
             self.TablaCaja.setRowCount(
                 len(caja)
             )  
-            # for row, caja in enumerate(caja):
-            #     id_caja = str(caja.ID_Caja)
-            #     monto = str(caja.Monto)
-            #     fecha = str(caja.Fecha)
-            #     usuario = str(caja.Usuario)
+            for row, caja in enumerate(caja):
+                id_caja = str(caja.ID_Caja)
+                usuario = str(caja.usuario)
+                monto = str(caja.Monto_Base)
+                fechaA = str(caja.Fecha_Apertura)
+                fechaC = str(caja.Fecha_Cierre)
+                efectivo = str(caja.Monto_Efectivo)
+                trasferencia = str(caja.Monto_Transaccion)
+                total = str(caja.Monto_Final_calculado)
                 
-            #     items = [
-            #         (id_caja, 0),
-            #         (monto, 1),
-            #         (fecha, 2),
-            #         (usuario, 3),
-            #     ]
+                items = [
+                    (id_caja, 0),
+                    (usuario, 1),
+                    (monto, 2),
+                    (fechaA, 3),
+                    (fechaC, 4),
+                    (efectivo, 5),
+                    (trasferencia, 6),
+                    (total, 7),
+                ]
                 
-            #     for value, col_idx in items:
-            #         item = QtWidgets.QTableWidgetItem(value)
-            #         item.setTextAlignment(QtCore.Qt.AlignCenter)
-            #         self.TablaCaja.setItem(row, col_idx, item)
+                for value, col_idx in items:
+                    item = QtWidgets.QTableWidgetItem(value)
+                    item.setTextAlignment(QtCore.Qt.AlignCenter)
+                    self.TablaCaja.setItem(row, col_idx, item)
+                    
         except Exception as e:
             print(f"Error en Tabla caja: {e}")
             
+    def sumar_total(self):
+        
+        try:
+            monto = []
+            for row in range(self.TablaIngresos.rowCount()):  
+                
+                efectivo = self.TablaIngresos.item(row, 2).text()
+                trasferencia = self.TablaIngresos.item(row, 3).text()
+                monto.append((float(efectivo), float(trasferencia)))
+                
+            efectivo = sum(monto[0] for monto in monto)
+            trasferencia = sum(monto[1] for monto in monto)
             
+            self.OutEfectivo.setText(f"{efectivo:,.2f}")
+            self.OutTransferencia.setText(f"{trasferencia:,.2f}")
+            self.OutTotal.setText(f"{efectivo + trasferencia:,.2f}")
+        except Exception as e:
+            print(f"Error al sumar total: {e}")
         
+    def crear_caja(self):
         
+        try:
+            base = self.InputMontoCaja.text().strip()
+            
+            if not base:
+                QMessageBox.warning(self, "Error", "Ingrese un monto válido.")
+                return
+            
+            if float(base) < 0:
+                QMessageBox.warning(self, "Error", "El monto no puede ser negativo.")
+                return
+            
+            self.db = SessionLocal()
+            try:
+                id_usuario = self.usuario_actual_id
+                base = float(base)
+                estado = True
+                
+                caja = crear_caja(db=self.db, monto_base=base, id_usuario=id_usuario, estado=estado)
+                self.limpiar_tabla()
+                self.mostrar_tabla()
+                QMessageBox.information(self, "Caja creada", "La caja ha sido creada exitosamente.")
         
-        
-        
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Error al crear la cajaen bd: {str(e)}")
+            finally:
+                self.db.close()
+                
+        except Exception as e:
+            print(f"Error al crear la caja: {e}")
+       
+        self.InputMontoCaja.clear()     

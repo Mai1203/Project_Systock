@@ -11,4 +11,3 @@ class Ingresos(Base):
 
     # Relaciones
     tipoingreso = relationship("TipoIngreso", back_populates="ingresos")
-    caja = relationship("Caja", back_populates="ingresos")

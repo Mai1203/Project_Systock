@@ -36,7 +36,9 @@ def obtener_ingresos(db: Session):
             TipoIngreso.Tipo_Ingreso.label("tipo_ingreso"),
             Facturas.Monto_efectivo.label("monto_efectivo"),
             Facturas.Monto_TRANSACCION.label("monto_transaccion"),
+            Facturas.Fecha_Factura.label("fecha_venta"),
             PagoCredito.Monto.label("monto"),
+            PagoCredito.Fecha_Registro.label("fecha_abono"),
             MetodoPago.Nombre.label("metodo_pago"),
         )
         .outerjoin(TipoIngreso, Ingresos.ID_Tipo_Ingreso == TipoIngreso.ID_Tipo_Ingreso)

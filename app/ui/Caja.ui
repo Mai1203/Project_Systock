@@ -482,7 +482,7 @@ QPushButton:hover {
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>650</width>
+                 <width>1200</width>
                  <height>250</height>
                 </size>
                </property>
@@ -730,6 +730,14 @@ QScrollBar::handle:horizontal:hover {
                </row>
                <column>
                 <property name="text">
+                 <string>Id</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
                  <string>Usuario</string>
                 </property>
                 <property name="textAlignment">
@@ -738,7 +746,7 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>M.Base</string>
+                 <string>Monto Base</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -746,7 +754,7 @@ QScrollBar::handle:horizontal:hover {
                </column>
                <column>
                 <property name="text">
-                 <string>F.Apertura}</string>
+                 <string>F.Apertura</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>
@@ -755,6 +763,30 @@ QScrollBar::handle:horizontal:hover {
                <column>
                 <property name="text">
                  <string>F.Cierre</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Efectivo</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Transf</string>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Total</string>
                 </property>
                 <property name="textAlignment">
                  <set>AlignCenter</set>

@@ -16,5 +16,4 @@ class Egresos(Base):
 
     # Relaciones
     metodopago = relationship("MetodoPago", back_populates="egresos")
-    caja = relationship("Caja", back_populates="egresos")
     analisisfinanciero = relationship("AnalisisFinanciero", back_populates="egresos")

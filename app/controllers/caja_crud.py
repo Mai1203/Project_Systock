@@ -1,20 +1,21 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
+from datetime import datetime
+
 from app.models.caja import Caja
+from app.models.usuarios import Usuarios
 
 
 # Crear una nueva caja
 def crear_caja(
     db: Session,
     monto_base: float,
-    monto_efectivo: float,
-    monto_transaccion: float,
-    monto_final_calculado: float,
     estado: bool,
-    fecha_apertura=None,
-    fecha_cierre=None,
-    id_ingreso=None,
-    id_egreso=None,
-    id_usuario=None,
+    id_usuario: int,
+    monto_efectivo: float =None,
+    monto_transaccion: float=None,
+    monto_final_calculado: float = None,
+    fecha_cierre: datetime = None,
 ):
     """
     Crea un nuevo registro en la tabla Caja.
@@ -24,11 +25,8 @@ def crear_caja(
     :param monto_transaccion: Monto de transacciones en la caja.
     :param monto_final_calculado: Monto final calculado de la caja.
     :param estado: Estado de la caja (abierta/cerrada).
-    :param fecha_apertura: Fecha de apertura de la caja (opcional).
     :param fecha_cierre: Fecha de cierre de la caja (opcional).
     :param id_ingreso: ID de ingreso asociado (opcional).
-    :param id_egreso: ID de egreso asociado (opcional).
-    :param id_usuario: ID del usuario asociado (opcional).
     :return: Objeto Caja creado.
     """
     nueva_caja = Caja(
@@ -37,10 +35,7 @@ def crear_caja(
         Monto_Transaccion=monto_transaccion,
         Monto_Final_calculado=monto_final_calculado,
         Estado=estado,
-        Fecha_Apertura=fecha_apertura,
         Fecha_Cierre=fecha_cierre,
-        ID_Ingreso=id_ingreso,
-        ID_Egreso=id_egreso,
         ID_Usuario=id_usuario,
     )
     db.add(nueva_caja)
@@ -56,7 +51,56 @@ def obtener_cajas(db: Session):
     :param db: Sesión de base de datos.
     :return: Lista de objetos Caja.
     """
-    return db.query(Caja).all()
+    caja = (
+        db.query(
+            Caja.ID_Caja,
+            Caja.Monto_Base,
+            Caja.Monto_Efectivo,
+            Caja.Monto_Transaccion,
+            Caja.Monto_Final_calculado,
+            Caja.Fecha_Apertura,
+            Caja.Fecha_Cierre,
+            Caja.Estado,
+
+            Usuarios.Nombre.label("usuario"),
+        )
+        .join(Usuarios, Caja.ID_Usuario == Usuarios.ID_Usuario)
+        .all()
+    )
+    
+    return caja
+
+def buscar_cajas(db: Session, buscar: str):
+    """
+    Obtiene todos los registros de caja.
+    :param db: Sesión de base de datos.
+    :return: Lista de objetos Caja.
+    """
+    caja = (
+        db.query(
+            Caja.ID_Caja,
+            Caja.Monto_Base,
+            Caja.Monto_Efectivo,
+            Caja.Monto_Transaccion,
+            Caja.Monto_Final_calculado,
+            Caja.Fecha_Apertura,
+            Caja.Fecha_Cierre,
+            Caja.Estado,
+            
+            Usuarios.Nombre.label("usuario"),
+        )
+        .join(Usuarios, Caja.ID_Usuario == Usuarios.ID_Usuario)
+        .filter(
+            or_(
+                Usuarios.Nombre.like(f"%{buscar}%"),
+                Caja.ID_Caja.like(f"%{buscar}%"),
+                Caja.Fecha_Apertura.like(f"%{buscar}%"),
+            )
+        )
+        .all()
+    )
+    
+    return caja
 
 
 # Obtener un registro de caja por ID
@@ -79,10 +123,7 @@ def actualizar_caja(
     monto_transaccion: float = None,
     monto_final_calculado: float = None,
     estado: bool = None,
-    fecha_apertura=None,
     fecha_cierre=None,
-    id_ingreso=None,
-    id_egreso=None,
     id_usuario=None,
 ):
     """
@@ -94,10 +135,7 @@ def actualizar_caja(
     :param monto_transaccion: Nuevo monto de transacciones (opcional).
     :param monto_final_calculado: Nuevo monto final calculado (opcional).
     :param estado: Nuevo estado de la caja (opcional).
-    :param fecha_apertura: Nueva fecha de apertura (opcional).
     :param fecha_cierre: Nueva fecha de cierre (opcional).
-    :param id_ingreso: Nuevo ID de ingreso asociado (opcional).
-    :param id_egreso: Nuevo ID de egreso asociado (opcional).
     :param id_usuario: Nuevo ID de usuario asociado (opcional).
     :return: Objeto Caja actualizado o None si no existe.
     """
@@ -115,14 +153,8 @@ def actualizar_caja(
         caja_existente.Monto_Final_calculado = monto_final_calculado
     if estado is not None:
         caja_existente.Estado = estado
-    if fecha_apertura is not None:
-        caja_existente.Fecha_Apertura = fecha_apertura
     if fecha_cierre is not None:
         caja_existente.Fecha_Cierre = fecha_cierre
-    if id_ingreso is not None:
-        caja_existente.ID_Ingreso = id_ingreso
-    if id_egreso is not None:
-        caja_existente.ID_Egreso = id_egreso
     if id_usuario is not None:
         caja_existente.ID_Usuario = id_usuario
 

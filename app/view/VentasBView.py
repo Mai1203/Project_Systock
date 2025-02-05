@@ -248,9 +248,15 @@ class VentasB_View(QWidget, Ui_VentasB):
             elif payment_method == "Mixto":
                 if '/' in monto_pago:
                     total = monto_pago.split("/") 
-                    efectivo = float(total[0])
-                    tranferencia = float(total[1])
+                    efectivo = float(total[0]) if total[0] else 0
+                    tranferencia = float(total[1]) if total[1] else 0
                     total = efectivo + tranferencia
+                    if efectivo == 0 or tranferencia == 0:
+                        QMessageBox.warning(self, "Error", "Ingrese el monto efectivo y el monto transferencia separados por un barra (/).")
+                        return
+                else:
+                    QMessageBox.warning(self, "Error", "Ingrese el monto efectivo y el monto transferencia separados por un barra (/).")
+                    return
                 
                 if total > subtotal:
                     QMessageBox.warning(self, "Error", "El monto pagado no puede ser mayor al subtotal.")

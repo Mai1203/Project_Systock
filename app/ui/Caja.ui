@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1390</width>
+    <width>1430</width>
     <height>997</height>
    </rect>
   </property>
@@ -791,7 +791,7 @@ QScrollBar::handle:horizontal:hover {
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>490</width>
+                     <width>550</width>
                      <height>250</height>
                     </size>
                    </property>
@@ -1039,24 +1039,23 @@ QScrollBar::handle:horizontal:hover {
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_8">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_10">
-                     <item>
-                      <widget class="QLabel" name="label_16">
-                       <property name="text">
-                        <string/>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                  <layout class="QGridLayout" name="gridLayout_5">
+                   <item row="0" column="0" alignment="Qt::AlignRight">
+                    <widget class="QLabel" name="label_3">
+                     <property name="text">
+                      <string>Monto Efectivo :</string>
+                     </property>
+                    </widget>
                    </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_17">
-                   <item>
+                   <item row="1" column="0" alignment="Qt::AlignRight">
                     <widget class="QLabel" name="label_4">
+                     <property name="text">
+                      <string>Monto Transferenica :</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLabel" name="OutTransferencia">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -1065,16 +1064,55 @@ QScrollBar::handle:horizontal:hover {
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>150</width>
+                       <width>250</width>
                        <height>50</height>
                       </size>
                      </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(255, 255, 255);</string>
+                     </property>
                      <property name="text">
-                      <string>M.Efectivo</string>
+                      <string>$</string>
                      </property>
                     </widget>
                    </item>
-                   <item>
+                   <item row="2" column="1">
+                    <widget class="QLabel" name="OutTotal">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>250</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(255, 255, 255);</string>
+                     </property>
+                     <property name="text">
+                      <string>$</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0" alignment="Qt::AlignRight">
+                    <widget class="QLabel" name="label_5">
+                     <property name="text">
+                      <string>Monto Total :</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLabel" name="label_13">
+                     <property name="text">
+                      <string/>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
                     <widget class="QLabel" name="OutEfectivo">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1082,9 +1120,9 @@ QScrollBar::handle:horizontal:hover {
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="minimumSize">
+                     <property name="maximumSize">
                       <size>
-                       <width>230</width>
+                       <width>250</width>
                        <height>50</height>
                       </size>
                      </property>
@@ -1097,103 +1135,6 @@ QScrollBar::handle:horizontal:hover {
                     </widget>
                    </item>
                   </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_13">
-                   <item>
-                    <widget class="QLabel" name="label_10">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>150</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>M.Transf</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="OutTransf">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>230</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">background-color: rgb(255, 255, 255);</string>
-                     </property>
-                     <property name="text">
-                      <string>$</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_14">
-                   <item>
-                    <widget class="QLabel" name="label_13">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>150</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>M.Final</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="OutFinal">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>230</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">background-color: rgb(255, 255, 255);</string>
-                     </property>
-                     <property name="text">
-                      <string>$</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_5">
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </widget>
                  </item>
                  <item alignment="Qt::AlignHCenter">
                   <widget class="QToolButton" name="BtnCajaImprimir">
@@ -1257,242 +1198,6 @@ QToolButton:hover {
                    <property name="autoRaise">
                     <bool>false</bool>
                    </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QLabel" name="label_3">
-                   <property name="text">
-                    <string>Tabla de Egresos</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QTableWidget" name="TablaEgresos">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>450</width>
-                     <height>250</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">
-QTableWidget {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */
-}
-
-QTableWidget::item {
-    background-color: #f2f2f2; 
-    border: none; 
-    font-size: 18px; /* Tamaño de letra */
-    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */
-    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */
-}
-
-QTableWidget::item:selected {
-    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */
-    color: black; /* Texto negro para celdas seleccionadas */
-}
-
-QTableWidget::item:hover {
-    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */
-}
-
-QHeaderView::section {
-    border: none; 
-    background-color: #f2f2f2; 
-    font-size: 18px; /* Tamaño de letra */
-    font-weight: normal; /* No negritas */
-    text-align: center; /* Centrado del texto en los encabezados */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */
-}
-
-QHeaderView::section:focus {
-    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */
-    border: none; /* Sin borde cuando está en foco */
-}
-
-QTableWidget::item:focus {
-    border: none; /* Sin borde cuando las celdas tienen el foco */
-    background-color: #f2f2f2; /* Mantener el fondo sin color azul */
-}
-
-QTableCornerButton::section {
-    background-color: #f2f2f2; 
-    border: none; 
-}
-
-QTableWidget::verticalHeader {
-    background-color: #f2f2f2;
-    font-size: 23px;
-    border: none;
-    font-weight: normal; /* No negritas */
-}
-
-QTableWidget::item:hover {
-    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */
-}
-/* Personalización de la barra de desplazamiento */
-QScrollBar:vertical {
-    border: none;
-    background: #f7f7f7; /* Fondo de la barra */
-    width: 8px; /* Barra más delgada */
-    border-radius: 4px; /* Bordes más redondeados */
-    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */
-}
-
-QScrollBar::handle:vertical {
-    background: #bbb; /* Fondo del control deslizante */
-    min-height: 20px; /* Control deslizante más delgado */
-    border-radius: 4px; /* Bordes redondeados */
-    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
-}
-
-QScrollBar::handle:vertical:hover {
-    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */
-}
-
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-    border: none;
-    background: #f2f2f2; /* Fondo para los botones de la barra */
-    height: 0px; /* Sin altura para los botones */
-}
-
-QScrollBar:horizontal {
-    border: none;
-    background: #f7f7f7; /* Fondo de la barra */
-    height: 8px; /* Barra más delgada */
-    border-radius: 4px; /* Bordes más redondeados */
-    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */
-}
-
-QScrollBar::handle:horizontal {
-    background: #bbb; /* Fondo del control deslizante */
-    min-width: 20px; /* Control deslizante más delgado */
-    border-radius: 4px; /* Bordes redondeados */
-    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
-}
-
-QScrollBar::handle:horizontal:hover {
-    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */
-}
-</string>
-                   </property>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nueva fila</string>
-                    </property>
-                   </row>
-                   <column>
-                    <property name="text">
-                     <string>Egresos</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>M.efectivo</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>M.Transf</string>
-                    </property>
-                   </column>
                   </widget>
                  </item>
                 </layout>

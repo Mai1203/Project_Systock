@@ -23,6 +23,8 @@ class Caja_View(QWidget, Ui_Caja):
         self.setupUi(self)
         QTimer.singleShot(0, self.InputMontoCaja.setFocus)
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas
+        self.InputMontoCaja.setPlaceholderText("Ej : 45000")
+        
         
         #placeholder
         self.InputBuscador.setPlaceholderText("Buscar por Usuario  o Fecha de Apertura AAAA/MM/DD")
@@ -38,10 +40,7 @@ class Caja_View(QWidget, Ui_Caja):
 
         self.TablaCaja.setRowCount(
             0
-        ) 
-        self.TablaEgresos.setRowCount(
-            0
-        ) 
+        )  
         self.TablaIngresos.setRowCount(
             0
         ) 

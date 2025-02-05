@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Caja(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1390, 997)
+        Form.resize(1430, 997)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -567,7 +567,7 @@ class Ui_Caja(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.TablaIngresos.sizePolicy().hasHeightForWidth())
         self.TablaIngresos.setSizePolicy(sizePolicy)
-        self.TablaIngresos.setMinimumSize(QtCore.QSize(490, 250))
+        self.TablaIngresos.setMinimumSize(QtCore.QSize(550, 250))
         self.TablaIngresos.setStyleSheet("\n"
 "QTableWidget {\n"
 "    border: none;\n"
@@ -730,86 +730,52 @@ class Ui_Caja(object):
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.verticalLayout_8 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_8.setObjectName("verticalLayout_8")
-        self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.label_16 = QtWidgets.QLabel(self.widget)
-        self.label_16.setText("")
-        self.label_16.setObjectName("label_16")
-        self.horizontalLayout_10.addWidget(self.label_16)
-        self.verticalLayout_8.addLayout(self.horizontalLayout_10)
-        self.verticalLayout_6.addLayout(self.verticalLayout_8)
-        self.horizontalLayout_17 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_17.setObjectName("horizontalLayout_17")
+        self.gridLayout_5 = QtWidgets.QGridLayout()
+        self.gridLayout_5.setObjectName("gridLayout_5")
+        self.label_3 = QtWidgets.QLabel(self.widget)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout_5.addWidget(self.label_3, 0, 0, 1, 1, QtCore.Qt.AlignRight)
         self.label_4 = QtWidgets.QLabel(self.widget)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout_5.addWidget(self.label_4, 1, 0, 1, 1, QtCore.Qt.AlignRight)
+        self.OutTransferencia = QtWidgets.QLabel(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy)
-        self.label_4.setMinimumSize(QtCore.QSize(150, 50))
-        self.label_4.setObjectName("label_4")
-        self.horizontalLayout_17.addWidget(self.label_4)
+        sizePolicy.setHeightForWidth(self.OutTransferencia.sizePolicy().hasHeightForWidth())
+        self.OutTransferencia.setSizePolicy(sizePolicy)
+        self.OutTransferencia.setMinimumSize(QtCore.QSize(250, 50))
+        self.OutTransferencia.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.OutTransferencia.setObjectName("OutTransferencia")
+        self.gridLayout_5.addWidget(self.OutTransferencia, 1, 1, 1, 1)
+        self.OutTotal = QtWidgets.QLabel(self.widget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.OutTotal.sizePolicy().hasHeightForWidth())
+        self.OutTotal.setSizePolicy(sizePolicy)
+        self.OutTotal.setMinimumSize(QtCore.QSize(250, 50))
+        self.OutTotal.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.OutTotal.setObjectName("OutTotal")
+        self.gridLayout_5.addWidget(self.OutTotal, 2, 1, 1, 1)
+        self.label_5 = QtWidgets.QLabel(self.widget)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_5.addWidget(self.label_5, 2, 0, 1, 1, QtCore.Qt.AlignRight)
+        self.label_13 = QtWidgets.QLabel(self.widget)
+        self.label_13.setText("")
+        self.label_13.setObjectName("label_13")
+        self.gridLayout_5.addWidget(self.label_13, 0, 2, 1, 1)
         self.OutEfectivo = QtWidgets.QLabel(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.OutEfectivo.sizePolicy().hasHeightForWidth())
         self.OutEfectivo.setSizePolicy(sizePolicy)
-        self.OutEfectivo.setMinimumSize(QtCore.QSize(230, 50))
+        self.OutEfectivo.setMaximumSize(QtCore.QSize(250, 50))
         self.OutEfectivo.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.OutEfectivo.setObjectName("OutEfectivo")
-        self.horizontalLayout_17.addWidget(self.OutEfectivo)
-        self.verticalLayout_6.addLayout(self.horizontalLayout_17)
-        self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
-        self.label_10 = QtWidgets.QLabel(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
-        self.label_10.setSizePolicy(sizePolicy)
-        self.label_10.setMinimumSize(QtCore.QSize(150, 50))
-        self.label_10.setObjectName("label_10")
-        self.horizontalLayout_13.addWidget(self.label_10)
-        self.OutTransf = QtWidgets.QLabel(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.OutTransf.sizePolicy().hasHeightForWidth())
-        self.OutTransf.setSizePolicy(sizePolicy)
-        self.OutTransf.setMinimumSize(QtCore.QSize(230, 50))
-        self.OutTransf.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.OutTransf.setObjectName("OutTransf")
-        self.horizontalLayout_13.addWidget(self.OutTransf)
-        self.verticalLayout_6.addLayout(self.horizontalLayout_13)
-        self.horizontalLayout_14 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_14.setObjectName("horizontalLayout_14")
-        self.label_13 = QtWidgets.QLabel(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_13.sizePolicy().hasHeightForWidth())
-        self.label_13.setSizePolicy(sizePolicy)
-        self.label_13.setMinimumSize(QtCore.QSize(150, 50))
-        self.label_13.setObjectName("label_13")
-        self.horizontalLayout_14.addWidget(self.label_13)
-        self.OutFinal = QtWidgets.QLabel(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.OutFinal.sizePolicy().hasHeightForWidth())
-        self.OutFinal.setSizePolicy(sizePolicy)
-        self.OutFinal.setMinimumSize(QtCore.QSize(230, 50))
-        self.OutFinal.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.OutFinal.setObjectName("OutFinal")
-        self.horizontalLayout_14.addWidget(self.OutFinal)
-        self.verticalLayout_6.addLayout(self.horizontalLayout_14)
-        self.label_5 = QtWidgets.QLabel(self.widget)
-        self.label_5.setText("")
-        self.label_5.setObjectName("label_5")
-        self.verticalLayout_6.addWidget(self.label_5)
+        self.gridLayout_5.addWidget(self.OutEfectivo, 0, 1, 1, 1)
+        self.verticalLayout_6.addLayout(self.gridLayout_5)
         self.BtnCajaImprimir = QtWidgets.QToolButton(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -846,167 +812,6 @@ class Ui_Caja(object):
         self.BtnCajaImprimir.setObjectName("BtnCajaImprimir")
         self.verticalLayout_6.addWidget(self.BtnCajaImprimir, 0, QtCore.Qt.AlignHCenter)
         self.horizontalLayout.addLayout(self.verticalLayout_6)
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.label_3 = QtWidgets.QLabel(self.widget)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout_4.addWidget(self.label_3, 0, QtCore.Qt.AlignHCenter)
-        self.TablaEgresos = QtWidgets.QTableWidget(self.widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.TablaEgresos.sizePolicy().hasHeightForWidth())
-        self.TablaEgresos.setSizePolicy(sizePolicy)
-        self.TablaEgresos.setMinimumSize(QtCore.QSize(450, 250))
-        self.TablaEgresos.setStyleSheet("\n"
-"QTableWidget {\n"
-"    border: none;\n"
-"    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor de la tabla */\n"
-"}\n"
-"\n"
-"QTableWidget::item {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    transition: background-color 0.3s ease; /* Suavizado de transición de color de fondo */\n"
-"    pointer-events: none; /* Desactiva la interacción con las celdas (como editar) */\n"
-"}\n"
-"\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #aad4ff; /* Color azul claro para celdas seleccionadas */\n"
-"    color: black; /* Texto negro para celdas seleccionadas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"\n"
-"QHeaderView::section {\n"
-"    border: none; \n"
-"    background-color: #f2f2f2; \n"
-"    font-size: 18px; /* Tamaño de letra */\n"
-"    font-weight: normal; /* No negritas */\n"
-"    text-align: center; /* Centrado del texto en los encabezados */\n"
-"    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para los encabezados */\n"
-"}\n"
-"\n"
-"QHeaderView::section:focus {\n"
-"    background-color: #f2f2f2; /* Sin color de fondo cuando está en foco */\n"
-"    border: none; /* Sin borde cuando está en foco */\n"
-"}\n"
-"\n"
-"QTableWidget::item:focus {\n"
-"    border: none; /* Sin borde cuando las celdas tienen el foco */\n"
-"    background-color: #f2f2f2; /* Mantener el fondo sin color azul */\n"
-"}\n"
-"\n"
-"QTableCornerButton::section {\n"
-"    background-color: #f2f2f2; \n"
-"    border: none; \n"
-"}\n"
-"\n"
-"QTableWidget::verticalHeader {\n"
-"    background-color: #f2f2f2;\n"
-"    font-size: 23px;\n"
-"    border: none;\n"
-"    font-weight: normal; /* No negritas */\n"
-"}\n"
-"\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #e6e6e6; /* Color de fondo al pasar el cursor sobre las celdas */\n"
-"}\n"
-"/* Personalización de la barra de desplazamiento */\n"
-"QScrollBar:vertical {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    width: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 2px 0px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-height: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
-"    border: none;\n"
-"    background: #f2f2f2; /* Fondo para los botones de la barra */\n"
-"    height: 0px; /* Sin altura para los botones */\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: #f7f7f7; /* Fondo de la barra */\n"
-"    height: 8px; /* Barra más delgada */\n"
-"    border-radius: 4px; /* Bordes más redondeados */\n"
-"    margin: 0px 0px 2px 0px; /* Un pequeño margen para el desplazamiento */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"    background: #bbb; /* Fondo del control deslizante */\n"
-"    min-width: 20px; /* Control deslizante más delgado */\n"
-"    border-radius: 4px; /* Bordes redondeados */\n"
-"    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal:hover {\n"
-"    background: #888; /* Color más oscuro cuando el control deslizante está siendo desplazado */\n"
-"}\n"
-"")
-        self.TablaEgresos.setObjectName("TablaEgresos")
-        self.TablaEgresos.setColumnCount(3)
-        self.TablaEgresos.setRowCount(18)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(7, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(8, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(9, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(10, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(11, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(12, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(13, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(14, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(15, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(16, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setVerticalHeaderItem(17, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.TablaEgresos.setHorizontalHeaderItem(2, item)
-        self.verticalLayout_4.addWidget(self.TablaEgresos, 0, QtCore.Qt.AlignHCenter)
-        self.horizontalLayout.addLayout(self.verticalLayout_4)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.widget_2 = QtWidgets.QWidget(self.widget)
         self.widget_2.setMinimumSize(QtCore.QSize(900, 0))
@@ -1141,53 +946,10 @@ class Ui_Caja(object):
         item.setText(_translate("Form", "M.Efectivo"))
         item = self.TablaIngresos.horizontalHeaderItem(3)
         item.setText(_translate("Form", "M.Transf"))
-        self.label_4.setText(_translate("Form", "M.Efectivo"))
+        self.label_3.setText(_translate("Form", "Monto Efectivo :"))
+        self.label_4.setText(_translate("Form", "Monto Transferenica :"))
+        self.OutTransferencia.setText(_translate("Form", "$"))
+        self.OutTotal.setText(_translate("Form", "$"))
+        self.label_5.setText(_translate("Form", "Monto Total :"))
         self.OutEfectivo.setText(_translate("Form", "$"))
-        self.label_10.setText(_translate("Form", "M.Transf"))
-        self.OutTransf.setText(_translate("Form", "$"))
-        self.label_13.setText(_translate("Form", "M.Final"))
-        self.OutFinal.setText(_translate("Form", "$"))
         self.BtnCajaImprimir.setText(_translate("Form", "   Imprimir Historial"))
-        self.label_3.setText(_translate("Form", "Tabla de Egresos"))
-        item = self.TablaEgresos.verticalHeaderItem(0)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(1)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(2)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(3)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(4)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(5)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(6)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(7)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(8)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(9)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(10)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(11)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(12)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(13)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(14)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(15)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(16)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.verticalHeaderItem(17)
-        item.setText(_translate("Form", "Nueva fila"))
-        item = self.TablaEgresos.horizontalHeaderItem(0)
-        item.setText(_translate("Form", "Egresos"))
-        item = self.TablaEgresos.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "M.efectivo"))
-        item = self.TablaEgresos.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "M.Transf"))

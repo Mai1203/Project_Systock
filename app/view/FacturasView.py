@@ -9,6 +9,8 @@ from ..ui import Ui_Facturas
 from ..database.database import SessionLocal
 from ..controllers.facturas_crud import *
 from ..controllers.producto_crud import *
+from ..controllers.tipo_ingreso_crud import *
+from ..controllers.ingresos_crud import *
 from ..utils.enviar_notifi import enviar_notificacion
 from ..utils.restructura_ticket import generate_ticket
 
@@ -332,26 +334,26 @@ class Facturas_View(QWidget, Ui_Facturas):
             enviar_notificacion(
                 "Advertencia", "No se seleccionaron productos para marcar como pagada."
             )
-            return
-
-        for id_factura in ids:
-            facturas = obtener_factura_por_id(self.db, id_factura)
-            
-            if facturas.tipofactura == "Credito":
-                QMessageBox.warning(self, "Factura", f"La factura {id_factura} no es una factura de venta.")
-                return
+            return       
         
         try:
             db = SessionLocal()
 
             for id_factura in ids:
                 factura = obtener_factura_por_id(db=db, id_factura=id_factura)
+                
+                if factura.tipofactura == "Credito":
+                    QMessageBox.warning(self, "Factura", f"La factura {id_factura} no es una factura de venta.")
+                    return
+                
                 if factura.Estado == True:
                     QMessageBox.warning(
                         self, "Factura", f"La factura {id_factura} ya está pagada."
                     )
                 else:
                     actualizar_factura(db=db, id_factura=id_factura, estado=True)
+                    tipo_ingreso = crear_tipo_ingreso(db=db, tipo_ingreso="Venta", id_factura=id_factura)
+                    crear_ingreso(db=db, id_tipo_ingreso=tipo_ingreso.ID_Tipo_Ingreso)
             db.commit()
             enviar_notificacion(
                 "Éxito", "Factura(s) marcada(s) como pagada(s) correctamente."

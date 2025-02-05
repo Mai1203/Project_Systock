@@ -1,8 +1,10 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from datetime import datetime
 
 from app.models.caja import Caja
 from app.models.usuarios import Usuarios
+
 
 # Crear una nueva caja
 def crear_caja(
@@ -59,10 +61,42 @@ def obtener_cajas(db: Session):
             Caja.Fecha_Apertura,
             Caja.Fecha_Cierre,
             Caja.Estado,
+
+            Usuarios.Nombre.label("usuario"),
+        )
+        .join(Usuarios, Caja.ID_Usuario == Usuarios.ID_Usuario)
+        .all()
+    )
+    
+    return caja
+
+def buscar_cajas(db: Session, buscar: str):
+    """
+    Obtiene todos los registros de caja.
+    :param db: Sesión de base de datos.
+    :return: Lista de objetos Caja.
+    """
+    caja = (
+        db.query(
+            Caja.ID_Caja,
+            Caja.Monto_Base,
+            Caja.Monto_Efectivo,
+            Caja.Monto_Transaccion,
+            Caja.Monto_Final_calculado,
+            Caja.Fecha_Apertura,
+            Caja.Fecha_Cierre,
+            Caja.Estado,
             
             Usuarios.Nombre.label("usuario"),
         )
         .join(Usuarios, Caja.ID_Usuario == Usuarios.ID_Usuario)
+        .filter(
+            or_(
+                Usuarios.Nombre.like(f"%{buscar}%"),
+                Caja.ID_Caja.like(f"%{buscar}%"),
+                Caja.Fecha_Apertura.like(f"%{buscar}%"),
+            )
+        )
         .all()
     )
     

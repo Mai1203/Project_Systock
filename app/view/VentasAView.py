@@ -630,8 +630,9 @@ class VentasA_View(QWidget, Ui_VentasA):
 
             # Confirmar cambios en la base de datos
             db.commit()
-            tipo_ingreso = crear_tipo_ingreso(db=db, tipo_ingreso="Venta", id_factura=id_factura)
-            crear_ingreso(db=db, id_tipo_ingreso=tipo_ingreso.ID_Tipo_Ingreso)
+            if self.valor_domicilio == 0.0:
+                tipo_ingreso = crear_tipo_ingreso(db=db, tipo_ingreso="Venta", id_factura=id_factura)
+                crear_ingreso(db=db, id_tipo_ingreso=tipo_ingreso.ID_Tipo_Ingreso)
             return id_factura
             
         except Exception as e:

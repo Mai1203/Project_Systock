@@ -7,6 +7,7 @@ from ..controllers.producto_crud import *
 from ..controllers.ingresos_crud import *
 from ..controllers.egresos_crud import *
 from ..utils.Estructura_Reporte import crear_pdf
+from ..utils import Ingresos_egresos_reporte
 from sqlalchemy import and_
 import os
 from datetime import datetime
@@ -48,8 +49,8 @@ class Reportes_View(QWidget, Ui_Reportes):
 
 
         # Deshabilitar calendarios por defecto
-        self.CalendarioCaja.setEnabled(False)
-        self.CalendarioAnalisis.setEnabled(False)
+        self.CalendarioCaja.setEnabled(True)
+        self.CalendarioAnalisis.setEnabled(True)
     
 
     def obtener_ingresos_egresos(self, tipo):
@@ -67,7 +68,7 @@ class Reportes_View(QWidget, Ui_Reportes):
                 if self.fecha_inicio_caja and self.fecha_fin_caja:
                     fecha_inicio = self.fecha_inicio_caja.toString('yyyy-MM-dd')
                     fecha_fin = self.fecha_fin_caja.toString('yyyy-MM-dd')
-                    print(f"Filtro por rango de fechas: {fecha_inicio} - {fecha_fin}")
+                    
                     # Asegurarse de que la fecha fin tenga la hora hasta el último minuto
                     fecha_fin += " 23:59:59"  # Añadir las horas al final de la fecha de fin
                     query = query.filter(and_(
@@ -75,32 +76,46 @@ class Reportes_View(QWidget, Ui_Reportes):
                         func.date(Egresos.Fecha_Egreso) <= fecha_fin))
                 elif self.fecha_inicio_caja:
                     fecha_inicio = self.fecha_inicio_caja.toString('yyyy-MM-dd')
-                    print(f"Filtro por fecha inicio: {fecha_inicio}")
+                    fecha_fin = None
                     # Ajustar la fecha de inicio para considerar solo el día, sin hora
-                    query = query.filter(func.date(Egresos.Fecha_Egreso) >= fecha_inicio)
-                elif self.fecha_fin_caja:
-                    fecha_fin = self.fecha_fin_caja.toString('yyyy-MM-dd')
-                    print(f"Filtro por fecha fin: {fecha_fin}")
-                    # Asegurarse de que la fecha fin tenga la hora hasta el último minuto
-                    fecha_fin += " 23:59:59"  # Añadir las horas al final de la fecha de fin
-                    query = query.filter(func.date(Egresos.Fecha_Egreso) <= fecha_fin)
+                    query = query.filter(func.date(Egresos.Fecha_Egreso) == fecha_inicio)
 
-                # Depurar: Ver consulta final
-                print(f"Consulta generada: {query}")
+                egresos = query.all()                    
+                datos = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
 
-                egresos = query.all()
-
-                # Depurar: Verificar resultados obtenidos
-                print(f"Resultados encontrados: {len(egresos)} egresos")
-                for e in egresos:
-                    print(f"Egreso ID: {e.ID_Egreso}, Nombre: {e.Tipo_Egreso}, Monto: {e.Monto_Egreso}, Fecha: {e.Fecha_Egreso}")
-
-                # Procesa los datos según lo que necesites
-                return [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
+                Ingresos_egresos_reporte.generar_pdf_transacciones(datos, "egresos", fecha_inicio, fecha_fin)
 
             else:
-                # Si el tipo no es "Egresos", podrías implementar un bloque similar para "Ingresos" si es necesario
-                return []
+                print(f"Fecha inicio seleccionada: {self.fecha_inicio_caja}")
+                print(f"Fecha fin seleccionada: {self.fecha_fin_caja}")
+                ingresos = []
+                # Filtramos por las fechas si están definidas
+                if self.fecha_inicio_caja and self.fecha_fin_caja:
+                    fecha_inicio = self.fecha_inicio_caja.toString('yyyy-MM-dd')
+                    fecha_fin = self.fecha_fin_caja.toString('yyyy-MM-dd')
+                    # Asegurarse de que la fecha fin tenga la hora hasta el último minuto
+                    fecha_fin += " 23:59:59"  # Añadir las horas al final de la fecha de fin
+                    ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio, FechaFin=fecha_fin)
+                    
+                elif self.fecha_inicio_caja:
+                    fecha_inicio = self.fecha_inicio_caja.toString('yyyy-MM-dd')
+                    fecha_fin = None
+                    # Ajustar la fecha de inicio para considerar solo el día, sin hora
+                    ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio)
+
+                datos = []
+                for e in ingresos:
+                    if e.tipo_ingreso == "Venta":
+                        datos.append((e.ID_Ingreso, e.tipo_ingreso, e.monto_efectivo, e.monto_transaccion, e.fecha_venta))
+                    else:
+                        if e.metodo_pago == "Efectivo":
+                            efectivo = str(e.monto)
+                            tranferencia = "0.0"
+                        else:
+                            tranferencia = str(e.monto)
+                            efectivo = "0.0"
+                        datos.append((e.ID_Ingreso, e.tipo_ingreso, efectivo, tranferencia, e.fecha_abono))
+                Ingresos_egresos_reporte.generar_pdf_transacciones(datos, "ingresos", fecha_inicio, fecha_fin)
 
         finally:
             db.close()
@@ -206,7 +221,6 @@ class Reportes_View(QWidget, Ui_Reportes):
                 self.fecha_inicio_caja = fecha
                 self.fecha_fin_caja = None
                 print(f"[Caja] Fecha seleccionada: {self.fecha_inicio_caja.toString('yyyy-MM-dd')}")
-                calendario.setEnabled(False)
 
         elif tipo == "analisis":
             if self.modo_intervalo_analisis:

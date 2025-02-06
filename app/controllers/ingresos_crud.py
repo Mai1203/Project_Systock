@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 from app.models.ingresos import (Ingresos,) 
@@ -67,7 +67,50 @@ def obtener_ingresos(db: Session, FechaInicio: datetime = None, FechaFin: dateti
     
     return ingresos.all()
 
-
+def obtener_ingresos_reportes(db: Session, FechaInicio: datetime = None, FechaFin: datetime = None):
+    """
+    Obtiene la lista de todos los ingresos.
+    :param db: Sesión de base de datos.
+    :return: Lista de ingresos.
+    """
+    ingresos = (
+        db.query(
+            Ingresos.ID_Ingreso,
+            Ingresos.ID_Tipo_Ingreso,
+            
+            TipoIngreso.Tipo_Ingreso.label("tipo_ingreso"),
+            Facturas.Monto_efectivo.label("monto_efectivo"),
+            Facturas.Monto_TRANSACCION.label("monto_transaccion"),
+            Facturas.Fecha_Factura.label("fecha_venta"),
+            PagoCredito.Monto.label("monto"),
+            PagoCredito.Fecha_Registro.label("fecha_abono"),
+            MetodoPago.Nombre.label("metodo_pago"),
+        )
+        .outerjoin(TipoIngreso, Ingresos.ID_Tipo_Ingreso == TipoIngreso.ID_Tipo_Ingreso)
+        .outerjoin(Facturas, TipoIngreso.ID_Factura == Facturas.ID_Factura)
+        .outerjoin(PagoCredito, TipoIngreso.ID_Pago_Credito == PagoCredito.ID_Pago_Credito)
+        .outerjoin(MetodoPago, PagoCredito.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
+    )
+    
+    if FechaFin:
+        ingresos = ingresos.filter(
+            or_(
+                Facturas.Fecha_Factura.between(FechaInicio, FechaFin),
+                PagoCredito.Fecha_Registro.between(FechaInicio, FechaFin)
+            )
+        )
+    else:
+        fecha_inicio_dt = datetime.strptime(FechaInicio, "%Y-%m-%d")
+        fecha_fin_dt = fecha_inicio_dt + timedelta(days=1) - timedelta(seconds=1)
+        ingresos = ingresos.filter(
+            or_(
+                Facturas.Fecha_Factura.between(fecha_inicio_dt, fecha_fin_dt),
+                PagoCredito.Fecha_Registro.between(fecha_inicio_dt, fecha_fin_dt)
+            )
+        )
+        
+    
+    return ingresos.all()
 # Obtener un ingreso por ID
 def obtener_ingreso_por_id(db: Session, id_ingreso: int):
     """

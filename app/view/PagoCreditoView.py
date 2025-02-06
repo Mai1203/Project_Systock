@@ -99,25 +99,14 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             
     def metodo_pago(self):
         try:
-            db = SessionLocal()
-
-            if db:
-                metodos = obtener_metodos_pago(db)
-                
-                if metodos:
-                    nombres_metodos = [metodo.Nombre for metodo in metodos]
-                else:
-                    nombres_metodos = []
-            else:
-                nombres_metodos = []
+           
+            nombres_metodos = ["Efectivo","Transferencia"]
 
             return nombres_metodos  # Retorna los nombres de los métodos de pago
 
         except Exception as e:
             return []
 
-        finally:
-            db.close()
 
     def configuracion_pago(self):
         metodo_seleccionado = self.MetodoPagoBox.currentText()
@@ -128,14 +117,6 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             
             # Configurar la validación para solo números y puntos
             rx_inpago = QRegularExpression(r"^\d+\.\d+$")  # Expresión para solo números y puntos
-            validator_inpago = QRegularExpressionValidator(rx_inpago)
-            self.InputPago.setValidator(validator_inpago)
-        elif metodo_seleccionado == "Mixto":
-            # Si el método de pago es Mixto, mostramos el placeholder con la barra /
-            self.InputPago.setPlaceholderText("$Efectivo / $Transferencia")
-            
-            # Expresión regular para permitir el formato 50000 / 30000 (con espacio antes y después de la barra)
-            rx_inpago = QRegularExpression(r"^\d+(\.\d{1,2})?\s*/\s*\d+(\.\d{1,2})?$")  # Formato: 50000.00 / 30000.00
             validator_inpago = QRegularExpressionValidator(rx_inpago)
             self.InputPago.setValidator(validator_inpago)
         else:

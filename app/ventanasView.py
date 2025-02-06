@@ -48,11 +48,11 @@ class MainApp(QWidget):
         )  # Agregar el QStackedWidget al lado derecho
 
         # Crear y agregar vistas al QStackedWidget
+        self.caja = Caja_View()
         self.ventasA = VentasA_View()
         self.ventasB = VentasB_View()
         self.ventasCredito = VentasCredito_View()
         self.facturas = Facturas_View()
-        self.caja = Caja_View()
         self.egreso = Egreso_View()
         self.productos = Productos_View()
         self.respaldo_view = Respaldo_View()
@@ -61,12 +61,12 @@ class MainApp(QWidget):
         self.crediFactura = CrediFactura_View()
         self.pagoCredito = PagoCredito_View()
 
+        self.stacked_widget.addWidget(self.caja)  # Índice 4
         self.stacked_widget.addWidget(self.ventasA)  # Índice 0
         self.stacked_widget.addWidget(self.ventasB)  # Índice 1
         self.stacked_widget.addWidget(self.ventasCredito)  # Índice 1
         self.stacked_widget.addWidget(self.facturas)  # Índice 2
         self.stacked_widget.addWidget(self.crediFactura)  # Índice 3
-        self.stacked_widget.addWidget(self.caja)  # Índice 4
         self.stacked_widget.addWidget(self.egreso)  # Índice 5
         self.stacked_widget.addWidget(self.productos)  # Índice 6
         self.stacked_widget.addWidget(self.respaldo_view)  # Índice 7

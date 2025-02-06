@@ -119,9 +119,9 @@ def generar_pdf_caja_ingresos(caja, ingresos):
         elementos.append(tabla_ingresos)
         elementos.append(Spacer(1, 0.5 * inch))
 
-            # Sumar los montos de efectivo y transferencia
-        total_efectivo = sum(i.monto_efectivo for i in ingresos)
-        total_transferencia = sum(i.monto_transaccion for i in ingresos)
+                # Sumar los montos de efectivo y transferencia, asegurando que no sean None
+        total_efectivo = sum(i.monto_efectivo if i.monto_efectivo is not None else 0 for i in ingresos)
+        total_transferencia = sum(i.monto_transaccion if i.monto_transaccion is not None else 0 for i in ingresos)
 
         # Calcular el total combinado
         total_general = total_efectivo + total_transferencia
@@ -150,7 +150,7 @@ def generar_pdf_caja_ingresos(caja, ingresos):
         ]
 
         # Colores de las porciones del gráfico
-        grafico_pastel.slices[0].fillColor = colors.beige  # Efectivo
+        grafico_pastel.slices[0].fillColor = colors.beige # Efectivo
         grafico_pastel.slices[1].fillColor = colors.lightgrey  # Transferencia
 
         # Agregar el gráfico de pastel al dibujo
@@ -159,6 +159,7 @@ def generar_pdf_caja_ingresos(caja, ingresos):
         # Agregar el gráfico y el espaciado al documento
         elementos.append(dibujo)
         elementos.append(Spacer(1, 0.5 * inch))
+
         # Pie de página
         pie_pagina = Paragraph(f"<i>🔹 Reporte generado el {fecha_actual}.</i>", estilos["Italic"])
         elementos.append(pie_pagina)

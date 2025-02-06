@@ -46,6 +46,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         super().showEvent(event)
         self.limpiar_tabla_facturas()
         self.mostrar_facturas()
+        self.InputBuscador.clear()
                         
     
     def cancelar_venta(self):

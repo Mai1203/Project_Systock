@@ -7,6 +7,7 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
+from ..utils.Estructura_Reporte import *
 
 from ..ui import Ui_Caja
 from ..database.database import *
@@ -15,17 +16,17 @@ from ..controllers.egresos_crud import *
 from ..controllers.ingresos_crud import *
 from ..controllers.caja_crud import *
 from ..utils.validar_campos import *
-
-
+from PyQt5.QtGui import QColor 
+from PyQt5.QtWidgets import QMessageBox  
 class Caja_View(QWidget, Ui_Caja):
     def __init__(self, parent=None):
         super(Caja_View, self).__init__(parent)
         self.setupUi(self)
         
         self.usuario_actual_id = None
-        
         QTimer.singleShot(0, self.InputMontoCaja.setFocus)
         self.timer = QTimer(self)  # Timer para evitar consultas excesivas
+        
         self.InputMontoCaja.setPlaceholderText("Ej : 45000")
         
         self.TablaCaja.setColumnWidth(3, 180)
@@ -34,7 +35,9 @@ class Caja_View(QWidget, Ui_Caja):
         self.BtnCajaApertura.clicked.connect(self.crear_caja)
         self.BtnCajaCierre.clicked.connect(self.cerrar_caja)
         self.InputBuscador.textChanged.connect(self.buscar_caja)
-        
+        self.TablaCaja.itemSelectionChanged.connect(self.seleccionar_fila)
+        self.BtnCajaImprimir.clicked.connect(self.generar_reporte)
+
         #placeholder
         self.InputBuscador.setPlaceholderText("Buscar por Usuario  o Fecha de Apertura AAAA/MM/DD")
         configurar_validador_numerico(self.InputMontoCaja)
@@ -46,6 +49,83 @@ class Caja_View(QWidget, Ui_Caja):
         self.mostrar_tabla()
         self.sumar_total()
         
+    def seleccionar_fila(self):
+        """ Cambia el color de la fila seleccionada y extrae los datos de la fila. """
+        selected_row = self.TablaCaja.currentRow()
+        if selected_row == -1:
+            print("No hay una fila seleccionada.")
+            return
+        
+        # Resetear colores de todas las filas
+        for row in range(self.TablaCaja.rowCount()):
+            for col in range(self.TablaCaja.columnCount()):
+                self.TablaCaja.item(row, col).setBackground(QColor(255, 255, 255))  # Blanco
+
+        # Cambiar color de la fila seleccionada
+        for col in range(self.TablaCaja.columnCount()):
+            self.TablaCaja.item(selected_row, col).setBackground(QColor(173, 216, 230))  # Azul claro
+
+        # Obtener datos de la fila seleccionada
+        id_caja = self.TablaCaja.item(selected_row, 0).text()  # ID_Caja
+        id_usuario = self.TablaCaja.item(selected_row, 1).text()  # ID_Usuar
+        monto_base = self.TablaCaja.item(selected_row, 2).text()  # Monto_Base
+        fecha_apertura = self.TablaCaja.item(selected_row, 3).text()  # Fecha_Apertura
+        fecha_cierre = self.TablaCaja.item(selected_row, 4).text()  # Fecha_Cierre
+        monto_efectivo = self.TablaCaja.item(selected_row, 5).text()  # Monto_Efectivo
+        monto_transaccion = self.TablaCaja.item(selected_row, 6).text()  # Monto_Transaccion
+        monto_final = self.TablaCaja.item(selected_row, 7).text()  # Monto_Final_calculado
+        estado = self.TablaCaja.item(selected_row, 8).text()  # Estado
+
+        print(f"Fila seleccionada: ID Caja {id_caja}, Apertura: {fecha_apertura}, Cierre: {fecha_cierre}")
+
+        # Guardar datos en atributos de la clase
+        self.fecha_inicio = fecha_apertura
+        self.fecha_fin = fecha_cierre
+        self.id_caja = id_caja
+        self.monto_base = monto_base
+        self.monto_efectivo = monto_efectivo
+        self.monto_transaccion = monto_transaccion
+        self.monto_final = monto_final
+        self.estado = estado
+        self.id_usuario = id_usuario
+
+    def generar_reporte(self):
+        """ Filtra los ingresos según la fecha de la caja seleccionada y envía los datos a la función del PDF. """
+        db = SessionLocal()
+        try:
+            if not hasattr(self, 'fecha_inicio') or not hasattr(self, 'fecha_fin'):
+                QMessageBox.warning(self, "Error", "No se ha seleccionado una caja correctamente.")
+                return
+
+            fecha_inicio = self.fecha_inicio
+            fecha_fin = self.fecha_fin
+
+            # Consultar ingresos en el rango de fechas
+            ingresos = obtener_ingresos(db, fecha_inicio, fecha_fin)
+
+            if ingresos:
+                # Crear un objeto caja con los datos de la fila seleccionada
+                caja = Caja(
+                    Monto_Base=self.monto_base,
+                    Monto_Efectivo=self.monto_efectivo,
+                    Monto_Transaccion=self.monto_transaccion,
+                    Monto_Final_calculado=self.monto_final,
+                    Fecha_Apertura=fecha_inicio,
+                    Fecha_Cierre=fecha_fin,
+                    Estado=self.estado,
+                    ID_Usuario=self.id_usuario
+                )
+
+                # Enviar los datos a la función de generación de PDF
+                generar_pdf_caja_ingresos(caja, ingresos)
+
+            else:
+                QMessageBox.information(self, "Sin resultados", "No se encontraron ingresos en el rango de fechas seleccionado.")
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Error al generar el reporte: {e}")
+            print(f"Error al generar el reporte: {e}")
+
     def limpiar_tabla(self):
 
         self.TablaCaja.setRowCount(

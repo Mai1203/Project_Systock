@@ -31,6 +31,7 @@ class Caja_View(QWidget, Ui_Caja):
         
         self.TablaCaja.setColumnWidth(3, 180)
         self.TablaCaja.setColumnWidth(4, 180)
+        self.TablaCaja.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         
         self.BtnCajaApertura.clicked.connect(self.crear_caja)
         self.BtnCajaCierre.clicked.connect(self.cerrar_caja)
@@ -45,12 +46,12 @@ class Caja_View(QWidget, Ui_Caja):
     
     def showEvent(self, event):
         super().showEvent(event)
+        self.InputMontoCaja.clear()
         self.limpiar_tabla()
         self.mostrar_tabla()
         self.sumar_total()
         
     def seleccionar_fila(self):
-        """ Cambia el color de la fila seleccionada y extrae los datos de la fila. """
         selected_row = self.TablaCaja.currentRow()
         if selected_row == -1:
             print("No hay una fila seleccionada.")

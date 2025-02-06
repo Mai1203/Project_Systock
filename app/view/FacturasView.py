@@ -46,7 +46,6 @@ class Facturas_View(QWidget, Ui_Facturas):
         super().showEvent(event)
         self.limpiar_tabla_facturas()
         self.mostrar_facturas()
-        self.TablaFacturas.sortItems(0, QtCore.Qt.DescendingOrder)
                         
     
     def cancelar_venta(self):
@@ -108,45 +107,49 @@ class Facturas_View(QWidget, Ui_Facturas):
             self.TablaFacturas.setRowCount(0)
             return
 
-        # Establecer número de filas y columnas
-        self.TablaFacturas.setRowCount(len(rows))
-        self.TablaFacturas.setColumnCount(11)
+        try:
+            self.TablaFacturas.setRowCount(0)
 
-        # Iterar sobre las filas
-        for row_idx, row in enumerate(rows):
-            # Datos de la fila
-            id_factura = str(row.ID_Factura)
-            fecha = str(row.Fecha_Factura)
-            cliente = str(row.cliente)
-            monto_efectivo = str(row.Monto_efectivo)
-            monto_transaccion = str(row.Monto_TRANSACCION)
-            estado = "Pagado" if row.Estado else "Pendiente"
-            id_tipo_factura = str(row.tipofactura)
-            id_metodo_pago = str(row.metodopago)
-            usuario = str(row.usuario)
-            total = row.Monto_efectivo + row.Monto_TRANSACCION
+             # Ordenar filas por ID en orden descendente (de mayor a menor)
+            rows.sort(key=lambda x: x.ID_Factura, reverse=False)
+            # Iterar sobre las filas
+            for row_idx, row in enumerate(rows):
+                # Datos de la fila
+                id_factura = str(row.ID_Factura)
+                fecha = str(row.Fecha_Factura)
+                cliente = str(row.cliente)
+                monto_efectivo = str(row.Monto_efectivo)
+                monto_transaccion = str(row.Monto_TRANSACCION)
+                estado = "Pagado" if row.Estado else "Pendiente"
+                id_tipo_factura = str(row.tipofactura)
+                id_metodo_pago = str(row.metodopago)
+                usuario = str(row.usuario)
+                total = row.Monto_efectivo + row.Monto_TRANSACCION
 
-            # Configurar items de la tabla
-            items = [
-                (id_factura, 0),
-                (usuario, 1),
-                (id_metodo_pago, 2),
-                (cliente, 3),
-                (id_tipo_factura, 4),
-                (fecha, 5),
-                ("Actual", 6),  # Texto fijo
-                (monto_efectivo, 7),
-                (monto_transaccion, 8),
-                (str(total), 9),
-                (estado, 10),
-            ]
+                self.TablaFacturas.insertRow(0)
+                # Configurar items de la tabla
+                items = [
+                    (id_factura, 0),
+                    (usuario, 1),
+                    (id_metodo_pago, 2),
+                    (cliente, 3),
+                    (id_tipo_factura, 4),
+                    (fecha, 5),
+                    ("Actual", 6),  # Texto fijo
+                    (monto_efectivo, 7),
+                    (monto_transaccion, 8),
+                    (str(total), 9),
+                    (estado, 10),
+                ]
 
-            # Añadir items a la tabla
-            for value, col_idx in items:
-                item = QtWidgets.QTableWidgetItem(value)
-                item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.TablaFacturas.setItem(row_idx, col_idx, item)
-                
+                # Añadir items a la tabla
+                for value, col_idx in items:
+                    item = QtWidgets.QTableWidgetItem(value)
+                    item.setTextAlignment(QtCore.Qt.AlignCenter)
+                    self.TablaFacturas.setItem(0, col_idx, item)
+                    
+        except Exception as e:
+            print(f"Error al mostrar las facturas: {e}")
 
     def obtener_ids_seleccionados(self):
         """

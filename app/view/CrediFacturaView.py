@@ -49,7 +49,6 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
         super().showEvent(event)
         self.limpiar_tabla()
         self.mostrar_ventasCredito()
-        self.TablaFacturasCredito.sortItems(2, QtCore.Qt.DescendingOrder)
 
     def mostrar_ventasCredito(self):
         """
@@ -71,48 +70,50 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
             self.TablaFacturasCredito.setRowCount(0)
             return
 
-        # Establecer número de filas y columnas
-        self.TablaFacturasCredito.setRowCount(len(rows))
-        self.TablaFacturasCredito.setColumnCount(9)
+        try:
 
-        # Iterar sobre las filas
-        for row_idx, row in enumerate(rows):
-            # Datos de la fila
-            id_venta_credito = str(row.ID_Venta_Credito)
-            usuario = str(row.usuario)
-            id_factura = str(row.ID_Factura)
-            cliente = str(row.cliente)
-            fecha_registro = str(row.Fecha_Registro)
-            fecha_limite = row.Fecha_Limite
-            total_deuda = str(row.Total_Deuda)
-            saldo_pendiente = str(row.Saldo_Pendiente)
-            estado = "Pagado" if row.estado else "Pendiente"
+            rows.sort(key=lambda x: x.ID_Venta_Credito, reverse=False)
+            # Iterar sobre las filas
+            for row_idx, row in enumerate(rows):
+                # Datos de la fila
+                id_venta_credito = str(row.ID_Venta_Credito)
+                usuario = str(row.usuario)
+                id_factura = str(row.ID_Factura)
+                cliente = str(row.cliente)
+                fecha_registro = str(row.Fecha_Registro)
+                fecha_limite = row.Fecha_Limite
+                total_deuda = str(row.Total_Deuda)
+                saldo_pendiente = str(row.Saldo_Pendiente)
+                estado = "Pagado" if row.estado else "Pendiente"
 
-            # Convertir la fecha límite a datetime
-            fecha_actual = datetime.now()
-            
-            # Configurar items de la tabla
-            items = [
-                (id_venta_credito, 0),
-                (usuario, 1),
-                (id_factura, 2),
-                (cliente, 3),
-                (fecha_registro, 4),
-                (str(fecha_limite), 5),
-                (total_deuda, 6),
-                (saldo_pendiente, 7),
-                (estado, 8),
-            ]
+                self.TablaFacturasCredito.insertRow(0)
+                # Convertir la fecha límite a datetime
+                fecha_actual = datetime.now()
+                
+                # Configurar items de la tabla
+                items = [
+                    (id_venta_credito, 0),
+                    (usuario, 1),
+                    (id_factura, 2),
+                    (cliente, 3),
+                    (fecha_registro, 4),
+                    (str(fecha_limite), 5),
+                    (total_deuda, 6),
+                    (saldo_pendiente, 7),
+                    (estado, 8),
+                ]
 
-            # Determinar color de texto
-            color = QtGui.QColor("red") if fecha_actual > fecha_limite else QtGui.QColor("black")
-            
-            # Añadir items a la tabla
-            for value, col_idx in items:
-                item = QtWidgets.QTableWidgetItem(value)
-                item.setTextAlignment(QtCore.Qt.AlignCenter)
-                item.setForeground(QtGui.QBrush(color))  # Aplicar color
-                self.TablaFacturasCredito.setItem(row_idx, col_idx, item)
+                # Determinar color de texto
+                color = QtGui.QColor("red") if fecha_actual > fecha_limite else QtGui.QColor("black")
+                
+                # Añadir items a la tabla
+                for value, col_idx in items:
+                    item = QtWidgets.QTableWidgetItem(value)
+                    item.setTextAlignment(QtCore.Qt.AlignCenter)
+                    item.setForeground(QtGui.QBrush(color))  # Aplicar color
+                    self.TablaFacturasCredito.setItem(0, col_idx, item)
+        except Exception as e:
+            print(f"Error al mostrar venta acredito: {e}")
 
     def obtener_ids_seleccionados(self):
         """

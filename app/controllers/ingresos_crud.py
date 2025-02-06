@@ -1,4 +1,6 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
+from datetime import datetime
 
 
 from app.models.ingresos import (Ingresos,) 
@@ -22,7 +24,7 @@ def crear_ingreso(db: Session, id_tipo_ingreso: int):
 
 
 # Obtener todos los ingresos
-def obtener_ingresos(db: Session):
+def obtener_ingresos(db: Session, FechaInicio: datetime = None, FechaFin: datetime = None):
     """
     Obtiene la lista de todos los ingresos.
     :param db: Sesión de base de datos.
@@ -45,10 +47,25 @@ def obtener_ingresos(db: Session):
         .outerjoin(Facturas, TipoIngreso.ID_Factura == Facturas.ID_Factura)
         .outerjoin(PagoCredito, TipoIngreso.ID_Pago_Credito == PagoCredito.ID_Pago_Credito)
         .outerjoin(MetodoPago, PagoCredito.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
-        .all()
     )
     
-    return ingresos
+    if FechaFin:
+        ingresos = ingresos.filter(
+            or_(
+                Facturas.Fecha_Factura.between(FechaInicio, FechaFin),
+                PagoCredito.Fecha_Registro.between(FechaInicio, FechaFin)
+            )
+        )
+    else:
+        ingresos = ingresos.filter(
+            or_(
+                Facturas.Fecha_Factura >= FechaInicio,
+                PagoCredito.Fecha_Registro >= FechaInicio
+            )
+        )
+        
+    
+    return ingresos.all()
 
 
 # Obtener un ingreso por ID

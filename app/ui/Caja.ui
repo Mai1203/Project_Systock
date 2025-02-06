@@ -276,55 +276,16 @@ QLineEdit:focus {
                    <string notr="true"/>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_3">
-                   <item row="2" column="2">
-                    <widget class="QPushButton" name="BtnCajaCierre">
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_2">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="cursor">
-                      <cursorShape>PointingHandCursor</cursorShape>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">QPushButton {
-    background-color: red; /* Fondo blanco */
-    border: none; /* Sin borde ni decoración inicial */
-    color:  white;
-    border-radius: 15px; /* Bordes circulares */
-    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
-	height: 40px; /* Altura del botón */
-    text-align: left; /* Alinea el texto del botón a la izquierda */
-    font-size: 22px; /* Tamaño de fuente */
-    cursor: pointer;
-}
-
-QPushButton:hover {
-
-    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
-    cursor: pointer;
-}</string>
-                     </property>
                      <property name="text">
-                      <string>   Confirmar Cierre</string>
-                     </property>
-                     <property name="icon">
-                      <iconset>
-                       <normaloff>../../assets/iconos/cerrar.png</normaloff>../../assets/iconos/cerrar.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>30</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="3">
-                    <widget class="QLabel" name="label_7">
-                     <property name="text">
-                      <string/>
+                      <string>Abrir Caja</string>
                      </property>
                     </widget>
                    </item>
@@ -335,24 +296,10 @@ QPushButton:hover {
                      </property>
                     </widget>
                    </item>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="LabelCaja">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">#LabelCaja
- {
-    font-weight: bold; /* Negrita */
-    font-size: 34px; /* Tamaño de fuente */
-}
-</string>
-                     </property>
+                   <item row="1" column="4">
+                    <widget class="QLabel" name="label_8">
                      <property name="text">
-                      <string>Caja</string>
+                      <string/>
                      </property>
                     </widget>
                    </item>
@@ -421,23 +368,96 @@ QPushButton:hover {
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_2">
+                   <item row="2" column="2">
+                    <widget class="QPushButton" name="BtnCajaCierre">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton {
+    background-color: red; /* Fondo blanco */
+    border: none; /* Sin borde ni decoración inicial */
+    color:  white;
+    border-radius: 15px; /* Bordes circulares */
+    padding: 5px 10px; /* Espaciado interno para mejor apariencia */
+	height: 40px; /* Altura del botón */
+    text-align: left; /* Alinea el texto del botón a la izquierda */
+    font-size: 22px; /* Tamaño de fuente */
+    cursor: pointer;
+}
+
+QPushButton:hover {
+
+    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */
+    cursor: pointer;
+}</string>
+                     </property>
                      <property name="text">
-                      <string>Abrir Caja</string>
+                      <string>   Confirmar Cierre</string>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <normaloff>../../assets/iconos/cerrar.png</normaloff>../../assets/iconos/cerrar.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>30</width>
+                       <height>30</height>
+                      </size>
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="4">
-                    <widget class="QLabel" name="label_8">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="LabelCaja">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">#LabelCaja
+ {
+    font-weight: bold; /* Negrita */
+    font-size: 34px; /* Tamaño de fuente */
+}
+</string>
+                     </property>
+                     <property name="text">
+                      <string>Caja</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="3">
+                    <widget class="QLabel" name="label_7">
                      <property name="text">
                       <string/>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLabel" name="label_9">
+                     <property name="styleSheet">
+                      <string notr="true">QLabel {
+    background-color: rgba(248, 248, 243, 1); /* Un color crema suave */
+    border: 1px solid rgba(160, 159, 141, 1); /* Borde más suave y elegante */
+    border-radius: 15px; /* Bordes redondeados más suaves */
+    padding: 15px; /* Más espacio interno */
+    font: italic 12pt &quot;Arial&quot;; /* Fuente más elegante y cursiva */
+    color: rgba(49, 49, 47, 1); /* Color de texto oscuro para contraste */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidad */
+}
+</string>
+                     </property>
+                     <property name="text">
+                      <string>
+Nota: ¡Recuerda abrir la caja antes de generar cualquier venta!</string>
                      </property>
                     </widget>
                    </item>

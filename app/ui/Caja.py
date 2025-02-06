@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\Caja.ui'
+# Form implementation generated from reading ui file 'Caja.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -249,58 +249,22 @@ class Ui_Caja(object):
         self.widget_3.setObjectName("widget_3")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.widget_3)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.BtnCajaCierre = QtWidgets.QPushButton(self.widget_3)
+        self.label_2 = QtWidgets.QLabel(self.widget_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BtnCajaCierre.sizePolicy().hasHeightForWidth())
-        self.BtnCajaCierre.setSizePolicy(sizePolicy)
-        self.BtnCajaCierre.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BtnCajaCierre.setStyleSheet("QPushButton {\n"
-"    background-color: red; /* Fondo blanco */\n"
-"    border: none; /* Sin borde ni decoración inicial */\n"
-"    color:  white;\n"
-"    border-radius: 15px; /* Bordes circulares */\n"
-"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
-"    height: 40px; /* Altura del botón */\n"
-"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
-"    font-size: 22px; /* Tamaño de fuente */\n"
-"    cursor: pointer;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"\n"
-"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
-"    cursor: pointer;\n"
-"}")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/iconos/cerrar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.BtnCajaCierre.setIcon(icon)
-        self.BtnCajaCierre.setIconSize(QtCore.QSize(30, 30))
-        self.BtnCajaCierre.setObjectName("BtnCajaCierre")
-        self.gridLayout_3.addWidget(self.BtnCajaCierre, 2, 2, 1, 1)
-        self.label_7 = QtWidgets.QLabel(self.widget_3)
-        self.label_7.setText("")
-        self.label_7.setObjectName("label_7")
-        self.gridLayout_3.addWidget(self.label_7, 1, 3, 1, 1)
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_3.addWidget(self.label_2, 1, 0, 1, 1)
         self.label_6 = QtWidgets.QLabel(self.widget_3)
         self.label_6.setText("")
         self.label_6.setObjectName("label_6")
         self.gridLayout_3.addWidget(self.label_6, 1, 5, 1, 1)
-        self.LabelCaja = QtWidgets.QLabel(self.widget_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.LabelCaja.sizePolicy().hasHeightForWidth())
-        self.LabelCaja.setSizePolicy(sizePolicy)
-        self.LabelCaja.setStyleSheet("#LabelCaja\n"
-" {\n"
-"    font-weight: bold; /* Negrita */\n"
-"    font-size: 34px; /* Tamaño de fuente */\n"
-"}\n"
-"")
-        self.LabelCaja.setObjectName("LabelCaja")
-        self.gridLayout_3.addWidget(self.LabelCaja, 0, 0, 1, 1)
+        self.label_8 = QtWidgets.QLabel(self.widget_3)
+        self.label_8.setText("")
+        self.label_8.setObjectName("label_8")
+        self.gridLayout_3.addWidget(self.label_8, 1, 4, 1, 1)
         self.InputMontoCaja = QtWidgets.QLineEdit(self.widget_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -336,24 +300,73 @@ class Ui_Caja(object):
 "    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
 "    cursor: pointer;\n"
 "}")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("assets/iconos/signo_dinero.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.BtnCajaApertura.setIcon(icon1)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/signo_dinero.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnCajaApertura.setIcon(icon)
         self.BtnCajaApertura.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaApertura.setObjectName("BtnCajaApertura")
         self.gridLayout_3.addWidget(self.BtnCajaApertura, 2, 1, 1, 1)
-        self.label_2 = QtWidgets.QLabel(self.widget_3)
+        self.BtnCajaCierre = QtWidgets.QPushButton(self.widget_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout_3.addWidget(self.label_2, 1, 0, 1, 1)
-        self.label_8 = QtWidgets.QLabel(self.widget_3)
-        self.label_8.setText("")
-        self.label_8.setObjectName("label_8")
-        self.gridLayout_3.addWidget(self.label_8, 1, 4, 1, 1)
+        sizePolicy.setHeightForWidth(self.BtnCajaCierre.sizePolicy().hasHeightForWidth())
+        self.BtnCajaCierre.setSizePolicy(sizePolicy)
+        self.BtnCajaCierre.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.BtnCajaCierre.setStyleSheet("QPushButton {\n"
+"    background-color: red; /* Fondo blanco */\n"
+"    border: none; /* Sin borde ni decoración inicial */\n"
+"    color:  white;\n"
+"    border-radius: 15px; /* Bordes circulares */\n"
+"    padding: 5px 10px; /* Espaciado interno para mejor apariencia */\n"
+"    height: 40px; /* Altura del botón */\n"
+"    text-align: left; /* Alinea el texto del botón a la izquierda */\n"
+"    font-size: 22px; /* Tamaño de fuente */\n"
+"    cursor: pointer;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"\n"
+"    background-color: rgb(106, 106, 106); /* Gris claro al pasar el mouse */\n"
+"    cursor: pointer;\n"
+"}")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("assets/iconos/cerrar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnCajaCierre.setIcon(icon1)
+        self.BtnCajaCierre.setIconSize(QtCore.QSize(30, 30))
+        self.BtnCajaCierre.setObjectName("BtnCajaCierre")
+        self.gridLayout_3.addWidget(self.BtnCajaCierre, 2, 2, 1, 1)
+        self.LabelCaja = QtWidgets.QLabel(self.widget_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.LabelCaja.sizePolicy().hasHeightForWidth())
+        self.LabelCaja.setSizePolicy(sizePolicy)
+        self.LabelCaja.setStyleSheet("#LabelCaja\n"
+" {\n"
+"    font-weight: bold; /* Negrita */\n"
+"    font-size: 34px; /* Tamaño de fuente */\n"
+"}\n"
+"")
+        self.LabelCaja.setObjectName("LabelCaja")
+        self.gridLayout_3.addWidget(self.LabelCaja, 0, 0, 1, 1)
+        self.label_7 = QtWidgets.QLabel(self.widget_3)
+        self.label_7.setText("")
+        self.label_7.setObjectName("label_7")
+        self.gridLayout_3.addWidget(self.label_7, 1, 3, 1, 1)
+        self.label_9 = QtWidgets.QLabel(self.widget_3)
+        self.label_9.setStyleSheet("QLabel {\n"
+"    background-color: rgba(248, 248, 243, 1); /* Un color crema suave */\n"
+"    border: 1px solid rgba(160, 159, 141, 1); /* Borde más suave y elegante */\n"
+"    border-radius: 15px; /* Bordes redondeados más suaves */\n"
+"    padding: 15px; /* Más espacio interno */\n"
+"    font: italic 12pt \"Arial\"; /* Fuente más elegante y cursiva */\n"
+"    color: rgba(49, 49, 47, 1); /* Color de texto oscuro para contraste */\n"
+"    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidad */\n"
+"}\n"
+"")
+        self.label_9.setObjectName("label_9")
+        self.gridLayout_3.addWidget(self.label_9, 0, 2, 1, 1)
         self.gridLayout_4.addWidget(self.widget_3, 0, 0, 1, 1)
         self.label_11 = QtWidgets.QLabel(self.frame_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -843,10 +856,12 @@ class Ui_Caja(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+        self.label_2.setText(_translate("Form", "Abrir Caja"))
+        self.BtnCajaApertura.setText(_translate("Form", "  Confirmar Apertura"))
         self.BtnCajaCierre.setText(_translate("Form", "   Confirmar Cierre"))
         self.LabelCaja.setText(_translate("Form", "Caja"))
-        self.BtnCajaApertura.setText(_translate("Form", "  Confirmar Apertura"))
-        self.label_2.setText(_translate("Form", "Abrir Caja"))
+        self.label_9.setText(_translate("Form", "\n"
+"Nota: ¡Recuerda abrir la caja antes de generar cualquier venta!"))
         item = self.TablaCaja.verticalHeaderItem(0)
         item.setText(_translate("Form", "1."))
         item = self.TablaCaja.verticalHeaderItem(1)

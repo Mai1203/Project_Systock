@@ -61,24 +61,28 @@ class Caja_View(QWidget, Ui_Caja):
         self.db = SessionLocal()
         
         try:
-            caja = obtener_cajas(db=self.db)
-            ingresos = obtener_ingresos(db=self.db)
+            ingresos = None
+            cajas = obtener_cajas(db=self.db)
+            
+            for caja in cajas:
+                if caja.Estado == True:
+                    fecha_apertura = caja.Fecha_Apertura
+                    fecha_cierre = caja.Fecha_Cierre
+                    ingresos = obtener_ingresos(db=self.db, FechaInicio=fecha_apertura, FechaFin=fecha_cierre)
+                    
         except Exception as e:
             print(f"Error al obtener datos de la caja: {e}")
             return
         finally:
             self.db.close()
             
-        self.actualizar_tabla(ingresos, caja)
+        self.actualizar_tabla(ingresos, cajas)
         
     def actualizar_tabla(self, ingresos=None, caja=None):
         
         try: 
                  
             if ingresos:
-                # for row, caja in enumerate(caja):
-                #     if caja.Estado == True:
-                #         fecha_apertura = caja.Fecha_Apertura
                 
                 self.TablaIngresos.setRowCount(
                     len(ingresos)

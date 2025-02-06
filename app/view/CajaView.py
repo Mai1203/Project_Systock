@@ -44,7 +44,6 @@ class Caja_View(QWidget, Ui_Caja):
         super().showEvent(event)
         self.limpiar_tabla()
         self.mostrar_tabla()
-        self.TablaIngresos.sortItems(0, QtCore.Qt.DescendingOrder)
         self.sumar_total()
         
     def limpiar_tabla(self):
@@ -84,9 +83,8 @@ class Caja_View(QWidget, Ui_Caja):
                  
             if ingresos:
                 
-                self.TablaIngresos.setRowCount(
-                    len(ingresos)
-                ) 
+                ingresos.sort(key=lambda x: x.ID_Ingreso, reverse=False)
+                
                 for row, ingreso in enumerate(ingresos):
                         id_ingreso = str(ingreso.ID_Ingreso)
                         tipo = str(ingreso.tipo_ingreso)
@@ -100,6 +98,7 @@ class Caja_View(QWidget, Ui_Caja):
                             else:
                                 trasferencia = str(ingreso.monto)
                                 efectivo = "0.0"
+                        self.TablaIngresos.insertRow(0)
                         
                         items = [
                             (id_ingreso, 0),
@@ -111,15 +110,15 @@ class Caja_View(QWidget, Ui_Caja):
                         for value, col_idx in items:
                             item = QtWidgets.QTableWidgetItem(value)
                             item.setTextAlignment(QtCore.Qt.AlignCenter)
-                            self.TablaIngresos.setItem(row, col_idx, item)
+                            self.TablaIngresos.setItem(0, col_idx, item)
         except Exception as e:
             print(f"Error en Tabla Ingreso: {e}")
         
         try:
             if caja:
-                self.TablaCaja.setRowCount(
-                    len(caja)
-                )  
+                
+                caja.sort(key=lambda x: x.ID_Caja, reverse=False)
+                 
                 for row, caja in enumerate(caja):
                     id_caja = str(caja.ID_Caja)
                     usuario = str(caja.usuario)
@@ -130,6 +129,8 @@ class Caja_View(QWidget, Ui_Caja):
                     trasferencia = str(caja.Monto_Transaccion)
                     total = str(caja.Monto_Final_calculado)
                     estado = "Abierta" if caja.Estado else "Cerrada"
+                    
+                    self.TablaCaja.insertRow(0)
                     
                     items = [
                         (id_caja, 0),
@@ -146,7 +147,7 @@ class Caja_View(QWidget, Ui_Caja):
                     for value, col_idx in items:
                         item = QtWidgets.QTableWidgetItem(value)
                         item.setTextAlignment(QtCore.Qt.AlignCenter)
-                        self.TablaCaja.setItem(row, col_idx, item)
+                        self.TablaCaja.setItem(0, col_idx, item)
                     
         except Exception as e:
             print(f"Error en Tabla caja: {e}")

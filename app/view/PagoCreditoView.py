@@ -175,10 +175,17 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
                 tranferencia = float(abono)
                 saldo_pendiente = float(venta.Saldo_Pendiente) - float(abono)
             else:
-                total = abono.split("/")
-                efectivo = float(total[0])
-                tranferencia = float(total[1])
-                saldo_pendiente = float(venta.Saldo_Pendiente) - (efectivo + tranferencia)
+                if '/' in abono:
+                    total = abono.split("/")
+                    efectivo = float(total[0]) if total[0] else 0
+                    tranferencia = float(total[1]) if total[1] else 0
+                    saldo_pendiente = float(venta.Saldo_Pendiente) - (efectivo + tranferencia)
+                    if efectivo == 0 or tranferencia == 0:
+                        QMessageBox.warning(self, "Error", "Ingrese el monto efectivo y el monto transferencia separados por un barra (/).")
+                        return
+                else:
+                    QMessageBox.warning(self, "Error", "Ingrese el monto efectivo y el monto transferencia separados por un barra (/).")
+                    return
 
             
             abono_total = efectivo + tranferencia

@@ -274,7 +274,7 @@ class Ui_Caja(object):
 "    cursor: pointer;\n"
 "}")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(".\\../../assets/iconos/cerrar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("assets/iconos/cerrar.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.BtnCajaCierre.setIcon(icon)
         self.BtnCajaCierre.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaCierre.setObjectName("BtnCajaCierre")
@@ -337,7 +337,7 @@ class Ui_Caja(object):
 "    cursor: pointer;\n"
 "}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(".\\../../assets/iconos/signo_dinero.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("assets/iconos/signo_dinero.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.BtnCajaApertura.setIcon(icon1)
         self.BtnCajaApertura.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaApertura.setObjectName("BtnCajaApertura")
@@ -363,7 +363,7 @@ class Ui_Caja(object):
         self.label_11.setSizePolicy(sizePolicy)
         self.label_11.setMaximumSize(QtCore.QSize(50, 35))
         self.label_11.setText("")
-        self.label_11.setPixmap(QtGui.QPixmap(".\\../../assets/iconos/buscar.png"))
+        self.label_11.setPixmap(QtGui.QPixmap("assets/iconos/buscar.png"))
         self.label_11.setScaledContents(True)
         self.label_11.setObjectName("label_11")
         self.gridLayout_4.addWidget(self.label_11, 2, 1, 1, 1)
@@ -816,7 +816,7 @@ class Ui_Caja(object):
 "    cursor: pointer;\n"
 "}")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(".\\../../assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("assets/iconos/pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.BtnCajaImprimir.setIcon(icon2)
         self.BtnCajaImprimir.setIconSize(QtCore.QSize(30, 30))
         self.BtnCajaImprimir.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)

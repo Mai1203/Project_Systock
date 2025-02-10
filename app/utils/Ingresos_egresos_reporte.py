@@ -15,10 +15,7 @@ def generar_pdf_transacciones(transacciones, tipo, fecha_inicio=None, fecha_fin=
     root = Tk()
     root.withdraw()
     
-    if fecha_fin:
-        default_filename = f"{tipo}_{fecha_inicio}_{fecha_fin}.pdf"
-    else:
-        default_filename = f"{tipo}_{fecha_inicio}.pdf"
+    default_filename = f"{tipo}_{fecha_inicio}.pdf"
 
     # Elegir dónde guardar el archivo con un nombre por defecto
     file_path = filedialog.asksaveasfilename(

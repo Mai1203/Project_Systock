@@ -57,6 +57,9 @@ class Reportes_View(QWidget, Ui_Reportes):
        
         db = SessionLocal()
         try:
+            if not self.fecha_inicio_caja:
+                QMessageBox.warning(self, "Error", "Debes seleccionar una fecha inicial")
+            
             if tipo == "Egresos":
                 query = db.query(Egresos)  # Asegúrate de que "Egresos" es el nombre de tu modelo
 
@@ -74,6 +77,7 @@ class Reportes_View(QWidget, Ui_Reportes):
                     query = query.filter(and_(
                         func.date(Egresos.Fecha_Egreso) >= fecha_inicio, 
                         func.date(Egresos.Fecha_Egreso) <= fecha_fin))
+                    
                 elif self.fecha_inicio_caja:
                     fecha_inicio = self.fecha_inicio_caja.toString('yyyy-MM-dd')
                     fecha_fin = None

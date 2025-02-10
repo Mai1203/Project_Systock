@@ -6,7 +6,7 @@ from ..ui import Ui_Reportes
 from ..controllers.producto_crud import * 
 from ..controllers.ingresos_crud import *
 from ..controllers.egresos_crud import *
-from ..utils.Estructura_Reporte import crear_pdf
+from ..utils.Estructura_Reporte import crear_pdf, generar_pdf_productos_mas_vendidos
 from ..utils import Ingresos_egresos_reporte
 from sqlalchemy import and_
 import os
@@ -177,27 +177,33 @@ class Reportes_View(QWidget, Ui_Reportes):
     def generar_pdf(self):
         # Obtener el tipo de productos seleccionado en el ComboBox
         tipo_seleccionado = self.TipoProductosComboBox.currentText()  # Obtener el valor del ComboBox
-
-        # Obtener los productos de la base de datos según el tipo seleccionado
-        productos = self.obtener_productos(tipo_seleccionado)  
-
-        # Nombre por defecto para el archivo (BajoStock_fecha)
-        fecha_actual = datetime.now().strftime("%Y-%m-%d")
-        nombre_pdf_por_defecto = f"{tipo_seleccionado}_{fecha_actual}.pdf"
-
-        # Usar un diálogo para que el usuario elija dónde guardar el archivo
-        ruta_archivo, _ = QFileDialog.getSaveFileName(self, "Guardar PDF", nombre_pdf_por_defecto, "PDF Files (*.pdf)")
-
-        # Verificar si se ha seleccionado una ruta y proceder con la creación del PDF
-        if ruta_archivo:  
-            crear_pdf(ruta_archivo, productos, tipo_seleccionado)
-
-            # Mostrar mensaje de confirmación
-            messagebox.showinfo("PDF Generado", f"El archivo PDF ha sido generado en: {ruta_archivo}")
+        
+        if tipo_seleccionado == "Más  Vendidos - Menos Vendidos":
+            db = SessionLocal()
+            productos =obtener_productos_mas_vendidos(db=db, limite=30)
+            generar_pdf_productos_mas_vendidos(productos)
+        
         else:
-            # Si no se seleccionó ninguna ruta (es decir, el usuario cerró el cuadro de diálogo sin seleccionar archivo),
-            # se evita proceder a guardar el archivo.
-            messagebox.showinfo("Operación cancelada", "No se ha seleccionado ninguna ruta para guardar el archivo.")
+            # Obtener los productos de la base de datos según el tipo seleccionado
+            productos = self.obtener_productos(tipo_seleccionado)  
+
+            # Nombre por defecto para el archivo (BajoStock_fecha)
+            fecha_actual = datetime.now().strftime("%Y-%m-%d")
+            nombre_pdf_por_defecto = f"{tipo_seleccionado}_{fecha_actual}.pdf"
+
+            # Usar un diálogo para que el usuario elija dónde guardar el archivo
+            ruta_archivo, _ = QFileDialog.getSaveFileName(self, "Guardar PDF", nombre_pdf_por_defecto, "PDF Files (*.pdf)")
+
+            # Verificar si se ha seleccionado una ruta y proceder con la creación del PDF
+            if ruta_archivo:  
+                crear_pdf(ruta_archivo, productos, tipo_seleccionado)
+
+                # Mostrar mensaje de confirmación
+                messagebox.showinfo("PDF Generado", f"El archivo PDF ha sido generado en: {ruta_archivo}")
+            else:
+                # Si no se seleccionó ninguna ruta (es decir, el usuario cerró el cuadro de diálogo sin seleccionar archivo),
+                # se evita proceder a guardar el archivo.
+                messagebox.showinfo("Operación cancelada", "No se ha seleccionado ninguna ruta para guardar el archivo.")
 
     def closeEvent(self, event):
         # Verificar si el cuadro de diálogo de guardado ha sido abierto y no se ha seleccionado un archivo

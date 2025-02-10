@@ -5,9 +5,11 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics.charts.barcharts import VerticalBarChart
 from datetime import datetime
+from tkinter import Tk, filedialog
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from reportlab.lib.units import inch
 from reportlab.graphics.charts.piecharts import Pie
+from reportlab.pdfgen import canvas
 
 
 
@@ -235,3 +237,56 @@ def crear_pdf(ruta_archivo, productos, tipo):
     doc.build(elementos)
 
     print("✅ PDF generado con éxito en:", ruta_archivo)
+
+def generar_pdf_productos_mas_vendidos(productos):
+    fecha_actual = datetime.now().strftime("%Y-%m-%d")
+    default_filename = f"Productos_Mas_Vendido_{fecha_actual}.pdf"
+
+    # Elegir dónde guardar el archivo con un nombre por defecto
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")],
+        initialfile=default_filename,  # Nombre por defecto
+        title=f"Guardar Reporte productos mas vendidos"
+    )
+    
+    if not file_path:
+        print("Operación cancelada.")
+        return
+    
+    c = canvas.Canvas(file_path, pagesize=letter)
+    width, height = letter
+
+    # Logo
+    logo_path = "assets/logo.png"  # Ajusta la ruta
+    c.drawImage(logo_path, 50, height - 100, width=100, height=100, mask='auto')
+
+    # Título
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(200, height - 50, "Reporte de Productos Más Vendidos")
+    c.setFont("Helvetica", 12)
+    
+    # Encabezados
+    y_position = height - 120
+    c.drawString(50, y_position, "ID")
+    c.drawString(100, y_position, "Nombre")
+    c.drawString(400, y_position, "Unidades Vendidas")
+
+    y_position -= 20
+    c.line(50, y_position, 550, y_position)
+    y_position -= 20
+
+    # Agregar los datos
+    for producto in productos:
+        c.drawString(50, y_position, str(producto.ID_Producto))
+        c.drawString(100, y_position, producto.Nombre)
+        c.drawString(400, y_position, str(producto.Total_Unidades_Vendidas))
+
+        y_position -= 20
+        if y_position < 50:
+            c.showPage()
+            c.setFont("Helvetica", 12)
+            y_position = height - 50
+
+    c.save()
+    print(f"Reporte guardado en {file_path}")
+    QMessageBox.information(None, "Reporte generado", f"Reporte de productos mas vendidos guardado correctamente")

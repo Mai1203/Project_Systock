@@ -321,6 +321,10 @@ class Caja_View(QWidget, Ui_Caja):
                     QMessageBox.critical(self, "Error", f"Error al cerrar la caja en bd: {str(e)}")
                 finally:
                     self.db.close()
+                    
+        self.OutEfectivo.setText("0.00")
+        self.OutTotal.setText("0.00")
+        self.OutTransferencia.setText("0.00")
         
     def buscar_caja(self):
         buscar = self.InputBuscador.text().strip()

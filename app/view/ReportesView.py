@@ -45,6 +45,7 @@ class Reportes_View(QWidget, Ui_Reportes):
         self.TiempoCajaComboBox.addItems(["Diario", "Intervalo de días"])
         self.TipoProductosComboBox.addItems(["Bajo Stock", "Más  Vendidos - Menos Vendidos", "Inactivos"])
         self.ReporteAnalisisComboBox.addItems(["Comparación Financiera", "Análisis de crédito"])
+        self.ReporteAnalisisComboBox.currentIndexChanged.connect(self.cambiar_estado)   #cambiar estado de combobox y calendario
         self.TiempoAnalisisComboBox.addItems(["Diario", "Intervalo de días"])
 
         # Conectar ComboBox de tiempo con la función de habilitar/deshabilitar el calendario
@@ -58,6 +59,23 @@ class Reportes_View(QWidget, Ui_Reportes):
         # Deshabilitar calendarios por defecto
         self.CalendarioCaja.setEnabled(True)
         self.CalendarioAnalisis.setEnabled(True)
+    
+    def cambiar_estado(self):
+        """
+        Cambiar estado de combobox y calendario
+        """
+        try:
+            opcion = self.ReporteAnalisisComboBox.currentText()
+            
+            if opcion == "Análisis de crédito":
+                self.CalendarioAnalisis.setEnabled(False)
+                self.TiempoAnalisisComboBox.setEnabled(False)
+            else:
+                self.CalendarioAnalisis.setEnabled(True)
+                self.TiempoAnalisisComboBox.setEnabled(True)
+        except Exception as e:
+            print(e)
+            
     def obtener_creditos(self, tipo):
         tipo = "Análisis de crédito"
         resultado = self.obtener_creditos_analisis(tipo)

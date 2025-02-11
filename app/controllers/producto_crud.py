@@ -1,8 +1,11 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from sqlalchemy import or_
 from app.models.productos import Productos
 from app.models.productos import Marcas
 from app.models.productos import Categorias
+from app.models.facturas import Facturas
+from app.models.detalle_facturas import DetalleFacturas
 
 
 def redondear_a_cientos(numero):
@@ -79,6 +82,22 @@ def crear_producto(
     db.refresh(nuevo_producto)
     return nuevo_producto
 
+def obtener_productos_mas_vendidos(db: Session, limite=20):
+    resultados = (
+        db.query(
+            Productos.ID_Producto,
+            Productos.Nombre,
+            func.sum(DetalleFacturas.Cantidad).label("Total_Unidades_Vendidas"),
+            func.sum(DetalleFacturas.Subtotal).label("Total_Ganado"),
+        )
+        .join(DetalleFacturas, Productos.ID_Producto == DetalleFacturas.ID_Producto)
+        .group_by(Productos.ID_Producto, Productos.Nombre)
+        .order_by(func.sum(DetalleFacturas.Cantidad).desc())
+        .limit(limite)
+        .all()
+    )
+
+    return resultados
 
 # Obtener todos los productos
 def obtener_productos(db: Session):

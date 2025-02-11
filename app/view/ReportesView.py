@@ -3,9 +3,15 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QMessageBox
 from ..database.database import SessionLocal
 from ..ui import Ui_Reportes
+from..controllers.tipo_pago_crud import *
+from ..controllers.metodo_pago_crud import *
+from ..controllers.pago_credito_crud import *
+from ..controllers.venta_credito_crud import *
 from ..controllers.producto_crud import * 
 from ..controllers.ingresos_crud import *
 from ..controllers.egresos_crud import *
+from ..utils.Estructura_Reporte import crear_pdf
+from ..utils.Credito__Reporte import generar_pdf_creditos
 from ..utils.Estructura_Reporte import crear_pdf, generar_pdf_productos_mas_vendidos
 from ..utils import Ingresos_egresos_reporte
 from sqlalchemy import and_
@@ -46,12 +52,72 @@ class Reportes_View(QWidget, Ui_Reportes):
         self.TiempoAnalisisComboBox.currentIndexChanged.connect(lambda: self.cambiar_estado_calendario("analisis"))
         self.BtnTicketProducto.clicked.connect(lambda: self.generar_pdf())
         self.BtnTicketCaja.clicked.connect(lambda: self.obtener_ingresos_egresos(self.TipoCajaComboBox.currentText()))
-
+        self.BtnTicketAnalisis.clicked.connect(
+        lambda: self.obtener_creditos_analisis(self.ReporteAnalisisComboBox.currentText()))
 
         # Deshabilitar calendarios por defecto
         self.CalendarioCaja.setEnabled(True)
         self.CalendarioAnalisis.setEnabled(True)
+    def obtener_creditos(self, tipo):
+        tipo = "Análisis de crédito"
+        resultado = self.obtener_creditos_analisis(tipo)
+        if resultado:
+            # Aquí podrías hacer algo con el resultado, como mostrarlo en una nueva ventana
+            messagebox.showinfo("Resultado", f"Análisis: {resultado}")
+        else:
+            messagebox.showwarning("Error", "No se pudo obtener el análisis.")
     
+    
+    def obtener_creditos_analisis(self, tipo):
+        db = SessionLocal()  # Iniciamos la sesión de base de datos
+        try:
+            if tipo == "Análisis de crédito":
+                # Obtener las ventas a crédito
+                ventas = obtener_ventas_credito(db)
+                resultado = []  # Lista para almacenar el resultado
+
+                for venta in ventas:
+                    # Obtener los pagos asociados a cada venta usando el ID_Venta_Credito
+                    pagos = db.query(PagoCredito).filter(PagoCredito.ID_Venta_Credito == venta.ID_Venta_Credito).all()
+
+                    # Agregar los datos de la venta y sus pagos al resultado
+                    resultado.append({
+                        "venta": {
+                            "ID_Venta_Credito": venta.ID_Venta_Credito,
+                            "Total_Deuda": venta.Total_Deuda,
+                            "Saldo_Pendiente": venta.Saldo_Pendiente,
+                            "Fecha_Registro": venta.Fecha_Registro
+                        },
+                        "pagos": [{
+                            "ID_Pago_Credito": pago.ID_Pago_Credito,
+                            "Monto": pago.Monto,
+                            "Fecha_Registro": pago.Fecha_Registro,
+                            "Metodo_Pago": self.obtener_metodo_pago(db, pago.ID_Metodo_Pago),
+                            "Tipo_Pago": self.obtener_tipo_pago(db, pago.ID_Tipo_Pago)
+                        } for pago in pagos]
+                    })
+
+                # Enviar el resultado a la función que genera el reporte (por ejemplo, generar_pdf_creditos)
+                generar_pdf_creditos(self, resultado)
+
+                # Retornar los resultados para ser utilizados en el reporte PDF
+                return resultado
+            else:
+                print("Tipo no válido:", tipo)
+                return None
+        finally:
+            db.close()  # Cerrar la sesión
+
+    # Funciones auxiliares para obtener los detalles del método de pago y tipo de pago
+    def obtener_metodo_pago(self, db, id_metodo_pago):
+        # Obtiene el nombre o detalle del método de pago
+        metodo_pago = db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == id_metodo_pago).first()
+        return metodo_pago.Nombre if metodo_pago else "Desconocido"
+
+    def obtener_tipo_pago(self, db, id_tipo_pago):
+        # Obtiene el nombre o detalle del tipo de pago
+        tipo_pago = db.query(TipoPago).filter(TipoPago.ID_Tipo_Pago == id_tipo_pago).first()
+        return tipo_pago.Nombre if tipo_pago else "Desconocido"
 
     def obtener_ingresos_egresos(self, tipo):
        

@@ -244,6 +244,7 @@ class Productos_View(QWidget, Ui_Productos):
         if productos:
             self.TablaProductos.setRowCount(len(productos))
             self.TablaProductos.setColumnCount(13)
+            precio_cp = 0   #Acumulativo de precios de compra
 
             for row_idx, row in enumerate(productos):
                 id_producto = str(row.ID_Producto)
@@ -262,6 +263,8 @@ class Productos_View(QWidget, Ui_Productos):
                     estado = "Activo"
                 else:
                     estado = "Inactivo"
+                
+                precio_cp += row.Precio_costo
 
                 id_item = QtWidgets.QTableWidgetItem(id_producto)
                 id_item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -331,6 +334,7 @@ class Productos_View(QWidget, Ui_Productos):
                                 f"No se encontró un elemento en la fila {row_idx}, columna {col}"
                             )
                     self.TablaProductos.viewport().update()
+            self.LabelTotalCp.setText(f"${precio_cp:,.2f}")
 
     def procesar_codigo(self):
         """

@@ -8,6 +8,7 @@ from reportlab.lib.units import inch
 from datetime import datetime
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 
 def generar_pdf_creditos(self, resultado):
     # Obtener la fecha actual para el nombre del archivo
@@ -81,7 +82,7 @@ def generar_pdf_creditos(self, resultado):
                 elements.append(Spacer(1, 12))  # Espacio después del mensaje
 
             ## Verificación de viabilidad
-            if venta['Saldo_Pendiente'] < (venta['Total_Deuda'] * 0.45):  # 45% del total de la deuda
+            if venta['Saldo_Pendiente'] < (venta['Total_Deuda'] * 0.41):  # 45% del total de la deuda
                 viable_count += 1
                 status = "Viable"
                 color = colors.green
@@ -121,6 +122,8 @@ def generar_pdf_creditos(self, resultado):
 
         # Crear el PDF
         doc.build(elements)
-        print(f"PDF guardado en: {archivo_guardado}")
+        
+        messagebox.showinfo("Información", f"PDF guardado en: {archivo_guardado}")
     else:
-        print("No se seleccionó ningún archivo para guardar.")
+        
+        messagebox.showinfo("Información", f"No se ha seleccionado ningún archivo para guardar.")

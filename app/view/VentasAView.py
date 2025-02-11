@@ -17,6 +17,7 @@ from ..controllers.ingresos_crud import *
 from ..controllers.tipo_ingreso_crud import *
 from ..controllers.clientes_crud import *
 from ..controllers.ingresos_crud import *
+from ..controllers.historial_modificacion_crud import *
 from ..ui import Ui_VentasA
 from ..utils.autocomplementado import configurar_autocompletado
 from PyQt5.QtCore import Qt
@@ -534,6 +535,8 @@ class VentasA_View(QWidget, Ui_VentasA):
         factura.Monto_efectivo = efectivo if payment_method == "Efectivo" or payment_method == "Mixto" else 0.0
         factura.ID_Metodo_Pago = id_metodo_pago.ID_Metodo_Pago
         factura.ID_Usuario = usuario_actual_id
+        
+        crear_historial_modificacion(db=db,id_usuario=usuario_actual_id, descripcion="Factura actualizada", id_factura=id_factura)
 
         # Confirmar los cambios
         db.commit()

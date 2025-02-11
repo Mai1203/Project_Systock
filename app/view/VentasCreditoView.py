@@ -17,6 +17,7 @@ from ..controllers.facturas_crud import *
 from ..controllers.metodo_pago_crud import *
 from ..controllers.venta_credito_crud import *
 from ..controllers.pago_credito_crud import *
+from ..controllers.historial_modificacion_crud import *
 from ..ui import Ui_VentasCredito
 from ..utils.autocomplementado import configurar_autocompletado
 from ..utils.restructura_ticket import *
@@ -269,6 +270,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         # Actualizar información general de la factura
         factura = db.query(Facturas).filter(Facturas.ID_Factura == id_factura).first()
         factura.ID_Usuario = usuario_actual_id
+
+        crear_historial_modificacion(db=db,id_usuario=usuario_actual_id, descripcion="Factura actualizada", id_factura=id_factura)
 
         # Confirmar los cambios
         db.commit()

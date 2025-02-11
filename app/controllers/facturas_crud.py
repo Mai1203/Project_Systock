@@ -5,6 +5,7 @@ from app.models.detalle_facturas import DetalleFacturas
 from app.models.clientes import Clientes
 from app.models.productos import Productos, Marcas, Categorias
 from app.models.usuarios import Usuarios
+from app.models.historial import HistorialModificacion
 
 
 # Crear una factura
@@ -156,10 +157,12 @@ def obtener_facturas(db: Session):
             Usuarios.Usuario.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
             TipoFactura.Nombre.label("tipofactura"),
+            HistorialModificacion.Fecha_Modificacion.label("fecha_modificacion"),
         )
         .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
         .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
         .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
+        .outerjoin(HistorialModificacion, Facturas.ID_Factura == HistorialModificacion.ID_Factura)
         .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
         .all()
     )

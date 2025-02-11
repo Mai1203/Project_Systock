@@ -34,6 +34,7 @@ class Facturas_View(QWidget, Ui_Facturas):
         self.TablaFacturas.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.TablaFacturas.setColumnWidth(0, 50)
         self.TablaFacturas.setColumnWidth(5, 120)
+        self.TablaFacturas.setColumnWidth(6, 120)
 
 
         self.BtnEliminarFactura.clicked.connect(self.eliminar_factura)
@@ -118,6 +119,7 @@ class Facturas_View(QWidget, Ui_Facturas):
                 # Datos de la fila
                 id_factura = str(row.ID_Factura)
                 fecha = str(row.Fecha_Factura)
+                fecha_conf = str(row.fecha_modificacion) if row.fecha_modificacion else "Actual"
                 cliente = str(row.cliente)
                 monto_efectivo = str(row.Monto_efectivo)
                 monto_transaccion = str(row.Monto_TRANSACCION)
@@ -136,7 +138,7 @@ class Facturas_View(QWidget, Ui_Facturas):
                     (cliente, 3),
                     (id_tipo_factura, 4),
                     (fecha, 5),
-                    ("Actual", 6),  # Texto fijo
+                    (fecha_conf, 6),  # Texto fijo
                     (monto_efectivo, 7),
                     (monto_transaccion, 8),
                     (str(total), 9),

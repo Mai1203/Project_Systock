@@ -340,3 +340,10 @@ def generar_pdf_productos_mas_vendidos(productos):
     doc.build(story)
     print(f"Reporte guardado en {file_path}")
     QMessageBox.information(None, "Reporte generado", f"Reporte de productos mas vendidos guardado correctamente")
+    
+    
+def generar_analisis_finanaciero (analisis):
+    fecha_actual = datetime.now().strftime("%Y-%m-%d")
+    nombre_por_defecto = f"Analisis_financiero_{fecha_actual}.pdf"
+    
+    

@@ -242,51 +242,71 @@ def generar_pdf_productos_mas_vendidos(productos):
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
     default_filename = f"Productos_Mas_Vendido_{fecha_actual}.pdf"
 
-    # Elegir dónde guardar el archivo con un nombre por defecto
     file_path = filedialog.asksaveasfilename(
         defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")],
-        initialfile=default_filename,  # Nombre por defecto
+        initialfile=default_filename,
         title=f"Guardar Reporte productos mas vendidos"
     )
-    
+
     if not file_path:
         print("Operación cancelada.")
         return
-    
-    c = canvas.Canvas(file_path, pagesize=letter)
-    width, height = letter
+
+    doc = SimpleDocTemplate(file_path, pagesize=letter)
+    styles = getSampleStyleSheet()
+
+    # Estilos personalizados
+    titulo_style = styles["h1"]
+    titulo_style.alignment = 1  # Centrado
+    titulo_style.textColor = colors.red
+
+    encabezado_style = ParagraphStyle(
+        'Encabezado',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=12,
+        textColor=colors.white,
+        backColor=colors.red,
+        paddingLeft=6,
+        paddingRight=6,
+        paddingTop=4,
+        paddingBottom=4,
+    )
+
+    tabla_style = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.red),  # Encabezado rojo
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en el encabezado
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),  # Centrar texto en el encabezado
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),  # Fuente en negrita para el encabezado
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Espacio inferior en el encabezado
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),  # Filas alternas de color beige
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)  # Bordes de la tabla
+    ])
+
+    story = []
 
     # Logo
     logo_path = "assets/logo.png"  # Ajusta la ruta
-    c.drawImage(logo_path, 50, height - 100, width=100, height=100, mask='auto')
+    try:
+        img = ImageReader(logo_path)
+        img.drawOn(doc.canvas, 50, letter[1] - 100, width=100, height=100)
+    except Exception as e:
+        print(f"Error al cargar el logo: {e}")
 
     # Título
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(200, height - 50, "Reporte de Productos Más Vendidos")
-    c.setFont("Helvetica", 12)
-    
-    # Encabezados
-    y_position = height - 120
-    c.drawString(50, y_position, "ID")
-    c.drawString(100, y_position, "Nombre")
-    c.drawString(400, y_position, "Unidades Vendidas")
+    titulo = Paragraph("Reporte de Productos Más Vendidos", titulo_style)
+    story.append(titulo)
+    story.append(Spacer(1, 0.2*inch))  # Espacio después del título
 
-    y_position -= 20
-    c.line(50, y_position, 550, y_position)
-    y_position -= 20
-
-    # Agregar los datos
+    # Tabla
+    data = [["ID", "Nombre", "Unidades Vendidas"]]  # Encabezado de la tabla
     for producto in productos:
-        c.drawString(50, y_position, str(producto.ID_Producto))
-        c.drawString(100, y_position, producto.Nombre)
-        c.drawString(400, y_position, str(producto.Total_Unidades_Vendidas))
+        data.append([producto.ID_Producto, producto.Nombre, producto.Total_Unidades_Vendidas])
 
-        y_position -= 20
-        if y_position < 50:
-            c.showPage()
-            c.setFont("Helvetica", 12)
-            y_position = height - 50
+    table = Table(data)
+    table.setStyle(tabla_style)
+    story.append(table)
 
-    c.save()
+    doc.build(story)
     print(f"Reporte guardado en {file_path}")
     QMessageBox.information(None, "Reporte generado", f"Reporte de productos mas vendidos guardado correctamente")

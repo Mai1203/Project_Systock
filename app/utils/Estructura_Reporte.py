@@ -342,8 +342,54 @@ def generar_pdf_productos_mas_vendidos(productos):
     QMessageBox.information(None, "Reporte generado", f"Reporte de productos mas vendidos guardado correctamente")
     
     
-def generar_analisis_finanaciero (analisis):
+def generar_analisis_financiero(analisis, ingresos, egresos_lista):
+    # Obtener la fecha actual para el nombre del archivo
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
-    nombre_por_defecto = f"Analisis_financiero_{fecha_actual}.pdf"
+    nombre_pdf = f"Analisis_financiero_{fecha_actual}.pdf"
     
+    # Crear el documento PDF
+    c = canvas.Canvas(nombre_pdf, pagesize=letter)
+    width, height = letter
     
+    # Título del análisis
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(100, height - 40, "Análisis Financiero")
+    
+    # Fecha de generación
+    c.setFont("Helvetica", 10)
+    c.drawString(100, height - 60, f"Fecha de Generación: {fecha_actual}")
+    
+    # Insertar información sobre los ingresos
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(100, height - 100, "Ingresos:")
+    c.setFont("Helvetica", 10)
+    
+    y_position = height - 120
+    for ingreso in ingresos:
+        c.drawString(100, y_position, f"Tipo: {ingreso[2]}, Monto: {ingreso[3]}")
+        y_position -= 20
+    
+    # Insertar información sobre los egresos
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(100, y_position - 10, "Egresos:")
+    c.setFont("Helvetica", 10)
+    
+    y_position -= 30
+    for egreso in egresos_lista:
+        c.drawString(100, y_position, f"ID: {egreso[0]}, Tipo: {egreso[1]}, Monto: {egreso[2]}")
+        y_position -= 20
+    
+    # Insertar resumen del análisis
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(100, y_position - 10, "Resumen del Análisis:")
+    c.setFont("Helvetica", 10)
+    
+    y_position -= 30
+    for item in analisis:
+        c.drawString(100, y_position, f"Factura ID: {item[0]}, Ganancia: {item[5]}")
+        y_position -= 20
+    
+    # Guardar el archivo PDF
+    c.save()
+    
+    print(f"PDF generado exitosamente: {nombre_pdf}")

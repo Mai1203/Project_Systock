@@ -11,7 +11,7 @@ from ..controllers.producto_crud import *
 from ..controllers.ingresos_crud import *
 from ..controllers.egresos_crud import *
 from ..controllers.facturas_crud import obtener_reporte_facturas
-from ..utils.Estructura_Reporte import crear_pdf
+from ..utils.Estructura_Reporte import crear_pdf, generar_analisis_financiero
 from ..utils.Credito__Reporte import generar_pdf_creditos
 from ..utils.Estructura_Reporte import crear_pdf, generar_pdf_productos_mas_vendidos
 from ..utils import Ingresos_egresos_reporte
@@ -123,10 +123,8 @@ class Reportes_View(QWidget, Ui_Reportes):
                 if not self.fecha_inicio_analisis:
                     QMessageBox.warning(self, "Error", "Debes seleccionar una fecha inicial")
                     return
-                
                 print(f"Fecha inicio seleccionada: {self.fecha_inicio_analisis}")
                 print(f"Fecha fin seleccionada: {self.fecha_fin_analisis}")
-                
                 # Filtramos por las fechas si están definidas
                 if self.fecha_inicio_analisis and self.fecha_fin_analisis:
                     fecha_inicio = self.fecha_inicio_analisis.toString('yyyy-MM-dd')
@@ -134,7 +132,16 @@ class Reportes_View(QWidget, Ui_Reportes):
                     # Asegurarse de que la fecha fin tenga la hora hasta el último minuto
                     fecha_fin += " 23:59:59"  # Añadir las horas al final de la fecha de fin
                     analisis = obtener_reporte_facturas(db=db, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
-                    print(analisis)
+                    ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio, FechaFin=fecha_fin)
+                    egresos = db.query(Egresos).filter(and_(func.date(Egresos.Fecha_Egreso) >= fecha_inicio, func.date(Egresos.Fecha_Egreso) <= fecha_fin)).all()
+                    egresos_lista = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
+                    print(f"Ingresos: {ingresos}")
+                    print(f"Egresos: {egresos_lista}")
+                    print(f"Analisis: {analisis}")
+                                        
+                    # Llamar a la función correcta para generar el análisis financiero
+                    generar_analisis_financiero(analisis, ingresos, egresos_lista)
+                                        
                     #Generar_pdf(analisis)
                     #analisis.ID_Factura
                     #analisis.Tipo_Ingreso,
@@ -148,7 +155,15 @@ class Reportes_View(QWidget, Ui_Reportes):
                     fecha_fin = None
                     # Ajustar la fecha de inicio para considerar solo el día, sin hora
                     analisis = obtener_reporte_facturas(db=db, fecha_inicio=fecha_inicio)
+                    ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio)
+                    egresos = db.query(Egresos).filter(func.date(Egresos.Fecha_Egreso) >= fecha_inicio).all()
+                    egresos_lista = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
+                    print(f"Ingresos: {ingresos}")
+                    print(f"Egresos: {egresos_lista}")
                     print(analisis)
+                    
+                    # Llamar a la función correcta para generar el análisis financiero
+                    generar_analisis_financiero(analisis, ingresos, egresos_lista)
                     #Generar_pdf(analisis)
                     #analisis.ID_Factura
                     #analisis.Tipo_Ingreso,
@@ -156,7 +171,6 @@ class Reportes_View(QWidget, Ui_Reportes):
                     #analisis.Monto_TRANSACCION,
                     #analisis.ganancia_por_factura
                     #analisis.Fecha_Factura,
-
             
         except Exception as e:
             print(f"Error al generar el reporte analisi: {e}")

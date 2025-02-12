@@ -258,7 +258,16 @@ def generar_pdf_productos_mas_vendidos(productos):
     # Estilos personalizados
     titulo_style = styles["h1"]
     titulo_style.alignment = 1  # Centrado
-    titulo_style.textColor = colors.red
+    titulo_style.textColor = colors.black
+    titulo_style.fontName = 'Helvetica-Bold'  # Negrita
+
+    fecha_style = ParagraphStyle(
+        'Fecha',
+        parent=styles['Normal'],
+        fontSize=10,
+        alignment=2,  # Alineado a la derecha
+        textColor=colors.grey
+    )
 
     encabezado_style = ParagraphStyle(
         'Encabezado',
@@ -289,14 +298,20 @@ def generar_pdf_productos_mas_vendidos(productos):
     logo_path = "assets/logo.png"  # Ajusta la ruta
     try:
         img = ImageReader(logo_path)
-        img.drawOn(doc.canvas, 50, letter[1] - 100, width=100, height=100)
+        story.append(Image(img, width=100, height=100))
+        story.append(Spacer(1, 0.2*inch))  # Espacio después del logo
     except Exception as e:
         print(f"Error al cargar el logo: {e}")
 
     # Título
     titulo = Paragraph("Reporte de Productos Más Vendidos", titulo_style)
     story.append(titulo)
-    story.append(Spacer(1, 0.2*inch))  # Espacio después del título
+    story.append(Spacer(1, 0.1*inch))  # Espacio después del título
+
+    # Fecha
+    fecha = Paragraph(f"Fecha de Exportación: {fecha_actual}", fecha_style)
+    story.append(fecha)
+    story.append(Spacer(1, 0.2*inch))  # Espacio después de la fecha
 
     # Tabla
     data = [["ID", "Nombre", "Unidades Vendidas"]]  # Encabezado de la tabla
@@ -306,7 +321,29 @@ def generar_pdf_productos_mas_vendidos(productos):
     table = Table(data)
     table.setStyle(tabla_style)
     story.append(table)
+    story.append(Spacer(1, 0.2*inch))  # Espacio después de la tabla
+
+    # Top 3 de productos más vendidos (si hay suficientes productos)
+    if len(productos) >= 3:
+        top_3 = productos[:3]
+        top_3_data = [["Posición", "Nombre", "Unidades Vendidas"]]
+        for i, producto in enumerate(top_3):
+            top_3_data.append([i+1, producto.Nombre, producto.Total_Unidades_Vendidas])
+
+        top_3_table = Table(top_3_data)
+        top_3_table.setStyle(tabla_style)
+       # The above code is creating a paragraph object titled "Top 3 Productos Más Vendidos" with the
+       # style "h2" and appending it to a story.
+       
+        story.append(top_3_table)
 
     doc.build(story)
     print(f"Reporte guardado en {file_path}")
     QMessageBox.information(None, "Reporte generado", f"Reporte de productos mas vendidos guardado correctamente")
+    
+    
+def generar_analisis_finanaciero (analisis):
+    fecha_actual = datetime.now().strftime("%Y-%m-%d")
+    nombre_por_defecto = f"Analisis_financiero_{fecha_actual}.pdf"
+    
+    

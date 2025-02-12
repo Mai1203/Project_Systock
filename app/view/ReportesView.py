@@ -367,7 +367,6 @@ class Reportes_View(QWidget, Ui_Reportes):
                 self.fecha_inicio_analisis = fecha
                 self.fecha_fin_analisis = None
                 print(f"[Análisis] Fecha seleccionada: {self.fecha_inicio_analisis.toString('yyyy-MM-dd')}")
-                calendario.setEnabled(False)
 
     def cambiar_estado_calendario(self, tipo):
         """Habilita/deshabilita el calendario según la opción seleccionada en los ComboBox."""

@@ -166,8 +166,7 @@ class MainWindow(QMainWindow):
         self.configurar_accesos_por_rol(rol)
 
         # Actualizar el nombre del usuario en la barra de navegación
-        nombre = usuario_data.Nombre
-        self.MainApp.navbar.actualizar_usuario_rol(nombre)
+        self.MainApp.navbar.actualizar_usuario_rol(usuario_autenticado)
         self.db.close()
 
     def generar_token(self, usuario_id, rol):

@@ -65,12 +65,13 @@ class Navbar_View(QWidget, Ui_Navbar):
         """
         Actualiza el texto del botón con el nombre de usuario
         """
-        if " " in usuario:
-            usuario = usuario.split(" ")[0]
-        self.BtnUsuario.setText(f"{usuario}")
+        nombre = usuario.Nombre
+        if " " in nombre:
+            nombre = nombre.split(" ")[0]
+        self.BtnUsuario.setText(f"{nombre}")
 
         # Si el usuario no es "ADMIN", cambia el ícono
-        if usuario != "ADMIN":
+        if usuario.ID_Rol != 1:
             # Verifica si el archivo existe antes de asignar el ícono
             if os.path.exists(self.icon_asesor):
                 self.BtnUsuario.setIcon(

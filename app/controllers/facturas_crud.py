@@ -1,11 +1,13 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
+from sqlalchemy import func, case
 from app.models.facturas import Facturas, MetodoPago, TipoFactura
 from app.models.detalle_facturas import DetalleFacturas
 from app.models.clientes import Clientes
 from app.models.productos import Productos, Marcas, Categorias
 from app.models.usuarios import Usuarios
 from app.models.historial import HistorialModificacion
+from app.models.tipo_ingresos import TipoIngreso
 
 
 # Crear una factura
@@ -240,6 +242,38 @@ def obtener_factura_por_id(db: Session, id_factura: int):
     )
 
     return facturas
+
+def obtener_reporte_facturas(db: Session, fecha_inicio, fecha_fin=None):
+    query = (
+        db.query(
+            Facturas.ID_Factura,
+            TipoIngreso.Tipo_Ingreso,
+            Facturas.Monto_efectivo,
+            Facturas.Monto_TRANSACCION,
+            Facturas.Fecha_Factura,
+            func.sum(
+                DetalleFacturas.Cantidad * 
+                case(
+                    (Facturas.ID_Tipo_Factura == 1, Productos.Ganancia_Producto_normal),
+                    (Facturas.ID_Tipo_Factura == 2, Productos.Ganancia_Producto_mayor),
+                    else_=0
+                )
+            ).label("ganancia_por_factura")
+        )
+        .join(TipoIngreso, TipoIngreso.ID_Factura == Facturas.ID_Factura)
+        .join(DetalleFacturas, DetalleFacturas.ID_Factura == Facturas.ID_Factura)
+        .join(Productos, Productos.ID_Producto == DetalleFacturas.ID_Producto)
+    )
+
+    # Filtrar por fecha
+    if fecha_fin:
+        query = query.filter(and_(Facturas.Fecha_Factura >= fecha_inicio, Facturas.Fecha_Factura <= fecha_fin))
+    else:
+        query = query.filter(func.date(Facturas.Fecha_Factura) == fecha_inicio)
+
+    query = query.group_by(Facturas.ID_Factura, TipoIngreso.Tipo_Ingreso)
+
+    return query.all()
 
 
 # Actualizar una factura

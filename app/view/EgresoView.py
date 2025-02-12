@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import (
 )
 from ..ui import Ui_Egreso
 from PyQt5.QtCore import QTimer
+from PyQt5 import QtWidgets
 
 from ..database.database import SessionLocal
 from ..utils.validar_campos import *
@@ -88,32 +89,56 @@ class Egreso_View(QWidget, Ui_Egreso):
         if not self.InputTipoGasto.text().strip():
             self.limpiar_formulario()
         self.fecha_egreso()
+    
+    def obtener_ids_seleccionados(self):
+        """
+        Obtiene los IDs de los productos seleccionados en la tabla.
+        """
+        filas_seleccionadas = self.TablaEgreso.selectionModel().selectedRows()
+        ids = []
+
+        for fila in filas_seleccionadas:
+            id_egreso = self.TablaEgreso.item(
+                fila.row(), 0
+            ).text()  # Columna 0: ID del producto
+            ids.append(int(id_egreso))
+
+        return ids
+    
     def eliminar_egreso(self):
         # Obtener las filas seleccionadas
-        filas_seleccionadas = sorted(set(index.row() for index in self.TablaEgreso.selectionModel().selectedRows()), reverse=True)
+        ids = self.obtener_ids_seleccionados()
 
-        if not filas_seleccionadas:
+        if not ids:
             QMessageBox.warning(self, "Advertencia", "No hay filas seleccionadas para eliminar.")
             return
-
-        # Confirmar la eliminación con el usuario
-        reply = QMessageBox.question(
+    
+        respuesta = QtWidgets.QMessageBox.question(
             self,
-            "Confirmar eliminación",
-            f"¿Estás seguro de que deseas eliminar {len(filas_seleccionadas)} egreso(s)?",
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No
+            "Confirmar Eliminación",
+            f"¿Está seguro de que desea eliminar {len(ids)} egreso(s)?",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
         )
 
-        if reply == QMessageBox.Yes:
-            # Eliminar las filas en orden descendente para evitar problemas con los índices
-            for fila in filas_seleccionadas:
-                self.TablaEgreso.removeRow(fila)
+        if respuesta == QtWidgets.QMessageBox.Yes:
+            try:
+                self.db = SessionLocal()
 
-            # Opcional: Limpiar los inputs después de la eliminación
-            self.limpiar_formulario()
-            self.fecha_egreso()
-                # Actualizar el subtotal y total después de eliminar la fila
+                for id_egreso in ids:
+                    eliminar_egreso(self.db, id_egreso)
+
+                self.db.commit()
+                QMessageBox.information(self, "Éxito", "Egreso(s) eliminado(s) correctamente.")
+
+                
+                self.limpiar_tabla()
+                self.cargar_egresos()
+
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"Error al eliminar egresos: {e}")
+            finally:
+                self.db.close()
+        
     def obtener_nombres_metodos_pago(self, db, metodo_id):
         metodo = db.query(MetodoPago).filter(MetodoPago.ID_Metodo_Pago == metodo_id).first()  # Cambiado de 'ID' a 'ID_Metodo_Pago'
         return metodo.Nombre if metodo else "Desconocido"

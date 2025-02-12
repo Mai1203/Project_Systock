@@ -10,6 +10,7 @@ from ..controllers.venta_credito_crud import *
 from ..controllers.producto_crud import * 
 from ..controllers.ingresos_crud import *
 from ..controllers.egresos_crud import *
+from ..controllers.facturas_crud import obtener_reporte_facturas
 from ..utils.Estructura_Reporte import crear_pdf
 from ..utils.Credito__Reporte import generar_pdf_creditos
 from ..utils.Estructura_Reporte import crear_pdf, generar_pdf_productos_mas_vendidos
@@ -118,11 +119,47 @@ class Reportes_View(QWidget, Ui_Reportes):
                 # Enviar el resultado a la función que genera el reporte (por ejemplo, generar_pdf_creditos)
                 generar_pdf_creditos(self, resultado)
 
-                # Retornar los resultados para ser utilizados en el reporte PDF
-                return resultado
             else:
-                print("Tipo no válido:", tipo)
-                return None
+                if not self.fecha_inicio_analisis:
+                    QMessageBox.warning(self, "Error", "Debes seleccionar una fecha inicial")
+                    return
+                
+                print(f"Fecha inicio seleccionada: {self.fecha_inicio_analisis}")
+                print(f"Fecha fin seleccionada: {self.fecha_fin_analisis}")
+                
+                # Filtramos por las fechas si están definidas
+                if self.fecha_inicio_analisis and self.fecha_fin_analisis:
+                    fecha_inicio = self.fecha_inicio_analisis.toString('yyyy-MM-dd')
+                    fecha_fin = self.fecha_fin_analisis.toString('yyyy-MM-dd')
+                    # Asegurarse de que la fecha fin tenga la hora hasta el último minuto
+                    fecha_fin += " 23:59:59"  # Añadir las horas al final de la fecha de fin
+                    analisis = obtener_reporte_facturas(db=db, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
+                    print(analisis)
+                    #Generar_pdf(analisis)
+                    #analisis.ID_Factura
+                    #analisis.Tipo_Ingreso,
+                    #analisis.Monto_efectivo,
+                    #analisis.Monto_TRANSACCION,
+                    #analisis.ganancia_por_factura
+                    #analisis.Fecha_Factura,
+                    
+                elif self.fecha_inicio_analisis:
+                    fecha_inicio = self.fecha_inicio_analisis.toString('yyyy-MM-dd')
+                    fecha_fin = None
+                    # Ajustar la fecha de inicio para considerar solo el día, sin hora
+                    analisis = obtener_reporte_facturas(db=db, fecha_inicio=fecha_inicio)
+                    print(analisis)
+                    #Generar_pdf(analisis)
+                    #analisis.ID_Factura
+                    #analisis.Tipo_Ingreso,
+                    #analisis.Monto_efectivo,
+                    #analisis.Monto_TRANSACCION,
+                    #analisis.ganancia_por_factura
+                    #analisis.Fecha_Factura,
+
+            
+        except Exception as e:
+            print(f"Error al generar el reporte analisi: {e}")
         finally:
             db.close()  # Cerrar la sesión
 
@@ -143,6 +180,7 @@ class Reportes_View(QWidget, Ui_Reportes):
         try:
             if not self.fecha_inicio_caja:
                 QMessageBox.warning(self, "Error", "Debes seleccionar una fecha inicial")
+                return
             
             if tipo == "Egresos":
                 query = db.query(Egresos)  # Asegúrate de que "Egresos" es el nombre de tu modelo

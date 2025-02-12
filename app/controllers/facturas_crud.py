@@ -257,7 +257,7 @@ def obtener_reporte_facturas(db: Session, fecha_inicio, fecha_fin=None):
                     (Facturas.ID_Tipo_Factura == 1, Productos.Ganancia_Producto_normal),
                     (Facturas.ID_Tipo_Factura == 2, Productos.Ganancia_Producto_mayor),
                     else_=0
-                )
+                )-Facturas.Descuento
             ).label("ganancia_por_factura")
         )
         .join(TipoIngreso, TipoIngreso.ID_Factura == Facturas.ID_Factura)
@@ -271,7 +271,7 @@ def obtener_reporte_facturas(db: Session, fecha_inicio, fecha_fin=None):
     else:
         query = query.filter(func.date(Facturas.Fecha_Factura) == fecha_inicio)
 
-    query = query.group_by(Facturas.ID_Factura, TipoIngreso.Tipo_Ingreso)
+    query = query.group_by(Facturas.ID_Factura, TipoIngreso.Tipo_Ingreso, Facturas.Descuento)
 
     return query.all()
 

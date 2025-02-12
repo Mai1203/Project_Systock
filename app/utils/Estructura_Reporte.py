@@ -10,7 +10,15 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from reportlab.lib.units import inch
 from reportlab.graphics.charts.piecharts import Pie
 from reportlab.pdfgen import canvas
-
+from datetime import datetime
+import matplotlib.pyplot as plt
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.pdfgen import canvas
+from matplotlib.backends.backend_pdf import PdfPages
+from reportlab.platypus import Image
 
 
 def generar_pdf_caja_ingresos(caja, ingresos):
@@ -340,56 +348,141 @@ def generar_pdf_productos_mas_vendidos(productos):
     doc.build(story)
     print(f"Reporte guardado en {file_path}")
     QMessageBox.information(None, "Reporte generado", f"Reporte de productos mas vendidos guardado correctamente")
-    
-    
+
 def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     # Obtener la fecha actual para el nombre del archivo
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
     nombre_pdf = f"Analisis_financiero_{fecha_actual}.pdf"
     
+    # Calcular los totales
+    total_ingresos = sum([ingreso[4] for ingreso in ingresos])
+    total_egresos = sum([egreso[2] for egreso in egresos_lista])
+    ganancias = sum([item[5] for item in analisis])  # Ganancias Totales (Ingresos Brutos)
+
+    # Calcular las operaciones adicionales
+    ingresos_menos_egresos = total_ingresos - total_egresos
+    ganancias_menos_egresos = ganancias - total_egresos
+
     # Crear el documento PDF
-    c = canvas.Canvas(nombre_pdf, pagesize=letter)
-    width, height = letter
-    
+    doc = SimpleDocTemplate(nombre_pdf, pagesize=letter)
+    elements = []
+
     # Título del análisis
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(100, height - 40, "Análisis Financiero")
-    
+    title = Paragraph(f"<font size=18><b>Análisis Financiero</b></font>", style=ParagraphStyle(name='Title', fontName='Helvetica-Bold'))
+    elements.append(title)
+    elements.append(Spacer(1, 12))
+
     # Fecha de generación
-    c.setFont("Helvetica", 10)
-    c.drawString(100, height - 60, f"Fecha de Generación: {fecha_actual}")
-    
-    # Insertar información sobre los ingresos
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(100, height - 100, "Ingresos:")
-    c.setFont("Helvetica", 10)
-    
-    y_position = height - 120
+    date_info = Paragraph(f"Fecha de Generación: {fecha_actual}", style=ParagraphStyle(name='Date', fontName='Helvetica'))
+    elements.append(date_info)
+    elements.append(Spacer(1, 12))
+    # Título para la tabla de ingresos
+    # Título para la tabla de ingresos centrado
+    titulo_ingresos = Paragraph("<font size=12><b>Tabla de Ingresos</b></font>", 
+                                style=ParagraphStyle(name='TitleTabla', fontName='Helvetica-Bold', alignment=1))
+    elements.append(titulo_ingresos)
+    elements.append(Spacer(1, 6))  # Espacio debajo del título
+    # Tabla de Ingresos
+    data_ingresos = [["ID", "Tipo", "Monto"]]
     for ingreso in ingresos:
-        c.drawString(100, y_position, f"Tipo: {ingreso[2]}, Monto: {ingreso[3]}")
-        y_position -= 20
+        data_ingresos.append([ingreso[0], ingreso[2], f"${ingreso[4]:,.2f}"])
+    t_ingresos = Table(data_ingresos)
+    t_ingresos.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                                    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                                    ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
+    elements.append(t_ingresos)
+    elements.append(Spacer(1, 12))
     
-    # Insertar información sobre los egresos
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(100, y_position - 10, "Egresos:")
-    c.setFont("Helvetica", 10)
-    
-    y_position -= 30
+    # Título para la tabla de ingresos
+    # Título para la tabla de ingresos centrado
+    titulo_ingresos = Paragraph("<font size=12><b>Tabla de Egresos</b></font>", 
+                                style=ParagraphStyle(name='TitleTabla', fontName='Helvetica-Bold', alignment=1))
+    elements.append(titulo_ingresos)
+    elements.append(Spacer(1, 6))  # Espacio debajo del título
+    # Tabla de Egresos
+    data_egresos = [["ID", "Tipo", "Monto"]]
     for egreso in egresos_lista:
-        c.drawString(100, y_position, f"ID: {egreso[0]}, Tipo: {egreso[1]}, Monto: {egreso[2]}")
-        y_position -= 20
-    
-    # Insertar resumen del análisis
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(100, y_position - 10, "Resumen del Análisis:")
-    c.setFont("Helvetica", 10)
-    
-    y_position -= 30
+        data_egresos.append([egreso[0], egreso[1], f"${egreso[2]:,.2f}"])
+    t_egresos = Table(data_egresos)
+    t_egresos.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                                    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                                    ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
+    elements.append(t_egresos)
+    elements.append(Spacer(1, 12))
+
+    # Resumen de Ingresos y Ganancias
+    resumen = Paragraph(f"<font size=12><b>Ingres Neto:</b></font>", style=ParagraphStyle(name='Resumen', fontName='Helvetica-Bold'))
+    elements.append(resumen)
+    elements.append(Spacer(1, 6))
+
     for item in analisis:
-        c.drawString(100, y_position, f"Factura ID: {item[0]}, Ganancia: {item[5]}")
-        y_position -= 20
+        elements.append(Paragraph(f"Factura ID: {item[0]}, Ganancia: ${item[5]:,.2f}", style=ParagraphStyle(name='ResumenDetalle', fontName='Helvetica')))
+        elements.append(Spacer(1, 6))
+
+    # Resultados finales
+    elements.append(Spacer(1, 12))
+    elements.append(Paragraph(f"<font size=12><b>Ganancias Totales: ${ganancias:,.2f}</b></font>", style=ParagraphStyle(name='Resultado', fontName='Helvetica-Bold')))
+    elements.append(Spacer(1, 6))
+
+    # Operaciones finales
+    elements.append(Paragraph(f"<font size=12><b>Ingresos - Egresos: ${ingresos_menos_egresos:,.2f}</b></font>", style=ParagraphStyle(name='Resultado', fontName='Helvetica-Bold')))
+    elements.append(Spacer(1, 6))
+    elements.append(Paragraph(f"<font size=12><b>Ganancias Totales - Egresos: ${ganancias_menos_egresos:,.2f}</b></font>", style=ParagraphStyle(name='Resultado', fontName='Helvetica-Bold')))
+    elements.append(Spacer(1, 12))
+
+    # Generar gráfico de pastel
+    fig, ax = plt.subplots()
+    labels = ['Ganancias', 'Egresos']
+    sizes = [ganancias, total_egresos]
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=['#66ff66', '#ff6666'])
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # Guardar gráfico como imagen
+    chart_filename = "grafico_pastel2.png"
+    plt.savefig(chart_filename, format='png')
+    plt.close(fig)  # Cerrar el gráfico
+
+    titulo_distribucion = Paragraph("<font size=12><b>Distribución de Ganancias y Egresos:</b></font>", 
+                                    style=ParagraphStyle(name='GraphTitle', fontName='Helvetica-Bold', alignment=1))
+    elements.append(Spacer(1, 12))  # Espacio antes del título
+    elements.append(titulo_distribucion)  # Agregar título centrado
+    elements.append(Spacer(1, 6))  # Espacio debajo del título
+      # Insertar imagen del gráfico usando Image de reportlab.platypus
+    img = Image(chart_filename, width=400, height=250)
+    elements.append(img)
     
-    # Guardar el archivo PDF
-    c.save()
+    # Generar gráfico de pastel
+    fig, ax = plt.subplots()
+    labels = ['Ingresos', 'Egresos']
+    sizes = [total_ingresos, total_egresos]
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=['#66b3ff', '#ff6666'])
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # Guardar gráfico como imagen
+    chart_filename = "grafico_pastel.png"
+    plt.savefig(chart_filename, format='png')
+    plt.close(fig)  # Cerrar el gráfico
+
+    # Centrar el título "Distribución de Ingresos y Egresos"
+    titulo_distribucion = Paragraph("<font size=12><b>Distribución de ingresos y Egresos:</b></font>", 
+                                    style=ParagraphStyle(name='GraphTitle', fontName='Helvetica-Bold', alignment=1))
+    elements.append(Spacer(1, 12))  # Espacio antes del título
+    elements.append(titulo_distribucion)  # Agregar título centrado
+    elements.append(Spacer(1, 6))  # Espacio debajo del título
+
+     # Insertar imagen del gráfico usando Image de reportlab.platypus
+    img = Image(chart_filename, width=400, height=250)
+    elements.append(img)
     
+    # Crear PDF
+    doc.build(elements)
+
     print(f"PDF generado exitosamente: {nombre_pdf}")

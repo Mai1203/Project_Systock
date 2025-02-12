@@ -208,7 +208,7 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
       <item>
        <widget class="QWidget" name="QWNavbar" native="true">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -220,9 +220,8 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">#navbar {
+         <string notr="true">#QWNavbar {
     background-color: white; /* Fondo blanco */
-    border-right: 1px solid black; /* Borde negro en el lado derecho */
 }
 </string>
         </property>
@@ -765,7 +764,7 @@ margin: 0;</string>
               </property>
               <property name="maximumSize">
                <size>
-                <width>16777215</width>
+                <width>130</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -777,7 +776,7 @@ margin: 0;</string>
 </string>
               </property>
               <property name="text">
-               <string>   Usuario</string>
+               <string>Usuario</string>
               </property>
               <property name="icon">
                <iconset>

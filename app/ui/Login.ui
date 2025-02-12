@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>815</width>
-    <height>856</height>
+    <height>866</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -141,7 +141,7 @@ QPushButton:pressed {
            <property name="maximumSize">
             <size>
              <width>550</width>
-             <height>60</height>
+             <height>70</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -150,7 +150,7 @@ QPushButton:pressed {
               <property name="maximumSize">
                <size>
                 <width>500</width>
-                <height>50</height>
+                <height>70</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -267,7 +267,7 @@ QLineEdit:focus {
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>60</height>
+             <height>70</height>
             </size>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -282,7 +282,7 @@ QLineEdit:focus {
               <property name="maximumSize">
                <size>
                 <width>370</width>
-                <height>50</height>
+                <height>70</height>
                </size>
               </property>
               <property name="styleSheet">

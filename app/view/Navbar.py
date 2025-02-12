@@ -12,7 +12,7 @@ class Navbar_View(QWidget, Ui_Navbar):
         super(Navbar_View, self).__init__(parent)
         self.setupUi(self)
 
-        self.BtnVentas.setStyleSheet("background-color: #f2f2f2;\n")
+        self.BtnCaja.setStyleSheet("background-color: #f2f2f2;\n")
 
         self.button_group = QButtonGroup(self)
         self.button_group.addButton(self.BtnVentas)
@@ -65,6 +65,8 @@ class Navbar_View(QWidget, Ui_Navbar):
         """
         Actualiza el texto del botón con el nombre de usuario
         """
+        if " " in usuario:
+            usuario = usuario.split(" ")[0]
         self.BtnUsuario.setText(f"{usuario}")
 
         # Si el usuario no es "ADMIN", cambia el ícono

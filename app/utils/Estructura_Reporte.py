@@ -19,6 +19,8 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.pdfgen import canvas
 from matplotlib.backends.backend_pdf import PdfPages
 from reportlab.platypus import Image
+import tkinter as tk
+from tkinter import messagebox
 
 
 def generar_pdf_caja_ingresos(caja, ingresos):
@@ -352,8 +354,20 @@ def generar_pdf_productos_mas_vendidos(productos):
 def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     # Obtener la fecha actual para el nombre del archivo
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
-    nombre_pdf = f"Analisis_financiero_{fecha_actual}.pdf"
+    default_filename = f"Analisis_financiero_{fecha_actual}.pdf"
     
+    # Cuadro de diálogo para seleccionar ubicación y nombre del archivo
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")],
+        initialfile=default_filename,
+        title=f"Guardar Reporte productos mas vendidos"
+    )
+
+    # Si el usuario cancela la operación, mostrar mensaje y salir
+    if not file_path:
+        print("Operación cancelada.")
+        return
+
     # Calcular los totales
     total_ingresos = sum([ingreso[4] for ingreso in ingresos])
     total_egresos = sum([egreso[2] for egreso in egresos_lista])
@@ -364,7 +378,7 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     ganancias_menos_egresos = ganancias - total_egresos
 
     # Crear el documento PDF
-    doc = SimpleDocTemplate(nombre_pdf, pagesize=letter)
+    doc = SimpleDocTemplate(file_path, pagesize=letter)
     elements = []
 
     # Título del análisis
@@ -376,12 +390,13 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     date_info = Paragraph(f"Fecha de Generación: {fecha_actual}", style=ParagraphStyle(name='Date', fontName='Helvetica'))
     elements.append(date_info)
     elements.append(Spacer(1, 12))
+
     # Título para la tabla de ingresos
-    # Título para la tabla de ingresos centrado
     titulo_ingresos = Paragraph("<font size=12><b>Tabla de Ingresos</b></font>", 
                                 style=ParagraphStyle(name='TitleTabla', fontName='Helvetica-Bold', alignment=1))
     elements.append(titulo_ingresos)
     elements.append(Spacer(1, 6))  # Espacio debajo del título
+
     # Tabla de Ingresos
     data_ingresos = [["ID", "Tipo", "Monto"]]
     for ingreso in ingresos:
@@ -397,12 +412,12 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     elements.append(t_ingresos)
     elements.append(Spacer(1, 12))
     
-    # Título para la tabla de ingresos
-    # Título para la tabla de ingresos centrado
-    titulo_ingresos = Paragraph("<font size=12><b>Tabla de Egresos</b></font>", 
+    # Título para la tabla de egresos
+    titulo_egresos = Paragraph("<font size=12><b>Tabla de Egresos</b></font>", 
                                 style=ParagraphStyle(name='TitleTabla', fontName='Helvetica-Bold', alignment=1))
-    elements.append(titulo_ingresos)
+    elements.append(titulo_egresos)
     elements.append(Spacer(1, 6))  # Espacio debajo del título
+
     # Tabla de Egresos
     data_egresos = [["ID", "Tipo", "Monto"]]
     for egreso in egresos_lista:
@@ -455,7 +470,8 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     elements.append(Spacer(1, 20))  # Espacio antes del título
     elements.append(titulo_distribucion)  # Agregar título centrado
     elements.append(Spacer(1, 6))  # Espacio debajo del título
-      # Insertar imagen del gráfico usando Image de reportlab.platypus
+    
+    # Insertar imagen del gráfico usando Image de reportlab.platypus
     img = Image(chart_filename, width=400, height=250)
     elements.append(img)
     
@@ -478,11 +494,15 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     elements.append(titulo_distribucion)  # Agregar título centrado
     elements.append(Spacer(1, 6))  # Espacio debajo del título
 
-     # Insertar imagen del gráfico usando Image de reportlab.platypus
+    # Insertar imagen del gráfico usando Image de reportlab.platypus
     img = Image(chart_filename, width=400, height=250)
     elements.append(img)
     
     # Crear PDF
     doc.build(elements)
 
-    print(f"PDF generado exitosamente: {nombre_pdf}")
+    # Mostrar el mensaje en un MessageBox
+    root = tk.Tk()
+    root.withdraw()  # Oculta la ventana principal
+    messagebox.showinfo("Éxito", f"PDF generado exitosamente: {file_path}")
+    root.quit()  # Cierra el root después de mostrar el mensaje

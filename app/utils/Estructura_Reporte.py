@@ -452,7 +452,7 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
 
     titulo_distribucion = Paragraph("<font size=12><b>Distribución de Ganancias y Egresos:</b></font>", 
                                     style=ParagraphStyle(name='GraphTitle', fontName='Helvetica-Bold', alignment=1))
-    elements.append(Spacer(1, 12))  # Espacio antes del título
+    elements.append(Spacer(1, 20))  # Espacio antes del título
     elements.append(titulo_distribucion)  # Agregar título centrado
     elements.append(Spacer(1, 6))  # Espacio debajo del título
       # Insertar imagen del gráfico usando Image de reportlab.platypus

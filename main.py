@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import (
-    QMainWindow,
     QApplication,
+    QMainWindow,
     QWidget,
     QHBoxLayout,
     QStackedWidget,
+    QProgressDialog,
 )
 from PyQt5.QtGui import QIcon, QScreen
 from PyQt5 import QtWidgets
@@ -24,25 +25,16 @@ from pathlib import Path
 load_dotenv()  # Carga las variables de entorno desde el archivo .env
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-db_path = Path("systock.db")
-
-if db_path.exists():
-    print("✅ La base de datos ya existe. Continuando con el programa...")
-else:
-    print("⚠️ La base de datos no existe. Creándola y poblándola...")
-    inicializar_db()  # Llama a tu función para crear y poblar la base de datos
-    while not db_path.exists():
-        time.sleep(1)
-    print("✅ Base de datos creada correctamente.")
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
         self.usuario_actual_id = None
         self.setWindowTitle("Systock")
-        self.setWindowIcon(QIcon("assets/logo.ico"))
+        self.setWindowIcon(QIcon("assets/logo1.ico"))
+        self.inicializar_db()
         self.resize(800, 600)
+        
 
         self.setStyleSheet("background-color: white;")
 
@@ -69,6 +61,28 @@ class MainWindow(QMainWindow):
         self.Login.InputPassword.returnPressed.connect(self.iniciar_sesion)
 
         self.db = conectar_base()
+
+    def inicializar_db(self):
+        app_data_dir = Path(os.getenv("APPDATA") or os.path.expanduser("~")) / "Systock"
+        app_data_dir.mkdir(parents=True, exist_ok=True)  # Crea el directorio si no existe
+
+        db_path = app_data_dir / "systock.db"
+
+        if not db_path.exists():
+            progress = QProgressDialog("Creando la base de datos...      ", None, 0, 0, self)
+            progress.setWindowTitle("Por favor espera     ")
+            progress.setCancelButton(None)  # Evita que el usuario lo cierre
+            progress.setMinimumDuration(0)  # Se muestra inmediatamente
+            progress.show()
+
+            QApplication.processEvents()  # Permite actualizar la UI
+
+            inicializar_db()  # Crear la base de datos
+            time.sleep(2)  # Simula el proceso
+
+            progress.close()  # Cierra el mensaje cuando termine
+        else:
+            print("✅ La base de datos ya existe. Continuando con el programa...")
 
     def cerrar_sesion(self):
         """

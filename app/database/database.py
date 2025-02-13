@@ -1,14 +1,16 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, configure_mappers
+from pathlib import Path
+import os
 
-# Configuración de la conexión a la base de datos
-# Cambiar aquí entre SQLite o MySQL según la necesidad
-DATABASE_URL = (
-    "sqlite:///./systock.db"  # Base de datos SQLite en el archivo local "inventario.db"
-)
-# Para MySQL, usarías algo como:
-# DATABASE_URL = "mysql+pymysql://root:tu_contraseña@localhost/inventario_db"
+# Obtener la carpeta segura para almacenar la base de datos
+app_data_dir = Path(os.getenv("APPDATA") or os.path.expanduser("~/.local/share")) / "Systock"
+app_data_dir.mkdir(parents=True, exist_ok=True)  # Crea el directorio si no existe
+
+# Nueva ruta para la base de datos
+DATABASE_PATH = app_data_dir / "systock.db"
+DATABASE_URL = f"sqlite:///{DATABASE_PATH}"  # Formato correcto para SQLAlchemy
 
 # Crear el motor de conexión
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})

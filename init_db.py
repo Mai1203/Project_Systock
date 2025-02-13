@@ -68,7 +68,7 @@ def poblar_datos_prueba():
 
     try:
         print("Creando usuarios de prueba...")
-        crear_usuario(db, 87068087, "John Jairo Uribe", "admin", "admin", True, 1)
+        crear_usuario(db, 87068087, "John Jairo Uribe", "Super_admin25", "John$Adm!n_32", True, 1)
         print("usuarios de prueba creados exitosamente.")
     except Exception as e:
         print(f"Error al poblar datos: {e}")

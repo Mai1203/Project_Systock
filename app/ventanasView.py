@@ -27,7 +27,7 @@ class MainApp(QWidget):
 
         # Configurar la ventana principal
         self.setWindowTitle("Systock")
-        self.setWindowIcon(QIcon("assets/logo.ico"))
+        self.setWindowIcon(QIcon("assets/logo1.ico"))
         self.resize(800, 600)
 
         self.setStyleSheet("background-color: white;")

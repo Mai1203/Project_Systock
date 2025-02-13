@@ -244,6 +244,17 @@ def obtener_factura_por_id(db: Session, id_factura: int):
     return facturas
 
 def obtener_reporte_facturas(db: Session, fecha_inicio, fecha_fin=None):
+    subquery_ganancia = (
+        func.sum(
+            DetalleFacturas.Cantidad * 
+            case(
+                (Facturas.ID_Tipo_Factura == 1, Productos.Ganancia_Producto_normal),
+                (Facturas.ID_Tipo_Factura == 2, Productos.Ganancia_Producto_mayor),
+                else_=0
+            )
+        )
+    )
+
     query = (
         db.query(
             Facturas.ID_Factura,
@@ -251,18 +262,12 @@ def obtener_reporte_facturas(db: Session, fecha_inicio, fecha_fin=None):
             Facturas.Monto_efectivo,
             Facturas.Monto_TRANSACCION,
             Facturas.Fecha_Factura,
-            func.sum(
-                (DetalleFacturas.Cantidad * 
-                case(
-                    (Facturas.ID_Tipo_Factura == 1, Productos.Ganancia_Producto_normal),
-                    (Facturas.ID_Tipo_Factura == 2, Productos.Ganancia_Producto_mayor),
-                    else_=0
-                ))-Facturas.Descuento
-            ).label("ganancia_por_factura")
+            (subquery_ganancia - Facturas.Descuento).label("ganancia_por_factura")  # Se resta solo una vez
         )
         .join(TipoIngreso, TipoIngreso.ID_Factura == Facturas.ID_Factura)
         .join(DetalleFacturas, DetalleFacturas.ID_Factura == Facturas.ID_Factura)
         .join(Productos, Productos.ID_Producto == DetalleFacturas.ID_Producto)
+        .group_by(Facturas.ID_Factura, TipoIngreso.Tipo_Ingreso, Facturas.Descuento, Facturas.Monto_efectivo, Facturas.Monto_TRANSACCION, Facturas.Fecha_Factura)
     )
 
     # Filtrar por fecha
@@ -270,8 +275,6 @@ def obtener_reporte_facturas(db: Session, fecha_inicio, fecha_fin=None):
         query = query.filter(and_(Facturas.Fecha_Factura >= fecha_inicio, Facturas.Fecha_Factura <= fecha_fin))
     else:
         query = query.filter(func.date(Facturas.Fecha_Factura) == fecha_inicio)
-
-    query = query.group_by(Facturas.ID_Factura, TipoIngreso.Tipo_Ingreso, Facturas.Descuento)
 
     return query.all()
 

@@ -264,7 +264,8 @@ class Productos_View(QWidget, Ui_Productos):
                 else:
                     estado = "Inactivo"
                 
-                precio_cp += row.Precio_costo
+                precio_cp += row.Precio_costo * row.Stock_actual
+                
 
                 id_item = QtWidgets.QTableWidgetItem(id_producto)
                 id_item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -334,6 +335,7 @@ class Productos_View(QWidget, Ui_Productos):
                                 f"No se encontró un elemento en la fila {row_idx}, columna {col}"
                             )
                     self.TablaProductos.viewport().update()
+                    
             self.LabelTotalCp.setText(f"${precio_cp:,.2f}")
 
     def procesar_codigo(self):

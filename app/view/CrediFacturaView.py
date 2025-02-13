@@ -105,7 +105,10 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
                 ]
 
                 # Determinar color de texto
-                color = QtGui.QColor("red") if fecha_actual > fecha_limite else QtGui.QColor("black")
+                if estado == "Pagado":
+                    color = QtGui.QColor("green")
+                else:
+                    color = QtGui.QColor("red") if fecha_actual > fecha_limite else QtGui.QColor("black")
                 
                 # Añadir items a la tabla
                 for value, col_idx in items:

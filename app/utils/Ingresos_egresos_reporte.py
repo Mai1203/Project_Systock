@@ -32,12 +32,7 @@ def generar_pdf_transacciones(transacciones, tipo, fecha_inicio=None, fecha_fin=
     c = canvas.Canvas(file_path, pagesize=letter)
     width, height = letter
     
-    # Agregar logo y título
-    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    logo_path = os.path.join(root_dir, 'assets', 'logo.png')
-    print(logo_path)
-    
-    c.drawImage(logo_path, 50, 680, width=100, height=100, mask='auto')
+    # Agrega
 
     # Título del reporte
     c.setFont("Helvetica-Bold", 18)

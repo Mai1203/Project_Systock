@@ -234,6 +234,7 @@ def actualizar_producto(
         producto_existente.Ganancia_Producto_normal = calcular_ganancia(
             producto_existente.Precio_venta_normal, producto_existente.Precio_costo
         )
+        
     if precio_costo or precio_venta_mayor:
         producto_existente.Ganancia_Producto_mayor = calcular_ganancia(
             producto_existente.Precio_venta_mayor, producto_existente.Precio_costo

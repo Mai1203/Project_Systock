@@ -534,8 +534,6 @@ class Productos_View(QWidget, Ui_Productos):
             or not cantidad_max
             or not marca
             or not categoria
-            or not precio_mayor
-            or not precio_unitario
         ):
             enviar_notificacion("Error", "Por favor, rellene todos los campos")
             return
@@ -560,27 +558,15 @@ class Productos_View(QWidget, Ui_Productos):
                 cantidad_min = int(cantidad_min)
                 cantidad_max = int(cantidad_max)
 
-                precio_mayor = float(precio_mayor)
-                precio_unitario = float(precio_unitario)
+                precio_mayor = float(precio_mayor) if precio_mayor else None
+                precio_unitario = float(precio_unitario) if precio_unitario else None
 
                 id_marca = obtener_o_crear_marca(self.db, marca)
                 id_categoria = obtener_o_crear_categoria(self.db, categoria)
-
-                productos = obtener_producto_por_id(self.db, id)
-                if not productos:
-                    enviar_notificacion("Error", "Producto no encontrado")
-                    return
-
-                producto = productos[0]
+            
 
                 # Crear un diccionario dinámico para los valores a actualizar
                 valores_a_actualizar = {}
-
-                if producto.Precio_venta_mayor != precio_mayor:
-                    valores_a_actualizar["precio_venta_mayor"] = precio_mayor
-
-                if producto.Precio_venta_normal != precio_unitario:
-                    valores_a_actualizar["precio_venta_normal"] = precio_unitario
 
                 # Siempre actualizar estos campos
                 valores_a_actualizar.update(
@@ -592,9 +578,12 @@ class Productos_View(QWidget, Ui_Productos):
                         "stock_max": cantidad_max,
                         "id_marca": id_marca,
                         "id_categoria": id_categoria,
+                        "precio_venta_mayor": precio_mayor,
+                        "precio_venta_normal": precio_unitario,
                     }
                 )
 
+                print("valore a actualizar", valores_a_actualizar)
                 # Verificar si hay algo que actualizar
                 if valores_a_actualizar:
                     producto_actualizado = actualizar_producto(

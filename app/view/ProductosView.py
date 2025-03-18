@@ -583,7 +583,6 @@ class Productos_View(QWidget, Ui_Productos):
                     }
                 )
 
-                print("valore a actualizar", valores_a_actualizar)
                 # Verificar si hay algo que actualizar
                 if valores_a_actualizar:
                     producto_actualizado = actualizar_producto(

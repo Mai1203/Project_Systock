@@ -4,16 +4,16 @@ from ..ui import Ui_Respaldo
 import shutil
 import os
 from datetime import datetime
+from pathlib import Path
 
+app_data_dir = Path(os.getenv("APPDATA") or os.path.expanduser("~/.local/share")) / "Systock"
+DATABASE_PATH = app_data_dir / "systock.db"
 
 class Respaldo_View(QWidget, Ui_Respaldo):
     def __init__(self, parent=None):
         super(Respaldo_View, self).__init__(parent)
         self.setupUi(self)
         # Configuración inicial
-        self.ruta_base_de_datos = (
-            "./systock.db"  # Definido correctamente como un atributo de instancia
-        )
         self.ruta_carpeta_respaldos = os.path.join(
             os.path.expanduser("~"), "Desktop", "Respaldos"
         )
@@ -30,8 +30,8 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         # self.timer.start(3600000)  # Cada hora en milisegundos (1 hora = 3600000 ms)
 
     def exportar_base_datos(self):
-        ruta_base_de_datos = "./systock.db"
-        if not os.path.exists(ruta_base_de_datos):
+        
+        if not os.path.exists(DATABASE_PATH):
             QMessageBox.warning(self, "Error", "No se encontró la base de datos.")
             return
 
@@ -63,7 +63,7 @@ class Respaldo_View(QWidget, Ui_Respaldo):
                 try:
                     # Aquí se incluiría la lógica para exportar una tabla específica
                     # Por simplicidad, copiaremos toda la base de datos como ejemplo
-                    shutil.copy(ruta_base_de_datos, ruta_exportar)
+                    shutil.copy(DATABASE_PATH, ruta_exportar)
                     QMessageBox.information(
                         self, "Éxito", f"Tabla '{tabla}' exportada correctamente."
                     )
@@ -84,7 +84,7 @@ class Respaldo_View(QWidget, Ui_Respaldo):
 
             if ruta_exportar:
                 try:
-                    shutil.copy(ruta_base_de_datos, ruta_exportar)
+                    shutil.copy(DATABASE_PATH, ruta_exportar)
                     QMessageBox.information(
                         self, "Éxito", "Base de datos exportada correctamente."
                     )
@@ -93,18 +93,20 @@ class Respaldo_View(QWidget, Ui_Respaldo):
                         self, "Error", f"Error al exportar la base de datos:{str(e)}"
                     )
 
+
     def importar_base_datos(self):
         ruta_importar, _ = QFileDialog.getOpenFileName(
             self, "Importar Base de Datos", "", "Archivos de Base de Datos (*.db)"
         )
         if not ruta_importar:
             return
+        
         if not os.path.exists(ruta_importar):
             QMessageBox.warning(self, "Error", "El archivo seleccionado no existe.")
             return
-        ruta_base_de_datos = os.path.abspath(os.path.join(".", "systock.db"))
+        
         try:
-            shutil.copy(ruta_importar, ruta_base_de_datos)
+            shutil.copy(ruta_importar, DATABASE_PATH)
             QMessageBox.information(
                 self, "Éxito", "Base de datos importada correctamente."
             )
@@ -115,7 +117,8 @@ class Respaldo_View(QWidget, Ui_Respaldo):
 
     def respaldo_automatico(self):
         """Verifica si ya se realizó un respaldo hoy y lo realiza si no existe. Máximo 2 intentos por día."""
-        if not os.path.exists(self.ruta_base_de_datos):
+        
+        if not os.path.exists(DATABASE_PATH):
             print("No se encontró la base de datos para el respaldo automático.")
             return
 
@@ -153,11 +156,12 @@ class Respaldo_View(QWidget, Ui_Respaldo):
 
             # Crear respaldo
             try:
-                shutil.copy(self.ruta_base_de_datos, ruta_respaldo_hoy)
+                shutil.copy(DATABASE_PATH, ruta_respaldo_hoy)
                 print(f"Respaldo automático creado: {ruta_respaldo_hoy}")
                 self.ultima_fecha_respaldo = fecha_actual
                 self.intentos_respaldo += 1  # Incrementar contador de intentos
                 return  # Salir después de un respaldo exitoso
+            
             except Exception as e:
                 print(f"Error al crear el respaldo automático: {str(e)}")
                 self.intentos_respaldo += 1  # Incrementar contador en caso de error

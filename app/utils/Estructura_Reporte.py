@@ -20,6 +20,7 @@ import tkinter as tk
 import numpy as np
 from tkinter import messagebox
 import os
+import tempfile
 
 
 def generar_pdf_caja_ingresos(caja, ingresos):
@@ -441,7 +442,7 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     elements.append(Spacer(1, 12))
     
     #graficos
-    save_dir = os.getcwd()
+    save_dir = tempfile.gettempdir()
     
     # Gráfico 1: Ingresos vs Egresos
     fig1, ax1 = plt.subplots(figsize=(5, 3))

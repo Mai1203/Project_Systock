@@ -91,9 +91,9 @@ class Reportes_View(QWidget, Ui_Reportes):
         db = SessionLocal()  # Iniciamos la sesión de base de datos
         try:
             if tipo == "Análisis de crédito":
-                # Obtener las ventas a crédito
+                
                 ventas = obtener_ventas_credito(db)
-                resultado = []  # Lista para almacenar el resultado
+                resultado = [] 
 
                 for venta in ventas:
                     # Obtener los pagos asociados a cada venta usando el ID_Venta_Credito
@@ -120,6 +120,7 @@ class Reportes_View(QWidget, Ui_Reportes):
                 generar_pdf_creditos(self, resultado)
 
             else:
+                #Reporte Comparación Financiera
                 if not self.fecha_inicio_analisis:
                     QMessageBox.warning(self, "Error", "Debes seleccionar una fecha inicial")
                     return
@@ -135,12 +136,13 @@ class Reportes_View(QWidget, Ui_Reportes):
                     ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio, FechaFin=fecha_fin)
                     egresos = db.query(Egresos).filter(and_(func.date(Egresos.Fecha_Egreso) >= fecha_inicio, func.date(Egresos.Fecha_Egreso) <= fecha_fin)).all()
                     egresos_lista = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
-                    print(f"Ingresos: {ingresos}")
-                    print(f"Egresos: {egresos_lista}")
-                    print(f"Analisis: {analisis}")
                                         
                     # Llamar a la función correcta para generar el análisis financiero
-                    generar_analisis_financiero(analisis, ingresos, egresos_lista)
+                    try:
+                        generar_analisis_financiero(analisis, ingresos, egresos_lista)
+                    
+                    except Exception as e:
+                        print(f"Error al generar pdf Comparación Financiera - Intervalo de días: {e}")
                                         
                     #Generar_pdf(analisis)
                     #analisis.ID_Factura
@@ -151,19 +153,20 @@ class Reportes_View(QWidget, Ui_Reportes):
                     #analisis.Fecha_Factura,
                     
                 elif self.fecha_inicio_analisis:
+                    
                     fecha_inicio = self.fecha_inicio_analisis.toString('yyyy-MM-dd')
                     fecha_fin = None
-                    # Ajustar la fecha de inicio para considerar solo el día, sin hora
+                    
                     analisis = obtener_reporte_facturas(db=db, fecha_inicio=fecha_inicio)
                     ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio)
                     egresos = db.query(Egresos).filter(func.date(Egresos.Fecha_Egreso) >= fecha_inicio).all()
                     egresos_lista = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
-                    print(f"Ingresos: {ingresos}")
-                    print(f"Egresos: {egresos_lista}")
-                    print(analisis)
-                    
+                                     
                     # Llamar a la función correcta para generar el análisis financiero
-                    generar_analisis_financiero(analisis, ingresos, egresos_lista)
+                    try: 
+                        generar_analisis_financiero(analisis, ingresos, egresos_lista)
+                    except Exception as e:
+                        print(f"Error al generar pdf Análisis de crédito por fecha: {e}")
                     #Generar_pdf(analisis)
                     #analisis.ID_Factura
                     #analisis.Tipo_Ingreso,
@@ -173,7 +176,7 @@ class Reportes_View(QWidget, Ui_Reportes):
                     #analisis.Fecha_Factura,
             
         except Exception as e:
-            print(f"Error al generar el reporte analisi: {e}")
+            print(f"Error al generar el reporte Comparación Financiera: {e}")
         finally:
             db.close()  # Cerrar la sesión
 

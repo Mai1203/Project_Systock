@@ -3,23 +3,21 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.graphics.shapes import Drawing
-from reportlab.graphics.charts.barcharts import VerticalBarChart
 from datetime import datetime
-from tkinter import Tk, filedialog
+from tkinter import  filedialog
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from reportlab.lib.units import inch
 from reportlab.graphics.charts.piecharts import Pie
-from reportlab.pdfgen import canvas
 from datetime import datetime
 import matplotlib.pyplot as plt
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.pdfgen import canvas
 from matplotlib.backends.backend_pdf import PdfPages
 from reportlab.platypus import Image
 import tkinter as tk
+import numpy as np
 from tkinter import messagebox
 import os
 
@@ -355,6 +353,7 @@ def generar_pdf_productos_mas_vendidos(productos):
     
 def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
+    
     default_filename = f"Analisis_financiero_{fecha_actual}.pdf"
     
     file_path = filedialog.asksaveasfilename(
@@ -367,121 +366,213 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
         print("Operación cancelada.")
         return
 
-    save_dir = os.path.dirname(file_path)  # Carpeta donde se guardará el PDF
-
-    total_ingresos = sum([ingreso[4] for ingreso in ingresos])
-    total_egresos = sum([egreso[2] for egreso in egresos_lista])
-    ganancias = sum([item[5] for item in analisis])
-
-    ingresos_menos_egresos = total_ingresos - total_egresos
-    ganancias_menos_egresos = ganancias - total_egresos
-
+    save_dir = os.path.dirname(file_path) 
+    
+    total_ingresos_efectivo = sum([ingreso[3] for ingreso in ingresos])
+    total_ingresos_transferencia = sum([ingreso[4] for ingreso in ingresos])
+    total_ingresos = total_ingresos_efectivo + total_ingresos_transferencia
+    
+    total_egresos = sum([egreso[2] for egreso in egresos_lista]) if egresos_lista else 0
+    total_ganancias = sum([dato[5] for dato in analisis])
+    
     doc = SimpleDocTemplate(file_path, pagesize=letter)
     elements = []
-
-    elements.append(Paragraph(f"<font size=18><b>Análisis Financiero</b></font>", 
-                              ParagraphStyle(name='Title', fontName='Helvetica-Bold')))
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(name='Title', fontSize=16, alignment=1, spaceAfter=10, fontName='Helvetica-Bold')
+    section_title_style = ParagraphStyle(name='SectionTitle', fontSize=12, spaceAfter=6, fontName='Helvetica-Bold')
+    
+    elements.append(Paragraph("Informe de Análisis Financiero", title_style))
+    elements.append(Paragraph(f"Generado: {fecha_actual}", styles['Normal']))
     elements.append(Spacer(1, 12))
-    elements.append(Paragraph(f"Fecha de Generación: {fecha_actual}", 
-                              ParagraphStyle(name='Date', fontName='Helvetica')))
-    elements.append(Spacer(1, 12))
-
-    # Tabla de Ingresos (solo si hay datos)
-    if ingresos:
-        elements.append(Paragraph("<font size=12><b>Tabla de Ingresos</b></font>", 
-                                  ParagraphStyle(name='TitleTabla', fontName='Helvetica-Bold', alignment=1)))
-        elements.append(Spacer(1, 6))
-        data_ingresos = [["ID", "Tipo", "Monto"]] + [[ingreso[0], ingreso[2], f"${ingreso[4]:,.2f}"] for ingreso in ingresos]
-        t_ingresos = Table(data_ingresos)
-        t_ingresos.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black)
-        ]))
-        elements.append(t_ingresos)
-        elements.append(Spacer(1, 12))
-
-    # Tabla de Egresos (solo si hay datos)
-    if egresos_lista:
-        elements.append(Paragraph("<font size=12><b>Tabla de Egresos</b></font>", 
-                                  ParagraphStyle(name='TitleTabla', fontName='Helvetica-Bold', alignment=1)))
-        elements.append(Spacer(1, 6))
-        data_egresos = [["ID", "Tipo", "Monto"]] + [[egreso[0], egreso[1], f"${egreso[2]:,.2f}"] for egreso in egresos_lista]
-        t_egresos = Table(data_egresos)
-        t_egresos.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black)
-        ]))
-        elements.append(t_egresos)
-        elements.append(Spacer(1, 12))
         
-    # Resumen de Ingresos y Ganancias
-    resumen = Paragraph(f"<font size=12><b>Ingres Neto:</b></font>", style=ParagraphStyle(name='Resumen', fontName='Helvetica-Bold'))
-    elements.append(resumen)
-    elements.append(Spacer(1, 6))
-
-    for item in analisis:
-        elements.append(Paragraph(f"Factura ID: {item[0]}, Ganancia: ${item[5]:,.2f}", style=ParagraphStyle(name='ResumenDetalle', fontName='Helvetica')))
-        elements.append(Spacer(1, 6))
-
-    # Resultados finales
-
-    elements.append(Paragraph(f"<font size=12><b>Ganancias Totales: ${ganancias:,.2f}</b></font>", 
-                              ParagraphStyle(name='Resultado', fontName='Helvetica-Bold')))
-    elements.append(Spacer(1, 6))
-    elements.append(Paragraph(f"<font size=12><b>Ingresos - Egresos: ${ingresos_menos_egresos:,.2f}</b></font>", 
-                              ParagraphStyle(name='Resultado', fontName='Helvetica-Bold')))
-    elements.append(Spacer(1, 6))
-    elements.append(Paragraph(f"<font size=12><b>Ganancias - Egresos: ${ganancias_menos_egresos:,.2f}</b></font>", 
-                              ParagraphStyle(name='Resultado', fontName='Helvetica-Bold')))
+    # Preparar los datos para las tablas
+    # Tabla de Ingresos
+    ingresos_title = Paragraph("Tabla de Ingresos", section_title_style)
+    table_data_ingresos = [["ID", "Tipo", "Monto"]] + [[str(ing[0]), ing[2], f"${ing[3]+ing[4]:,.2f}"] for ing in ingresos]
+    table_ingresos = Table(table_data_ingresos, colWidths=[50, 100, 80])
+    table_ingresos.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+    ]))
+    
+    # Tabla de Ganancias
+    ganancias_title = Paragraph("Tabla de Ganancias", section_title_style)
+    table_data_ganancias = [["ID", "Tipo", "Ganancia"]] + [[str(dato[0]), dato[1], f"${dato[5]:,.2f}"] for dato in analisis]
+    table_ganancias = Table(table_data_ganancias, colWidths=[50, 100, 80])
+    table_ganancias.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+    ]))
+    
+    # Crear una tabla contenedora que tendrá ambas tablas y sus títulos
+    container_table = Table([
+        [ingresos_title, ganancias_title],
+        [table_ingresos, table_ganancias]
+    ], colWidths=[doc.width/2]*2)
+    
+    container_table.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 6),
+    ]))
+    
+    elements.append(container_table)
     elements.append(Spacer(1, 12))
-
-    # Gráfico 1: Distribución de Ganancias y Egresos
-    fig, ax = plt.subplots()
-    labels = ['Ganancias', 'Egresos']
-    sizes = [ganancias, total_egresos]
-    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=['#66ff66', '#ff6666'])
-    ax.axis('equal')
-    chart_filename1 = os.path.join(save_dir, "grafico_ganancias_egresos.png")
-    plt.savefig(chart_filename1, format='png')
-    plt.close(fig)
-
-    elements.append(Paragraph("<font size=12><b>Distribución de Ganancias y Egresos</b></font>", 
-                              ParagraphStyle(name='GraphTitle', fontName='Helvetica-Bold', alignment=1)))
+    
+    # Totales de ingresos, egresos y ganancias
+    elements.append(Paragraph("Ingresos", section_title_style))
+    elements.append(Paragraph(f"• Total de Ingresos: ${total_ingresos:,.2f}", styles['Normal']))
     elements.append(Spacer(1, 6))
-    elements.append(Image(chart_filename1, width=400, height=250))
-
-    # Gráfico 2: Distribución de Ingresos y Egresos
-    fig, ax = plt.subplots()
+    
+    elements.append(Paragraph("Egresos", section_title_style))
+    elements.append(Paragraph(f"• Total de Egresos: ${total_egresos:,.2f}", styles['Normal']))
+    elements.append(Spacer(1, 6))
+    
+    elements.append(Paragraph("Ganancias", section_title_style))
+    elements.append(Paragraph(f"• Total de Ganancias: ${total_ganancias:,.2f}", styles['Normal']))
+    elements.append(Spacer(1, 12))
+    
+    #graficos
+    save_dir = os.getcwd()
+    
+    # Gráfico 1: Ingresos vs Egresos
+    fig1, ax1 = plt.subplots(figsize=(5, 3))
     labels = ['Ingresos', 'Egresos']
     sizes = [total_ingresos, total_egresos]
-    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=['#66b3ff', '#ff6666'])
-    ax.axis('equal')
-    chart_filename2 = os.path.join(save_dir, "grafico_ingresos_egresos.png")
-    plt.savefig(chart_filename2, format='png')
-    plt.close(fig)
+    ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=['#66b3ff', '#ff6666'])
+    ax1.set_title('Distribución Ingresos/Egresos')
+    ax1.axis('equal')
+    chart1_filename = os.path.join(save_dir, "grafico_ingresos_egresos.png")
+    plt.savefig(chart1_filename, format='png', bbox_inches='tight')
+    plt.close(fig1)
+    
+    # Gráfico 2: Evolución de Ganancias Diarias (agrupadas por día)
+    fig2, ax2 = plt.subplots(figsize=(8, 4))
+    
+    # Procesar datos - agrupar por fecha
+    from collections import defaultdict
+    ganancias_por_dia = defaultdict(float)
+    
+    for dato in analisis:
+        fecha = dato[4].date()  # Extraemos solo la fecha (sin hora)
+        ganancias_por_dia[fecha] += dato[5]  # Sumamos las ganancias
+    
+    # Convertir a listas ordenadas
+    fechas = sorted(ganancias_por_dia.keys())
+    ganancias = [ganancias_por_dia[f] for f in fechas]
+    fechas_str = [f.strftime('%d/%m') for f in fechas]  # Formato día/mes
+    
+    # Determinar el mejor tipo de visualización
+    num_dias = len(ganancias)
+    
+    if num_dias == 1:
+        # Gráfico de barras para un solo día con todas las ventas
+        fig2, (ax2, ax3) = plt.subplots(1, 2, figsize=(12, 4))
+        
+        # Gráfico 1: Total del día
+        ax2.bar(fechas_str, ganancias, color='#2ecc71', width=0.6)
+        ax2.set_title(f'Ganancias Totales del {fechas_str[0]}')
+        ax2.set_ylabel('Monto ($)')
+        ax2.text(0, ganancias[0], f'${ganancias[0]:,.2f}', 
+                ha='center', va='bottom', fontweight='bold')
+        
+        # Gráfico 2: Desglose por ventas individuales
+        ventas_del_dia = [(dato[4].strftime('%H:%M'), dato[5]) for dato in analisis]
+        horas = [v[0] for v in ventas_del_dia]
+        montos = [v[1] for v in ventas_del_dia]
+        
+        ax3.bar(horas, montos, color='#3498db')
+        ax3.set_title('Desglose por ventas')
+        ax3.set_ylabel('Monto ($)')
+        plt.sca(ax3)
+        plt.xticks(rotation=45, ha='right')
+        
+        # Agregar valores a las barras
+        for i, val in enumerate(montos):
+            ax3.text(i, val, f'${val:,.2f}', ha='center', va='bottom', fontsize=8)
+        
+        plt.tight_layout()
+        
+    elif num_dias <= 15:
+        # Gráfico de barras para pocos días
+        bars = ax2.bar(fechas_str, ganancias, color='#2ecc71')
+        ax2.set_title('Ganancias Diarias (Totales)')
+        ax2.set_ylabel('Monto ($)')
+        
+        # Rotar etiquetas y agregar valores
+        plt.xticks(rotation=45, ha='right')
+        for bar in bars:
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height,
+                    f'${height:,.2f}', ha='center', va='bottom', fontsize=8)
+        
+    else:
+        # Gráfico de línea para muchos días
+        ax2.plot(fechas_str, ganancias, marker='o', color='#2ecc71', linestyle='-', linewidth=2)
+        ax2.set_title('Evolución de Ganancias Diarias')
+        ax2.set_ylabel('Monto ($)')
+        plt.xticks(rotation=45, ha='right')
+        
+        # Destacar punto máximo
+        max_idx = np.argmax(ganancias)
+        ax2.plot(fechas_str[max_idx], ganancias[max_idx], 'ro')
+        ax2.annotate(f'Máximo: ${ganancias[max_idx]:,.2f}',
+                    xy=(fechas_str[max_idx], ganancias[max_idx]),
+                    xytext=(10, 10), textcoords='offset points',
+                    bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
+                    arrowprops=dict(arrowstyle='->'))
+    
+    # Ajustar márgenes
+    plt.tight_layout()
+    
+    chart2_filename = os.path.join(save_dir, "grafico_ganancias.png")
+    plt.savefig(chart2_filename, format='png', bbox_inches='tight', dpi=100)
+    plt.close(fig2)
 
-    elements.append(Paragraph("<font size=12><b>Distribución de Ingresos y Egresos</b></font>", 
-                              ParagraphStyle(name='GraphTitle', fontName='Helvetica-Bold', alignment=1)))
-    elements.append(Spacer(1, 6))
-    elements.append(Image(chart_filename2, width=400, height=250))
-
-    # Crear el PDF
+    # Contenedor para gráficos
+    elements.append(Paragraph("Análisis Gráfico", section_title_style))
+    
+    # Crear tabla contenedora para los gráficos
+    # container_graficos = Table([
+    #     [Image(chart1_filename, width=280, height=200), 
+    #      Image(chart2_filename, width=280, height=200)]
+    # ], colWidths=[doc.width/2]*2)
+    
+    # container_graficos.setStyle(TableStyle([
+    #     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    #     ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    # ]))
+    
+    elements.append(Image(chart1_filename, width=280, height=200))
+    elements.append(Image(chart2_filename, width=400, height=250))
+    elements.append(Spacer(1, 12))
+    
+    # Conclusión
+    elements.append(Paragraph("Conclusión", section_title_style))
+    if total_ganancias > total_egresos:
+        conclusion_text = "El análisis muestra que las ganancias fueron óptimas, indicando una buena salud financiera."
+    else:
+        conclusion_text = "El análisis indica que las ganancias no fueron óptimas, lo que podría requerir ajustes financieros."
+    elements.append(Paragraph(conclusion_text, styles['Normal']))
+    
+    # Generar PDF
     doc.build(elements)
-
+    
+    try:
+        os.remove(chart1_filename)
+        os.remove(chart2_filename)
+    except:
+        pass
+    
     root = tk.Tk()
-    root.withdraw()  # Oculta la ventana principal
+    root.withdraw()  
     messagebox.showinfo("Éxito", f"PDF generado exitosamente: {file_path}")
-    root.quit()  # Cierra el root después de mostrar el mensaje
-    print(f"Imágenes guardadas en: {chart_filename1}, {chart_filename2}")
-    # Mostrar el mensaje en un MessageBox
- 
+    root.quit()

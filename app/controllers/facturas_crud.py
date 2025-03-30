@@ -193,10 +193,12 @@ def buscar_facturas(db: Session, busqueda: str):
             Usuarios.Nombre.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
             TipoFactura.Nombre.label("tipofactura"),
+            HistorialModificacion.Fecha_Modificacion.label("fecha_modificacion"),
         )
         .join(MetodoPago, Facturas.ID_Metodo_Pago == MetodoPago.ID_Metodo_Pago)
         .join(TipoFactura, Facturas.ID_Tipo_Factura == TipoFactura.ID_Tipo_Factura)
         .join(Clientes, Facturas.ID_Cliente == Clientes.ID_Cliente)
+        .outerjoin(HistorialModificacion, Facturas.ID_Factura == HistorialModificacion.ID_Factura)
         .join(Usuarios, Facturas.ID_Usuario == Usuarios.ID_Usuario)
         .filter(
             or_(

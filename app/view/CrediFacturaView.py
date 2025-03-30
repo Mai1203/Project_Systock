@@ -72,6 +72,7 @@ class CrediFactura_View(QWidget, Ui_FacturasCredito):
             return
 
         try:
+            self.TablaFacturasCredito.setRowCount(0)
 
             rows.sort(key=lambda x: x.ID_Venta_Credito, reverse=False)
             # Iterar sobre las filas

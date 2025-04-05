@@ -3,22 +3,22 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.graphics.shapes import Drawing
-from datetime import datetime
-from tkinter import  filedialog
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from reportlab.lib.units import inch
 from reportlab.graphics.charts.piecharts import Pie
-from datetime import datetime
-import matplotlib.pyplot as plt
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from matplotlib.backends.backend_pdf import PdfPages
 from reportlab.platypus import Image
+from reportlab.platypus import PageBreak, KeepTogether
+from datetime import datetime
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from tkinter import  filedialog
+from tkinter import messagebox
+from datetime import datetime
+import matplotlib.pyplot as plt
 import tkinter as tk
 import numpy as np
-from tkinter import messagebox
 import os
 import tempfile
 
@@ -376,7 +376,11 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     total_egresos = sum([egreso[2] for egreso in egresos_lista]) if egresos_lista else 0
     total_ganancias = sum([dato[5] for dato in analisis])
     
-    doc = SimpleDocTemplate(file_path, pagesize=letter)
+    doc = SimpleDocTemplate(file_path, pagesize=letter,
+                          leftMargin=0.5*inch,
+                          rightMargin=0.5*inch,
+                          topMargin=0.5*inch,
+                          bottomMargin=0.5*inch)
     elements = []
     styles = getSampleStyleSheet()
     title_style = ParagraphStyle(name='Title', fontSize=16, alignment=1, spaceAfter=10, fontName='Helvetica-Bold')
@@ -386,47 +390,81 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     elements.append(Paragraph(f"Generado: {fecha_actual}", styles['Normal']))
     elements.append(Spacer(1, 12))
         
-    # Preparar los datos para las tablas
-    # Tabla de Ingresos
-    ingresos_title = Paragraph("Tabla de Ingresos", section_title_style)
-    table_data_ingresos = [["ID", "Tipo", "Monto"]] + [[str(ing[0]), ing[2], f"${ing[3]+ing[4]:,.2f}"] for ing in ingresos]
-    table_ingresos = Table(table_data_ingresos, colWidths=[50, 100, 80])
-    table_ingresos.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
-    ]))
+    # 1. Configuración de estilos y parámetros
+    styles = getSampleStyleSheet()
+    section_title_style = styles['Heading2']
+    ancho_columna = (doc.width - 1*inch) / 2  # Dividir espacio disponible entre 2 tablas
     
-    # Tabla de Ganancias
-    ganancias_title = Paragraph("Tabla de Ganancias", section_title_style)
-    table_data_ganancias = [["ID", "Tipo", "Ganancia"]] + [[str(dato[0]), dato[1], f"${dato[5]:,.2f}"] for dato in analisis]
-    table_ganancias = Table(table_data_ganancias, colWidths=[50, 100, 80])
-    table_ganancias.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
-    ]))
-    
-    # Crear una tabla contenedora que tendrá ambas tablas y sus títulos
-    container_table = Table([
-        [ingresos_title, ganancias_title],
-        [table_ingresos, table_ganancias]
-    ], colWidths=[doc.width/2]*2)
-    
-    container_table.setStyle(TableStyle([
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 6),
-    ]))
-    
-    elements.append(container_table)
-    elements.append(Spacer(1, 12))
+    # 2. Función para crear tablas optimizadas
+    def crear_tabla_compacta(datos, encabezados, columna_derecha_index):
+        tabla = Table([encabezados] + datos, colWidths=[ancho_columna*0.3, ancho_columna*0.4, ancho_columna*0.3])
+        estilo = TableStyle([
+            ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#3d5c95')),
+            ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('LEADING', (0,0), (-1,-1), 8),
+            ('GRID', (0,0), (-1,-1), 0.5, colors.black),
+            ('BACKGROUND', (0,1), (-1,-1), colors.HexColor('#f8f8f8')),
+            
+            # Alineación específica para la columna de montos (columna_derecha_index)
+            ('ALIGN', (columna_derecha_index, 1), (columna_derecha_index, -1), 'RIGHT'),
+            ('PADDING', (columna_derecha_index, 0), (columna_derecha_index, -1), (0, 0, 10, 0))  # Padding derecho
+        ])
+        tabla.setStyle(estilo)
+        return tabla
+
+    # 3. Preparar datos formateados
+    datos_ingresos = [[str(ing[0])[:8], ing[2][:15], f"${ing[3]+ing[4]:,.0f}"] for ing in ingresos]
+    datos_ganancias = [[str(dato[0])[:8], dato[1][:15], f"${dato[5]:,.0f}"] for dato in analisis]
+
+    # 4. Función para dividir datos en chunks que caben en una página
+    def dividir_en_chunks(datos, max_filas_por_pagina):
+        return [datos[i:i + max_filas_por_pagina] for i in range(0, len(datos), max_filas_por_pagina)]
+
+    # Calcular filas que caben por página (aproximadamente 1.5 pulgadas por fila)
+    espacio_disponible = doc.height - 2*inch  # Espacio para títulos y márgenes
+    max_filas_por_pagina = min(
+        int(espacio_disponible / 12),  # ~12 puntos por fila
+        40  # Límite máximo para mantener legibilidad
+    )
+
+    chunks_ingresos = dividir_en_chunks(datos_ingresos, max_filas_por_pagina)
+    chunks_ganancias = dividir_en_chunks(datos_ganancias, max_filas_por_pagina)
+
+    # 5. Generar páginas con tablas paralelas
+    for i in range(max(len(chunks_ingresos), len(chunks_ganancias))):
+        # Agregar título solo en la primera página
+        if i == 0:
+            elements.append(Paragraph("Análisis Financiero Detallado", title_style))
+            elements.append(Spacer(1, 12))
+        
+        # Obtener chunks actuales (o listas vacías si no hay más datos)
+        chunk_ing = chunks_ingresos[i] if i < len(chunks_ingresos) else []
+        chunk_gan = chunks_ganancias[i] if i < len(chunks_ganancias) else []
+
+        # Crear tablas para los chunks actuales
+        tabla_ing = crear_tabla_compacta(chunk_ing, ["ID", "INGRESOS", "MONTO"], 2)
+        tabla_gan = crear_tabla_compacta(chunk_gan, ["ID", "GANANCIAS", "MONTO"], 2)
+
+        # Contenedor para tablas lado a lado
+        container = Table([
+            [Paragraph("INGRESOS" + (" (cont.)" if i > 0 else ""), section_title_style),
+             Paragraph("GANANCIAS" + (" (cont.)" if i > 0 else ""), section_title_style)],
+            [tabla_ing, tabla_gan]
+        ], colWidths=[ancho_columna]*2)
+        
+        container.setStyle(TableStyle([
+            ('VALIGN', (0,0), (-1,-1), 'TOP'),
+            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+            ('BOTTOMPADDING', (0,0), (-1,0), 8),
+        ]))
+
+        elements.append(container)
+        
+        # Agregar salto de página si hay más datos
+        if i < max(len(chunks_ingresos), len(chunks_ganancias)) - 1:
+            elements.append(PageBreak())
     
     # Totales de ingresos, egresos y ganancias
     elements.append(Paragraph("Ingresos", section_title_style))

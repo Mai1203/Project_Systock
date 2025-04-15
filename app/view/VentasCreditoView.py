@@ -43,6 +43,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         QTimer.singleShot(0, self.InputCodigo.setFocus)
         self.id_categoria = None
         self.valor_domicilio = 0.0
+        self.cantidades = []
         self.invoice_number = None
         self.id_venta_credito = None
         self.fila_seleccionada = None
@@ -113,14 +114,27 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
 
         try:
             self.TablaVentasCredito.setRowCount(len(detalles))
+            cant = []
+            
             # Iterar sobre las filas
             for row_idx, row in enumerate(detalles):
                 # Datos de la fila
                 id_producto = str(row["ID_Producto"])
+                try:
+                    id_producto_int = int(row["ID_Producto"])  # Convertir 'id_producto' a entero
+                except ValueError:
+                    print(f"Valor inválido para id_producto en la fila {row_idx}. Se asigna valor 0.")
+                    id_producto_int = 0  # Si no es numérico, asignamos 0
                 producto = str(row["Producto"])
                 marca = str(row["Marca"])
                 categoria = str(row["Categoria"])
                 cantidad = str(row["Cantidad"])
+                try:
+                    cantidad_num = int(row["Cantidad"])  # Convertir 'cantidad' a float para operaciones
+                except ValueError:
+                    print(f"Valor inválido para cantidad en la fila {row_idx}. Se asigna valor 0.")
+                    cantidad_num = 0  # Si no es numérico, asignamos 0.0
+                cant.append((id_producto_int, cantidad_num))
                 precio_unitario = str(row["Precio_Unitario"])
                 subtotal_producto = str(row["Subtotal"])
 
@@ -140,7 +154,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     item = QtWidgets.QTableWidgetItem(value)
                     item.setTextAlignment(QtCore.Qt.AlignCenter)
                     self.TablaVentasCredito.setItem(row_idx, col_idx, item)
-
+            self.cantidades = cant
             self.TablaVentasCredito.resizeColumnsToContents()
 
         except Exception as e:
@@ -370,13 +384,13 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 producto = producto[0]
 
                 # Validar si hay stock suficiente antes de continuar
-                if producto.Stock_actual < quantity:
+                '''if producto.Stock_actual < quantity:
                     QMessageBox.warning(
                         self,
                         "Error",
                         f"Stock insuficiente para el producto: {description}",
                     )
-                    return
+                    return'''
 
                 items.append((quantity, description, value))
                 produc_datos.append((codigo, quantity, precio_unitairo))
@@ -1187,29 +1201,57 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 try:
                     # Obtener el producto desde la base de datos usando la función obtener_producto_por_id
                     productos = obtener_producto_por_id(db, int(codigo))
-
-                    if productos:
-                        producto = productos[0]
-                        # Obtener el stock disponible
-                        stock_disponible = producto.Stock_actual
-
-                        # Verificar si la cantidad ingresada es mayor al stock disponible
-                        if cantidad > stock_disponible:
+                    if self.invoice_number and self.invoice_number != "":
+                        for id_producto, canti in self.cantidades:
+                            if id_producto == int(codigo):
+                                cant = canti
+                                break
+                        
+                        if productos:
+                            producto = productos[0]
+                            # Obtener el stock disponible
+                            stock_disponible = producto.Stock_actual
+                            cantidad = cantidad - cant
+                            # Verificar si la cantidad ingresada es mayor al stock disponible
+                            if cantidad > stock_disponible:
+                                QMessageBox.warning(
+                                    self,
+                                    "Stock insuficiente",
+                                    f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
+                                )
+                                return  # No proceder con la venta si no hay suficiente stock
+                        else:
                             QMessageBox.warning(
                                 self,
-                                "Stock insuficiente",
-                                f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
+                                "Producto no encontrado",
+                                "No existe un producto asociado a este código.",
                             )
-                            return  # No proceder con la venta si no hay suficiente stock
+                            return
+                        cantidad = cantidad + cant
                     else:
-                        QMessageBox.warning(
-                            self,
-                            "Producto no encontrado",
-                            "No existe un producto asociado a este código.",
-                        )
-                        return
+                        if productos:
+                            producto = productos[0]
+                            # Obtener el stock disponible
+                            stock_disponible = producto.Stock_actual
+
+                            # Verificar si la cantidad ingresada es mayor al stock disponible
+                            if cantidad > stock_disponible:
+                                QMessageBox.warning(
+                                    self,
+                                    "Stock insuficiente",
+                                    f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
+                                )
+                                return  # No proceder con la venta si no hay suficiente stock
+                        else:
+                            QMessageBox.warning(
+                                self,
+                                "Producto no encontrado",
+                                "No existe un producto asociado a este código.",
+                            )
+                            return
                 finally:
                     db.close()
+
 
                 # Actualizar los datos
                 self.TablaVentasCredito.setItem(row, 4, QTableWidgetItem(str(cantidad)))

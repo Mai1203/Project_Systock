@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\Navbar.ui'
+# Form implementation generated from reading ui file 'Navbar.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -219,7 +219,7 @@ class Ui_Navbar(object):
         sizePolicy.setVerticalStretch(50)
         sizePolicy.setHeightForWidth(self.LabelImgNavbar.sizePolicy().hasHeightForWidth())
         self.LabelImgNavbar.setSizePolicy(sizePolicy)
-        self.LabelImgNavbar.setMinimumSize(QtCore.QSize(100, 50))
+        self.LabelImgNavbar.setMinimumSize(QtCore.QSize(80, 130))
         self.LabelImgNavbar.setMaximumSize(QtCore.QSize(260, 70))
         self.LabelImgNavbar.setStyleSheet("#LabelImg {\n"
 "    background-position: center;\n"
@@ -230,11 +230,11 @@ class Ui_Navbar(object):
 "}\n"
 "")
         self.LabelImgNavbar.setText("")
-        self.LabelImgNavbar.setPixmap(QtGui.QPixmap("assets/Letras-sinfondo.png"))
+        self.LabelImgNavbar.setPixmap(QtGui.QPixmap("assets/logoladynail.jpg"))
         self.LabelImgNavbar.setScaledContents(True)
         self.LabelImgNavbar.setObjectName("LabelImgNavbar")
-        self.verticalLayout.addWidget(self.LabelImgNavbar)
-        spacerItem = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout.addWidget(self.LabelImgNavbar, 0, QtCore.Qt.AlignTop)
+        spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem)
         self.LabelFuncionalidades = QtWidgets.QLabel(self.QWNavbar)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)

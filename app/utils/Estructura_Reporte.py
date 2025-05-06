@@ -369,11 +369,16 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
 
     save_dir = os.path.dirname(file_path) 
     
-    total_ingresos_efectivo = sum([ingreso[3] for ingreso in ingresos])
-    total_ingresos_transferencia = sum([ingreso[4] for ingreso in ingresos])
-    total_ingresos = total_ingresos_efectivo + total_ingresos_transferencia
+    try:
+        total_ingresos_efectivo = sum([ingreso[3] for ingreso in ingresos if ingreso[2] == "Venta"])
+        print("Total Efectivo:",total_ingresos_efectivo) 
+        total_ingresos_transferencia = sum([ingreso[4] for ingreso in ingresos if ingreso[2] == "Venta"])
+        print("Total Transferencia:",total_ingresos_transferencia) 
+        total_ingresos = total_ingresos_efectivo + total_ingresos_transferencia
+    except Exception as e:
+        print(f"Error al extraer datos: {e}")
     
-    total_egresos = sum([egreso[2] for egreso in egresos_lista]) if egresos_lista else 0
+    total_egresos = sum([egreso[2] for egreso in egresos_lista])
     total_ganancias = sum([dato[5] for dato in analisis])
     
     doc = SimpleDocTemplate(file_path, pagesize=letter,
@@ -415,7 +420,7 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
         return tabla
 
     # 3. Preparar datos formateados
-    datos_ingresos = [[str(ing[0])[:8], ing[2][:15], f"${ing[3]+ing[4]:,.0f}"] for ing in ingresos]
+    datos_ingresos = [[str(ing[0])[:8], ing[2][:15], f"${ing[3]+ing[4]:,.0f}"] for ing in ingresos if ing[2] == "Venta"]
     datos_ganancias = [[str(dato[0])[:8], dato[1][:15], f"${dato[5]:,.0f}"] for dato in analisis]
 
     # 4. Función para dividir datos en chunks que caben en una página

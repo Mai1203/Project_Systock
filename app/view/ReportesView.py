@@ -23,7 +23,6 @@ from tkinter import messagebox
 from sqlalchemy import and_, func
 
 
-
 class Reportes_View(QWidget, Ui_Reportes):
     def __init__(self, parent=None):
         super(Reportes_View, self).__init__(parent)
@@ -163,6 +162,11 @@ class Reportes_View(QWidget, Ui_Reportes):
                     egresos_lista = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
                                      
                     # Llamar a la función correcta para generar el análisis financiero
+                    print("Ingresos: ", ingresos)
+                    print("Egresos: ", egresos_lista)
+                    print("Analisis: ", analisis)
+                    
+                    
                     try: 
                         generar_analisis_financiero(analisis, ingresos, egresos_lista)
                     except Exception as e:

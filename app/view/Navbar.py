@@ -25,6 +25,7 @@ class Navbar_View(QWidget, Ui_Navbar):
         self.button_group.addButton(self.BtnFacturas)
         self.button_group.addButton(self.BtnReportes)
         self.button_group.addButton(self.BtnRespaldo)
+        self.button_group.addButton(self.BtnClientes)
 
         self.button_group.buttonClicked.connect(self.cambiar_color_boton)
 

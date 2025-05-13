@@ -13,4 +13,5 @@ from .VentasB import *
 from .VentasCredito import *
 from .PagoCredito import *
 from .Reportes import *
+from .ControlCliente import *
 from ..utils.enviar_notifi import *

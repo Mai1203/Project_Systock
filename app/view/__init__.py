@@ -12,3 +12,4 @@ from .VentasAView import *
 from .VentasCreditoView import *
 from .LoginView import *
 from .PagoCreditoView import *
+from .ClientesView import *

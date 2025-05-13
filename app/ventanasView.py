@@ -18,6 +18,7 @@ from app.view import (
     Productos_View,
     Reportes_View,
     PagoCredito_View,
+    Cliente_View,
 )
 
 
@@ -60,7 +61,8 @@ class MainApp(QWidget):
         self.reportes = Reportes_View()
         self.crediFactura = CrediFactura_View()
         self.pagoCredito = PagoCredito_View()
-
+        self.Clientes = Cliente_View()
+        
         self.stacked_widget.addWidget(self.caja)  # Índice 4
         self.stacked_widget.addWidget(self.ventasA)  # Índice 0
         self.stacked_widget.addWidget(self.ventasB)  # Índice 1
@@ -73,6 +75,7 @@ class MainApp(QWidget):
         self.stacked_widget.addWidget(self.control_usuario_view)  # Índice 8
         self.stacked_widget.addWidget(self.reportes)  # Índice 9
         self.stacked_widget.addWidget(self.pagoCredito)  # Índice 9
+        self.stacked_widget.addWidget(self.Clientes)  # Índice 9
 
         # Conectar los botones del Navbar para cambiar las vistas del contenido
         self.navbar.BtnVentas.clicked.connect(
@@ -112,6 +115,10 @@ class MainApp(QWidget):
         self.ventasB.cambiar_a_ventanaA.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.ventasA)
         )
+        self.navbar.BtnClientes.clicked.connect(
+            lambda: self.stacked_widget.setCurrentWidget(self.Clientes)
+        )
+        
         self.facturas.enviar_facturas_A.connect(self.cambiar_a_ventasA)
         self.facturas.enviar_facturas_B.connect(self.cambiar_a_ventasB)
         self.facturas.enviar_facturas_Credito.connect(self.cambiar_a_ventasCredito)

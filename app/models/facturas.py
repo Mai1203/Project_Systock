@@ -31,6 +31,7 @@ class Facturas(Base):
     Monto_TRANSACCION = Column(Float, nullable=False)
     Descuento = Column(Float, nullable=False)
     Estado = Column(Boolean, nullable=False)
+    Domicilio = Column(Boolean)
 
     ID_Metodo_Pago = Column(Integer, ForeignKey("METODO_PAGO.ID_Metodo_Pago"))
     ID_Tipo_Factura = Column(Integer, ForeignKey("TIPO_FACTURA.ID_Tipo_Factura"))

@@ -286,11 +286,6 @@ class VentasA_View(QWidget, Ui_VentasA):
 
                 producto = producto[0]
 
-                # # Validar si hay stock suficiente antes de continuar
-                # if producto.Stock_actual < quantity:
-                #     QMessageBox.warning(self, "Error", f"Stock insuficiente para el producto: {description}")
-                #     return
-
                 items.append((quantity, description, value))
                 produc_datos.append((codigo, quantity, precio_unitario))
 
@@ -300,6 +295,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             total = (subtotal + delivery_fee) - descuento
             pago = self.InputPago.text().strip()
             
+            domicilio = True if delivery_fee > 0 else False
             
             if self.invoice_number and self.invoice_number != "":
                 self.actualizar_factura(db, self.invoice_number, payment_method, produc_datos, monto_pago, delivery_fee, self.usuario_actual_id)
@@ -311,7 +307,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                     stock_actual = producto.Stock_actual - quantity
                     actualizar_producto(db, id_producto=int(codigo), stock_actual=stock_actual)
 
-                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, descuento, self.usuario_actual_id)
+                id_factura = self.guardar_factura(db, client_id, payment_method, produc_datos, monto_pago, descuento, self.usuario_actual_id, domicilio)
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
             # Generar el contenido del ticket
@@ -574,7 +570,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             # Cerrar la sesión para liberar recursos 
             db.close()    
         
-    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, descuento, id_usuario):
+    def guardar_factura(self, db, client_id, payment_method, items, monto_pago, descuento, id_usuario, domicilio):
     
         """
         Registra la factura y sus detalles en la base de datos.
@@ -610,6 +606,7 @@ class VentasA_View(QWidget, Ui_VentasA):
                 id_tipo_factura=1,
                 id_cliente=client_id,
                 id_usuario=id_usuario,
+                domicilio=domicilio,
             )
             
             # Obtener el ID de la factura recién creada

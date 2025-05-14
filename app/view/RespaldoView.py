@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QWidget, QFileDialog, QMessageBox, QInputDialog
 from ..ui import Ui_Respaldo
 import shutil
 import os
+import sqlite3
 from datetime import datetime
 from pathlib import Path
 
@@ -100,20 +101,22 @@ class Respaldo_View(QWidget, Ui_Respaldo):
         )
         if not ruta_importar:
             return
-        
+
         if not os.path.exists(ruta_importar):
             QMessageBox.warning(self, "Error", "El archivo seleccionado no existe.")
             return
-        
-        try:
-            shutil.copy(ruta_importar, DATABASE_PATH)
-            QMessageBox.information(
-                self, "Éxito", "Base de datos importada correctamente."
-            )
-        except Exception as e:
-            QMessageBox.critical(
-                self, "Error", f"Error al importar la base de datos:\n{str(e)}"
-            )
+
+        # Confirmación antes de importar
+        respuesta = QMessageBox.question(
+            self,
+            "Confirmar Importación",
+            "Esto importará los datos del respaldo sin borrar tu base actual. ¿Deseas continuar?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+        if respuesta != QMessageBox.Yes:
+            return
+
+        self.importar_y_migrar_datos(ruta_importar)
 
     def respaldo_automatico(self):
         """Verifica si ya se realizó un respaldo hoy y lo realiza si no existe. Máximo 2 intentos por día."""
@@ -165,3 +168,63 @@ class Respaldo_View(QWidget, Ui_Respaldo):
             except Exception as e:
                 print(f"Error al crear el respaldo automático: {str(e)}")
                 self.intentos_respaldo += 1  # Incrementar contador en caso de error
+
+    def importar_y_migrar_datos(self, ruta_importar):
+        # Crear conexión a la base actual (estructura nueva)
+        nueva_conn = sqlite3.connect(DATABASE_PATH)
+        nueva_cursor = nueva_conn.cursor()
+
+        # Crear conexión a la base antigua (archivo a importar)
+        antigua_conn = sqlite3.connect(ruta_importar)
+        antigua_cursor = antigua_conn.cursor()
+
+        try:
+            # Obtener nombres de tablas en la base antigua
+            antigua_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tablas = [fila[0] for fila in antigua_cursor.fetchall()]
+
+            for tabla in tablas:
+                if tabla == "sqlite_sequence":
+                    continue  # Saltar tabla interna
+
+                # Leer todas las filas de la tabla antigua
+                antigua_cursor.execute(f"SELECT * FROM {tabla}")
+                filas = antigua_cursor.fetchall()
+
+                # Obtener columnas comunes entre vieja y nueva base
+                antigua_cursor.execute(f"PRAGMA table_info({tabla})")
+                columnas_antiguas = [col[1] for col in antigua_cursor.fetchall()]
+
+                nueva_cursor.execute(f"PRAGMA table_info({tabla})")
+                columnas_nuevas = [col[1] for col in nueva_cursor.fetchall()]
+
+                columnas_comunes = [col for col in columnas_antiguas if col in columnas_nuevas]
+                if not columnas_comunes:
+                    continue  # No hay columnas en común, saltar tabla
+
+                columnas_str = ", ".join(columnas_comunes)
+                placeholders = ", ".join("?" for _ in columnas_comunes)
+
+                # Insertar cada fila en la tabla nueva
+                for fila in filas:
+                    # Usar solo los datos de las columnas comunes
+                    datos = [
+                        fila[columnas_antiguas.index(col)] for col in columnas_comunes
+                    ]
+                    nueva_cursor.execute(
+                        f"INSERT OR REPLACE INTO {tabla} ({columnas_str}) VALUES ({placeholders})",
+                        datos
+                    )
+
+            nueva_conn.commit()
+            QMessageBox.information(
+                self, "Éxito", "Datos migrados correctamente desde el respaldo."
+            )
+        except Exception as e:
+            QMessageBox.critical(
+                self, "Error", f"Ocurrió un error durante la migración:\n{str(e)}"
+            )
+            print(e)
+        finally:
+            nueva_conn.close()
+            antigua_conn.close()

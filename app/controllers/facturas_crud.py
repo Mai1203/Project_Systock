@@ -21,6 +21,7 @@ def crear_factura(
     id_tipo_factura: int,
     id_cliente: int,
     id_usuario: int,
+    domicilio: bool,
 ):
     """
     Crea una nueva factura.
@@ -44,6 +45,7 @@ def crear_factura(
         ID_Tipo_Factura=id_tipo_factura,
         ID_Cliente=id_cliente,
         ID_Usuario=id_usuario,
+        Domicilio=domicilio
     )
     db.add(nueva_factura)
     db.commit()
@@ -155,6 +157,7 @@ def obtener_facturas(db: Session):
             Facturas.Monto_efectivo,
             Facturas.Monto_TRANSACCION,
             Facturas.Estado,
+            Facturas.Domicilio,
             Clientes.Nombre.label("cliente"),
             Usuarios.Usuario.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),
@@ -189,6 +192,7 @@ def buscar_facturas(db: Session, busqueda: str):
             Facturas.Monto_efectivo,
             Facturas.Monto_TRANSACCION,
             Facturas.Estado,
+            Facturas.Domicilio,
             Clientes.Nombre.label("cliente"),
             Usuarios.Nombre.label("usuario"),
             MetodoPago.Nombre.label("metodopago"),

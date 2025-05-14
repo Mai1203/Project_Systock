@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QMessageBox,
 )
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import pyqtSignal
 
 from ..ui import Ui_Facturas
@@ -128,6 +128,7 @@ class Facturas_View(QWidget, Ui_Facturas):
                 id_metodo_pago = str(row.metodopago)
                 usuario = str(row.usuario)
                 total = row.Monto_efectivo + row.Monto_TRANSACCION
+                domicilio = row.Domicilio
 
                 self.TablaFacturas.insertRow(0)
                 # Configurar items de la tabla
@@ -145,10 +146,17 @@ class Facturas_View(QWidget, Ui_Facturas):
                     (estado, 10),
                 ]
 
+                # Determinar color de texto
+                if domicilio == True:
+                    color = QtGui.QColor("green")
+                else:
+                    color = QtGui.QColor("black")
+
                 # Añadir items a la tabla
                 for value, col_idx in items:
                     item = QtWidgets.QTableWidgetItem(value)
                     item.setTextAlignment(QtCore.Qt.AlignCenter)
+                    item.setForeground(QtGui.QBrush(color))
                     self.TablaFacturas.setItem(0, col_idx, item)
                     
         except Exception as e:

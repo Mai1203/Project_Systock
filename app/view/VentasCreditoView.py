@@ -310,9 +310,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         fecha_futura = fecha_actual + timedelta(days=dias)
         return fecha_futura.replace(microsecond=0)
 
-   
-
-
     def generar_venta(self):
 
         if self.TablaVentasCredito.rowCount() == 0:
@@ -383,15 +380,6 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
 
                 producto = producto[0]
 
-                # Validar si hay stock suficiente antes de continuar
-                '''if producto.Stock_actual < quantity:
-                    QMessageBox.warning(
-                        self,
-                        "Error",
-                        f"Stock insuficiente para el producto: {description}",
-                    )
-                    return'''
-
                 items.append((quantity, description, value))
                 produc_datos.append((codigo, quantity, precio_unitairo))
 
@@ -401,6 +389,8 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 float(self.InputDomicilio.text()) if self.InputDomicilio.text() else 0.0
             )
             total = subtotal + delivery_fee
+
+            domicilio = True if delivery_fee > 0 else False
 
             if self.invoice_number and self.invoice_number != "":
                 self.actualizar_factura(
@@ -431,6 +421,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     self.usuario_actual_id,
                     subtotal,
                     limite_pago,
+                    domicilio
                 )
                 self.invoice_number = f"0000{id_factura}"
                 mensaje = "Factura generada exitosamente."
@@ -599,6 +590,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         id_usuario,
         deuda,
         limite_pago,
+        domicilio
     ):
         """
         Registra la factura y sus detalles en la base de datos.
@@ -632,6 +624,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                 id_tipo_factura=3,
                 id_cliente=client_id,
                 id_usuario=id_usuario,
+                domicilio=domicilio,
             )
 
             # Obtener el ID de la factura recién creada

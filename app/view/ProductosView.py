@@ -30,6 +30,7 @@ class Productos_View(QWidget, Ui_Productos):
         self.InputPrecioUnitario.setPlaceholderText("Ej: 50%")
         self.InputPrecioMayor.setPlaceholderText("Ej: 35%")
         self.InputCodigo.textChanged.connect(self.verififcarInput)
+        
         # Cambiar el orden de navegación con Tab
         self.setTabOrder(self.InputCodigo, self.InputNombre)
         self.setTabOrder(self.InputNombre, self.InputMarca)

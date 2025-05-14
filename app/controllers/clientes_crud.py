@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from app.models.clientes import Clientes
 
 
@@ -93,6 +94,26 @@ def actualizar_cliente(
     db.refresh(cliente_existente)
     return cliente_existente
 
+# Buscar Cliente
+def buscar_cliente(db:Session, busqueda: str):
+    clientes = (
+        db.query(
+            Clientes.ID_Cliente,
+            Clientes.Nombre,
+            Clientes.Apellido,
+            Clientes.Teléfono,
+            Clientes.Direccion,
+        )
+        .filter(
+            or_(
+                Clientes.ID_Cliente.like(f"%{busqueda}%"),
+                Clientes.Nombre.like(f"%{busqueda}%"),
+                Clientes.Apellido.like(f"%{busqueda}%"),
+            )
+        )
+        .all()
+    )
+    return clientes
 
 # Eliminar un cliente
 def eliminar_cliente(db: Session, id_cliente: int):

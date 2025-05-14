@@ -12,6 +12,20 @@ class Cliente_View(QWidget, Ui_ControlCliente):
         super(Cliente_View, self).__init__(parent)
         self.setupUi(self)
 
+        #Inicialización y configuración
+        self.validar_campos()
+
+        self.TablaClientes.setSelectionBehavior(
+            QtWidgets.QAbstractItemView.SelectRows
+        )
+        self.TablaClientes.setSelectionMode(
+            QtWidgets.QAbstractItemView.MultiSelection
+        )
+        self.TablaClientes.setEditTriggers(
+            QtWidgets.QAbstractItemView.NoEditTriggers
+        )
+        self.TablaClientes.cellClicked.connect(self.cargar_datos_fila)
+
         # Enfocar el primer input al iniciar
         QTimer.singleShot(0, self.InputCedula.setFocus)
 
@@ -19,7 +33,14 @@ class Cliente_View(QWidget, Ui_ControlCliente):
         configurar_validador_numerico(self.InputCedula)
         configurar_validador_texto(self.InputNombre)
         configurar_validador_texto(self.InputApellido)
-        configurar_validador_numerico(self.InputTelefono)
+        # configurar_validador_numerico(self.InputTelefono)
+
+        #Evento de tecla enter para guardar cambios
+        self.InputNombre.returnPressed.connect(self.editar_cliente)
+        self.InputApellido.returnPressed.connect(self.editar_cliente)
+        self.InputTelefono.returnPressed.connect(self.editar_cliente)
+        self.InputDireccion.returnPressed.connect(self.editar_cliente)
+        self.lineEditBuscador.textChanged.connect(self.buscar_cliente)
 
         # Placeholder
         self.InputCedula.setPlaceholderText("Ej: # Cedula")
@@ -27,6 +48,7 @@ class Cliente_View(QWidget, Ui_ControlCliente):
         self.InputApellido.setPlaceholderText("Ej: Perex")
         self.InputTelefono.setPlaceholderText("Ej: 3185339876")
         self.InputDireccion.setPlaceholderText("Ej: Calle 1, 123 - Piso 1")
+        self.lineEditBuscador.setPlaceholderText("Buscar por C.C, Nombre o Apellido")
 
         # Lista ordenada de los campos
         self.campos = [
@@ -36,6 +58,10 @@ class Cliente_View(QWidget, Ui_ControlCliente):
             self.InputTelefono,
             self.InputDireccion
         ]
+
+        #Acciones de los botones
+        self.BtnEliminar.clicked.connect(self.eliminar_cliente)
+        self.BtnRegistrar.clicked.connect(self.registrar_cliente)
 
     def showEvent(self, event):
         super().showEvent(event)
@@ -75,11 +101,11 @@ class Cliente_View(QWidget, Ui_ControlCliente):
         self.db = SessionLocal()
         rows = obtener_clientes(self.db)
 
-        self.actualizar_tabla_ventasCredito(rows)
+        self.actualizar_tabla_clientes(rows)
 
         self.db.close()
 
-    def actualizar_tabla_ventasCredito(self, rows):
+    def actualizar_tabla_clientes(self, rows):
         if not rows:
             print("No hay filas para mostrar.")
             self.TablaClientes.setRowCount(0)
@@ -88,7 +114,7 @@ class Cliente_View(QWidget, Ui_ControlCliente):
         try:
             self.TablaClientes.setRowCount(0)
 
-            rows.sort(key=lambda x: x.ID_Cliente, reverse=False)
+            # rows.sort(key=lambda x: x.ID_Cliente, reverse=False)
             
             for row_idx, row in enumerate(rows):
                 
@@ -116,3 +142,183 @@ class Cliente_View(QWidget, Ui_ControlCliente):
                     self.TablaClientes.setItem(0, col_idx, item)
         except Exception as e:
             print(f"Error al mostrar tabla clientes: {e}")
+
+    def cargar_datos_fila(self):
+        """
+        Muestra los productos en los campos de entredada.
+        """
+        fila_seleccionada = self.TablaClientes.currentRow()
+        datos_fila = []
+        for columna in range(self.TablaClientes.columnCount()):
+            item = self.TablaClientes.item(fila_seleccionada, columna)
+            datos_fila.append(item.text() if item else "")
+
+        self.InputCedula.setText(datos_fila[0])
+        self.InputNombre.setText(datos_fila[1])
+        self.InputApellido.setText(datos_fila[2])
+        self.InputTelefono.setText(datos_fila[3])
+        self.InputDireccion.setText(datos_fila[4])
+
+    def editar_cliente(self):
+        #Obtener los datos de los campos
+        id_cliente = int(self.InputCedula.text())
+        nombre = self.InputNombre.text()
+        apellido = self.InputApellido.text()
+        telefono = self.InputTelefono.text()
+        direccion = self.InputDireccion.text()
+
+        if (
+            not nombre
+            or not id_cliente
+            or not apellido
+            or not telefono
+            or not direccion
+        ):
+            enviar_notificacion("Advertencia", "Por favor, rellene todos los campos")
+            return
+        
+        reply = QMessageBox.question(
+            self,
+            "Confirmación",
+            "¿Desea guardar los cambios?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+
+        if reply == QMessageBox.Yes:
+            try:
+                self.db = SessionLocal()
+
+                actualizar_cliente(
+                    self.db, 
+                    id_cliente=id_cliente,
+                    nombre=nombre,
+                    apellido=apellido,
+                    direccion=direccion,
+                    telefono=telefono
+                )
+                self.mostrar_clientes()
+                self.limpiar_campos()
+            except Exception as e:
+                enviar_notificacion("Error", e)
+
+    def validar_campos(self):
+        rx_telefono = QRegularExpression(
+            r"^[0-9]{10}$"
+        )  # Expresión para números y guiones
+        validator_telefono = QRegularExpressionValidator(rx_telefono)
+        self.InputTelefono.setValidator(validator_telefono)
+
+    def obtener_ids_seleccionados(self):
+        """
+        Obtiene los IDs de los clientes seleccionados en la tabla.
+        """
+        filas_seleccionadas = self.TablaClientes.selectionModel().selectedRows()
+        ids = []
+
+        for fila in filas_seleccionadas:
+            id_cliente = self.TablaClientes.item(
+                fila.row(), 0
+            ).text()  # Columna 0: ID del producto
+            ids.append(int(id_cliente))
+
+        return ids
+
+    def eliminar_cliente(self):
+        
+        ids = self.obtener_ids_seleccionados()
+        if not ids:
+            enviar_notificacion(
+                "Advertencia", "No se seleccionaron productos para eliminar."
+            )
+            return
+        
+        respuesta = QtWidgets.QMessageBox.question(
+            self,
+            "Confirmar Eliminación",
+            f"¿Está seguro de que desea eliminar {len(ids)} cliente(s)?",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+        )
+
+        if respuesta == QtWidgets.QMessageBox.Yes:
+            try:
+                self.db = SessionLocal()
+
+                # Eliminar los productos de la base de datos
+                for id_producto in ids:
+                    eliminar_cliente(self.db, id_producto)
+
+                self.db.commit()
+                enviar_notificacion("Éxito", "Cliente(s) eliminado(s) correctamente.")
+
+                # Actualizar la tabla
+                self.mostrar_clientes()
+                self.limpiar_campos()
+            except Exception as e:
+                enviar_notificacion("Error", f"Error al eliminar clientes: {e}")
+            finally:
+                self.db.close()
+
+    def registrar_cliente(self):
+        
+        id_cliente = int(self.InputCedula.text())
+        nombre = self.InputNombre.text()
+        apellido = self.InputApellido.text()
+        telefeno = self.InputTelefono.text()
+        direccion = self.InputDireccion.text()
+
+        if (
+            not id_cliente
+            or not nombre
+            or not apellido
+            or not telefeno
+            or not direccion
+        ):
+            enviar_notificacion(
+                "Advertencia", "Por favor, rellene todos los campos"
+            )
+            return
+        
+        try:
+            self.db = SessionLocal()
+
+            cliente_existente = obtener_cliente_por_id(self.db, id_cliente=id_cliente)
+
+            if cliente_existente:
+                enviar_notificacion("Advertencia", "El cliente ya existe en la base de datos")
+                return
+            
+            crear_cliente(
+                db=self.db,
+                id_cliente=id_cliente,
+                nombre=nombre,
+                apellido=apellido,
+                direccion=direccion,
+                telefono=telefeno
+            )
+
+            enviar_notificacion("Éxito", "Cliente Registrado exitosamente")
+            self.limpiar_campos()
+            self.mostrar_clientes()
+        except Exception as e:
+            enviar_notificacion("Error", e)
+        finally:
+            self.db.close()
+
+    def buscar_cliente(self):
+        busqueda = self.lineEditBuscador.text().strip()
+        if not busqueda:
+            self.mostrar_clientes()
+            return
+        
+        try:
+            self.db = SessionLocal()
+            clientes = buscar_cliente(db=self.db, busqueda=busqueda)
+            print("busqueda de clientes: ", clientes)
+            self.actualizar_tabla_clientes(clientes)
+        except Exception as e:
+            enviar_notificacion(
+                "Error", e
+            )
+        finally:
+            self.db.close()

@@ -213,7 +213,6 @@ class Cliente_View(QWidget, Ui_ControlCliente):
         validator_letras = QRegularExpressionValidator(rx_letras)
         self.InputNombre.setValidator(validator_letras)
         self.InputApellido.setValidator(validator_letras)
-        
 
     def obtener_ids_seleccionados(self):
         """
@@ -267,7 +266,7 @@ class Cliente_View(QWidget, Ui_ControlCliente):
 
     def registrar_cliente(self):
         
-        id_cliente = int(self.InputCedula.text())
+        id_cliente = self.InputCedula.text()
         nombre = self.InputNombre.text()
         apellido = self.InputApellido.text()
         telefeno = self.InputTelefono.text()
@@ -285,9 +284,17 @@ class Cliente_View(QWidget, Ui_ControlCliente):
             )
             return
         
+        if len(id_cliente) < 6 or len(id_cliente) > 11 or not id_cliente.isdigit():
+                QMessageBox.warning(
+                    self, "Cédula inválida", "La cédula debe tener entre 6 y 11 dígitos."
+                )
+                QTimer.singleShot(0, self.InputCedula.setFocus)
+                return
+        
         try:
             self.db = SessionLocal()
-
+            id_cliente = int(id_cliente)
+            
             cliente_existente = obtener_cliente_por_id(self.db, id_cliente=id_cliente)
 
             if cliente_existente:

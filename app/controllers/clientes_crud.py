@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
+from sqlalchemy import func
+from sqlalchemy import literal, and_
 from app.models.clientes import Clientes
 
 
@@ -44,6 +46,46 @@ def obtener_clientes(db: Session):
     """
     return db.query(Clientes).all()
 
+def obtener_cliente_nombre_apellido(db: Session):
+    clientes = (
+        db.query(
+            Clientes.ID_Cliente,
+            func.concat(Clientes.Nombre, " ", Clientes.Apellido).label("NombreCompleto"),
+            Clientes.Teléfono,
+            Clientes.Direccion,
+        )
+        .all()
+    )
+
+    return clientes
+
+def obtener_cliente_por_nombre_completo(db, nombre_completo):
+    # Separar nombre y apellido
+    partes = nombre_completo.strip().split(" ", 1)
+    if len(partes) != 2:
+        return None  # o puedes lanzar una excepción
+
+    nombre, apellido = partes
+
+    # Hacer la consulta
+    cliente = (
+        db.query(
+            Clientes.ID_Cliente,
+            Clientes.Nombre,
+            Clientes.Apellido, 
+            Clientes.Teléfono,
+            Clientes.Direccion,
+        )
+        .filter(
+            and_(
+                Clientes.Nombre == nombre,
+                Clientes.Apellido == apellido,
+            )
+        )
+        .first()
+    )
+
+    return cliente
 
 # Obtener un cliente por ID
 def obtener_cliente_por_id(db: Session, id_cliente: int):

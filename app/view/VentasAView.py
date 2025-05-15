@@ -85,6 +85,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputDescuento.textChanged.connect(self.aplicar_descuento)
         self.MetodoPagoBox.currentIndexChanged.connect(self.configuracion_pago)
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
+        configurar_autocompletado(self.InputNombreCli, obtener_cliente_nombre_apellido, "NombreCompleto", self.db, self.insertar_cliente)
 
         # Conexiones de señales - Botones y tabla
         self.BtnFacturaB.clicked.connect(self.cambiar_a_ventanab)
@@ -194,6 +195,7 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.limpiar_datos_cliente()
         self.invoice_number = None
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
+        configurar_autocompletado(self.InputNombreCli, obtener_cliente_nombre_apellido, "NombreCompleto", self.db, self.insertar_cliente)
     
     def mostrar_mensaje_temporal(self, titulo , mensaje, duracion=2200):
         msg_box = QMessageBox(self)
@@ -1391,4 +1393,19 @@ class VentasA_View(QWidget, Ui_VentasA):
         self.InputPago.clear()
         self.LabelTotal.setText("$")
         self.LabelSubtotal.setText("$")
-            
+    
+    def insertar_cliente(self):
+
+        nombreCompleto = self.InputNombreCli.text().strip()
+        self.db = SessionLocal()
+
+        try:
+            datos_cliente = obtener_cliente_por_nombre_completo(db=self.db, nombre_completo=nombreCompleto)
+
+            if datos_cliente:
+                self.InputCedula.setText(datos_cliente.ID_Cliente)
+                self.InputDireccion.setText(datos_cliente.Direccion)
+                self.InputTelefonoCli.setText(datos_cliente.Teléfono)
+        
+        except Exception as e:
+            print(e)

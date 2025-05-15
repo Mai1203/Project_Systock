@@ -74,6 +74,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.InputCedula.returnPressed.connect(self.completar_campos)
         self.MetodoPagoBox.currentIndexChanged.connect(self.configuracion_pago)
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
+        configurar_autocompletado(self.InputNombreCli, obtener_cliente_nombre_apellido, "NombreCompleto", self.db, self.insertar_cliente)
         
         #placeholder
         self.InputPago.setPlaceholderText("$")
@@ -1312,3 +1313,18 @@ class VentasB_View(QWidget, Ui_VentasB):
             # Si no es Efectivo, Transferencia ni Mixto, mostramos solo el símbolo $
             self.InputPago.setText("$")
          
+    def insertar_cliente(self):
+
+        nombreCompleto = self.InputNombreCli.text().strip()
+        self.db = SessionLocal()
+
+        try:
+            datos_cliente = obtener_cliente_por_nombre_completo(db=self.db, nombre_completo=nombreCompleto)
+
+            if datos_cliente:
+                self.InputCedula.setText(datos_cliente.ID_Cliente)
+                self.InputDireccion.setText(datos_cliente.Direccion)
+                self.InputTelefonoCli.setText(datos_cliente.Teléfono)
+        
+        except Exception as e:
+            print(e)

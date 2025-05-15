@@ -81,6 +81,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         configurar_autocompletado(
             self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo
         )
+        configurar_autocompletado(self.InputNombreCli, obtener_cliente_nombre_apellido, "NombreCompleto", self.db, self.insertar_cliente)
 
         # Conexiones de señales - Botones y tabla
         self.BtnEliminar.clicked.connect(self.eliminar_fila)
@@ -1420,3 +1421,22 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
                     self.TablaVentasCredito.item(row, 6).setText(str(total))
 
         self.actualizar_total()
+
+    def insertar_cliente(self):
+
+        nombreCompleto = self.InputNombreCli.text().strip()
+        self.InputNombreCli.clear()
+        self.db = SessionLocal()
+
+        try:
+            datos_cliente = obtener_cliente_por_nombre_completo(db=self.db, nombre_completo=nombreCompleto)
+
+            if datos_cliente:
+                self.InputCedula.setText(datos_cliente.ID_Cliente)
+                self.InputNombreCli.setText(datos_cliente.Nombre)
+                self.InputApellidoCli.setText(datos_cliente.Apellido)
+                self.InputDireccion.setText(datos_cliente.Direccion)
+                self.InputTelefonoCli.setText(datos_cliente.Teléfono)
+        
+        except Exception as e:
+            print(e)

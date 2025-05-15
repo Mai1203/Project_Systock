@@ -29,12 +29,6 @@ class Cliente_View(QWidget, Ui_ControlCliente):
         # Enfocar el primer input al iniciar
         QTimer.singleShot(0, self.InputCedula.setFocus)
 
-        # Validaciones
-        configurar_validador_numerico(self.InputCedula)
-        configurar_validador_texto(self.InputNombre)
-        configurar_validador_texto(self.InputApellido)
-        # configurar_validador_numerico(self.InputTelefono)
-
         #Evento de tecla enter para guardar cambios
         self.InputNombre.returnPressed.connect(self.editar_cliente)
         self.InputApellido.returnPressed.connect(self.editar_cliente)
@@ -205,9 +199,21 @@ class Cliente_View(QWidget, Ui_ControlCliente):
     def validar_campos(self):
         rx_telefono = QRegularExpression(
             r"^[0-9]{10}$"
-        )  # Expresión para números y guiones
+        ) 
         validator_telefono = QRegularExpressionValidator(rx_telefono)
         self.InputTelefono.setValidator(validator_telefono)
+        
+        rx_cedula = QRegularExpression(
+            r"^[0-9]{12}$"
+        ) 
+        validator_cedula = QRegularExpressionValidator(rx_cedula)
+        self.InputCedula.setValidator(validator_cedula)
+
+        rx_letras = QRegularExpression(r"^[a-zA-Z]+$")
+        validator_letras = QRegularExpressionValidator(rx_letras)
+        self.InputNombre.setValidator(validator_letras)
+        self.InputApellido.setValidator(validator_letras)
+        
 
     def obtener_ids_seleccionados(self):
         """

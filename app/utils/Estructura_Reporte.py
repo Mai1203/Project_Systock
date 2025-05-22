@@ -371,14 +371,12 @@ def generar_analisis_financiero(analisis, ingresos, egresos_lista):
     
     try:
         total_ingresos_efectivo = sum([ingreso[3] for ingreso in ingresos if ingreso[2] == "Venta"])
-        print("Total Efectivo:",total_ingresos_efectivo) 
-        total_ingresos_transferencia = sum([ingreso[4] for ingreso in ingresos if ingreso[2] == "Venta"])
-        print("Total Transferencia:",total_ingresos_transferencia) 
+        total_ingresos_transferencia = sum([ingreso[4] for ingreso in ingresos if ingreso[2] == "Venta"]) 
         total_ingresos = total_ingresos_efectivo + total_ingresos_transferencia
     except Exception as e:
         print(f"Error al extraer datos: {e}")
     
-    total_egresos = sum([egreso[2] for egreso in egresos_lista])
+    total_egresos = sum([egreso[3] for egreso in egresos_lista])
     total_ganancias = sum([dato[5] for dato in analisis])
     
     doc = SimpleDocTemplate(file_path, pagesize=letter,

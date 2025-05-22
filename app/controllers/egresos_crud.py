@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.egresos import Egresos
 from app.models.facturas import MetodoPago
+from datetime import datetime, timedelta
 
 
 # Crear un egreso
@@ -120,3 +121,29 @@ def eliminar_egreso(db: Session, id_egreso: int):
     db.delete(egreso_existente)
     db.commit()
     return True
+
+def obtener_egresos_reporte(db: Session, fecha_inicio: datetime=None , fecha_fin: datetime=None):
+    """
+    Obtiene todos los registros de egresos.
+    :param db: Sesión de base de datos.
+    :param fecha_inicio: Fecha de inicio del periodo.
+    :param fecha_fin: Fecha de fin del periodo.
+    :return: Lista de egresos.
+    """
+    egresos = (
+        db.query(
+            Egresos.ID_Egreso,
+            Egresos.Tipo_Egreso,
+            Egresos.Fecha_Egreso,
+            Egresos.Monto_Egreso,
+        )
+    )
+    
+    if fecha_fin:
+        egresos = egresos.filter(Egresos.Fecha_Egreso.between(fecha_inicio, fecha_fin))
+    else:
+        fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d")
+        fecha_fin_dt = fecha_inicio_dt + timedelta(days=1) - timedelta(seconds=1)
+        egresos = egresos.filter(Egresos.Fecha_Egreso.between(fecha_inicio_dt, fecha_fin_dt))
+        
+    return egresos.all()

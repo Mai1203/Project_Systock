@@ -71,6 +71,8 @@ def obtener_ingresos_reportes(db: Session, FechaInicio: datetime = None, FechaFi
     """
     Obtiene la lista de todos los ingresos.
     :param db: Sesión de base de datos.
+    :param fecha_inicio: Fecha de inicio del periodo.
+    :param fecha_fin: Fecha de fin del periodo
     :return: Lista de ingresos.
     """
     ingresos = (

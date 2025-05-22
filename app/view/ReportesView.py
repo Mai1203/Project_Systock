@@ -133,12 +133,10 @@ class Reportes_View(QWidget, Ui_Reportes):
                     fecha_fin += " 23:59:59"  # Añadir las horas al final de la fecha de fin
                     analisis = obtener_reporte_facturas(db=db, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
                     ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio, FechaFin=fecha_fin)
-                    egresos = db.query(Egresos).filter(and_(func.date(Egresos.Fecha_Egreso) >= fecha_inicio, func.date(Egresos.Fecha_Egreso) <= fecha_fin)).all()
-                    egresos_lista = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
+                    egresos = obtener_egresos_reporte(db=db, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin)
                                         
-                    # Llamar a la función correcta para generar el análisis financiero
                     try:
-                        generar_analisis_financiero(analisis, ingresos, egresos_lista)
+                        generar_analisis_financiero(analisis, ingresos, egresos)
                     
                     except Exception as e:
                         print(f"Error al generar pdf Comparación Financiera - Intervalo de días: {e}")
@@ -158,17 +156,10 @@ class Reportes_View(QWidget, Ui_Reportes):
                     
                     analisis = obtener_reporte_facturas(db=db, fecha_inicio=fecha_inicio)
                     ingresos = obtener_ingresos_reportes(db=db, FechaInicio=fecha_inicio)
-                    egresos = db.query(Egresos).filter(func.date(Egresos.Fecha_Egreso) >= fecha_inicio).all()
-                    egresos_lista = [(e.ID_Egreso, e.Tipo_Egreso, e.Monto_Egreso, e.Fecha_Egreso) for e in egresos]
-                                     
-                    # Llamar a la función correcta para generar el análisis financiero
-                    print("Ingresos: ", ingresos)
-                    print("Egresos: ", egresos_lista)
-                    print("Analisis: ", analisis)
-                    
-                    
+                    egresos = obtener_egresos_reporte(db=db, fecha_inicio=fecha_inicio)
+                                    
                     try: 
-                        generar_analisis_financiero(analisis, ingresos, egresos_lista)
+                        generar_analisis_financiero(analisis, ingresos, egresos)
                     except Exception as e:
                         print(f"Error al generar pdf Análisis de crédito por fecha: {e}")
                     #Generar_pdf(analisis)

@@ -45,7 +45,6 @@ class Egreso_View(QWidget, Ui_Egreso):
         self.limpiar_tabla()
         self.metodo_pago()
         self.agregar_egreso()
-        self.cargar_egresos()
 
 
           # Conectar el botón al método agrgar_egreso
@@ -56,6 +55,7 @@ class Egreso_View(QWidget, Ui_Egreso):
     def showEvent(self, event):
         super().showEvent(event)
         self.limpiar_formulario()
+        self.cargar_egresos()
         
     def fecha_egreso(self):
         fecha_hora = datetime.now()
@@ -147,6 +147,7 @@ class Egreso_View(QWidget, Ui_Egreso):
         # Obtener la lista de egresos desde la base de datos  
         db = SessionLocal()
         egresos = obtener_egresos(db)  # Asegúrate de que esto retorne una lista de egresos
+        print(egresos)
         
         # Limpiar la tabla antes de cargar nuevos datos
         self.TablaEgreso.setRowCount(0)

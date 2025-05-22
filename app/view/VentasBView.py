@@ -83,6 +83,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.InputNombreCli.setPlaceholderText("Ej: Pepito Perez")
         self.InputTelefonoCli.setPlaceholderText("Ej: 3170065430")
         self.InputDireccion.setPlaceholderText("Ej: Calle 1, 123 - Piso 1")
+        self.InputDescuentoB.setPlaceholderText("Ej: 1000")
         self.BtnFacturaB.setStyleSheet("""
             QPushButton {
                 background-color: red; 
@@ -1143,62 +1144,61 @@ class VentasB_View(QWidget, Ui_VentasB):
                     )
                     return
 
+                
                 # Conexión a la base de datos
                 db = SessionLocal()
 
                 try:
                     # Obtener el producto desde la base de datos usando la función obtener_producto_por_id
                     productos = obtener_producto_por_id(db, int(codigo))
+                    
+                    if productos:
+                        producto = productos[0]
+                        stock_disponible = producto.Stock_actual
+                    else:
+                        QMessageBox.warning(
+                            self,
+                            "Producto no encontrado",
+                            "No existe un producto asociado a este código.",
+                        )
+                        return
+
+                    # Si hay número de factura, validamos contra cantidades ya registradas
                     if self.invoice_number and self.invoice_number != "":
+                        # Buscar cantidad anterior en la tupla para este código
+                        cant = 0
                         for id_producto, canti in self.cantidades:
                             if id_producto == int(codigo):
                                 cant = canti
                                 break
                         
-                        if productos:
-                            producto = productos[0]
-                            # Obtener el stock disponible
-                            stock_disponible = producto.Stock_actual
-                            cantidad = cantidad - cant
-                            # Verificar si la cantidad ingresada es mayor al stock disponible
-                            if cantidad > stock_disponible:
-                                QMessageBox.warning(
-                                    self,
-                                    "Stock insuficiente",
-                                    f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
-                                )
-                                return  # No proceder con la venta si no hay suficiente stock
-                        else:
+                        # Calculamos la cantidad adicional que se intenta ingresar (nueva - anterior)
+                        cantidad_adicional = cantidad - cant
+                        
+                        # Validamos que la cantidad adicional no supere el stock disponible
+                        if cantidad_adicional > stock_disponible:
                             QMessageBox.warning(
                                 self,
-                                "Producto no encontrado",
-                                "No existe un producto asociado a este código.",
+                                "Stock insuficiente",
+                                f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
                             )
-                            return
-                        cantidad = cantidad + cant
-                    else:
-                        if productos:
-                            producto = productos[0]
-                            # Obtener el stock disponible
-                            stock_disponible = producto.Stock_actual
+                            return  # No proceder con la venta si no hay suficiente stock
 
-                            # Verificar si la cantidad ingresada es mayor al stock disponible
-                            if cantidad > stock_disponible:
-                                QMessageBox.warning(
-                                    self,
-                                    "Stock insuficiente",
-                                    f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
-                                )
-                                return  # No proceder con la venta si no hay suficiente stock
-                        else:
+                        # Si pasa la validación, ya puedes actualizar la tupla o seguir con el flujo
+
+                    else:
+                        # No hay número de factura, solo validar contra stock total
+                        if cantidad > stock_disponible:
                             QMessageBox.warning(
                                 self,
-                                "Producto no encontrado",
-                                "No existe un producto asociado a este código.",
+                                "Stock insuficiente",
+                                f"No hay suficiente stock para esta venta. Solo quedan {stock_disponible} unidades.",
                             )
-                            return
+                            return  # No proceder con la venta si no hay suficiente stock
+
                 finally:
                     db.close()
+
 
                 # Actualizar los datos en la tabla
                 self.TablaVentaMayor.setItem(row, 4, QTableWidgetItem(str(cantidad)))

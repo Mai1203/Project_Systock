@@ -76,6 +76,7 @@ def poblar_datos_prueba():
 
     try:
         print("Creando metodos de pago ...")
+        
         crear_metodo_pago(db, "Transferencia")
         crear_metodo_pago(db, "Efectivo")
         crear_metodo_pago(db, "Mixto")

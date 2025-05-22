@@ -111,6 +111,7 @@ class VentasB_View(QWidget, Ui_VentasB):
         self.InputDomicilio.clear()
         self.limpiar_datos_cliente()
         configurar_autocompletado(self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo)
+        configurar_autocompletado(self.InputNombreCli, obtener_cliente_nombre_apellido, "NombreCompleto", self.db, self.insertar_cliente)
 
     def cargar_información(self, factura_completa):
         factura = factura_completa["Factura"]

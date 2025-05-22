@@ -302,6 +302,7 @@ class VentasCredito_View(QWidget, Ui_VentasCredito):
         configurar_autocompletado(
             self.InputNombre, obtener_productos, "Nombre", self.db, self.procesar_codigo
         )
+        configurar_autocompletado(self.InputNombreCli, obtener_cliente_nombre_apellido, "NombreCompleto", self.db, self.insertar_cliente)
 
     def calcular_fecha_futura(self, dias):
         # Obtener la fecha y hora actual

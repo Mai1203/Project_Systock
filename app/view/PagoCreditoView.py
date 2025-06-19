@@ -321,10 +321,9 @@ class PagoCredito_View(QWidget, Ui_PagoCredito):
             hDC.TextOut(x, y, "-----------------------------------------------------------------------------------------------------------------")  # Imprime la línea separadora
             
             y += line_height
-
-            hDC.TextOut(x, y, "Ticket de venta credito")  # Imprime el título "Productos:"
+            hDC.TextOut(x, y, "Crédito")  # Imprime el título "Productos:"
             y += line_height
-            hDC.TextOut(x, y, f"Ticket No. {id_factura}")# Aquí se agrega el número de factura
+            hDC.TextOut(x, y, f"COT No. {id_factura}")# Aquí se agrega el número de factura
             y += line_height
             hDC.TextOut(x, y, f"Cliente: {client_name}")
             y += line_height

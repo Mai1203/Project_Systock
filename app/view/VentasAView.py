@@ -405,9 +405,7 @@ class VentasA_View(QWidget, Ui_VentasA):
             
             # Imprimir la información del cliente
             y += line_height
-            hDC.TextOut(x, y, "Ticket de venta")  # Imprime el título "Productos:"
-            y += line_height
-            hDC.TextOut(x, y, f"Ticket No. {self.invoice_number}")# Aquí se agrega el número de factura
+            hDC.TextOut(x, y, f"COT No. {self.invoice_number}")# Aquí se agrega el número de factura
             y += line_height
             hDC.TextOut(x, y, f"Cliente: {client_name}")
             y += line_height

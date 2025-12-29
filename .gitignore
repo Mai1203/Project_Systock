@@ -4,4 +4,4 @@ systock.db
 
 __pycache__/
 .pyc
-
+/instalable/

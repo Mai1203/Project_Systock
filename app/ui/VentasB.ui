@@ -420,6 +420,9 @@ background-color: #f2f2f2;
                </item>
                <item row="0" column="3" alignment="Qt::AlignRight|Qt::AlignVCenter">
                 <widget class="QPushButton" name="BtnFacturaA">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">
 QPushButton {
@@ -446,6 +449,9 @@ QPushButton:hover {
                </item>
                <item row="0" column="5" alignment="Qt::AlignLeft|Qt::AlignVCenter">
                 <widget class="QPushButton" name="BtnFacturaB">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">
 QPushButton {

@@ -300,6 +300,7 @@ class Ui_VentasB(object):
         self.InputPrecioMayor.setObjectName("InputPrecioMayor")
         self.gridLayout_2.addWidget(self.InputPrecioMayor, 3, 5, 1, 1)
         self.BtnFacturaA = QtWidgets.QPushButton(self.widget_3)
+        self.BtnFacturaA.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnFacturaA.setStyleSheet("\n"
 "QPushButton {\n"
 "    background-color: black; /* Fondo blanco */\n"
@@ -320,6 +321,7 @@ class Ui_VentasB(object):
         self.BtnFacturaA.setObjectName("BtnFacturaA")
         self.gridLayout_2.addWidget(self.BtnFacturaA, 0, 3, 1, 1, QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)
         self.BtnFacturaB = QtWidgets.QPushButton(self.widget_3)
+        self.BtnFacturaB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.BtnFacturaB.setStyleSheet("\n"
 "QPushButton {\n"
 "    background-color: black; /* Fondo blanco */\n"

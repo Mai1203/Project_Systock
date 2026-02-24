@@ -536,7 +536,7 @@ class VentasB_View(QWidget, Ui_VentasB):
                     ID_Factura=id_factura,
                     ID_Producto=id_producto,
                     Cantidad=nueva_cantidad,
-                    precio_unitario=precio_unitario,
+                    Precio_unitario=precio_unitario,
                     Subtotal=subtotal,
                 )
                 db.add(nuevo_detalle)
